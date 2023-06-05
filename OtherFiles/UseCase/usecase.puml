@@ -1,0 +1,60 @@
+@startuml gnokky
+skinparam usecase {
+    FontColor          white
+    AttributeFontColor white
+    FontSize           17
+    AttributeFontSize  15
+    AttributeFontname  Droid Sans Mono
+    BackgroundColor    #527BC6
+    BorderColor        black
+    ArrowColor         black
+}
+left to right direction
+:Admin:
+:Utente:
+rectangle Gnokky{
+    Utente --> (Open application)
+    Admin --> (Watch Report List)
+
+    (Open application) <.. (Register) : extends
+    (Open application) <.. (Login) : extends
+    (Open application) <.. (Home Page) : extends
+    (Register) ..> (Home Page) : include
+    (Login) ..> (Home Page) : include
+
+    (Home Page) ..> (Stories Section) : include
+    (Home Page) ..> (Posts Section) : include
+    (Home Page) <.. (Profile Page) : extends
+    (Home Page) <.. (Notification Page) : extends
+    (Home Page) <.. (Search Page) : extends
+    (Home Page) <.. (Message Page) : extends
+    (Home Page) <.. (Create Post Page) : extends
+
+    (Profile Page) <.. (Management Profile) : extends
+    (Profile Page) <.. (Settings) : extends
+    (Profile Page) <.. (Badge Section) : extends
+
+    (Badge Section) ..> (Statistic Badge) : include
+
+    (Notification Page) <.. (Notification) : extends
+
+    (Search Page) <.. (Searh Bar) : extends
+    (Search Page) <.. (History Profile Searched) : extends
+
+    (Message Page) <.. (List of Last Chats) : extends
+    (Message Page) <.. (Write a Message) : extends
+
+    (Create Post Page) ..> (Upload photo) : include
+
+    (Stories Section) <.. (Like Story) : extends
+    (Stories Section) <.. (Answer to Story) : extends
+    (Stories Section) <.. (Send Story to Someone) : extends
+
+    (Posts Section) <.. (Like Post) : extends
+    (Posts Section) <.. (Comment Post) : extends
+    (Posts Section) <.. (Repost Post) : extends
+    (Posts Section) <.. (Send Post to Someone) : extends
+    (Posts Section) <.. (Report System) : extends 
+}
+
+@enduml
