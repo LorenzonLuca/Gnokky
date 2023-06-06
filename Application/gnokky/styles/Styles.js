@@ -13,11 +13,30 @@ const styles = StyleSheet.create({
         margin: 35,
     },
     button: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 42,
-        backgroundColor: '#fff',
+        buttonContainer: {
+            width: 200,
+            height: 40,
+            margin: 5,
+            marginHorizontal: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 3,
+            borderWidth: 4,
+            borderColor: "#fff",
+            borderRadius: 18
+        },
+        button: {
+            borderRadius: 10,
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+        },
+        buttonLabel: {
+            color: "#fff",
+            fontSize: 16,
+        },
     },
     textInputStyle: {
         fontSize: 25,
