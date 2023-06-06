@@ -16,6 +16,8 @@ rectangle Gnokky{
     Utente --> (Open application)
     Admin --> (Watch Report List)
 
+    (Watch Report List) <.. (Ban user) : extends
+
     (Open application) <.. (Register) : extends
     (Open application) <.. (Login) : extends
     (Open application) <.. (Home Page) : extends
@@ -45,10 +47,12 @@ rectangle Gnokky{
     (Message Page) <.. (Write a Message) : extends
 
     (Create Post Page) ..> (Upload photo) : include
+    (Create Post Page) ..> (Write a text to post) : include
 
     (Stories Section) <.. (Like Story) : extends
-    (Stories Section) <.. (Answer to Story) : extends
+    (Stories Section) <.. (Respond to Story) : extends
     (Stories Section) <.. (Send Story to Someone) : extends
+    (Stories Section) <.. (Create a Story) : extends
 
     (Posts Section) <.. (Like Post) : extends
     (Posts Section) <.. (Comment Post) : extends
