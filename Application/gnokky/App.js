@@ -7,6 +7,7 @@ import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import WaitingPage from './pages/Auth/WaitingPage';
 import HomePage from './pages/Home/HomePage';
+import NavigatorTab from './components/NavigatorTab';
 
 const Stack = createStackNavigator();
 
@@ -42,9 +43,15 @@ function App() {
   if (!user) {
     return (
       <Stack.Navigator>
+<<<<<<< HEAD
+=======
+        <Stack.Screen name="NaviagatorTab" component={NavigatorTab} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+>>>>>>> 
+
         <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
-      </Stack.Navigator>
+      </Stack.Navigator >
     );
   } else {
     return (

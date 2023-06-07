@@ -6,10 +6,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 
-export default function HomePage({ navigation }) {
+export default function NotificationsPage({ navigation }) {
     return (
         <View style={homestyle.container}>
-            <Text>Home Page</Text>
+            <Text>Notification Page</Text>
         </View>
     );
 }
