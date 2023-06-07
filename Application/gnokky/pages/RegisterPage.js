@@ -5,6 +5,7 @@ import { useState } from 'react';
 import styles from '../styles/Styles';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import Button from '../components/Button';
 
 export default function RegisterPage({ navigation }) {
     const [username, setUsername] = useState(null);
@@ -92,11 +93,8 @@ export default function RegisterPage({ navigation }) {
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword2} />
 
-            <View style={[styles.button.buttonContainer, { marginTop: 40 }]}>
-                <Pressable style={styles.button.button} onPress={handleRegisterUser}>
-                    <Text style={styles.button.buttonLabel}>Next</Text>
-                </Pressable>
-            </View>
+            <Button text={"Next"} onPress={handleRegisterUser} style={{ marginTop: 40 }}></Button>
+
             <Text style={{ color: '#f00' }}>{error}</Text>
 
             <Text style={{ color: '#fff', marginTop: 75 }}>
@@ -105,6 +103,6 @@ export default function RegisterPage({ navigation }) {
             </Text>
 
             <StatusBar style="light" />
-        </View>
+        </View >
     )
 }

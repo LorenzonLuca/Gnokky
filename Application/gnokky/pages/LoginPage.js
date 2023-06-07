@@ -3,6 +3,7 @@ import { View, Text, TextInput, Pressable } from 'react-native';
 import { useState } from 'react';
 
 import styles from '../styles/Styles';
+import Button from '../components/Button';
 
 
 export default function LoginPage({ navigation }) {
@@ -31,17 +32,8 @@ export default function LoginPage({ navigation }) {
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword} />
 
-            <View style={[styles.button.buttonContainer, { marginTop: 40 }]}>
-                <Pressable style={styles.button.button}>
-                    <Text style={styles.button.buttonLabel}>Next</Text>
-                </Pressable>
-            </View>
-
-            <View style={styles.button.buttonContainer}>
-                <Pressable style={styles.button.button}>
-                    <Text style={styles.button.buttonLabel}>Forgot Password?</Text>
-                </Pressable>
-            </View>
+            <Button text={"Next"} style={{ marginTop: 40 }}></Button>
+            <Button text={"Forgot Password?"}></Button>
 
             <Text style={{ color: '#fff', marginTop: 75 }}>
                 Don't have already an account?
