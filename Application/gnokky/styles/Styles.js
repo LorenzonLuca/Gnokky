@@ -12,31 +12,10 @@ const styles = StyleSheet.create({
         fontSize: 65,
         margin: 35,
     },
-    button: {
-        buttonContainer: {
-            width: 200,
-            height: 40,
-            margin: 5,
-            marginHorizontal: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 3,
-            borderWidth: 4,
-            borderColor: "#fff",
-            borderRadius: 18
-        },
-        button: {
-            borderRadius: 10,
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-        },
-        buttonLabel: {
-            color: "#fff",
-            fontSize: 16,
-        },
+    title2: {
+        color: '#fff',
+        fontSize: 35,
+        margin: 20,
     },
     textInputStyle: {
         fontSize: 25,

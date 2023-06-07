@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { useState } from 'react';
 
-import styles from '../styles/Styles';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import Button from '../components/Button';
+import styles from '../../styles/Styles';
+import { auth } from '../../Models/Firebase';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import Button from '../../components/Button';
 
 export default function RegisterPage({ navigation }) {
     const [username, setUsername] = useState(null);
@@ -43,7 +43,13 @@ export default function RegisterPage({ navigation }) {
 
                     await createUserWithEmailAndPassword(auth, email, password)
                         .then((userCredentials) => {
-                            console.log(userCredentials.user);
+                            const user = userCredentials.user;
+                            console.log(user);
+                            console.log("current user: " + auth.currentUser.emailVerified);
+                            sendEmailVerification(user)
+                                .then(() => {
+                                    navigation.navigate("Waiting");
+                                })
                         })
                         .catch((error) => {
                             if (error.code === 'auth/weak-password') {
