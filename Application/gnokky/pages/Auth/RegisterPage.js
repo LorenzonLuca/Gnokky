@@ -36,36 +36,33 @@ export default function RegisterPage({ navigation }) {
             setPassword(password.trim());
             setPassword2(password2.trim());
 
-            const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-            if (emailRegex.test(email)) {
-                if (password == password2) {
+            if (password == password2) {
 
-                    await createUserWithEmailAndPassword(auth, email, password)
-                        .then((userCredentials) => {
-                            const user = userCredentials.user;
-                            console.log(user);
-                            console.log("current user: " + auth.currentUser.emailVerified);
-                            sendEmailVerification(user)
-                                .then(() => {
-                                    navigation.navigate("Waiting");
-                                })
-                        })
-                        .catch((error) => {
-                            if (error.code === 'auth/weak-password') {
-                                setError("The Password is to weak, try another one!");
-                            } else if (error.code === "auth/email-already-in-use") {
-                                setError("Email already in use!");
-                            } else {
-                                console.log(error);
-                            }
-                        })
+                await createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredentials) => {
+                        const user = userCredentials.user;
+                        console.log(user);
+                        console.log("current user: " + auth.currentUser.emailVerified);
+                        sendEmailVerification(user)
+                            .then(() => {
+                                navigation.navigate("Waiting");
+                            })
+                    })
+                    .catch((error) => {
+                        if (error.code === 'auth/weak-password') {
+                            setError("The Password is to weak, try another one!");
+                        } else if (error.code === "auth/email-already-in-use") {
+                            setError("Email already in use!");
+                        } else if (error.code === "auth/invalid-email") {
+                            setError("Email not valid!")
+                        } else {
+                            console.log(error);
+                        }
+                    })
 
-                } else {
-                    setError("Passwords doesn't matching!")
-                }
             } else {
-                setError("Insert a valid email address!");
+                setError("Passwords doesn't matching!")
             }
         } else {
             setError("Some values are missing!");

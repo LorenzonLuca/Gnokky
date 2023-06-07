@@ -11,25 +11,16 @@ import FloatingButton from './FloatingButton';
 
 const Tab = createBottomTabNavigator();
 
-<<<<<<< HEAD
-export default function NavigatorTab() {
-    return (
-        <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomePage} />
-            <Tab.Screen name="Home" component={HomePage} />
-            <Tab.Screen name="Home" component={HomePage} />
-            <Tab.Screen name="Home" component={HomePage} />
-=======
-const CustomTabBarButton = ({children, onPress}) => (
+const CustomTabBarButton = ({ children, onPress }) => (
     <TouchableOpacity
-     style={{
-        top: -35,
-        justifyContent: 'center',
-        alignItems: 'center',
-        ...styles.shadow
-     }}  
-     
-     onPress={onPress}  
+        style={{
+            top: -35,
+            justifyContent: 'center',
+            alignItems: 'center',
+            ...styles.shadow
+        }}
+
+        onPress={onPress}
     >
         <View style={{
             width: 70,
@@ -37,23 +28,23 @@ const CustomTabBarButton = ({children, onPress}) => (
             borderRadius: 35,
             backgroundColor: '#5978a6',
         }}>
-           {children} 
+            {children}
         </View>
     </TouchableOpacity>
 );
 
 
-export default function NavigatorTab(){
-    
+export default function NavigatorTab() {
+
     const handlePostButtonPress = () => {
-        
+
     };
 
-    return(
+    return (
         <Tab.Navigator
             screenOptions={{
-                tabBarLabel: () => { return "";},
-                tabBarStyle: { 
+                tabBarLabel: () => { return ""; },
+                tabBarStyle: {
                     position: 'absolute',
                     bottom: 25,
                     left: 20,
@@ -66,34 +57,33 @@ export default function NavigatorTab(){
                 },
             }}
         >
-            <Tab.Screen name="Home" component={HomePage}  options={{ 
-                tabBarIcon: ({focused}) => (
-                    <Ionicons name={focused ? 'home' : 'home-outline'} size={30}/>
+            <Tab.Screen name="Home" component={HomePage} options={{
+                tabBarIcon: ({ focused }) => (
+                    <Ionicons name={focused ? 'home' : 'home-outline'} size={30} />
                 ),
-            }}/>
-            <Tab.Screen name="Search" component={SearchPage}  options={{ 
-                tabBarIcon: ({focused}) => (
+            }} />
+            <Tab.Screen name="Search" component={SearchPage} options={{
+                tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'search' : 'search-outline'} size={30} />
                 ),
-            }}/>
-            <Tab.Screen name="Post" component={NewPostPage}  options={{ 
+            }} />
+            <Tab.Screen name="Post" component={NewPostPage} options={{
                 tabBarButton: (props) => (
                     <FloatingButton />
                 )
-            }}/>
-            <Tab.Screen name="Notifications" component={NotificationsPage}  options={{ 
-                tabBarIcon: ({focused}) => (
+            }} />
+            <Tab.Screen name="Notifications" component={NotificationsPage} options={{
+                tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'notifications' : 'notifications-outline'} size={30} />
                 ),
-            }}/>
-            <Tab.Screen name="Profile" component={ProfilePage}  options={{ 
-                tabBarIcon: ({focused}) => (
+            }} />
+            <Tab.Screen name="Profile" component={ProfilePage} options={{
+                tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'person' : 'person-outline'} size={30} />
                 ),
-            }}/>
->>>>>>> 96287e15efec8b3eb47ce393df478521978d18cf
+            }} />
         </Tab.Navigator>
-    );   
+    );
 }
 
 const styles = StyleSheet.create({
@@ -109,5 +99,5 @@ const styles = StyleSheet.create({
     },
 });
 
-    
+
 

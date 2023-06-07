@@ -6,8 +6,7 @@ import { auth } from './Models/Firebase';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import WaitingPage from './pages/Auth/WaitingPage';
-import HomePage from './pages/Home/HomePage';
-import NavigatorTab from './components/NavigatorTab';
+import HomeTemplate from './pages/Home/HomeTemplate';
 
 const Stack = createStackNavigator();
 
@@ -43,12 +42,6 @@ function App() {
   if (!user) {
     return (
       <Stack.Navigator>
-<<<<<<< HEAD
-=======
-        <Stack.Screen name="NaviagatorTab" component={NavigatorTab} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
->>>>>>> 
-
         <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
       </Stack.Navigator >
@@ -57,7 +50,7 @@ function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
       </Stack.Navigator>
     );
   }

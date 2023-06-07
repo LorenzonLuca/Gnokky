@@ -15,7 +15,7 @@ export default function WaitingPage({ navigation }) {
                     if (auth.currentUser.emailVerified) {
                         console.log(auth.currentUser.emailVerified);
                         clearInterval(intervalCheck);
-                        navigation.navigate("Home");
+                        navigation.navigate("HomeTemplate");
                     }
                 });
         }, 2000);
