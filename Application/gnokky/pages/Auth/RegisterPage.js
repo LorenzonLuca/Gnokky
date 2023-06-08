@@ -1,11 +1,12 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { useState } from 'react';
 
-import styles from '../styles/Styles';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import Button from '../components/Button';
+import styles from '../../styles/Styles';
+import { auth } from '../../Models/Firebase';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import Button from '../../components/Button';
 
 export default function RegisterPage({ navigation }) {
     const [username, setUsername] = useState(null);
@@ -36,30 +37,33 @@ export default function RegisterPage({ navigation }) {
             setPassword(password.trim());
             setPassword2(password2.trim());
 
-            const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-            if (emailRegex.test(email)) {
-                if (password == password2) {
+            if (password == password2) {
 
-                    await createUserWithEmailAndPassword(auth, email, password)
-                        .then((userCredentials) => {
-                            console.log(userCredentials.user);
-                        })
-                        .catch((error) => {
-                            if (error.code === 'auth/weak-password') {
-                                setError("The Password is to weak, try another one!");
-                            } else if (error.code === "auth/email-already-in-use") {
-                                setError("Email already in use!");
-                            } else {
-                                console.log(error);
-                            }
-                        })
+                await createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredentials) => {
+                        const user = userCredentials.user;
+                        console.log(user);
+                        console.log("current user: " + auth.currentUser.emailVerified);
+                        sendEmailVerification(user)
+                            .then(() => {
+                                navigation.navigate("Waiting");
+                            })
+                    })
+                    .catch((error) => {
+                        if (error.code === 'auth/weak-password') {
+                            setError("The Password is to weak, try another one!");
+                        } else if (error.code === "auth/email-already-in-use") {
+                            setError("Email already in use!");
+                        } else if (error.code === "auth/invalid-email") {
+                            setError("Email not valid!")
+                        } else {
+                            console.log(error);
+                        }
+                    })
 
-                } else {
-                    setError("Passwords doesn't matching!")
-                }
             } else {
-                setError("Insert a valid email address!");
+                setError("Passwords doesn't matching!")
             }
         } else {
             setError("Some values are missing!");
@@ -92,7 +96,7 @@ export default function RegisterPage({ navigation }) {
                 placeholder="confirm password"
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword2} />
-
+                
             <Button text={"Next"} onPress={handleRegisterUser} style={{ marginTop: 40 }}></Button>
 
             <Text style={{ color: '#f00' }}>{error}</Text>

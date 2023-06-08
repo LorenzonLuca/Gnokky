@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { useState } from 'react';
 
-import styles from '../styles/Styles';
-import Button from '../components/Button';
+import styles from '../../styles/Styles';
+import Button from '../../components/Button';
 
 
 export default function LoginPage({ navigation }) {
