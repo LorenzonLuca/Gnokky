@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import styles from '../../styles/Styles';
 import { auth } from '../../Models/Firebase';
-import AuthUtils from '../../Models/AuthUtils';
+import FirebaseUtils from '../../Models/FirebaseUtils';
 import { appUser } from '../../Models/Globals';
 
 export default function WaitingPage({ navigation }) {
@@ -19,7 +19,7 @@ export default function WaitingPage({ navigation }) {
                 .then(() => {
                     if (auth.currentUser.emailVerified) {
                         console.log(auth.currentUser.emailVerified);
-                        AuthUtils.insertUser(appUser.username, appUser.email);
+                        FirebaseUtils.insertUser(appUser.username, appUser.email);
                         clearInterval(intervalCheck);
                         navigation.navigate("ProfileManagement", { title: "Create profile" });
                     }

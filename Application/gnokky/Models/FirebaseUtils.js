@@ -1,9 +1,9 @@
-import { collection, addDoc, doc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "./Firebase"
 import React from 'react';
 import { appUser } from "./Globals";
 
-export default class AuthUtils {
+export default class FirebaseUtils {
   static async insertUser(username, email) {
     try {
       const docRef = await addDoc(collection(db, "users"), {
@@ -26,19 +26,12 @@ export default class AuthUtils {
     try {
       const docRef = doc(db, "users", appUser.id);
 
-      const data = {
+      await updateDoc(docRef, {
         name: name,
         surname: surname,
         bio: bio,
-      }
+      });
 
-      updateDoc(docRef, data)
-        .then(docRef => {
-          console.log("User with id " + appUser.id + " has been updated!");
-        })
-        .catch(error => {
-          console.log(error);
-        })
     } catch (e) {
       console.log("Error during adding personal information: ", e);
     }
