@@ -4,18 +4,44 @@ import { useState } from 'react';
 
 import styles from '../../styles/Styles';
 import Button from '../../components/Button';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../Models/Firebase';
+import { appUser } from '../../Models/Globals';
 
 
 export default function LoginPage({ navigation }) {
-    const [username, setUsername] = useState(null);
+    const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [error, setError] = useState("");
 
     const handleInputChangeUsername = (inputText) => {
-        setUsername(inputText);
+        setEmail(inputText);
     }
 
     const handleInputChangePassword = (inputText) => {
         setPassword(inputText);
+    }
+
+    const handleLoginUser = async () => {
+        if (checkValue(email) && checkValue(password)) {
+            setEmail(email.trim());
+            setPassword(password.trim());
+
+            await signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    appUser.setType("Login");
+                    console.log("Set type to login: " + appUser.typeSignIn);
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    setError("Login incorrect!")
+                })
+        }
+    }
+
+    const checkValue = (value) => {
+        return (value !== null && value !== "");
     }
 
     return (
@@ -24,7 +50,7 @@ export default function LoginPage({ navigation }) {
 
             <TextInput
                 style={styles.textInputStyle}
-                placeholder="username"
+                placeholder="email"
                 onChangeText={handleInputChangeUsername} />
             <TextInput
                 style={styles.textInputStyle}
@@ -32,8 +58,10 @@ export default function LoginPage({ navigation }) {
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword} />
 
-            <Button text={"Next"} style={{ marginTop: 40 }}></Button>
+            <Button text={"Next"} style={{ marginTop: 40 }} onPress={handleLoginUser}></Button>
             <Button text={"Forgot Password?"}></Button>
+
+            <Text style={{ color: '#f00' }}>{error}</Text>
 
             <Text style={{ color: '#fff', marginTop: 75 }}>
                 Don't have already an account?

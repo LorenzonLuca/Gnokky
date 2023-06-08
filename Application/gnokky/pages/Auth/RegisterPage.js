@@ -46,6 +46,7 @@ export default function RegisterPage({ navigation }) {
                         console.log("current user: " + auth.currentUser.emailVerified);
                         sendEmailVerification(user)
                             .then(() => {
+                                appUser.setType("Register");
                                 navigation.navigate("Waiting");
                             })
                     })
