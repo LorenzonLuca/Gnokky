@@ -1,7 +1,8 @@
 export default class User {
 
-    constructor(username, typeSignIn) {
+    constructor(username, email, typeSignIn) {
         this.username = username;
+        this.email = email;
         this.typeSignIn = typeSignIn;
     }
 
@@ -15,6 +16,10 @@ export default class User {
                 }
             }, 1000);
         });
+    }
+
+    setEmail(email){
+        this.email = email;
     }
 
     setUsername(username) {
