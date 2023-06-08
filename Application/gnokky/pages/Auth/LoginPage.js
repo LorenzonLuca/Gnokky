@@ -47,28 +47,34 @@ export default function LoginPage({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign in</Text>
+            <Text style={styles.title}>SIGN IN</Text>
 
             <GNTextInput
                 placeholder='Email'
                 iconName="mail-outline"
                 iconNameFocused="mail"
-                onChangeText={handleInputChangeUsername} />
+                onChangeText={handleInputChangeUsername}
+                animation="true" />
             <GNTextInput
                 placeholder='Password'
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
                 secureTextEntry={true}
-                onChangeText={handleInputChangeUsername} />
+                onChangeText={handleInputChangeUsername}
+                animation="true" />
 
-            <GNButton text={"Next"} style={{ marginTop: 40 }} onPress={handleLoginUser}></GNButton>
-            <GNButton text={"Forgot Password?"}></GNButton>
+            <GNButton 
+                title={"SIGN IN"} 
+                onPress={handleLoginUser} />
+            <GNButton 
+                title={"Forgot Password?"} 
+                onPress={handleLoginUser}/>
 
             <Text style={{ color: '#f00' }}>{error}</Text>
 
-            <Text style={{ color: '#fff', marginTop: 75 }}>
+            <Text style={{ color: '#fff', marginTop: 55 }}>
                 Don't have already an account?
-                <Text style={{ color: '#48B8D0' }} onPress={() => navigation.navigate("Register")}> Register now</Text>
+                <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Register")}> Register now</Text>
             </Text>
             <StatusBar style="light" />
         </View>

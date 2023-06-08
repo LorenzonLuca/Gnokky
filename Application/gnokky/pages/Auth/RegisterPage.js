@@ -84,38 +84,46 @@ export default function RegisterPage({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign up</Text>
+            <Text style={styles.title}>SIGN UP</Text>
 
             <GNTextInput
                 placeholder='Username'
                 iconName="person-outline"
                 iconNameFocused="person"
-                onChangeText={handleInputChangeUsername} />
+                onChangeText={handleInputChangeUsername}
+                animation="true" />
             <GNTextInput
                 placeholder='Email'
                 iconName="mail-outline"
                 iconNameFocused="mail"
-                onChangeText={handleInputChangeEmail} />
+                onChangeText={handleInputChangeEmail}
+                animation="true" />
             <GNTextInput
                 placeholder='Password'
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
                 secureTextEntry={true}
-                onChangeText={handleInputChangePassword} />
+                onChangeText={handleInputChangePassword}
+                animation="true" />
             <GNTextInput
                 placeholder='Confirm Password'
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
                 secureTextEntry={true}
-                onChangeText={handleInputChangePassword2} />
+                onChangeText={handleInputChangePassword2}
+                animation="true" />
 
-            <GNButton text={"Next"} onPress={handleRegisterUser} style={{ marginTop: 40 }}></GNButton>
+            <GNButton 
+                title={"SIGN UP"} 
+                onPress={handleRegisterUser} 
+                style={{ marginTop: 40 }}
+            />
 
             <Text style={{ color: '#f00' }}>{error}</Text>
 
-            <Text style={{ color: '#fff', marginTop: 75 }}>
+            <Text style={{ color: '#fff', marginTop: 50 }}>
                 Already have an account?
-                <Text style={{ color: '#48B8D0' }} onPress={() => navigation.navigate("Login")}> Sign in now</Text>
+                <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Login")}> Sign in now</Text>
             </Text>
 
             <StatusBar style="light" />

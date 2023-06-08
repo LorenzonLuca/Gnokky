@@ -1,59 +1,97 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { View, TextInput, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const GNTextInput = ({ placeholder, iconName , iconNameFocused, secureTextEntry, onChangeText }) => {
+export default function GNTextInput({ placeholder, multiline = false, iconName , iconNameFocused, secureTextEntry, onChangeText, animation = false}){
+
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: '75%',
+      height: 50,
+      borderRadius: 8,
+      backgroundColor: '#F5F5F5',
+      paddingHorizontal: 16,
+      marginBottom: 24,
+    },
+    input: {
+      flex: 1,
+      fontSize: 16,
+      color: '#333',
+    },
+    icon: {
+      marginRight: 8,
+    },
+  });
 
   const [isFocused, setIsFocused] = useState(false);
+  const anim = useRef(new Animated.Value(1)).current;
 
   const handleFocus = () => {
     setIsFocused(true);
+    startAnimation();
   };
 
   const handleBlur = () => {
     setIsFocused(false);
+    stopAnimation();
+  };
+
+  const startAnimation = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(anim, { toValue: 1.2, duration: 600, useNativeDriver: true}),
+        Animated.timing(anim, { toValue: 1, duration: 600, useNativeDriver: true}),
+      ]),
+      { iterations: -1 },
+    ).start();
+  };
+
+  const stopAnimation = () => {
+    anim.setValue(1);
+    anim.stopAnimation();
   };
 
   const iconNamee = isFocused ? iconNameFocused : iconName;
   const color = isFocused ? "#333" : "#888";
 
-  return (
-    <View style={styles.container}>
-      <Ionicons name={iconNamee} size={24} color={color} style={styles.icon} />
-      <TextInput
-        placeholder={placeholder}
-        style={styles.input}
-        placeholderTextColor="#888"
-        secureTextEntry={secureTextEntry}
-        onChangeText={onChangeText}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
-    </View>
-  );
+  if(animation){
+    return (
+      <View style={styles.container}>
+        <Animated.View style={{ transform: [{ scale: anim }] }}>
+          <Ionicons name={iconNamee} size={24} color={color} style={styles.icon} />
+        </Animated.View>
+        <TextInput
+          placeholder={placeholder}
+          style={styles.input}
+          placeholderTextColor="#888"
+          selectionColor="#F8D154"
+          multiline={multiline}
+          secureTextEntry={secureTextEntry}
+          onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </View>
+    );
+  }else{
+    return (
+      <View style={styles.container}>
+        <Ionicons name={iconNamee} size={24} color={color} style={styles.icon} />
+        <TextInput
+          placeholder={placeholder}
+          style={styles.input}
+          placeholderTextColor="#888"
+          selectionColor="#F8D154"
+          secureTextEntry={secureTextEntry}
+          onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </View>
+    );
+  }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '80%',
-    height: 50,
-    borderRadius: 8,
-    backgroundColor: '#F5F5F5',
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-  },
-  icon: {
-    marginRight: 8,
-  },
-});
 
-
-export default GNTextInput;
