@@ -1,15 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { View, TextInput, StyleSheet, Animated } from 'react-native';
+import { View, TextInput, Feather, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function GNTextInput({ placeholder, multiline = false, iconName , iconNameFocused, secureTextEntry, onChangeText, animation = false}){
+export default function GNTextInput({ placeholder, multiline = false, iconName, iconNameFocused, secureTextEntry,
+  onChangeText, animation = false, width = '75%', height = 50 }) {
 
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      width: '75%',
-      height: 50,
+      width: width,
+      height: height,
       borderRadius: 15,
       backgroundColor: '#F5F5F5',
       paddingHorizontal: 16,
@@ -41,8 +42,8 @@ export default function GNTextInput({ placeholder, multiline = false, iconName ,
   const startAnimation = () => {
     Animated.loop(
       Animated.sequence([
-        Animated.timing(anim, { toValue: 1.2, duration: 600, useNativeDriver: true}),
-        Animated.timing(anim, { toValue: 1, duration: 600, useNativeDriver: true}),
+        Animated.timing(anim, { toValue: 1.2, duration: 600, useNativeDriver: true }),
+        Animated.timing(anim, { toValue: 1, duration: 600, useNativeDriver: true }),
       ]),
       { iterations: -1 },
     ).start();
@@ -56,7 +57,7 @@ export default function GNTextInput({ placeholder, multiline = false, iconName ,
   const iconNamee = isFocused ? iconNameFocused : iconName;
   const color = isFocused ? "#333" : "#888";
 
-  if(animation){
+  if (animation) {
     return (
       <View style={styles.container}>
         <Animated.View style={{ transform: [{ scale: anim }] }}>
@@ -75,7 +76,7 @@ export default function GNTextInput({ placeholder, multiline = false, iconName ,
         />
       </View>
     );
-  }else{
+  } else {
     return (
       <View style={styles.container}>
         <Ionicons name={iconNamee} size={24} color={color} style={styles.icon} />
@@ -88,6 +89,7 @@ export default function GNTextInput({ placeholder, multiline = false, iconName ,
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          multiline={multiline}
         />
       </View>
     );

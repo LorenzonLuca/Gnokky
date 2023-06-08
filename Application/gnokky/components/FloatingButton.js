@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , Animated, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableWithoutFeedback } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -62,19 +62,19 @@ export default function FloatingButton() {
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={() => navigation.navigate("Post")}>
                 <Animated.View style={[styles.button, styles.secondary, mediaStyle]}>
-                    <Entypo name="image" size={20} color="#F02A4B"/>
+                    <Entypo name="image" size={20} color="#F8D154" />
                 </Animated.View>
             </TouchableWithoutFeedback>
-        
+
             <TouchableWithoutFeedback onPress={() => navigation.navigate("Post")}>
                 <Animated.View style={[styles.button, styles.secondary, textStyle]}>
-                    <Entypo name="text" size={20} color="#F02A4B"/>
+                    <Entypo name="text" size={20} color="#F8D154" />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={toggleMenu}>
                 <Animated.View style={[styles.button, styles.menu, styles.primary, rotation]}>
-                    <AntDesign name="plus" size={24} color="#FFF"/>
+                    <AntDesign name="plus" size={24} color="#000" />
                 </Animated.View>
             </TouchableWithoutFeedback>
         </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         shadowOffset: { height: 10 }
     },
     menu: {
-        backgroundColor: "#F02A4B"
+        backgroundColor: "#F8D154"
     },
     secondary: {
         position: "absolute",

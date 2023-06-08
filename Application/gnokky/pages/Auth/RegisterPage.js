@@ -50,7 +50,6 @@ export default function RegisterPage({ navigation }) {
                                 appUser.setType("Register");
                                 appUser.setUsername(username);
                                 appUser.setEmail(email);
-                                navigation.navigate("Waiting");
                             })
                             .catch((error) => {
                                 console.log(error);

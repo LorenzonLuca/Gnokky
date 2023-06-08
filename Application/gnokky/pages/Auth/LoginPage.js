@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Models/Firebase';
 import { appUser } from '../../Models/Globals';
 import GNTextInput from '../../components/GNTextInput';
+import ErrorModal from '../../components/ErrorModal';
 
 
 export default function LoginPage({ navigation }) {
@@ -22,6 +23,38 @@ export default function LoginPage({ navigation }) {
     const handleInputChangePassword = (inputText) => {
         setPassword(inputText);
     }
+
+    // const [errorModalVisible, setErrorModalVisible] = useState(false);
+
+    // const showErrorModal = () => {
+    //     setErrorModalVisible(true);
+    // };
+
+    // const closeErrorModal = () => {
+    //     setErrorModalVisible(false);
+    // };
+
+    // const renderErrorModal = () => {
+    //     if (errorModalVisible) {
+    //       return (
+    //         <ErrorModal
+    //           visible={errorModalVisible}
+    //           onClose={closeErrorModal}
+    //           title="Errore"
+    //           message="Si è verificato un errore."
+    //           actionText="Riprova"
+    //           onAction={handleAction}
+    //         />
+    //       );
+    //     }
+    //     return null;
+    //   };
+
+    // const handleAction = () => {
+    //     // Azione da eseguire quando viene premuto il pulsante di azione nel modal
+    //     // Puoi personalizzare questa funzione in base alle tue esigenze
+    //     closeErrorModal(); // Chiudi il modal dopo aver eseguito l'azione
+    // };
 
     const handleLoginUser = async () => {
         if (checkValue(email) && checkValue(password)) {
@@ -38,6 +71,8 @@ export default function LoginPage({ navigation }) {
                     console.log(error.message);
                     setError("Login incorrect!")
                 })
+        }else{
+            setError("Login incorrect!")
         }
     }
 
@@ -60,16 +95,17 @@ export default function LoginPage({ navigation }) {
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
                 secureTextEntry={true}
-                onChangeText={handleInputChangeUsername}
+                onChangeText={handleInputChangePassword}
                 animation="true" />
 
-            <GNButton 
-                title={"SIGN IN"} 
+            <GNButton
+                title={"SIGN IN"}
                 onPress={handleLoginUser} />
-            <GNButton 
-                title={"Forgot Password?"} 
-                onPress={handleLoginUser}/>
-
+            <GNButton
+                title={"Forgot Password?"}
+                onPress={() => {
+                    console.log("diocane");
+                }} />
             <Text style={{ color: '#f00' }}>{error}</Text>
 
             <Text style={{ color: '#fff', marginTop: 55 }}>
