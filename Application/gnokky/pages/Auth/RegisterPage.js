@@ -1,3 +1,4 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, TextInput } from 'react-native';
 import { useState } from 'react';
@@ -6,6 +7,7 @@ import styles from '../../styles/Styles';
 import { auth } from '../../Models/Firebase';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import Button from '../../components/Button';
+import { appUser } from '../../Models/Globals';
 
 export default function RegisterPage({ navigation }) {
     const [username, setUsername] = useState(null);
@@ -42,12 +44,15 @@ export default function RegisterPage({ navigation }) {
                 await createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredentials) => {
                         const user = userCredentials.user;
-                        console.log(user);
-                        console.log("current user: " + auth.currentUser.emailVerified);
                         sendEmailVerification(user)
                             .then(() => {
                                 appUser.setType("Register");
+                                appUser.setUsername(username);
+                                appUser.setEmail(email);
                                 navigation.navigate("Waiting");
+                            })
+                            .catch((error)  => {
+                                console.log(error);
                             })
                     })
                     .catch((error) => {
@@ -60,6 +65,8 @@ export default function RegisterPage({ navigation }) {
                         } else {
                             console.log(error);
                         }
+                        appUser.setUsername(null);
+                        appUser.setEmail(null);
                     })
 
             } else {
@@ -96,7 +103,7 @@ export default function RegisterPage({ navigation }) {
                 placeholder="confirm password"
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword2} />
-
+                
             <Button text={"Next"} onPress={handleRegisterUser} style={{ marginTop: 40 }}></Button>
 
             <Text style={{ color: '#f00' }}>{error}</Text>
