@@ -7,6 +7,7 @@ import GNButton from '../../components/GNButton';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Models/Firebase';
 import { appUser } from '../../Models/Globals';
+import GNTextInput from '../../components/GNTextInput';
 
 
 export default function LoginPage({ navigation }) {
@@ -48,15 +49,17 @@ export default function LoginPage({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.title}>Sign in</Text>
 
-            <TextInput
-                style={styles.textInputStyle}
-                placeholder="email"
+            <GNTextInput
+                placeholder='Email'
+                iconName="mail-outline"
+                iconNameFocused="mail"
                 onChangeText={handleInputChangeUsername} />
-            <TextInput
-                style={styles.textInputStyle}
-                placeholder="password"
+            <GNTextInput
+                placeholder='Password'
+                iconName="lock-closed-outline"
+                iconNameFocused="lock-closed"
                 secureTextEntry={true}
-                onChangeText={handleInputChangePassword} />
+                onChangeText={handleInputChangeUsername} />
 
             <GNButton text={"Next"} style={{ marginTop: 40 }} onPress={handleLoginUser}></GNButton>
             <GNButton text={"Forgot Password?"}></GNButton>
