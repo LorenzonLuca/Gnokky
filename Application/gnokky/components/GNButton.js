@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
+import { TouchableWithoutFeedback, Text, StyleSheet, Animated } from 'react-native';
 
-export default function GNButton({title, backgroundColor = '#F8D154', color = '#25292e', width = '75%', height = 50, onPress, style}){
+export default function GNButton({ title, backgroundColor = '#F8D154', color = '#25292e', width = '75%', height = 50, onPress, style }) {
   const styles = StyleSheet.create({
     button: {
       backgroundColor: backgroundColor,
-      borderRadius: 8,
+      borderRadius: 15,
       paddingVertical: 12,
       paddingHorizontal: 24,
       marginBottom: 24,
@@ -26,12 +26,10 @@ export default function GNButton({title, backgroundColor = '#F8D154', color = '#
   });
 
   return (
-    <TouchableOpacity
-      style={[styles.button, style]}
-      onPress={onPress}
-    >
-      <Text style={styles.text}>{title}</Text>
-    </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <Animated.View style={[styles.button, style]}>
+        <Text style={styles.text}>{title}</Text>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
-
-};
+}
