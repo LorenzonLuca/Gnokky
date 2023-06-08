@@ -10,6 +10,9 @@ export default function WaitingPage({ navigation }) {
     console.log("waiting page");
 
     useEffect(() => {
+        if (auth.currentUser.emailVerified) {
+            navigation.navigate("HomeTemplate");
+        }
         const intervalCheck = setInterval(() => {
             auth.currentUser.reload()
                 .then(() => {

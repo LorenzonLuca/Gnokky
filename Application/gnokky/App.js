@@ -7,14 +7,14 @@ import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import WaitingPage from './pages/Auth/WaitingPage';
 import HomeTemplate from './pages/Home/HomeTemplate';
+import { appUser } from './Models/Globals';
 
 const Stack = createStackNavigator();
 
 function App() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-  const [emailVerified, setEmailVerified] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
+  const [typeSignIn, setTypeSignIn] = useState("");
 
   function onAuthStateChanged(user) {
     console.log("user changed");
@@ -25,16 +25,15 @@ function App() {
 
   useEffect(() => {
     const users = auth.onAuthStateChanged(onAuthStateChanged);
-    if (emailSent) {
-      auth.currentUser.reload().then(() => {
-        if (auth.currentUser.emailVerified) {
-          setEmailVerified(true);
-        }
-        setEmailSent(false);
-      });
-    }
+
+    appUser.checkSignIn()
+      .then((result) => {
+        setTypeSignIn(result);
+        console.log(result);
+      })
+
     return users;
-  }, [emailSent]);
+  }, []);
 
   if (initializing) return null;
 
@@ -47,12 +46,20 @@ function App() {
       </Stack.Navigator >
     );
   } else {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    );
+    if (typeSignIn === "Login") {
+      return (
+        <Stack.Navigator>
+          <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      );
+    } else if (typeSignIn === "Register") {
+      return (
+        <Stack.Navigator>
+          <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
+          <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      );
+    }
   }
 }
 
