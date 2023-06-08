@@ -19,9 +19,9 @@ export default function WaitingPage({ navigation }) {
                 .then(() => {
                     if (auth.currentUser.emailVerified) {
                         console.log(auth.currentUser.emailVerified);
-                        AuthUtils.insertUser(appUser.username,appUser.email);
+                        AuthUtils.insertUser(appUser.username, appUser.email);
                         clearInterval(intervalCheck);
-                        navigation.navigate("HomeTemplate");
+                        navigation.navigate("ProfileManagement", { title: "Create profile" });
                     }
                 });
         }, 2000);
@@ -34,8 +34,8 @@ export default function WaitingPage({ navigation }) {
     return (
         <View style={styles.container}>
             <View>
-                <Text style={styles.title2}>Please verifiy your email!</Text>
-                <Text style={{ color: "#fff" }}>waiting...</Text>
+                <Text style={styles.title2}>Please verify your email!</Text>
+                <Text style={styles.paragraph}>waiting...</Text>
             </View>
             <StatusBar style="light" />
         </View>

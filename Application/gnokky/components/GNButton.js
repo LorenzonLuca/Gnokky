@@ -1,10 +1,11 @@
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 
-export default function Button({ text, onPress, backgroundColor = null, color = "#fff", borderColor = "#fff", style }) {
+export default function GNButton({ text, onPress, backgroundColor = null, color = "#fff", borderColor = "#fff",
+    width = 200, height = 40, style }) {
     const styles = StyleSheet.create({
         buttonContainer: {
-            width: 200,
-            height: 40,
+            width: width,
+            height: height,
             margin: 5,
             marginHorizontal: 20,
             alignItems: 'center',

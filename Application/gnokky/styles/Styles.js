@@ -7,6 +7,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    background: {
+        flex: 1,
+        backgroundColor: '#25292e',
+    },
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
     title: {
         color: '#fff',
         fontSize: 65,

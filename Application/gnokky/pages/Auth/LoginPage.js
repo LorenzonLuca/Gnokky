@@ -3,7 +3,7 @@ import { View, Text, TextInput } from 'react-native';
 import { useState } from 'react';
 
 import styles from '../../styles/Styles';
-import Button from '../../components/Button';
+import GNButton from '../../components/GNButton';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../Models/Firebase';
 import { appUser } from '../../Models/Globals';
@@ -58,8 +58,8 @@ export default function LoginPage({ navigation }) {
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword} />
 
-            <Button text={"Next"} style={{ marginTop: 40 }} onPress={handleLoginUser}></Button>
-            <Button text={"Forgot Password?"}></Button>
+            <GNButton text={"Next"} style={{ marginTop: 40 }} onPress={handleLoginUser}></GNButton>
+            <GNButton text={"Forgot Password?"}></GNButton>
 
             <Text style={{ color: '#f00' }}>{error}</Text>
 

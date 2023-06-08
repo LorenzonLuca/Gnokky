@@ -6,7 +6,7 @@ import { useState } from 'react';
 import styles from '../../styles/Styles';
 import { auth } from '../../Models/Firebase';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import Button from '../../components/Button';
+import GNButton from '../../components/GNButton';
 import { appUser } from '../../Models/Globals';
 
 export default function RegisterPage({ navigation }) {
@@ -51,7 +51,7 @@ export default function RegisterPage({ navigation }) {
                                 appUser.setEmail(email);
                                 navigation.navigate("Waiting");
                             })
-                            .catch((error)  => {
+                            .catch((error) => {
                                 console.log(error);
                             })
                     })
@@ -103,8 +103,8 @@ export default function RegisterPage({ navigation }) {
                 placeholder="confirm password"
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword2} />
-                
-            <Button text={"Next"} onPress={handleRegisterUser} style={{ marginTop: 40 }}></Button>
+
+            <GNButton text={"Next"} onPress={handleRegisterUser} style={{ marginTop: 40 }}></GNButton>
 
             <Text style={{ color: '#f00' }}>{error}</Text>
 

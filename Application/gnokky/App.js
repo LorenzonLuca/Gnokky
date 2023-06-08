@@ -1,13 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useEffect, useState } from 'react';
-import { auth } from './Models/Firebase';
 
+import { auth } from './Models/Firebase';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import WaitingPage from './pages/Auth/WaitingPage';
 import HomeTemplate from './pages/Home/HomeTemplate';
 import { appUser } from './Models/Globals';
+import ProfileManagement from './pages/Profile/ProfileManagement';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ function App() {
     return users;
   }, []);
 
+
   if (initializing) return null;
 
 
@@ -56,6 +58,7 @@ function App() {
       return (
         <Stack.Navigator>
           <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
+          <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
           <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
         </Stack.Navigator>
       );
