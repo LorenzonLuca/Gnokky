@@ -60,15 +60,17 @@ export default function LoginPage({ navigation }) {
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
                 secureTextEntry={true}
-                onChangeText={handleInputChangeUsername}
+                onChangeText={handleInputChangePassword}
                 animation="true" />
 
-            <GNButton 
-                title={"SIGN IN"} 
+            <GNButton
+                title={"SIGN IN"}
                 onPress={handleLoginUser} />
-            <GNButton 
-                title={"Forgot Password?"} 
-                onPress={handleLoginUser}/>
+            <GNButton
+                title={"Forgot Password?"}
+                onPress={() => {
+                    console.log("diocane");
+                }} />
 
             <Text style={{ color: '#f00' }}>{error}</Text>
 

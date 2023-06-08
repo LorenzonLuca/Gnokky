@@ -2,14 +2,15 @@ import React, { useState, useRef } from 'react';
 import { View, TextInput, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function GNTextInput({ placeholder, multiline = false, iconName, iconNameFocused, secureTextEntry, onChangeText, animation = false }) {
+export default function GNTextInput({ placeholder, multiline = false, iconName, iconNameFocused, secureTextEntry,
+  onChangeText, animation = false, width = '75%', height = 50 }) {
 
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      width: '75%',
-      height: 50,
+      width: width,
+      height: height,
       borderRadius: 8,
       backgroundColor: '#F5F5F5',
       paddingHorizontal: 16,
@@ -88,6 +89,7 @@ export default function GNTextInput({ placeholder, multiline = false, iconName, 
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          multiline={multiline}
         />
       </View>
     );
