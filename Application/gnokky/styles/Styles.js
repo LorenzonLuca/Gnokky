@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
         fontSize: 35,
         margin: 20,
     },
+    paragraph: {
+        color: '#fff',
+        fontSize: 25,
+        margin: 20,
+    },
     textInputStyle: {
         fontSize: 25,
         height: 40,

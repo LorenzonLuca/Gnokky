@@ -32,7 +32,7 @@ export default function WaitingPage({ navigation }) {
         <View style={styles.container}>
             <View>
                 <Text style={styles.title2}>Please verifiy your email!</Text>
-                <Text style={{ color: "#fff" }}>wating...</Text>
+                <Text style={{ color: "#fff" }}>waiting...</Text>
             </View>
             <StatusBar style="light" />
         </View>
