@@ -9,6 +9,8 @@ export default function GNHeader({ title, color = '#fff' }) {
             height: 75,
             borderBottomLeftRadius: 20,
             borderBottomRightRadius: 20,
+            zIndex: 3, // works on ios
+            elevation: 3, // works on android
         },
         title: {
             color: color,

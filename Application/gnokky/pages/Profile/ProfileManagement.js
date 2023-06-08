@@ -11,7 +11,7 @@ import { appUser } from '../../Models/Globals';
 import { storage } from '../../Models/Firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../../components/GNTextInput';
-import AuthUtils from '../../Models/AuthUtils';
+import FirebaseUtils from '../../Models/FirebaseUtils';
 
 export default function ProfileManagement({ navigation, route }) {
     const { title } = route.params;
@@ -63,8 +63,9 @@ export default function ProfileManagement({ navigation, route }) {
             saveImageInStorage(localUri, fileName);
 
             if (checkValue(name) && checkValue(surnname)) {
-                AuthUtils.insertPersonalInformation(name, surnname, bio);
+                FirebaseUtils.insertPersonalInformation(name, surnname, bio);
             }
+            navigation.navigate("HomeTemplate");
         } catch (e) {
             console.log(e);
         }
@@ -98,7 +99,7 @@ export default function ProfileManagement({ navigation, route }) {
                 </View>
                 <GNTextInput placeholder={"Name"} onChangeText={handleInputChangeName}></GNTextInput>
                 <GNTextInput placeholder={"Surname"} onChangeText={handleInputChangeSurname}></GNTextInput>
-                <GNTextInput placeholder={"Bio"} onChangeText={handleInputChangeBio} multiline={true} height={120}></GNTextInput>
+                <GNTextInput placeholder={"Description..."} onChangeText={handleInputChangeBio} multiline={true} height={120}></GNTextInput>
                 <GNButton title={"Save"} onPress={onSaveProfileAsync}></GNButton>
             </View>
         </View >
