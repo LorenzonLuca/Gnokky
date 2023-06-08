@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const GNTextInput = ({ placeholder, iconName , iconNameFocused, secureTextEntry, onChangeText }) => {
+const GNTextInput = ({ placeholder, iconName, iconNameFocused, secureTextEntry, onChangeText }) => {
 
   const [isFocused, setIsFocused] = useState(false);
 

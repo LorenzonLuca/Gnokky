@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 export default function GNProfileImage({ placeholder, size = 100, selectedImage }) {
     const imageSource = selectedImage !== null
         ? { uri: selectedImage }
-        : placeholderImageSource;
+        : placeholder;
 
     const styles = StyleSheet.create({
         imageContainer: {
@@ -11,8 +11,6 @@ export default function GNProfileImage({ placeholder, size = 100, selectedImage 
             height: size,
             borderRadius: size / 2,
             overflow: 'hidden',
-            borderColor: '#fff',
-            borderWidth: 5,
         },
         image: {
             flex: 1,

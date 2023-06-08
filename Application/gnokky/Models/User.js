@@ -18,7 +18,7 @@ export default class User {
         });
     }
 
-    setEmail(email){
+    setEmail(email) {
         this.email = email;
     }
 
@@ -28,5 +28,9 @@ export default class User {
 
     setType(typeSignIn) {
         this.typeSignIn = typeSignIn;
+    }
+
+    setId(id) {
+        this.id = id;
     }
 }
