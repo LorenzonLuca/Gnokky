@@ -9,6 +9,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import GNButton from '../../components/GNButton';
 import { appUser } from '../../Models/Globals';
 import GNTextInput from '../../components/GNTextInput';
+import GNTextInputPassword from '../../components/GNTextInputPassword';
 
 export default function RegisterPage({ navigation }) {
     const [username, setUsername] = useState(null);
@@ -97,18 +98,16 @@ export default function RegisterPage({ navigation }) {
                 iconNameFocused="mail"
                 onChangeText={handleInputChangeEmail}
                 animation="true" />
-            <GNTextInput
+            <GNTextInputPassword
                 placeholder='Password'
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
-                secureTextEntry={true}
                 onChangeText={handleInputChangePassword}
                 animation="true" />
-            <GNTextInput
+            <GNTextInputPassword
                 placeholder='Confirm Password'
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
-                secureTextEntry={true}
                 onChangeText={handleInputChangePassword2}
                 animation="true" />
 

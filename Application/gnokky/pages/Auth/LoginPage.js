@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Feather,TextInput } from 'react-native';
 import { useState } from 'react';
 
 import styles from '../../styles/Styles';
@@ -9,6 +9,7 @@ import { auth } from '../../Models/Firebase';
 import { appUser } from '../../Models/Globals';
 import GNTextInput from '../../components/GNTextInput';
 import ErrorModal from '../../components/ErrorModal';
+import GNTextInputPassword from '../../components/GNTextInputPassword';
 
 
 export default function LoginPage({ navigation }) {
@@ -90,13 +91,13 @@ export default function LoginPage({ navigation }) {
                 iconNameFocused="mail"
                 onChangeText={handleInputChangeUsername}
                 animation="true" />
-            <GNTextInput
+            <GNTextInputPassword
                 placeholder='Password'
                 iconName="lock-closed-outline"
                 iconNameFocused="lock-closed"
-                secureTextEntry={true}
                 onChangeText={handleInputChangePassword}
                 animation="true" />
+            
 
             <GNButton
                 title={"SIGN IN"}
