@@ -1,40 +1,37 @@
-import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import React, { useState, useRef } from 'react';
+import { TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
 
-export default function GNButton({ text, onPress, backgroundColor = null, color = "#fff", borderColor = "#fff",
-    width = 200, height = 40, style }) {
-    const styles = StyleSheet.create({
-        buttonContainer: {
-            width: width,
-            height: height,
-            margin: 5,
-            marginHorizontal: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 3,
-            borderWidth: 4,
-            borderColor: borderColor,
-            borderRadius: 18
-        },
-        button: {
-            borderRadius: 10,
-            width: '100%',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            backgroundColor: backgroundColor,
-        },
-        buttonLabel: {
-            color: color,
-            fontSize: 16,
-        },
-    })
+export default function GNButton({title, backgroundColor = '#F8D154', color = '#25292e', width = '75%', height = 50, onPress, style}){
+  const styles = StyleSheet.create({
+    button: {
+      backgroundColor: backgroundColor,
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      marginBottom: 24,
+      width: width,
+      height: height,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    text: {
+      color: color,
+      fontWeight: 'bold',
+      fontSize: 16,
+      textAlign: 'center',
+    },
+  });
 
-    return (
-        <View style={[styles.buttonContainer, style]}>
-            <TouchableOpacity style={styles.button} onPress={onPress}>
-                <Text style={styles.buttonLabel}>{text}</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
+  return (
+    <TouchableOpacity
+      style={[styles.button, style]}
+      onPress={onPress}
+    >
+      <Text style={styles.text}>{title}</Text>
+    </TouchableOpacity>
+  );
+
+};
