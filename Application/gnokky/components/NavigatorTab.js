@@ -68,7 +68,7 @@ export default function NavigatorTab() {
                 ),
             }} />
             <Tab.Screen name="Post" component={NewPostPage} options={{
-                tabBarButton: (props) => (
+                tabBarButton: () => (
                     <FloatingButton />
                 )
             }} />

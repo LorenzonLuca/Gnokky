@@ -8,6 +8,7 @@ import { auth } from '../../Models/Firebase';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import Button from '../../components/Button';
 import { appUser } from '../../Models/Globals';
+import GNTextInput from '../../components/GNTextInput';
 
 export default function RegisterPage({ navigation }) {
     const [username, setUsername] = useState(null);
@@ -85,22 +86,26 @@ export default function RegisterPage({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.title}>Sign up</Text>
 
-            <TextInput
-                style={styles.textInputStyle}
-                placeholder="username"
+            <GNTextInput
+                placeholder='Username'
+                iconName="person-outline"
+                iconNameFocused="person"
                 onChangeText={handleInputChangeUsername} />
-            <TextInput
-                style={styles.textInputStyle}
-                placeholder="email"
+            <GNTextInput
+                placeholder='Email'
+                iconName="mail-outline"
+                iconNameFocused="mail"
                 onChangeText={handleInputChangeEmail} />
-            <TextInput
-                style={styles.textInputStyle}
-                placeholder="password"
+            <GNTextInput
+                placeholder='Password'
+                iconName="lock-closed-outline"
+                iconNameFocused="lock-closed"
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword} />
-            <TextInput
-                style={styles.textInputStyle}
-                placeholder="confirm password"
+            <GNTextInput
+                placeholder='Confirm Password'
+                iconName="lock-closed-outline"
+                iconNameFocused="lock-closed"
                 secureTextEntry={true}
                 onChangeText={handleInputChangePassword2} />
                 
