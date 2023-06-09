@@ -67,11 +67,10 @@ export default function LoginPage({ navigation }) {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     appUser.setEmail = email;
-                    appUser.setType("Login");
-                    console.log("Set type to login: " + appUser.typeSignIn);
                     FirebaseUtils.getUserByEmail(email).then((result) => {
                         appUser.setUsername(result[0].username);
                         appUser.setId(result[0].id)
+                        navigation.navigate("HomeTemplate");
                     })
                 })
                 .catch((error) => {
@@ -90,7 +89,7 @@ export default function LoginPage({ navigation }) {
     return (
         <View style={styles.container}>
             <View>
-                <Text style={[styles.title, {marginBottom: 120}]}>SIGN IN</Text>
+                <Text style={[styles.title, { marginBottom: 120 }]}>SIGN IN</Text>
                 <GNTextInput
                     placeholder='Email'
                     iconName="mail-outline"
@@ -120,7 +119,7 @@ export default function LoginPage({ navigation }) {
                     Don't have already an account?
                     <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Register")}> Sign up now!</Text>
                 </Text>
-                <StatusBar style="light" />
+                <StatusBar style="dark" />
             </View>
         </View>
     )

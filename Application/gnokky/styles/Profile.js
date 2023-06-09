@@ -9,6 +9,7 @@ const profileStyles = StyleSheet.create({
     },
     background: {
         backgroundColor: '#7b838c',
+        alignItems: 'center'
     },
     rowContainer: {
         flexDirection: 'row',
@@ -19,6 +20,11 @@ const profileStyles = StyleSheet.create({
         width: '100%',
         padding: 10,
     },
+    bioContainer: {
+        backgroundColor: '#7b838c',
+        margin: 20,
+        marginTop: 0,
+    }
 });
 
 export default profileStyles;

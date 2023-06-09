@@ -48,9 +48,9 @@ export default function RegisterPage({ navigation }) {
                         const user = userCredentials.user;
                         sendEmailVerification(user)
                             .then(() => {
-                                appUser.setType("Register");
                                 appUser.setUsername(username);
                                 appUser.setEmail(email);
+                                navigation.navigate("Waiting")
                             })
                             .catch((error) => {
                                 console.log(error);
@@ -113,9 +113,9 @@ export default function RegisterPage({ navigation }) {
                     animation="true"
                     marginBottom={60} />
 
-                <GNButton 
-                    title={"SIGN UP"} 
-                    onPress={handleRegisterUser} 
+                <GNButton
+                    title={"SIGN UP"}
+                    onPress={handleRegisterUser}
                 />
 
                 <Text style={{ color: '#f00' }}>{error}</Text>
@@ -125,7 +125,7 @@ export default function RegisterPage({ navigation }) {
                     <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Login")}> Sign in!</Text>
                 </Text>
 
-                <StatusBar style="light" />
+                <StatusBar style="dark" />
             </View>
         </View >
     )

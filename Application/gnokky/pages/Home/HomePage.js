@@ -17,8 +17,6 @@ export default function HomePage({ navigation }) {
 
     return (
         <SafeAreaView style={homestyle.background}>
-            <GNAppBar title="Gnokky"/>
-            {/* <GNHeader title={"Gnokky"} iconName={"paper-plane"} iconOnPress={messageClick} /> */}
             <View style={homestyle.container}>
 
             </View>

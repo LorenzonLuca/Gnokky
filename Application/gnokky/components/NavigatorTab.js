@@ -46,13 +46,14 @@ export default function NavigatorTab() {
                 tabBarLabel: () => { return ""; },
                 tabBarStyle: {
                     position: 'absolute',
-                    bottom: 25,
-                    left: 20,
-                    right: 20,
+                    // bottom: 10,
+                    // left: 20,
+                    // right: 20,
                     elevation: 0,
                     backgroundColor: '#ffffff',
-                    borderRadius: 15,
-                    height: 70,
+                    borderTopLeftRadius: 15,
+                    borderTopRightRadius: 15,
+                    height: 60,
                     ...styles.shadow
                 },
             }}
@@ -94,7 +95,7 @@ export default function NavigatorTab() {
 
 const styles = StyleSheet.create({
     shadow: {
-        shadowColor: '#7F5DF0',
+        shadowColor: '#FFF',
         shadowOffset: {
             width: 0,
             height: 10,

@@ -1,21 +1,8 @@
 export default class User {
 
-    constructor(username, email, typeSignIn) {
+    constructor(username, email) {
         this.username = username;
         this.email = email;
-        this.typeSignIn = typeSignIn;
-    }
-
-    checkSignIn() {
-        return new Promise((resolve, reject) => {
-            const intervalCheck = setInterval(() => {
-                if (this.typeSignIn === "Register" || this.typeSignIn === "Login") {
-                    console.log("type sign in changed in user");
-                    clearInterval(intervalCheck);
-                    resolve(this.typeSignIn);
-                }
-            }, 1000);
-        });
     }
 
     setEmail(email) {
@@ -24,10 +11,6 @@ export default class User {
 
     setUsername(username) {
         this.username = username;
-    }
-
-    setType(typeSignIn) {
-        this.typeSignIn = typeSignIn;
     }
 
     setId(id) {

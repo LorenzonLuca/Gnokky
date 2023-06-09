@@ -37,7 +37,7 @@ export default function WaitingPage({ navigation }) {
                 <Text style={styles.title2}>Please verify your email!</Text>
                 <Text style={styles.paragraph}>waiting...</Text>
             </View>
-            <StatusBar style="light" />
+            <StatusBar style="dark" />
         </View>
     );
 
