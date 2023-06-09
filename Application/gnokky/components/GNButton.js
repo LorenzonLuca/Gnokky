@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { TouchableWithoutFeedback, Text, View, StyleSheet, Animated } from 'react-native';
 
-export default function GNButton({ title, backgroundColor = '#F8D154', color = '#25292e', 
-width = '75%', height = 50, onPress, marginBottom = 24, style }) {
-  
+export default function GNButton({ title, backgroundColor = '#F8D154', color = '#25292e',
+  width = '75%', height = 50, onPress, marginBottom = 24, style, }) {
+
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',

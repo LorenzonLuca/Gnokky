@@ -16,7 +16,7 @@ export default function HomePage({ navigation }) {
 
     return (
         <View style={homestyle.background}>
-            <GNAppBar/>
+            {/* <GNAppBar/> */}
             <GNHeader title={"Gnokky"} iconName={"paper-plane"} iconOnPress={messageClick} />
             <View style={homestyle.container}>
 
