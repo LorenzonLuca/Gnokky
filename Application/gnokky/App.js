@@ -56,7 +56,7 @@ function App() {
   if (!user) {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={ProfileManagement} options={{ headerShown: false }} initialParams={{title: "sium"}}/>
+        <Stack.Screen name="Login" component={ProfileManagement} options={{ headerShown: false }} initialParams={{ title: "sium" }} />
         <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
       </Stack.Navigator >
     );

@@ -65,6 +65,9 @@ export default function ProfileManagement({ navigation, route }) {
 
             if (checkValue(name) && checkValue(surnname)) {
                 FirebaseUtils.insertPersonalInformation(name, surnname, bio);
+                if (title === "Create profile") {
+                    FirebaseUtils.setDefaultValue();
+                }
             }
             navigation.navigate("HomeTemplate");
         } catch (e) {
@@ -91,40 +94,60 @@ export default function ProfileManagement({ navigation, route }) {
     }
 
     return (
-        <View style={styles.background}>
-            <GNHeader title={title}/>
-            <View style={styles.container}>
-                {/* <View style={[styles.container, styles.roundedContainer]}> */}
-                <View style={styles.rowContainer}>
-                    <View ref={imageRef} collapsable={false}>
-                        <GNProfileImage 
-                            placeholder={placeholder} 
-                            size={size} 
-                            selectedImage={selectedImage}/>
-                    </View>
-                    <GNButton 
-                        title={"Edit"} 
-                        width={'50%'} 
-                        onPress={pickImageAsync} 
-                        style={{ marginLeft: 10 }} />
-                </View>
-                <GNTextInput 
-                    placeholder={"Name"} 
-                    onChangeText={handleInputChangeName}/>
-                <GNTextInput 
-                    placeholder={"Surname"} 
-                    onChangeText={handleInputChangeSurname}/>
+        // <View style={styles.background}>
+        //     <GNHeader title={title} />
+        //     <View style={styles.container}>
+        //         <View style={styles.rowContainer}>
+        //             <View ref={imageRef} collapsable={false}>
+        //                 <GNProfileImage
+        //                     placeholder={placeholder}
+        //                     size={size}
+        //                     selectedImage={selectedImage} />
+        //             </View>
+        //             <GNButton
+        //                 title={"Edit"}
+        //                 width={'50%'}
+        //                 onPress={pickImageAsync}
+        //                 style={{ marginLeft: 10 }} />
+        //         </View>
+        //         <GNTextInput
+        //             placeholder={"Name"}
+        //             onChangeText={handleInputChangeName} />
+        //         <GNTextInput
+        //             placeholder={"Surname"}
+        //             onChangeText={handleInputChangeSurname} />
+        //         <GNTextInputMultiLine
+        //             placeholder={"Description..."}
+        //             onChangeText={handleInputChangeBio}
+        //             height={20}
+        //         />
+        //         <GNButton
+        //             title={"Save"}
+        //             onPress={onSaveProfileAsync}
+        //         />
+        //     </View>
+        // </View >
+        <View style={styles.container}>
+            <View>
+                <Text style={[styles.title, {marginBottom: 120}]}>SIGN IN</Text>
+                <GNTextInput
+                    placeholder={"Name"}
+                    onChangeText={handleInputChangeName} />
+                <GNTextInput
+                    placeholder={"Surname"}
+                    onChangeText={handleInputChangeSurname} />
+
                 <GNTextInputMultiLine
-                    placeholder={"Description..."} 
-                    onChangeText={handleInputChangeBio} 
-                    height={10}
-                    />
-                <GNButton 
-                    title={"Save"} 
+                    placeholder={"Description..."}
+                    onChangeText={handleInputChangeBio}
+                    height={90}
+                />
+                <GNButton
+                    title={"Save"}
                     onPress={onSaveProfileAsync}
-                     /> 
+                />
             </View>
-        </View >
-        
+        </View>
+
     );
 }

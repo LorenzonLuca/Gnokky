@@ -36,8 +36,21 @@ export default class FirebaseUtils {
       console.log("Error during adding personal information: ", e);
     }
   }
+  static async setDefaultValue() {
+    try {
+      const docRef = doc(db, "users", appUser.id);
+
+      await updateDoc(docRef, {
+        followers: 0,
+        following: 0,
+        posts: 0,
+      });
+
+    } catch (e) {
+      console.log("Error during adding default value: ", e);
+    }
+  }
   static async getUser(id) {
-    console.log(id);
     try {
       const userDoc = doc(db, "users", id);
       const userSnapshot = await getDoc(userDoc);

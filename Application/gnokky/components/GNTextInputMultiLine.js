@@ -8,11 +8,8 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
         container: {
             flexDirection: 'row',
             alignItems: 'center',
-            width: width,
-            height: height,
             borderRadius: 15,
             backgroundColor: '#F5F5F5',
-            paddingHorizontal: 16,
             marginBottom: marginBottom,
         },
         input: {
@@ -20,25 +17,28 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             alignItems: 'center',
             fontSize: 16,
             color: '#333',
-            width: width,
-            height: height,
+            width: '100%',
+            height: '100%',
             textAlignVertical: 'top',
             borderRadius: 15,
             backgroundColor: '#F5F5F5',
-            marginBottom: marginBottom,
             padding: 16,
+            borderColor: 'black',
+            borderWidth: 10,
         }
     });
 
     return (
-        <TextInput
-            placeholder={placeholder}
-            style={styles.input}
-            placeholderTextColor="#888"
-            selectionColor="#F8D154"
-            onChangeText={onChangeText}
-            multiline={true}
-        />
+        <View style={styles.container} >
+            <TextInput
+                placeholder={placeholder}
+                style={styles.input}
+                placeholderTextColor="#888"
+                selectionColor="#F8D154"
+                onChangeText={onChangeText}
+                multiline={true}
+            />
+        </View>
     );
 };
 
