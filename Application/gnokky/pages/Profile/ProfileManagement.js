@@ -13,6 +13,8 @@ import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../../components/GNTextInput';
 import FirebaseUtils from '../../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../../components/GNTextInputMultiLine';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileManagement({ navigation, route }) {
     const { title } = route.params;
@@ -127,9 +129,23 @@ export default function ProfileManagement({ navigation, route }) {
         //         />
         //     </View>
         // </View >
+        <View style={styles.background}>
+        <GNHeader title={title} />
         <View style={styles.container}>
             <View>
-                <Text style={[styles.title, {marginBottom: 120}]}>SIGN IN</Text>
+                <View style={styles.rowContainer}>
+                    <View ref={imageRef} collapsable={false}>
+                        <GNProfileImage
+                            placeholder={placeholder}
+                            size={size}
+                            selectedImage={selectedImage} />
+                    </View>
+                    <GNButton
+                        title={"Edit"}
+                        width={'50%'}
+                        onPress={pickImageAsync}
+                        style={{ marginLeft: 10 }} />
+                </View>
                 <GNTextInput
                     placeholder={"Name"}
                     onChangeText={handleInputChangeName} />
@@ -148,6 +164,6 @@ export default function ProfileManagement({ navigation, route }) {
                 />
             </View>
         </View>
-
+        </View >
     );
 }
