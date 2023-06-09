@@ -12,6 +12,7 @@ import { storage } from '../../Models/Firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../../components/GNTextInput';
 import FirebaseUtils from '../../Models/FirebaseUtils';
+import GNTextInputMultiLine from '../../components/GNTextInputMultiLine';
 
 export default function ProfileManagement({ navigation, route }) {
     const { title } = route.params;
@@ -116,16 +117,17 @@ export default function ProfileManagement({ navigation, route }) {
                 <GNTextInput
                     placeholder={"Surname"}
                     onChangeText={handleInputChangeSurname} />
-                <GNTextInput
+                <GNTextInputMultiLine
                     placeholder={"Description..."}
                     onChangeText={handleInputChangeBio}
-                    multiline={true}
-                    height={120} />
+                    height={20}
+                />
                 <GNButton
                     title={"Save"}
                     onPress={onSaveProfileAsync}
                 />
             </View>
         </View >
+
     );
 }
