@@ -1,21 +1,25 @@
 import React, { useState, useRef } from 'react';
-import { TouchableWithoutFeedback, Text, StyleSheet, Animated } from 'react-native';
+import { TouchableWithoutFeedback, Text, View, StyleSheet, Animated } from 'react-native';
 
-export default function GNButton({ title, backgroundColor = '#F8D154', color = '#25292e', width = '75%', height = 50, onPress, style }) {
+export default function GNButton({ title, backgroundColor = '#F8D154', color = '#25292e', 
+width = '75%', height = 50, onPress, marginBottom = 24, style }) {
   const styles = StyleSheet.create({
-    button: {
-      backgroundColor: backgroundColor,
+    container: {
+      flexDirection: 'row',
       borderRadius: 15,
-      paddingVertical: 12,
-      paddingHorizontal: 24,
-      marginBottom: 24,
+      backgroundColor: backgroundColor,
+      marginBottom: marginBottom,
+    },
+    button: {
+      flex: 1,
+      fontSize: 16,
+      borderRadius: 15,
+      color: '#333',
       width: width,
       height: height,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      elevation: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: backgroundColor,
     },
     text: {
       color: color,
@@ -25,11 +29,15 @@ export default function GNButton({ title, backgroundColor = '#F8D154', color = '
     },
   });
 
+
+
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <Animated.View style={[styles.button, style]}>
-        <Text style={styles.text}>{title}</Text>
-      </Animated.View>
-    </TouchableWithoutFeedback>
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <Animated.View style={[styles.button, style]}>
+          <Text style={styles.text}>{title}</Text>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+    </View>
   );
 }

@@ -3,7 +3,8 @@ import { View, TextInput, TouchableWithoutFeedback, StyleSheet, Animated } from 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Feather } from '@expo/vector-icons';
 
-export default function GNTextInputPassword({ placeholder, iconName, iconNameFocused, onChangeText, animation = false, width = '75%', height = 50 }) {
+export default function GNTextInputPassword({ placeholder, iconName, iconNameFocused, onChangeText, 
+  animation = false, width = '75%', height = 50, marginBottom = 24 }) {
 
   const styles = StyleSheet.create({
     container: {
@@ -14,7 +15,7 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
       borderRadius: 15,
       backgroundColor: '#F5F5F5',
       paddingHorizontal: 16,
-      marginBottom: 24,
+      marginBottom: marginBottom,
     },
     input: {
       flex: 1,

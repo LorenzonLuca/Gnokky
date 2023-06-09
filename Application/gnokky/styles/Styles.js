@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         color: '#F8D154',
         fontSize: 65,
         marginBottom: 55,
+        textAlign: 'center',
     },
     title2: {
         color: '#fff',
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         margin: 10,
         padding: 5,
         textAlign: 'center',
-    }
+    },
 });
 
 export default styles;
