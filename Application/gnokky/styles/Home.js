@@ -7,6 +7,10 @@ const homestyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    background: {
+        flex: 1,
+        backgroundColor: '#25292e',
+    },
     title: {
         color: '#fff',
         fontSize: 65,

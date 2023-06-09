@@ -61,27 +61,33 @@ export default function NavigatorTab() {
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'home' : 'home-outline'} size={30} />
                 ),
+                headerShown: false,
             }} />
             <Tab.Screen name="Search" component={SearchPage} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'search' : 'search-outline'} size={30} />
                 ),
+                headerShown: false,
             }} />
             <Tab.Screen name="Post" component={NewPostPage} options={{
                 tabBarButton: () => (
                     <FloatingButton />
-                )
+                ),
+                headerShown: false,
             }} />
             <Tab.Screen name="Notifications" component={NotificationsPage} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'notifications' : 'notifications-outline'} size={30} />
                 ),
+                headerShown: false,
             }} />
             <Tab.Screen name="Profile" component={ProfilePage} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'person' : 'person-outline'} size={30} />
                 ),
-            }} />
+                headerShown: false,
+            }}
+                initialParams={{ property: true }} />
         </Tab.Navigator>
     );
 }

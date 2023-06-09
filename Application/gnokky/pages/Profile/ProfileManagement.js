@@ -78,6 +78,8 @@ export default function ProfileManagement({ navigation, route }) {
 
             const storageRef = ref(storage, `profilespic/${fileName}`);
             await uploadBytes(storageRef, blob);
+
+
         } catch (e) {
             console.log("error uploading photo in db: " + e);
         }
@@ -91,6 +93,7 @@ export default function ProfileManagement({ navigation, route }) {
         <View style={styles.background}>
             <GNHeader title={title}/>
             <View style={styles.container}>
+                {/* <View style={[styles.container, styles.roundedContainer]}> */}
                 <View style={styles.rowContainer}>
                     <View ref={imageRef} collapsable={false}>
                         <GNProfileImage 

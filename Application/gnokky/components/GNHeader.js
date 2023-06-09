@@ -1,6 +1,8 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-export default function GNHeader({ title, color = '#fff' }) {
+export default function GNHeader({ title, color = '#fff', iconName = null, iconOnPress }) {
     const styles = StyleSheet.create({
         container: {
             backgroundColor: '#182638',
@@ -15,8 +17,32 @@ export default function GNHeader({ title, color = '#fff' }) {
         title: {
             color: color,
             fontSize: 20,
-        }
+        },
+        icon: {
+            marginRight: 8,
+        },
+        rowContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            width: '100%',
+        },
     });
+
+    if (iconName != null) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.rowContainer}>
+                    <Text style={styles.title}>{title}</Text>
+                    <TouchableWithoutFeedback onPress={iconOnPress}>
+                        <Ionicons name={iconName} size={24} color={color} style={styles.icon} />
+                    </TouchableWithoutFeedback>
+                </View>
+            </View >
+        );
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
