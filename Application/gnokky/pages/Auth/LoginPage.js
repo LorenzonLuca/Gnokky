@@ -83,37 +83,39 @@ export default function LoginPage({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>SIGN IN</Text>
+            <View>
+                <Text style={styles.title}>SIGN IN</Text>
+                <GNTextInput
+                    placeholder='Email'
+                    iconName="mail-outline"
+                    iconNameFocused="mail"
+                    onChangeText={handleInputChangeUsername}
+                    animation="true" />
+                <GNTextInputPassword
+                    placeholder='Password'
+                    iconName="lock-closed-outline"
+                    iconNameFocused="lock-closed"
+                    onChangeText={handleInputChangePassword}
+                    animation="true"
+                    marginBottom={15} />
 
-            <GNTextInput
-                placeholder='Email'
-                iconName="mail-outline"
-                iconNameFocused="mail"
-                onChangeText={handleInputChangeUsername}
-                animation="true" />
-            <GNTextInputPassword
-                placeholder='Password'
-                iconName="lock-closed-outline"
-                iconNameFocused="lock-closed"
-                onChangeText={handleInputChangePassword}
-                animation="true" />
-            
+                <Text style={{ color: '#F8D154', marginBottom: 40, textAlign: 'right'}} onPress={() => navigation.navigate("Register")}>
+                    Forgot password?
+                </Text> 
 
-            <GNButton
-                title={"SIGN IN"}
-                onPress={handleLoginUser} />
-            <GNButton
-                title={"Forgot Password?"}
-                onPress={() => {
-                    console.log("diocane");
-                }} />
-            <Text style={{ color: '#f00' }}>{error}</Text>
+                <GNButton
+                    title={"SIGN IN"}
+                    onPress={handleLoginUser} 
+                />
 
-            <Text style={{ color: '#fff', marginTop: 55 }}>
-                Don't have already an account?
-                <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Register")}> Register now</Text>
-            </Text>
-            <StatusBar style="light" />
+                <Text style={{ color: '#f00' }}>{error}</Text>
+
+                <Text style={{ color: '#fff', marginTop: 55 }}>
+                    Don't have already an account?
+                    <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Register")}> Register now</Text>
+                </Text>
+                <StatusBar style="light" />
+            </View>
         </View>
     )
 }
