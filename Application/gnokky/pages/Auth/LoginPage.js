@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, TouchableOpacity, Feather,TextInput } from 'react-native';
 import { useState } from 'react';
-
 import styles from '../../styles/Styles';
 import GNButton from '../../components/GNButton';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -11,8 +10,9 @@ import GNTextInput from '../../components/GNTextInput';
 import ErrorModal from '../../components/ErrorModal';
 import GNTextInputPassword from '../../components/GNTextInputPassword';
 
-
 export default function LoginPage({ navigation }) {
+
+
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [error, setError] = useState("");
@@ -84,7 +84,7 @@ export default function LoginPage({ navigation }) {
     return (
         <View style={styles.container}>
             <View>
-                <Text style={styles.title}>SIGN IN</Text>
+                <Text style={[styles.title, {marginBottom: 120}]}>SIGN IN</Text>
                 <GNTextInput
                     placeholder='Email'
                     iconName="mail-outline"
@@ -108,11 +108,11 @@ export default function LoginPage({ navigation }) {
                     onPress={handleLoginUser} 
                 />
 
-                <Text style={{ color: '#f00' }}>{error}</Text>
+                <Text sstyle={{ color: '#f00' }}>{error}</Text>
 
-                <Text style={{ color: '#fff', marginTop: 55 }}>
+                <Text style={{ color: '#fff', marginTop: 55, textAlign: 'center' }}>
                     Don't have already an account?
-                    <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Register")}> Register now</Text>
+                    <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Register")}> Sign up now!</Text>
                 </Text>
                 <StatusBar style="light" />
             </View>

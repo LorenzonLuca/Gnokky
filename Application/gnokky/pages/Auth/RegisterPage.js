@@ -84,47 +84,49 @@ export default function RegisterPage({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>SIGN UP</Text>
+            <View>
+                <Text style={styles.title}>SIGN UP</Text>
 
-            <GNTextInput
-                placeholder='Username'
-                iconName="person-outline"
-                iconNameFocused="person"
-                onChangeText={handleInputChangeUsername}
-                animation="true" />
-            <GNTextInput
-                placeholder='Email'
-                iconName="mail-outline"
-                iconNameFocused="mail"
-                onChangeText={handleInputChangeEmail}
-                animation="true" />
-            <GNTextInputPassword
-                placeholder='Password'
-                iconName="lock-closed-outline"
-                iconNameFocused="lock-closed"
-                onChangeText={handleInputChangePassword}
-                animation="true" />
-            <GNTextInputPassword
-                placeholder='Confirm Password'
-                iconName="lock-closed-outline"
-                iconNameFocused="lock-closed"
-                onChangeText={handleInputChangePassword2}
-                animation="true" />
+                <GNTextInput
+                    placeholder='Username'
+                    iconName="person-outline"
+                    iconNameFocused="person"
+                    onChangeText={handleInputChangeUsername}
+                    animation="true" />
+                <GNTextInput
+                    placeholder='Email'
+                    iconName="mail-outline"
+                    iconNameFocused="mail"
+                    onChangeText={handleInputChangeEmail}
+                    animation="true" />
+                <GNTextInputPassword
+                    placeholder='Password'
+                    iconName="lock-closed-outline"
+                    iconNameFocused="lock-closed"
+                    onChangeText={handleInputChangePassword}
+                    animation="true" />
+                <GNTextInputPassword
+                    placeholder='Confirm Password'
+                    iconName="lock-closed-outline"
+                    iconNameFocused="lock-closed"
+                    onChangeText={handleInputChangePassword2}
+                    animation="true"
+                    marginBottom={60} />
 
-            <GNButton 
-                title={"SIGN UP"} 
-                onPress={handleRegisterUser} 
-                style={{ marginTop: 40 }}
-            />
+                <GNButton 
+                    title={"SIGN UP"} 
+                    onPress={handleRegisterUser} 
+                />
 
-            <Text style={{ color: '#f00' }}>{error}</Text>
+                <Text style={{ color: '#f00' }}>{error}</Text>
 
-            <Text style={{ color: '#fff', marginTop: 50 }}>
-                Already have an account?
-                <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Login")}> Sign in now</Text>
-            </Text>
+                <Text style={{ color: '#fff', marginTop: 50, textAlign: 'center' }}>
+                    Already have an account?
+                    <Text style={{ color: '#F8D154' }} onPress={() => navigation.navigate("Login")}> Sign in!</Text>
+                </Text>
 
-            <StatusBar style="light" />
+                <StatusBar style="light" />
+            </View>
         </View >
     )
 }

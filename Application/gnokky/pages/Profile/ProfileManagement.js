@@ -89,18 +89,36 @@ export default function ProfileManagement({ navigation, route }) {
 
     return (
         <View style={styles.background}>
-            <GNHeader title={title}></GNHeader>
+            <GNHeader title={title}/>
             <View style={styles.container}>
                 <View style={styles.rowContainer}>
                     <View ref={imageRef} collapsable={false}>
-                        <GNProfileImage placeholder={placeholder} size={size} selectedImage={selectedImage}></GNProfileImage>
+                        <GNProfileImage 
+                            placeholder={placeholder} 
+                            size={size} 
+                            selectedImage={selectedImage}/>
                     </View>
-                    <GNButton title={"Edit"} width={100} onPress={pickImageAsync} style={{ marginLeft: 10 }} />
+                    <GNButton 
+                        title={"Edit"} 
+                        width={'50%'} 
+                        onPress={pickImageAsync} 
+                        style={{ marginLeft: 10 }} />
                 </View>
-                <GNTextInput placeholder={"Name"} onChangeText={handleInputChangeName}></GNTextInput>
-                <GNTextInput placeholder={"Surname"} onChangeText={handleInputChangeSurname}></GNTextInput>
-                <GNTextInput placeholder={"Description..."} onChangeText={handleInputChangeBio} multiline={true} height={120}></GNTextInput>
-                <GNButton title={"Save"} onPress={onSaveProfileAsync}></GNButton>
+                <GNTextInput 
+                    placeholder={"Name"} 
+                    onChangeText={handleInputChangeName}/>
+                <GNTextInput 
+                    placeholder={"Surname"} 
+                    onChangeText={handleInputChangeSurname}/>
+                <GNTextInput 
+                    placeholder={"Description..."} 
+                    onChangeText={handleInputChangeBio} 
+                    multiline={true} 
+                    height={120}/>
+                <GNButton 
+                    title={"Save"} 
+                    onPress={onSaveProfileAsync}
+                     />                
             </View>
         </View >
     );

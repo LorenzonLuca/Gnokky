@@ -65,6 +65,7 @@ export default function GNTextInput({ placeholder, multiline = false, iconName, 
         </Animated.View>
         <TextInput
           placeholder={placeholder}
+          
           style={styles.input}
           placeholderTextColor="#888"
           selectionColor="#F8D154"
