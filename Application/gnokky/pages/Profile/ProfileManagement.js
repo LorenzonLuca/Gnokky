@@ -91,6 +91,7 @@ export default function ProfileManagement({ navigation, route }) {
         <View style={styles.background}>
             <GNHeader title={title}></GNHeader>
             <View style={styles.container}>
+                {/* <View style={[styles.container, styles.roundedContainer]}> */}
                 <View style={styles.rowContainer}>
                     <View ref={imageRef} collapsable={false}>
                         <GNProfileImage placeholder={placeholder} size={size} selectedImage={selectedImage}></GNProfileImage>
