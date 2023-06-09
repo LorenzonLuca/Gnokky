@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, Image } from "react-native";
+import { Avatar } from 'react-native-elements';
 
 export default function GNProfileImage({ placeholder, size = 100, selectedImage }) {
     const imageSource = selectedImage !== null

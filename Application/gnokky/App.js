@@ -10,6 +10,7 @@ import { Animated, Easing } from 'react-native';
 import GNAppBar from './components/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View } from 'react-native';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 const Stack = createStackNavigator();
 
@@ -48,7 +49,6 @@ export default function App() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
         <NavigationContainer>
             <Stack.Navigator screenOptions={{
               headerShown: false,
@@ -72,14 +72,13 @@ export default function App() {
             }}
               transitionConfig={transitionConfig}
             >
-              <Stack.Screen name="Login" component={HomeTemplate} options={{ headerShown: false }} />
+              <Stack.Screen name="Login" component={HomeTemplate} options={{ headerShown: false }}/>
               <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
               <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
               <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
               <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
             </Stack.Navigator>
           </NavigationContainer>
-        </View>
     </SafeAreaView>
   );
 }

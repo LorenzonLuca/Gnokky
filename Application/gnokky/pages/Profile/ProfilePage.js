@@ -36,7 +36,6 @@ export default function ProfilePage({ navigation, route }) {
         });
         return (
             <View style={profileStyles.container}>
-                <GNHeader title={"Inculati"} />
                 <Text style={{ color: '#fff' }}>Loading Profile...</Text>
             </View>
         );
