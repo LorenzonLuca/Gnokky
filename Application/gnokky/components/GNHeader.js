@@ -1,6 +1,7 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Appbar } from "react-native-paper";
 
 export default function GNHeader({ title, color = '#fff', iconName = null, iconOnPress }) {
     const styles = StyleSheet.create({
@@ -33,19 +34,23 @@ export default function GNHeader({ title, color = '#fff', iconName = null, iconO
 
     if (iconName != null) {
         return (
-            <View style={styles.container}>
-                <View style={styles.rowContainer}>
-                    <Text style={styles.title}>{title}</Text>
-                    <TouchableWithoutFeedback onPress={iconOnPress}>
-                        <Ionicons name={iconName} size={24} color={color} style={styles.icon} />
-                    </TouchableWithoutFeedback>
-                </View>
-            </View >
+            <SafeAreaView>
+                <Appbar.Header style={styles.container}>
+                    <View style={styles.rowContainer}>
+                        <Text style={styles.title}>{title}</Text>
+                        <TouchableWithoutFeedback onPress={iconOnPress}>
+                            <Ionicons name={iconName} size={24} color={color} style={styles.icon} />
+                        </TouchableWithoutFeedback>
+                    </View>
+                </Appbar.Header >
+            </SafeAreaView>
         );
     }
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{title}</Text>
-        </View>
+        <SafeAreaView>
+            <Appbar.Header style={styles.container}>
+                <Text style={styles.title}>{title}</Text>
+            </Appbar.Header >
+        </SafeAreaView>
     );
 }

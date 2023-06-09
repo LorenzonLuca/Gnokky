@@ -7,6 +7,9 @@ const profileStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    background: {
+        backgroundColor: '#7b838c',
+    },
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -14,6 +17,7 @@ const profileStyles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 16,
         width: '100%',
+        padding: 10,
     },
 });
 

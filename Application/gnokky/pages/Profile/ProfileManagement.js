@@ -64,6 +64,9 @@ export default function ProfileManagement({ navigation, route }) {
 
             if (checkValue(name) && checkValue(surnname)) {
                 FirebaseUtils.insertPersonalInformation(name, surnname, bio);
+                if (title === "Create profile") {
+                    FirebaseUtils.setDefaultValue();
+                }
             }
             navigation.navigate("HomeTemplate");
         } catch (e) {
@@ -91,37 +94,37 @@ export default function ProfileManagement({ navigation, route }) {
 
     return (
         <View style={styles.background}>
-            <GNHeader title={title}/>
+            <GNHeader title={title} />
             <View style={styles.container}>
                 {/* <View style={[styles.container, styles.roundedContainer]}> */}
                 <View style={styles.rowContainer}>
                     <View ref={imageRef} collapsable={false}>
-                        <GNProfileImage 
-                            placeholder={placeholder} 
-                            size={size} 
-                            selectedImage={selectedImage}/>
+                        <GNProfileImage
+                            placeholder={placeholder}
+                            size={size}
+                            selectedImage={selectedImage} />
                     </View>
-                    <GNButton 
-                        title={"Edit"} 
-                        width={'50%'} 
-                        onPress={pickImageAsync} 
+                    <GNButton
+                        title={"Edit"}
+                        width={'50%'}
+                        onPress={pickImageAsync}
                         style={{ marginLeft: 10 }} />
                 </View>
-                <GNTextInput 
-                    placeholder={"Name"} 
-                    onChangeText={handleInputChangeName}/>
-                <GNTextInput 
-                    placeholder={"Surname"} 
-                    onChangeText={handleInputChangeSurname}/>
-                <GNTextInput 
-                    placeholder={"Description..."} 
-                    onChangeText={handleInputChangeBio} 
-                    multiline={true} 
-                    height={120}/>
-                <GNButton 
-                    title={"Save"} 
+                <GNTextInput
+                    placeholder={"Name"}
+                    onChangeText={handleInputChangeName} />
+                <GNTextInput
+                    placeholder={"Surname"}
+                    onChangeText={handleInputChangeSurname} />
+                <GNTextInput
+                    placeholder={"Description..."}
+                    onChangeText={handleInputChangeBio}
+                    multiline={true}
+                    height={120} />
+                <GNButton
+                    title={"Save"}
                     onPress={onSaveProfileAsync}
-                     />                
+                />
             </View>
         </View >
     );

@@ -33,4 +33,8 @@ export default class User {
     setId(id) {
         this.id = id;
     }
+
+    setProfilePic(pic) {
+        this.profilePic = pic;
+    }
 }

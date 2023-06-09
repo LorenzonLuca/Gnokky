@@ -4,46 +4,76 @@ import profileStyles from '../../styles/Profile';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import GNProfileImage from '../../components/GNProfileImage';
-import { storage } from '../../Models/Firebase';
+import app, { storage } from '../../Models/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { appUser } from '../../Models/Globals';
 import { useState } from 'react';
 import FirebaseUtils from '../../Models/FirebaseUtils';
+import GNHeader from '../../components/GNHeader';
 
 
 
 export default function ProfilePage({ navigation, route }) {
     const { property } = route.params;
-    const [profilePic, setProfilePic] = useState();
+    const [userData, setUserData] = useState();
 
-    const fileName = appUser.username + ".jpg";
-    const storageRef = ref(storage, `profilespic/${fileName}`);
+    if (userData === undefined) {
+        FirebaseUtils.getUser(appUser.id).then((result) => {
+            appUser.setUsername(result.username)
+            const fileName = result.username + ".jpg";
+            const storageRef = ref(storage, `profilespic/${fileName}`);
 
-    getDownloadURL(storageRef)
-        .then((downloadUrl) => {
-            setProfilePic(downloadUrl);
-        })
-        .catch((error) => {
-            console.log("Error getting download URL:", error);
+            getDownloadURL(storageRef)
+                .then((downloadUrl) => {
+                    result.profilePic = downloadUrl;
+                    appUser.setProfilePic(downloadUrl);
+                    setUserData(result);
+                })
+                .catch((error) => {
+                    console.log("Error getting download URL:", error);
+                });
         });
+        return (
+            <View style={profileStyles.container}>
+                <GNHeader title={"Inculati"} />
+                <Text style={{ color: '#fff' }}>Loading Profile...</Text>
+            </View>
+        );
 
-    const user = FirebaseUtils.getUser(appUser.id);
-    console.log(user);
-    if (property) {
-        return (
-            <View style={profileStyles.container}>
-                <View style={profileStyles.rowContainer}>
-                    <GNProfileImage selectedImage={profilePic} />
-                    <Text></Text>
-                </View>
-                <Text>Your Profile Page</Text>
-            </View>
-        );
     } else {
-        return (
-            <View style={profileStyles.container}>
-                <Text>Not Your Profile Page</Text>
-            </View>
-        );
+        if (property) {
+            console.log(userData);
+            return (
+                <View style={profileStyles.container}>
+                    <GNHeader title={"Inculati"} />
+                    <View style={[profileStyles.rowContainer, profileStyles.background]}>
+                        <View style={[profileStyles.container, profileStyles.background]}>
+                            <GNProfileImage selectedImage={userData.profilePic} size={80} />
+                            <Text>@{userData.username}</Text>
+                            <Text>{userData.name} {userData.surname}</Text>
+                        </View>
+                        <View style={[profileStyles.container, profileStyles.background]}>
+                            <Text>{userData.followers}</Text>
+                            <Text>Followers:</Text>
+                        </View>
+                        <View style={[profileStyles.container, profileStyles.background]}>
+                            <Text>{userData.following}</Text>
+                            <Text>Following:</Text>
+                        </View>
+                        <View style={[profileStyles.container, profileStyles.background]}>
+                            <Text>{userData.posts}</Text>
+                            <Text>Posts:</Text>
+                        </View>
+                    </View>
+                    <Text>Your Profile Page</Text>
+                </View>
+            );
+        } else {
+            return (
+                <View style={profileStyles.container}>
+                    <Text>Not Your Profile Page</Text>
+                </View>
+            );
+        }
     }
 }
