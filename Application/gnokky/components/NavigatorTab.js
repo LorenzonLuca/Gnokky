@@ -86,7 +86,8 @@ export default function NavigatorTab() {
                     <Ionicons name={focused ? 'person' : 'person-outline'} size={30} />
                 ),
                 headerShown: false,
-            }} />
+            }}
+                initialParams={{ property: true }} />
         </Tab.Navigator>
     );
 }

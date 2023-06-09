@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TouchableOpacity, Feather,TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Feather, TextInput } from 'react-native';
 import { useState } from 'react';
 
 import styles from '../../styles/Styles';
@@ -10,6 +10,7 @@ import { appUser } from '../../Models/Globals';
 import GNTextInput from '../../components/GNTextInput';
 import ErrorModal from '../../components/ErrorModal';
 import GNTextInputPassword from '../../components/GNTextInputPassword';
+import FirebaseUtils from '../../Models/FirebaseUtils';
 
 
 export default function LoginPage({ navigation }) {
@@ -65,14 +66,19 @@ export default function LoginPage({ navigation }) {
             await signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
+                    appUser.setEmail = email;
                     appUser.setType("Login");
                     console.log("Set type to login: " + appUser.typeSignIn);
+                    FirebaseUtils.getUserByEmail(email).then((result) => {
+                        appUser.setUsername(result[0].username);
+                        appUser.setId(result[0].id)
+                    })
                 })
                 .catch((error) => {
                     console.log(error.message);
                     setError("Login incorrect!")
                 })
-        }else{
+        } else {
             setError("Login incorrect!")
         }
     }
@@ -99,13 +105,13 @@ export default function LoginPage({ navigation }) {
                     animation="true"
                     marginBottom={15} />
 
-                <Text style={{ color: '#F8D154', marginBottom: 40, textAlign: 'right'}} onPress={() => navigation.navigate("Register")}>
+                <Text style={{ color: '#F8D154', marginBottom: 40, textAlign: 'right' }} onPress={() => navigation.navigate("Register")}>
                     Forgot password?
-                </Text> 
+                </Text>
 
                 <GNButton
                     title={"SIGN IN"}
-                    onPress={handleLoginUser} 
+                    onPress={handleLoginUser}
                 />
 
                 <Text style={{ color: '#f00' }}>{error}</Text>

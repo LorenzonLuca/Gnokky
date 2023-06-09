@@ -23,8 +23,11 @@ export default function GNHeader({ title, color = '#fff', iconName = null, iconO
         },
         rowContainer: {
             flexDirection: 'row',
-            justifyContent: 'space-around',
+            justifyContent: 'space-between',
             alignItems: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            width: '100%',
         },
     });
 
@@ -33,11 +36,9 @@ export default function GNHeader({ title, color = '#fff', iconName = null, iconO
             <View style={styles.container}>
                 <View style={styles.rowContainer}>
                     <Text style={styles.title}>{title}</Text>
-                    <View>
-                        <TouchableWithoutFeedback onPress={iconOnPress} >
-                            <Ionicons name={iconName} size={24} color={color} style={styles.icon} />
-                        </TouchableWithoutFeedback>
-                    </View>
+                    <TouchableWithoutFeedback onPress={iconOnPress}>
+                        <Ionicons name={iconName} size={24} color={color} style={styles.icon} />
+                    </TouchableWithoutFeedback>
                 </View>
             </View >
         );

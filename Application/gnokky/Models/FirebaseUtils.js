@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "./Firebase"
 import React from 'react';
 import { appUser } from "./Globals";
@@ -34,6 +34,47 @@ export default class FirebaseUtils {
 
     } catch (e) {
       console.log("Error during adding personal information: ", e);
+    }
+  }
+  static async getUser(id) {
+    console.log(id);
+    try {
+      const userDoc = doc(db, "users", id);
+      const userSnapshot = await getDoc(userDoc);
+
+      if (userSnapshot.exists()) {
+        const user = userSnapshot.data();
+        return user;
+      } else {
+        console.log("User not found");
+        return null;
+      }
+    } catch (e) {
+      console.log("Error while trying to get data from Firestore: ", e);
+      return null;
+    }
+  }
+  static async getUserByEmail(email) {
+    try {
+      const usersCollection = collection(db, "users");
+      const querySnapshot = await getDocs(query(usersCollection, where("email", "==", email)));
+
+      if (!querySnapshot.empty) {
+        const users = [];
+        querySnapshot.forEach((doc) => {
+          const user = doc.data();
+          user.id = doc.id;
+          users.push(user);
+        });
+        console.log(users);
+        return users;
+      } else {
+        console.log("No users found with the specified property");
+        return null;
+      }
+    } catch (e) {
+      console.log("Error while trying to get data from Firestore: ", e);
+      return null;
     }
   }
 }

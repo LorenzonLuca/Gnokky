@@ -78,6 +78,8 @@ export default function ProfileManagement({ navigation, route }) {
 
             const storageRef = ref(storage, `profilespic/${fileName}`);
             await uploadBytes(storageRef, blob);
+
+
         } catch (e) {
             console.log("error uploading photo in db: " + e);
         }
