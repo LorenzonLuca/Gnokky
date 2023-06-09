@@ -50,36 +50,36 @@ export default function App() {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{
-              headerShown: false,
-              cardStyle: { backgroundColor: 'transparent' },
-              cardOverlayEnabled: true,
-              cardStyleInterpolator: ({ current: { progress } }) => ({
-                cardStyle: {
-                  opacity: progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, 1],
-                  }),
-                },
-                overlayStyle: {
-                  opacity: progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, 0.7],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              }),
-            }}
-              transitionConfig={transitionConfig}
-            >
-              <Stack.Screen name="Login" component={HomeTemplate} options={{ headerShown: false }} />
-              <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
-              <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
-              <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
-              <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
+          <Stack.Navigator screenOptions={{
+            headerShown: false,
+            cardStyle: { backgroundColor: 'transparent' },
+            cardOverlayEnabled: true,
+            cardStyleInterpolator: ({ current: { progress } }) => ({
+              cardStyle: {
+                opacity: progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+              },
+              overlayStyle: {
+                opacity: progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 0.7],
+                  extrapolate: 'clamp',
+                }),
+              },
+            }),
+          }}
+            transitionConfig={transitionConfig}
+          >
+            <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+            <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
+            <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
+            <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
+            <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
     </SafeAreaView>
   );
 }
