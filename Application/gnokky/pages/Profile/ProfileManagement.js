@@ -117,7 +117,7 @@ export default function ProfileManagement({ navigation, route }) {
                 <GNTextInputMultiLine
                     placeholder={"Description..."} 
                     onChangeText={handleInputChangeBio} 
-                    height={20}
+                    height={10}
                     />
                 <GNButton 
                     title={"Save"} 
