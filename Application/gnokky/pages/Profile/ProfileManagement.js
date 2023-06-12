@@ -102,7 +102,6 @@ export default function ProfileManagement({ navigation, route }) {
 
     return (
         // <View style={styles.background}>
-        //     <GNHeader title={title} />
         //     <View style={styles.container}>
         //         <View style={styles.rowContainer}>
         //             <View ref={imageRef} collapsable={false}>

@@ -3,10 +3,9 @@ import { View, Text, TextInput, Pressable } from 'react-native';
 import homestyle from "../../styles/Home";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import GNHeader from '../../components/GNHeader';
-import GNAppBar from '../../components/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar } from 'react-native-elements';
+import MainLayout from './MainLayout';
 
 import FirebaseUtils from '../../Models/FirebaseUtils';
 import { storage } from '../../Models/Firebase';
@@ -47,5 +46,10 @@ export default function HomePage({ navigation }) {
 
             </View>
         </SafeAreaView>
+        // <MainLayout>
+        //     <View>
+        //         <Text>Contenuto della pagina Home</Text>
+        //     </View>
+        // </MainLayout>
     );
 }
