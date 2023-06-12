@@ -8,6 +8,7 @@ import ProfileManagement from './pages/Profile/ProfileManagement';
 import { useFonts } from 'expo-font';
 import { Animated, Easing } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import NewPostPage from './pages/Post/NewPostPage';
 
 const Stack = createStackNavigator();
 
@@ -69,7 +70,7 @@ export default function App() {
         }}
           transitionConfig={transitionConfig}
         >
-          <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={HomeTemplate} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
           <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
           <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />

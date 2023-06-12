@@ -9,7 +9,6 @@ import { getDownloadURL, ref } from 'firebase/storage';
 import { appUser } from '../../Models/Globals';
 import { useState } from 'react';
 import FirebaseUtils from '../../Models/FirebaseUtils';
-import GNHeader from '../../components/GNHeader';
 import GNButton from '../../components/GNButton';
 
 

@@ -1,7 +1,6 @@
 import { View, Text, TextInput, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import GNButton from '../../components/GNButton';
-import GNHeader from '../../components/GNHeader';
 import GNProfileImage from '../../components/GNProfileImage';
 import styles from "../../styles/Styles";
 import { useState, useRef } from 'react';
@@ -97,7 +96,6 @@ export default function ProfileManagement({ navigation, route }) {
 
     return (
         // <View style={styles.background}>
-        //     <GNHeader title={title} />
         //     <View style={styles.container}>
         //         <View style={styles.rowContainer}>
         //             <View ref={imageRef} collapsable={false}>
@@ -130,7 +128,6 @@ export default function ProfileManagement({ navigation, route }) {
         //     </View>
         // </View >
         <View style={styles.background}>
-        <GNHeader title={title} />
         <View style={styles.container}>
             <View>
                 <View style={styles.rowContainer}>

@@ -42,6 +42,7 @@ export default function NavigatorTab() {
 
     return (
         <Tab.Navigator
+            initialRouteName='HomePage'
             screenOptions={{
                 tabBarLabel: () => { return ""; },
                 tabBarStyle: {
@@ -58,7 +59,7 @@ export default function NavigatorTab() {
                 },
             }}
         >
-            <Tab.Screen name="Home" component={HomePage} options={{
+            <Tab.Screen name="Home" component={HomePage}  options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'home' : 'home-outline'} size={30} />
                 ),
