@@ -34,6 +34,13 @@ const styles = StyleSheet.create({
         fontSize: 35,
         margin: 20,
     },
+    title3: {
+        color: '#F8D154',
+        fontSize: 25,
+        marginTop: 20,
+        textAlign: 'center',
+        fontFamily: 'mnst-bold'
+    },
     paragraph: {
         color: '#fff',
         fontSize: 25,

@@ -1,7 +1,6 @@
 import { View, Text, TextInput, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import GNButton from '../../components/GNButton';
-import GNHeader from '../../components/GNHeader';
 import GNProfileImage from '../../components/GNProfileImage';
 import styles from "../../styles/Styles";
 import { useState, useRef } from 'react';
@@ -13,8 +12,6 @@ import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../../components/GNTextInput';
 import FirebaseUtils from '../../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../../components/GNTextInputMultiLine';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileManagement({ navigation, route }) {
     const { title } = route.params;
@@ -28,6 +25,10 @@ export default function ProfileManagement({ navigation, route }) {
 
     if (status === null) {
         requestPermission();
+    }
+
+    if (appUser.profilePic && selectedImage === null) {
+        setSelectedImage(appUser.profilePic);
     }
 
     const imageRef = useRef();
@@ -71,7 +72,11 @@ export default function ProfileManagement({ navigation, route }) {
                     FirebaseUtils.setDefaultValue();
                 }
             }
-            navigation.navigate("HomeTemplate");
+            if (title === "Create profile") {
+                navigation.navigate("HomeTemplate");
+            } else {
+                navigation.goBack();
+            }
         } catch (e) {
             console.log(e);
         }
@@ -130,40 +135,43 @@ export default function ProfileManagement({ navigation, route }) {
         //     </View>
         // </View >
         <View style={styles.background}>
-        <GNHeader title={title} />
-        <View style={styles.container}>
-            <View>
-                <View style={styles.rowContainer}>
-                    <View ref={imageRef} collapsable={false}>
-                        <GNProfileImage
-                            placeholder={placeholder}
-                            size={size}
-                            selectedImage={selectedImage} />
+            <Text style={styles.title3}>{title}</Text>
+            <View style={styles.container}>
+                <View>
+                    <View style={styles.rowContainer}>
+                        <View ref={imageRef} collapsable={false}>
+                            <GNProfileImage
+                                placeholder={placeholder}
+                                size={size}
+                                selectedImage={selectedImage} />
+                        </View>
+                        <GNButton
+                            title={"Edit"}
+                            width={'50%'}
+                            onPress={pickImageAsync}
+                            style={{ marginLeft: 10 }} />
                     </View>
-                    <GNButton
-                        title={"Edit"}
-                        width={'50%'}
-                        onPress={pickImageAsync}
-                        style={{ marginLeft: 10 }} />
-                </View>
-                <GNTextInput
-                    placeholder={"Name"}
-                    onChangeText={handleInputChangeName} />
-                <GNTextInput
-                    placeholder={"Surname"}
-                    onChangeText={handleInputChangeSurname} />
+                    <GNTextInput
+                        placeholder={"Name"}
+                        onChangeText={handleInputChangeName}
+                        defaultValue={appUser.name} />
+                    <GNTextInput
+                        placeholder={"Surname"}
+                        onChangeText={handleInputChangeSurname}
+                        defaultValue={appUser.surname} />
 
-                <GNTextInputMultiLine
-                    placeholder={"Description..."}
-                    onChangeText={handleInputChangeBio}
-                    height={90}
-                />
-                <GNButton
-                    title={"Save"}
-                    onPress={onSaveProfileAsync}
-                />
+                    <GNTextInputMultiLine
+                        placeholder={"Description..."}
+                        onChangeText={handleInputChangeBio}
+                        height={90}
+                        defaultValue={appUser.bio}
+                    />
+                    <GNButton
+                        title={"Save"}
+                        onPress={onSaveProfileAsync}
+                    />
+                </View>
             </View>
-        </View>
         </View >
     );
 }

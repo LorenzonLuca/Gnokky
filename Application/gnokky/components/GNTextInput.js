@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function GNTextInput({ placeholder, iconName, iconNameFocused, secureTextEntry,
-  onChangeText, animation = false, width = '75%', height = 50, marginBottom = 24 }) {
+  onChangeText, animation = false, width = '75%', height = 50, marginBottom = 24, defaultValue = "" }) {
 
   const styles = StyleSheet.create({
     container: {
@@ -72,6 +72,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          defaultValue={defaultValue}
         />
       </View>
     );
@@ -88,6 +89,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          defaultValue={defaultValue}
         />
       </View>
     );

@@ -20,4 +20,28 @@ export default class User {
     setProfilePic(pic) {
         this.profilePic = pic;
     }
+
+    setName(name) {
+        this.name = name;
+    }
+
+    setSurname(surname) {
+        this.surname = surname;
+    }
+
+    setBio(bio) {
+        this.bio = bio;
+    }
+
+    setFollowers(followers) {
+        this.followers = followers;
+    }
+
+    setFollowing(following) {
+        this.following = following;
+    }
+
+    setPosts(posts) {
+        this.posts = posts;
+    }
 }
