@@ -3,10 +3,10 @@ import { View, Text, TextInput, Pressable } from 'react-native';
 import homestyle from "../../styles/Home";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import GNTextInput from '../../components/GNTextInput';
-import FirebaseUtils from '../../Models/FirebaseUtils';
+import GNTextInput from '../GN/GNTextInput';
+import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect, useState } from 'react';
-import ListUsers from '../../components/ListUsers';
+import ListUsers from './ListUsers';
 
 
 

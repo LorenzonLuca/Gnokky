@@ -1,14 +1,24 @@
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginPage from './pages/Auth/LoginPage';
-import RegisterPage from './pages/Auth/RegisterPage';
-import WaitingPage from './pages/Auth/WaitingPage';
-import HomeTemplate from './pages/Home/HomeTemplate';
-import ProfileManagement from './pages/Profile/ProfileManagement';
+// import LoginPage from './components/Auth/LoginPage';
+// import RegisterPage from './components/Auth/RegisterPage';
+// import WaitingPage from './components/Auth/WaitingPage';
+// import HomeTemplate from './components/Home/HomeTemplate';
+import ProfileManagement from './components/Profile/ProfileManagement';
+// import NewPostPage from './components/Post/NewPostPage';
+import GNAppBar from './components/GN/GNAppBar';
 import { useFonts } from 'expo-font';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NewPostPage from './pages/Post/NewPostPage';
+import NavigatorTab from './components/GN/NavigatorTab';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import SwitchPage from './components/SwitchPage'
+import MainLayout from './components/Home/MainLayout';
+import WaitingPage from './components/Auth/WaitingPage';
+import LoginPage from './components/Auth/LoginPage';
+import RegisterPage from './components/Auth/RegisterPage';
+import HomeTemplate from './components/Home/HomeTemplate';
 
 const Stack = createStackNavigator();
 
@@ -21,9 +31,26 @@ export default function App() {
     "mnst-light": require('./assets/fonts/montserrat/Montserrat-Light.ttf'),
   });
 
-  if (!loaded) {
-    return null;
-  }
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const value = await AsyncStorage.getItem('_id');
+        if (value !== null) {
+          setInitialRoute('NavigatorTab');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const setUserId = async () => {
+      const value = await AsyncStorage.getItem('_id');
+      global.USER_ID = value;
+    };
+    setUserId();
+    checkAuthStatus();
+  }, [])
 
   const transitionConfig = () => ({
     transitionSpec: {
@@ -45,38 +72,41 @@ export default function App() {
     },
   });
 
+  if (!loaded) {
+    return null;
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerShown: false,
-          cardStyle: { backgroundColor: 'transparent' },
-          cardOverlayEnabled: true,
-          cardStyleInterpolator: ({ current: { progress } }) => ({
-            cardStyle: {
-              opacity: progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-              }),
-            },
-            overlayStyle: {
-              opacity: progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 0.7],
-                extrapolate: 'clamp',
-              }),
-            },
-          }),
-        }}
-          transitionConfig={transitionConfig}
-        >
-          <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
-          <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
-          <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
-          <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
-          <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: 'transparent' },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.7],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),
+      }}
+        transitionConfig={transitionConfig}
+      >
+        <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
+        <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
+        <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
+        <Stack.Screen name="NavigatorTab" component={NavigatorTab} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeTemplate" component={HomeTemplate} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

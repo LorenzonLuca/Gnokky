@@ -2,13 +2,12 @@ import { View, Text, TextInput, Pressable } from 'react-native';
 
 import profileStyles from '../../styles/Profile';
 
-import GNProfileImage from '../../components/GNProfileImage';
-import { appUser } from '../../Models/Globals';
-import GNText from '../../components/GNText';
-import GNButton from '../../components/GNButton';
+import GNProfileImage from '../GN/GNProfileImage';
+import { appUser } from '../Models/Globals';
+import GNText from '../GN//GNText';
+import GNButton from '../GN//GNButton';
 import { useEffect, useState } from 'react';
-import FirebaseUtils from '../../Models/FirebaseUtils';
-
+import FirebaseUtils from '../Models/FirebaseUtils';
 
 
 export default function ProfilePage({ navigation, route }) {

@@ -6,8 +6,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar } from 'react-native-elements';
 import MainLayout from './MainLayout';
-import { useState } from 'react';
-import { appUser } from '../../Models/Globals';
+
+import { appUser } from '../../components/Models/Globals';
 
 
 export default function HomePage({ navigation }) {

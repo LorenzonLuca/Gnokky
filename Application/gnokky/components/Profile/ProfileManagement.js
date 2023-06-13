@@ -1,17 +1,17 @@
 import { View, Text, TextInput, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import GNButton from '../../components/GNButton';
-import GNProfileImage from '../../components/GNProfileImage';
+import GNButton from '../GN/GNButton';
+import GNProfileImage from '../GN/GNProfileImage';
 import styles from "../../styles/Styles";
 import { useState, useRef } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
-import { appUser } from '../../Models/Globals';
-import { storage } from '../../Models/Firebase';
+import { appUser } from '../Models/Globals';
+import { storage } from '../Models/Firebase';
 import { ref, uploadBytes } from 'firebase/storage';
-import GNTextInput from '../../components/GNTextInput';
-import FirebaseUtils from '../../Models/FirebaseUtils';
-import GNTextInputMultiLine from '../../components/GNTextInputMultiLine';
+import GNTextInput from '../GN/GNTextInput';
+import FirebaseUtils from '../Models/FirebaseUtils';
+import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 
 export default function ProfileManagement({ navigation, route }) {
     const { title } = route.params;

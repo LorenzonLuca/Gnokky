@@ -2,11 +2,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomePage from './HomePage';
-import NavigatorTab from './../../components/NavigatorTab'
-import ChatPage from '../Chat/ChatPage';
+import NavigatorTab from '../GN/NavigatorTab';
+import ChatPage from '../Chat/ChatPage'
 import ProfileManagement from '../Profile/ProfileManagement';
-import GNAppBar from '../../components/GNAppBar';
-import ProfilePage from '../Profile/ProfilePage';
+import GNAppBar from '../GN/GNAppBar';
 
 const Stack = createStackNavigator();
 

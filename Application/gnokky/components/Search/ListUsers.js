@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import GNProfileImage from './GNProfileImage';
+import GNProfileImage from '../GN/GNProfileImage';
 
 export default function ListUsers({ users, navigation }) {
     const styles = StyleSheet.create({

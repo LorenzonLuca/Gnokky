@@ -3,16 +3,16 @@ import { View, Text, TextInput } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import styles from '../../styles/Styles';
-import { auth } from '../../Models/Firebase';
-import FirebaseUtils from '../../Models/FirebaseUtils';
-import { appUser } from '../../Models/Globals';
+import { auth } from '../Models/Firebase';
+import FirebaseUtils from '../Models/FirebaseUtils';
+import { appUser } from '../Models/Globals';
 
 export default function WaitingPage({ navigation }) {
     console.log("waiting page");
 
     useEffect(() => {
         if (auth.currentUser.emailVerified) {
-            navigation.navigate("HomeTemplate");
+            navigation.navigate("NavigatorTab");
         }
         const intervalCheck = setInterval(() => {
             auth.currentUser.reload()
