@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, TextInput, Pressable, Modal, StyleSheet } from 'react-native';
 
 import profileStyles from '../../styles/Profile';
 
@@ -8,6 +8,7 @@ import GNText from '../GN//GNText';
 import GNButton from '../GN//GNButton';
 import { useEffect, useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
+import ProfileManagement from './ProfileManagement';
 
 
 export default function ProfilePage({ navigation, route }) {
@@ -26,19 +27,22 @@ export default function ProfilePage({ navigation, route }) {
 
     if (property) {
         const [userData, setUserData] = useState(appUser);
+        const [modalVisible, setModalVisible] = useState(false);
 
         useEffect(() => {
             console.log("useEffect triggered");
-            if (userData !== appUser) {
+            if (!modalVisible) {
                 FirebaseUtils.getUser(appUser.id)
                     .then((newUser) => {
+                        appUser.updateOnlyValues(newUser)
                         setUserData(newUser);
                     })
             }
-        }, [])
+        }, [modalVisible])
 
         const handleEditProfile = () => {
-            navigation.navigate("ProfileManagement", { title: "Edit Profile" })
+            // navigation.navigate("ProfileManagement", { title: "Edit Profile" })
+            setModalVisible(true);
         }
 
         return (
@@ -70,7 +74,9 @@ export default function ProfilePage({ navigation, route }) {
                     </View>
                     <GNButton title={"Edit Profile"} onPress={handleEditProfile} />
                 </View>
-
+                <Modal visible={modalVisible} animationType="slide">
+                    <ProfileManagement title={"Edit profile"} onSave={() => setModalVisible(false)}></ProfileManagement>
+                </Modal>
                 <GNText>Your Profile Page</GNText>
             </View>
         );

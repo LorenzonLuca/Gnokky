@@ -1,19 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, Modal } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import styles from '../../styles/Styles';
 import { auth } from '../Models/Firebase';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
+import ProfileManagement from '../Profile/ProfileManagement';
 
 export default function WaitingPage({ navigation }) {
+    const [modalVisible, setModalVisible] = useState(false);
     console.log("waiting page");
 
     useEffect(() => {
-        if (auth.currentUser.emailVerified) {
-            navigation.navigate("NavigatorTab");
-        }
         const intervalCheck = setInterval(() => {
             auth.currentUser.reload()
                 .then(() => {
@@ -21,14 +20,10 @@ export default function WaitingPage({ navigation }) {
                         console.log(auth.currentUser.emailVerified);
                         FirebaseUtils.insertUser(appUser.username, appUser.email);
                         clearInterval(intervalCheck);
-                        navigation.navigate("ProfileManagement", { title: "Create profile" });
+                        setModalVisible(true)
                     }
                 });
         }, 2000);
-
-        return () => {
-            clearInterval(intervalCheck);
-        };
     }, [])
 
     return (
@@ -37,6 +32,9 @@ export default function WaitingPage({ navigation }) {
                 <Text style={styles.title2}>Please verify your email!</Text>
                 <Text style={styles.paragraph}>waiting...</Text>
             </View>
+            <Modal visible={modalVisible} animationType="slide">
+                <ProfileManagement title={"Create profile"} navigation={navigation}></ProfileManagement>
+            </Modal>
             <StatusBar style="dark" />
         </View>
     );
