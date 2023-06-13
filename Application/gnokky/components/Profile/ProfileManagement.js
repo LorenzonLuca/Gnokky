@@ -12,7 +12,6 @@ import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import GNAppBar from '../GN/GNAppBar';
 
 export default function ProfileManagement({ navigation, route, title, onSave }) {
     // const { title } = route.params;
@@ -108,55 +107,12 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
         return (value !== null && value !== "");
     }
 
-    const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          backgroundColor: '#25292e',
-        },
-        contentContainer: {
-          flexGrow: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        },
-        header: {
-          paddingVertical: 50,
-        },
-        headerText: {
-          fontSize: 20,
-          textAlign: 'center',
-          color: '#F8D154',
-          fontSize: 45,
-          fontFamily: 'mnst-bold'
-        },
-        rowContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            marginBottom: 30,
-        },
-        body: {
-          flex: 1,
-          padding: 20,
-        },
-        bodyText: {
-          fontSize: 16,
-        },
-        footer: {
-          backgroundColor: '#f2f2f2',
-          padding: 20,
-        },
-        footerText: {
-          fontSize: 18,
-          fontWeight: 'bold',
-        },
-      });
-
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.header}>
                     <Text style={styles.headerText}>{title}</Text>
-                </View> 
+                </View>
                 <View style={styles.body}>
                     <View style={styles.rowContainer}>
                         <View ref={imageRef} collapsable={false}>
@@ -195,3 +151,28 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#25292e',
+    },
+    background: {
+        backgroundColor: '#25292e',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        width: '100%',
+        padding: 10,
+        color: '#fff'
+    },
+    bioContainer: {
+        backgroundColor: '#25292e',
+        margin: 20,
+        marginTop: 0,
+    },
+});
