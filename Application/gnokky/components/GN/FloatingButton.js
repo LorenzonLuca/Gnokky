@@ -63,56 +63,57 @@ export default function FloatingButton() {
         ]
     };
 
+    const styles = StyleSheet.create({
+        container: {
+            alignItems: "center",
+        },
+        button: {
+            top: -35,
+            width: 70,
+            height: 70,
+            borderRadius: 70 / 2,
+            alignItems: "center",
+            justifyContent: "center",
+        },
+        menu: {
+            backgroundColor: COLORS.elements
+        },
+        secondaryButton: {
+            borderColor: 'rgba(160, 32, 240, 0.33)',
+            borderWidth: 1,
+        },
+        secondary: {
+            position: "absolute",
+            width: 58,
+            height: 58,
+            borderRadius: 58 / 2,
+            backgroundColor: COLORS.fourthText
+        }
+    });
+    
+
     return (
         <View style={styles.container}>
             <Modal visible={modalVisible} animationType="slide">
                 <NewPostPage onCancel={() => setModalVisible(false)}></NewPostPage>
             </Modal>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-                <Animated.View style={[styles.button, styles.secondary, mediaStyle]}>
+                <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, mediaStyle]}>
                     <Entypo name="image" size={20} color={COLORS.elements} />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={() => navigation.navigate("Post")}>
-                <Animated.View style={[styles.button, styles.secondary, textStyle]}>
+                <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, textStyle]}>
                     <Entypo name="text" size={20} color={COLORS.elements} />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={toggleMenu}>
                 <Animated.View style={[styles.button, styles.menu, styles.primary, rotation]}>
-                    <AntDesign name="plus" size={24} color={COLORS.textBlack} />
+                    <AntDesign name="plus" size={24} color={COLORS.background} />
                 </Animated.View>
             </TouchableWithoutFeedback>
         </View>
     );
-}
-
-const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-    },
-    button: {
-        top: -35,
-        width: 70,
-        height: 70,
-        borderRadius: 70 / 2,
-        alignItems: "center",
-        justifyContent: "center",
-        shadowRadius: 10,
-        shadowColor: COLORS.textBlack,
-        shadowOpacity: 0.3,
-        shadowOffset: { height: 10 }
-    },
-    menu: {
-        backgroundColor: COLORS.elements
-    },
-    secondary: {
-        position: "absolute",
-        width: 58,
-        height: 58,
-        borderRadius: 58 / 2,
-        backgroundColor: COLORS.background
-    }
-});
+};

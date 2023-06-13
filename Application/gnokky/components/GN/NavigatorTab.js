@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import HomePage from "../Home/HomePage";
 import NotificationsPage from "../Notifications/NotificationsPage";
 import SearchNavigator from "../Search/SearchNavigator";
@@ -12,34 +12,9 @@ import { appUser, COLORS } from '../Models/Globals';
 
 const Tab = createBottomTabNavigator();
 
-const CustomTabBarButton = ({ children, onPress }) => (
-    <TouchableOpacity
-        style={{
-            top: -35,
-            justifyContent: 'center',
-            alignItems: 'center',
-            ...styles.shadow
-        }}
-
-        onPress={onPress}
-    >
-        <View style={{
-            width: 70,
-            height: 70,
-            borderRadius: 35,
-            backgroundColor: COLORS.background,
-        }}>
-            {children}
-        </View>
-    </TouchableOpacity>
-);
-
-
 export default function NavigatorTab() {
 
-    const handlePostButtonPress = () => {
 
-    };
 
     return (
         <Tab.Navigator
@@ -47,17 +22,15 @@ export default function NavigatorTab() {
                 tabBarLabel: () => { return ""; },
                 tabBarStyle: {
                     position: 'absolute',
-                    // bottom: 10,
-                    // left: 20,
-                    // right: 20,
-                    elevation: 0,
                     backgroundColor: COLORS.background,
                     borderTopLeftRadius: 15,
                     borderTopRightRadius: 15,
                     height: 60,
-                    borderColor: COLORS.firtText,
-                    borderWidth: 1,
-                    ...styles.shadow
+                    zIndex: 3, 
+                    elevation: 3,
+                    // bottom: 10,
+                    // left: 20,
+                    // right: 20,
                 },
             }}
         >
@@ -94,20 +67,7 @@ export default function NavigatorTab() {
                 initialParams={{ user: appUser }} />
         </Tab.Navigator>
     );
-}
-
-const styles = StyleSheet.create({
-    shadow: {
-        shadowColor: COLORS.firtText,
-        shadowOffset: {
-            width: 0,
-            height: 10,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
-        elevation: 5,
-    },
-});
+};
 
 
 

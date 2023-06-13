@@ -1,12 +1,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import { useState } from 'react';
-import styles from '../../styles/Styles';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleRegister } from './AuthUtils';
+import { COLORS } from '../Models/Globals';
 
 
 export default function RegisterPage({ navigation }) {
@@ -16,13 +16,43 @@ export default function RegisterPage({ navigation }) {
     const [password2, setPassword2] = useState('');
     const [error, setError] = useState('');
 
-
+    const styles = StyleSheet.create({
+        safeAreaContainer: {
+            flex: 1,
+        },
+        container: {
+            flex: 1,
+            backgroundColor: COLORS.background,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        errorText: {
+            color: '#F00',
+            textAlign: 'center',
+            marginVertical: 35,
+        },
+        text:{
+            textAlign: 'center',
+            color: COLORS.secondText,
+        },  
+        link: {
+            color: COLORS.elements,
+            fontWeight: 'bold',
+        },
+        title: {
+            color: COLORS.elements,
+            fontSize: 65,
+            marginBottom: 120,
+            textAlign: 'center',
+            fontFamily: 'mnst-bold'
+        }
+    });
+    
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
                 <View>
                     <Text style={styles.title}>SIGN UP</Text>
-
                     <GNTextInput
                         placeholder='Username'
                         iconName="person-outline"
@@ -48,7 +78,6 @@ export default function RegisterPage({ navigation }) {
                         onChangeText={setPassword2}
                         animation="true"
                         marginBottom={60} />
-
                     <GNButton
                         title={"SIGN UP"}
                         onPress={ () => handleRegister(
@@ -60,14 +89,11 @@ export default function RegisterPage({ navigation }) {
                             setError
                         )}
                     />
-
-                    <Text style={{ color: '#F00', textAlign: 'center', marginTop: 20 }}>{error}</Text>
-
-                    <Text style={{ color: '#fff', marginTop: 50, textAlign: 'center' }}>
-                        Already have an account?
-                        <Text style={{ color: '#F8D154' }} onPress={() => {navigation.navigate("Login")}}> Sign in!</Text>
+                    <Text style={styles.errorText}>{error}</Text>
+                    <Text style={styles.text}>
+                        Already have an account? 
+                        <Text style={styles.link} onPress={() => {navigation.navigate("Login")}}> Sign in!</Text>
                     </Text>
-
                     <StatusBar style="dark" />
                 </View>
             </View >

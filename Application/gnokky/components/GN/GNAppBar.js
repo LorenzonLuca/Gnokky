@@ -1,16 +1,18 @@
 import { AppBar, HStack, IconButton } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, Image, Text } from "react-native";
+import { COLORS } from "../Models/Globals";
+
+
 export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { }, onPressTrailing = () => { } }) {
 
     const styles = StyleSheet.create({
         container: {
-            backgroundColor: "#25292e",
+            backgroundColor: COLORS.background,
         },
         appbar: {
-            backgroundColor: "#FFF",
-            color: "#000",
+            backgroundColor: COLORS.background,
+            color: COLORS.firtText,
             borderBottomLeftRadius: 15,
             borderBottomRightRadius: 15,
             zIndex: 3, // works on ios

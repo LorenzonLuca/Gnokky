@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { TouchableWithoutFeedback, Text, View, StyleSheet, Animated } from 'react-native';
 import { COLORS } from '../Models/Globals';
 
-export default function GNButton({ title, backgroundColor = COLORS.elements, color = COLORS.firtText,
+export default function GNButton({ title, backgroundColor = COLORS.elements, color = COLORS.background,
   width = '75%', height = 50, onPress, marginBottom = 24, style, }) {
 
   const styles = StyleSheet.create({

@@ -1,16 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, TextInput, Modal } from 'react-native';
+import { View, Text, Modal, StyleSheet, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
-
-import styles from '../../styles/Styles';
 import { auth } from '../Models/Firebase';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import ProfileManagement from '../Profile/ProfileManagement';
+import { COLORS } from '../Models/Globals';
+import { SafeAreaView } from 'react-native';
 
 export default function WaitingPage({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
-    console.log("waiting page");
 
     useEffect(() => {
         const intervalCheck = setInterval(() => {
@@ -26,17 +25,38 @@ export default function WaitingPage({ navigation }) {
         }, 2000);
     }, [])
 
+    const styles = StyleSheet.create({
+        safeAreaContainer: {
+            flex: 1,
+        },
+        container: {
+            flex: 1,
+            backgroundColor: COLORS.background,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        title: {
+            color: COLORS.elements,
+            fontSize: 25,
+            marginBottom: 100,
+            textAlign: 'center',
+            fontFamily: 'mnst-bold'
+        }
+    });
+
     return (
-        <View style={styles.container}>
-            <View>
-                <Text style={styles.title2}>Please verify your email!</Text>
-                <Text style={styles.paragraph}>waiting...</Text>
+        <SafeAreaView style={styles.safeAreaContainer}>
+            <View style={styles.container}>
+                <View>
+                    <Text style={styles.title}>Please verify your email!</Text>
+                    <ActivityIndicator size="large" color={COLORS.elements} />
+                </View>
+                <Modal visible={modalVisible} animationType="slide">
+                    <ProfileManagement title={"Create profile"} navigation={navigation}></ProfileManagement>
+                </Modal>
+                <StatusBar style="dark" />
             </View>
-            <Modal visible={modalVisible} animationType="slide">
-                <ProfileManagement title={"Create profile"} navigation={navigation}></ProfileManagement>
-            </Modal>
-            <StatusBar style="dark" />
-        </View>
+        </SafeAreaView>
     );
 
 }

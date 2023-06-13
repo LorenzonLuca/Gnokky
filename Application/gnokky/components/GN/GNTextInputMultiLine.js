@@ -11,13 +11,13 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             flexDirection: 'row',
             alignItems: 'center',
             borderRadius: 15,
-            backgroundColor: COLORS.background,
+            backgroundColor: COLORS.fourthText,
             marginBottom: marginBottom,
             paddingHorizontal: 24,
             paddingTop: 14,
             minHeight: minHeight,
-            borderColor: COLORS.elements,
-            borderWidth: 1,
+            // borderColor: COLORS.elements,
+            // borderWidth: 1,
         },
         input: {
             flex: 1,
@@ -28,7 +28,7 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             height: '100%',
             textAlignVertical: 'top',
             borderRadius: 15,
-            backgroundColor: COLORS.background,
+            backgroundColor: COLORS.fourthText,
         }
     });
 

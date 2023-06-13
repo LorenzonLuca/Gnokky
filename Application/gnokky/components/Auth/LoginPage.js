@@ -5,7 +5,6 @@ import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
 import { COLORS } from '../Models/Globals';
 
@@ -16,6 +15,44 @@ export default function LoginPage({ navigation }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const styles = StyleSheet.create({
+        safeAreaContainer: {
+            flex: 1,
+        },
+        container: {
+            flex: 1,
+            backgroundColor: COLORS.background,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        errorText: {
+            color: '#F00',
+            textAlign: 'center',
+            marginVertical: 35,
+        },
+        text:{
+            textAlign: 'center',
+            color: COLORS.secondText,
+        },  
+        forgotPasswordLink: {
+            color: COLORS.elements,
+            fontWeight: 'bold',
+            textAlign: 'right',
+            marginBottom: 40,
+        },
+        link: {
+            color: COLORS.elements,
+            fontWeight: 'bold',
+        },
+        title: {
+            color: COLORS.elements,
+            fontSize: 65,
+            marginBottom: 120,
+            textAlign: 'center',
+            fontFamily: 'mnst-bold'
+        }
+    });
+    
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
@@ -35,7 +72,7 @@ export default function LoginPage({ navigation }) {
                         animation="true"
                         marginBottom={15} />
                     <Text 
-                        style={{ color: '#F8D154', marginBottom: 40, textAlign: 'right' }} 
+                        style={styles.forgotPasswordLink} 
                         onPress={() => {}}>
                             Forgot password?
                     </Text>
@@ -43,63 +80,14 @@ export default function LoginPage({ navigation }) {
                         title={"SIGN IN"}
                         onPress={() => {handleLogin(email, password, navigation, setError)}}
                     />
-                    <Text style={{ color: '#F00', textAlign: 'center', marginTop: 20 }}>{error}</Text>
-                    <Text style={{ color: COLORS.secondText, marginTop: 55, textAlign: 'center' }}>
+                    <Text style={styles.errorText}>{error}</Text>
+                    <Text style={styles.text}>
                         Don't have already an account?
                         <Text style={styles.link} onPress={() => {navigation.navigate("Register")}}> Sign up now!</Text>
                     </Text>
-                    <StatusBar style="light" />
+                    <StatusBar style="dark" />
                 </View>
             </View>
         </SafeAreaView>
     )
 };
-
-const styles = StyleSheet.create({
-    safeAreaContainer: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.background,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        marginBottom: 30,
-    },
-    text:{
-        color: COLORS.textGray,
-    },  
-    link: {
-        color: COLORS.elements,
-        fontWeight: 'bold',
-    },
-    title: {
-        color: COLORS.elements,
-        fontSize: 65,
-        marginBottom: 120,
-        textAlign: 'center',
-        fontFamily: 'mnst-bold'
-    },
-    title2: {
-        color: '#fff',
-        fontSize: 35,
-        margin: 20,
-    },
-    title3: {
-        color: '#F8D154',
-        fontSize: 25,
-        marginTop: 20,
-        textAlign: 'center',
-        fontFamily: 'mnst-bold'
-    },
-    paragraph: {
-        color: '#fff',
-        fontSize: 25,
-        margin: 20,
-    },
-});
