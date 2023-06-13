@@ -79,7 +79,7 @@ export default function ProfileManagement({ navigation, route }) {
                 FirebaseUtils.insertPersonalInformation(name, surname, bio)
                 if (title === "Create profile") {
                     FirebaseUtils.setDefaultValue();
-                    navigation.navigate("HomeTemplate");
+                    navigation.navigate("NavigatorTab");
                 } else {
                     navigation.navigate("Profile");
                 }
