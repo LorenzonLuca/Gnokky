@@ -4,7 +4,7 @@ import homestyle from "../../styles/Home";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import GNAppBar from '../../components/GNAppBar';
+import GNAppBar from '../GN/GNAppBar';
 
 
 

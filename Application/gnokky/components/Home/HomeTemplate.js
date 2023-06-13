@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export default function HomeTemplate() {
     return (
         <NavigationContainer independent={true}>
-            <GNAppBar title={"Gnokky"}/>
+            <GNAppBar title={"Gnokkkky"}/>
             <Stack.Navigator>
                 <Stack.Screen name="NaviagatorTab" component={NavigatorTab} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />

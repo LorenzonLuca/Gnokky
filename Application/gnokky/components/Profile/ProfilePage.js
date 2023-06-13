@@ -2,14 +2,14 @@ import { View, Text, TextInput, Pressable } from 'react-native';
 
 import profileStyles from '../../styles/Profile';
 
-import GNProfileImage from '../../components/GNProfileImage';
-import { storage } from '../../Models/Firebase';
+import GNProfileImage from '../GN/GNProfileImage';
+import { storage } from '../Models/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { appUser } from '../../Models/Globals';
+import { appUser } from '../Models/Globals';
 import { useState } from 'react';
-import FirebaseUtils from '../../Models/FirebaseUtils';
-import GNText from '../../components/GNText';
-import GNButton from '../../components/GNButton';
+import FirebaseUtils from '../Models/FirebaseUtils';
+import GNText from '../GN/GNText';
+import GNButton from '../GN/GNButton';
 
 
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import HomePage from "../pages/Home/HomePage";
-import NotificationsPage from "../pages/Notifications/NotificationsPage";
-import SearchPage from "../pages/Search/SearchPage";
-import ProfilePage from "../pages/Profile/ProfilePage";
+import HomePage from "../Home/HomePage";
+import NotificationsPage from "../Notifications/NotificationsPage";
+import SearchPage from "../Search/SearchPage";
+import ProfilePage from "../Profile/ProfilePage";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import NewPostPage from '../pages/Post/NewPostPage';
+import NewPostPage from '../Post/NewPostPage';
 import FloatingButton from './FloatingButton';
 
 const Tab = createBottomTabNavigator();

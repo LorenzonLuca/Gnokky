@@ -7,10 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Avatar } from 'react-native-elements';
 import MainLayout from './MainLayout';
 
-import FirebaseUtils from '../../Models/FirebaseUtils';
-import { storage } from '../../Models/Firebase';
+import FirebaseUtils from '../../components/Models/FirebaseUtils';
+import { storage } from '../../components/Models/Firebase';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { appUser } from '../../Models/Globals';
+import { appUser } from '../../components/Models/Globals';
+import GNAppBar from '../GN/GNAppBar';
 
 
 export default function HomePage({ navigation }) {

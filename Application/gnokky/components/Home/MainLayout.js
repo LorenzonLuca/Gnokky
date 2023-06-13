@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import NavigatorTab from '../../components/NavigatorTab';
-import GNAppBar from '../../components/GNAppBar';
+import NavigatorTab from '../GN/NavigatorTab';
+import GNAppBar from '../GN/GNAppBar';
 
 const MainLayout = ({ children }) => {
   return (
