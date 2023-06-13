@@ -15,7 +15,6 @@ export default function ProfilePage({ navigation, route }) {
     const { user } = route.params;
     let property = user.id === appUser.id;
 
-
     // if (!userData && !user) {
     //     return (
     //         <View style={profileStyles.container}>

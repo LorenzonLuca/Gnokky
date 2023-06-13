@@ -1,5 +1,4 @@
 import { View, Text, TextInput, Pressable } from 'react-native';
-
 import homestyle from "../../styles/Home";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -14,9 +13,11 @@ export default function SearchPage({ navigation }) {
     const [research, setResearch] = useState("");
     const [listUsers, setListUsers] = useState([]);
 
+
     useEffect(() => {
         if (research !== "") {
-            FirebaseUtils.findUserFromSearchBar(research)
+            const lowerResearch = research.toLowerCase();
+            FirebaseUtils.findUserFromSearchBar(lowerResearch)
                 .then((result) => {
                     setListUsers(result);
                 })

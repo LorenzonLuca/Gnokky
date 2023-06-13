@@ -156,6 +156,16 @@ export default class FirebaseUtils {
           followersUsernames: arrayUnion(appUser.username),
         });
 
+        const myself = await this.getUser(appUser.id);
+        if (myself) {
+          const myDocRef = doc(db, "users", appUser.id);
+
+          await updateDoc(myDocRef, {
+            following: myself.following + 1,
+            followingUsernames: arrayUnion(user.username),
+          });
+        }
+
         console.log("Successfully updated user data.");
       } else {
         console.log("User not found.");
