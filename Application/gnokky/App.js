@@ -14,12 +14,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import NavigatorTab from './components/GN/NavigatorTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwitchPage from './components/SwitchPage'
-import MainLayout from './components/Home/MainLayout';
 import WaitingPage from './components/Auth/WaitingPage';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import HomeTemplate from './components/Home/HomeTemplate';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import HomePage from './components/Home/HomePage';
 
 const Stack = createStackNavigator();
 

@@ -110,7 +110,7 @@ export default class FirebaseUtils {
     try {
       const usersCollection = collection(db, "users");
       const querySnapshot = await getDocs(query(usersCollection, where('username', '>=', keyword)
-        , where('username', '<', keyword + '~')));
+        , where('username', '<', keyword + '~'), where('username', '!=', appUser.username)));
 
       if (!querySnapshot.empty) {
         const users = [];
@@ -145,6 +145,7 @@ export default class FirebaseUtils {
       console.log("Error while trying to search user: ", e);
     }
   }
+
   static async followSomeone(id) {
     try {
       const user = await this.getUser(id);

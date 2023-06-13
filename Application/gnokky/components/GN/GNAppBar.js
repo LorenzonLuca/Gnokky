@@ -35,7 +35,7 @@ export default function GNAppBar({ title = "Gnokky", iconLeading = "", iconTrail
                 style={styles.appbar}
                 leading={props => (
                     <IconButton
-                        icon={props => <Ionicons name={iconLeading} size={24} color={"#000"} />}
+                        icon={props => <Ionicons name={iconLeading} size={30} color={"#000"} />}
                         onPress={onPressLeading}
                         {...props}
                     />

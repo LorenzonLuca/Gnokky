@@ -43,7 +43,6 @@ export default function NavigatorTab() {
 
     return (
         <Tab.Navigator
-            initialRouteName='HomePage'
             screenOptions={{
                 tabBarLabel: () => { return ""; },
                 tabBarStyle: {

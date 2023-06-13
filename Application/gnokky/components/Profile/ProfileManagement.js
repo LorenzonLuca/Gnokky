@@ -2,7 +2,6 @@ import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import GNButton from '../GN/GNButton';
 import GNProfileImage from '../GN/GNProfileImage';
-import styles from "../../styles/Styles";
 import { useState, useRef } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
@@ -12,8 +11,6 @@ import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
-import { TextInput } from 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileManagement({ navigation, route, title, onSave }) {
@@ -121,13 +118,13 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
           alignItems: 'center',
         },
         header: {
-          padding: 50,
+          paddingVertical: 50,
         },
         headerText: {
           fontSize: 20,
           textAlign: 'center',
           color: '#F8D154',
-          fontSize: 50,
+          fontSize: 45,
           fontFamily: 'mnst-bold'
         },
         rowContainer: {
