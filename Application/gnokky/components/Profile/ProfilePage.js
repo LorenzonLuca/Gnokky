@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable,Modal, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Pressable, Modal, StyleSheet, ScrollView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -27,8 +27,8 @@ export default function ProfilePage({ navigation, route }) {
 
     const styles = StyleSheet.create({
         container: {
-          flex: 1,
-          backgroundColor: '#25292E',
+            flex: 1,
+            backgroundColor: '#25292E',
         },
         contentContainer: {
             flexGrow: 1,
@@ -37,11 +37,11 @@ export default function ProfilePage({ navigation, route }) {
         header: {
         },
         headerText: {
-          fontSize: 20,
-          textAlign: 'center',
-          color: '#F8D154',
-          fontSize: 45,
-          fontFamily: 'mnst-bold'
+            fontSize: 20,
+            textAlign: 'center',
+            color: '#F8D154',
+            fontSize: 45,
+            fontFamily: 'mnst-bold'
         },
         rowContainer: {
             flexDirection: 'row',
@@ -50,12 +50,12 @@ export default function ProfilePage({ navigation, route }) {
             marginBottom: 30,
         },
         body: {
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
         },
         bodyText: {
-          fontSize: 16,
+            fontSize: 16,
         },
 
     });
@@ -83,7 +83,7 @@ export default function ProfilePage({ navigation, route }) {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <GNAppBar title='Gnokky'></GNAppBar>
+                    <GNAppBar />
                 </View>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     <View style={styles.body}>
@@ -147,11 +147,10 @@ export default function ProfilePage({ navigation, route }) {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <GNAppBar 
-                        title='Gnokky' 
-                        iconLeading='arrow-back-outline' 
-                        onPressLeading={() => {navigation.goBack()}}
-                        iconTrailing=''/>
+                    <GNAppBar
+                        iconLeading='arrow-back-outline'
+                        onPressLeading={() => { navigation.goBack() }}
+                        iconTrailing='' />
                 </View>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     <View style={styles.body}>

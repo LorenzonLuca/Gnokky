@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -71,7 +71,7 @@ export default function SearchPage({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <GNAppBar title='Gnokky' />
+                <GNAppBar />
             </View>
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.body}>
