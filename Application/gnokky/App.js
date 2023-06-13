@@ -20,6 +20,7 @@ import RegisterPage from './components/Auth/RegisterPage';
 import HomeTemplate from './components/Home/HomeTemplate';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomePage from './components/Home/HomePage';
+import NewPostPage from './components/Post/NewPostPage';
 
 const Stack = createStackNavigator();
 
@@ -102,7 +103,7 @@ export default function App() {
         }}
           transitionConfig={transitionConfig}
         >
-          <Stack.Screen name="Login" component={LoginPage } initialParams={{title: "SIU"}} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={LoginPage} initialParams={{title: "SIU"}} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
           <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
           <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />

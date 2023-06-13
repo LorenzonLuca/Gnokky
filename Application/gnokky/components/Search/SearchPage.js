@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GNTextInput from '../GN/GNTextInput';
@@ -66,26 +66,20 @@ export default function SearchPage({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 25}
-            >
-                <View style={styles.header}>
-                    <GNAppBar title='Gnokky' />
+            <View style={styles.header}>
+                <GNAppBar />
+            </View>
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View style={styles.body}>
+                    <GNTextInput
+                        placeholder="Search"
+                        iconName="search-outline"
+                        iconNameFocused="search-sharp"
+                        onChangeText={handleResearch}
+                        animation={true} />
+                    <ListUsers users={listUsers} navigation={navigation} />
                 </View>
-                <ScrollView contentContainerStyle={styles.contentContainer}>
-                    <View style={styles.body}>
-                        <GNTextInput
-                            placeholder="Search"
-                            iconName="search-outline"
-                            iconNameFocused="search-sharp"
-                            onChangeText={handleResearch}
-                            animation={true} />
-                        <ListUsers users={listUsers} navigation={navigation} />
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
+            </ScrollView>
         </SafeAreaView>
     );
 }

@@ -1,10 +1,15 @@
-import React from 'react';
-import { StyleSheet, Text, View, Animated, TouchableWithoutFeedback } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, Animated, TouchableWithoutFeedback, Modal } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import NewPostPage from '../Post/NewPostPage';
+import { COLORS } from '../Models/Globals';
 
 
 export default function FloatingButton() {
+
+    const [modalVisible, setModalVisible] = useState(false);
+
     const animation = new Animated.Value(0);
     let open = false;
 
@@ -60,21 +65,24 @@ export default function FloatingButton() {
 
     return (
         <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate("Post")}>
+            <Modal visible={modalVisible} animationType="slide">
+                <NewPostPage onCancel={() => setModalVisible(false)}></NewPostPage>
+            </Modal>
+            <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <Animated.View style={[styles.button, styles.secondary, mediaStyle]}>
-                    <Entypo name="image" size={20} color="#F8D154" />
+                    <Entypo name="image" size={20} color={COLORS.elements} />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={() => navigation.navigate("Post")}>
                 <Animated.View style={[styles.button, styles.secondary, textStyle]}>
-                    <Entypo name="text" size={20} color="#F8D154" />
+                    <Entypo name="text" size={20} color={COLORS.elements} />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={toggleMenu}>
                 <Animated.View style={[styles.button, styles.menu, styles.primary, rotation]}>
-                    <AntDesign name="plus" size={24} color="#000" />
+                    <AntDesign name="plus" size={24} color={COLORS.textBlack} />
                 </Animated.View>
             </TouchableWithoutFeedback>
         </View>
@@ -93,18 +101,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         shadowRadius: 10,
-        shadowColor: "#F02A4B",
+        shadowColor: COLORS.textBlack,
         shadowOpacity: 0.3,
         shadowOffset: { height: 10 }
     },
     menu: {
-        backgroundColor: "#F8D154"
+        backgroundColor: COLORS.elements
     },
     secondary: {
         position: "absolute",
         width: 58,
         height: 58,
         borderRadius: 58 / 2,
-        backgroundColor: "#FFF"
+        backgroundColor: COLORS.background
     }
 });

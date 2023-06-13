@@ -12,6 +12,7 @@ import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import GNAppBar from '../GN/GNAppBar';
 
 export default function ProfileManagement({ navigation, route, title, onSave }) {
     // const { title } = route.params;
@@ -152,9 +153,6 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* <View style={styles.header}>
-                <Text style={styles.headerText}>{title}</Text>
-            </View> */}
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.header}>
                     <Text style={styles.headerText}>{title}</Text>
@@ -194,9 +192,6 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                     />
                 </View>
             </ScrollView>
-            {/* <View style={styles.footer}>
-                <Text style={styles.footerText}></Text>
-            </View> */}
         </SafeAreaView>
     );
 }

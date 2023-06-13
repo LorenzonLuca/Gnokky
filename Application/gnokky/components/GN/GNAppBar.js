@@ -1,9 +1,8 @@
 import { AppBar, HStack, IconButton } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
-
-export default function GNAppBar({ title = "Gnokky", iconLeading = "", iconTrailing = "paper-plane", onPressLeading = () => { }, onPressTrailing = () => { } }) {
+import { StyleSheet, View, Image, Text } from "react-native";
+export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { }, onPressTrailing = () => { } }) {
 
     const styles = StyleSheet.create({
         container: {
@@ -21,16 +20,31 @@ export default function GNAppBar({ title = "Gnokky", iconLeading = "", iconTrail
             // marginLeft: 20,
             // marginRight: 20,
         },
-        title: {
-            color: "#000",
+        imageContainer: {
+            width: 50,
+            height: 50,
+            overflow: 'hidden',
+            marginHorizontal: 10
+        },
+        image: {
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
         }
     });
+    const logo = require('./../../assets/logo/logo_gnocchi_outline.png');
+
+    const title = (
+        <View style={styles.imageContainer}>
+            <Image source={logo} style={styles.image} />
+        </View>
+    );
 
     return (
         <View style={styles.container}>
             <AppBar
                 title={title}
-                titleStyle={styles.title}
                 centerTitle={true}
                 style={styles.appbar}
                 leading={props => (
@@ -42,7 +56,7 @@ export default function GNAppBar({ title = "Gnokky", iconLeading = "", iconTrail
                 )}
                 trailing={props => (
                     <IconButton
-                        icon={props => <Ionicons name={iconTrailing} size={24} color={"#000"} />}
+                        icon={props => <Ionicons name={iconTrailing} size={30} color={"#000"} />}
                         onPress={onPressTrailing}
                         {...props}
                     />
