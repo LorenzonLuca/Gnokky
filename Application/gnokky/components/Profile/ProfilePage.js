@@ -23,6 +23,45 @@ export default function ProfilePage({ navigation, route }) {
     // }
 
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: COLORS.background,
+        },
+        contentContainer: {
+            flexGrow: 1,
+            justifyContent: 'center',
+        },
+        header: {
+        },
+        body: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        bodyText: {
+            fontSize: 16,
+        },
+        background: {
+            backgroundColor: COLORS.background,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        rowContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+            width: '100%',
+            padding: 10,
+            color: COLORS.textBlack
+        },
+        bioContainer: {
+            backgroundColor: COLORS.background,
+            margin: 20,
+            marginTop: 0,
+        },
+    });
+
     if (property) {
         const [userData, setUserData] = useState(appUser);
         const [modalVisible, setModalVisible] = useState(false);
@@ -156,42 +195,3 @@ export default function ProfilePage({ navigation, route }) {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.background,
-    },
-    contentContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-    },
-    header: {
-    },
-    body: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    bodyText: {
-        fontSize: 16,
-    },
-    background: {
-        backgroundColor: COLORS.background,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        width: '100%',
-        padding: 10,
-        color: COLORS.textBlack
-    },
-    bioContainer: {
-        backgroundColor: COLORS.background,
-        margin: 20,
-        marginTop: 0,
-    },
-});

@@ -8,7 +8,7 @@ import ProfilePage from "../Profile/ProfilePage";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NewPostPage from '../Post/NewPostPage';
 import FloatingButton from './FloatingButton';
-import { appUser } from '../Models/Globals';
+import { appUser, COLORS } from '../Models/Globals';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +27,7 @@ const CustomTabBarButton = ({ children, onPress }) => (
             width: 70,
             height: 70,
             borderRadius: 35,
-            backgroundColor: '#5978a6',
+            backgroundColor: COLORS.background,
         }}>
             {children}
         </View>
@@ -51,10 +51,12 @@ export default function NavigatorTab() {
                     // left: 20,
                     // right: 20,
                     elevation: 0,
-                    backgroundColor: '#ffffff',
+                    backgroundColor: COLORS.background,
                     borderTopLeftRadius: 15,
                     borderTopRightRadius: 15,
                     height: 60,
+                    borderColor: COLORS.firtText,
+                    borderWidth: 1,
                     ...styles.shadow
                 },
             }}
@@ -96,7 +98,7 @@ export default function NavigatorTab() {
 
 const styles = StyleSheet.create({
     shadow: {
-        shadowColor: '#FFF',
+        shadowColor: COLORS.firtText,
         shadowOffset: {
             width: 0,
             height: 10,

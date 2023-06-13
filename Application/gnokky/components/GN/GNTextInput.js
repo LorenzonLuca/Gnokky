@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, TextInput, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { COLORS } from "../Models/Globals";
 
 export default function GNTextInput({ placeholder, iconName, iconNameFocused, secureTextEntry,
   onChangeText, animation = false, width = '75%', height = 50, marginBottom = 24, defaultValue = "" }) {
@@ -12,14 +13,16 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
       width: width,
       height: height,
       borderRadius: 15,
-      backgroundColor: '#F5F5F5',
+      backgroundColor: COLORS.background,
       paddingHorizontal: 16,
       marginBottom: marginBottom,
+      borderColor: COLORS.elements,
+      borderWidth: 1,
     },
     input: {
       flex: 1,
       fontSize: 16,
-      color: '#333',
+      color: COLORS.firtText,
     },
     icon: {
       marginRight: 8,
@@ -55,7 +58,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
   };
 
   const iconNamee = isFocused ? iconNameFocused : iconName;
-  const color = isFocused ? "#333" : "#888";
+  const color = isFocused ? COLORS.firtText : COLORS.secondText;
 
   if (animation) {
     return (
@@ -66,8 +69,8 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
         <TextInput
           placeholder={placeholder}
           style={styles.input}
-          placeholderTextColor="#888"
-          selectionColor="#F8D154"
+          placeholderTextColor={COLORS.secondText}
+          selectionColor={COLORS.firtText}
           secureTextEntry={secureTextEntry}
           onChangeText={onChangeText}
           onFocus={handleFocus}
@@ -83,8 +86,8 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
         <TextInput
           placeholder={placeholder}
           style={styles.input}
-          placeholderTextColor="#888"
-          selectionColor="#F8D154"
+          placeholderTextColor={COLORS.secondText}
+          selectionColor={COLORS.firtText}
           secureTextEntry={secureTextEntry}
           onChangeText={onChangeText}
           onFocus={handleFocus}

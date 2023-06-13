@@ -5,7 +5,7 @@ import GNProfileImage from '../GN/GNProfileImage';
 import { useState, useRef } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
-import { appUser } from '../Models/Globals';
+import { appUser, COLORS } from '../Models/Globals';
 import { storage } from '../Models/Firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../GN/GNTextInput';
@@ -107,6 +107,38 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
         return (value !== null && value !== "");
     }
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: COLORS.background,
+        },
+        contentContainer: {
+            flexGrow: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        header: {
+            paddingVertical: 50,
+        },
+        headerText: {
+            fontSize: 20,
+            textAlign: 'center',
+            color: COLORS.elements,
+            fontSize: 45,
+            fontFamily: 'mnst-bold'
+        },
+        rowContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            marginBottom: 30,
+        },
+        body: {
+            flex: 1,
+            padding: 20,
+        },
+    });
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -151,28 +183,3 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#25292e',
-    },
-    background: {
-        backgroundColor: '#25292e',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        width: '100%',
-        padding: 10,
-        color: '#fff'
-    },
-    bioContainer: {
-        backgroundColor: '#25292e',
-        margin: 20,
-        marginTop: 0,
-    },
-});

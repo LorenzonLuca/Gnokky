@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react';
 import { View, TextInput, TouchableWithoutFeedback, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Feather } from '@expo/vector-icons';
+import { COLORS } from "../Models/Globals";
 
-export default function GNTextInputPassword({ placeholder, iconName, iconNameFocused, onChangeText, 
+
+export default function GNTextInputPassword({ placeholder, iconName, iconNameFocused, onChangeText,
   animation = false, width = '75%', height = 50, marginBottom = 24 }) {
 
   const styles = StyleSheet.create({
@@ -13,20 +15,22 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
       width: width,
       height: height,
       borderRadius: 15,
-      backgroundColor: '#F5F5F5',
+      backgroundColor: COLORS.background,
       paddingHorizontal: 16,
       marginBottom: marginBottom,
+      borderColor: COLORS.elements,
+      borderWidth: 1,
     },
     input: {
       flex: 1,
       fontSize: 16,
-      color: '#333',
+      color: COLORS.firtText,
     },
     icon: {
       marginRight: 8,
     },
     iconContainer: {
-        marginLeft: 10,
+      marginLeft: 10,
     },
   });
 
@@ -59,7 +63,7 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
   };
 
   const iconNamee = isFocused ? iconNameFocused : iconName;
-  const color = isFocused ? "#333" : "#888";
+  const color = isFocused ? COLORS.firtText : COLORS.secondText;
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -77,15 +81,15 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
         <TextInput
           placeholder={placeholder}
           style={styles.input}
-          placeholderTextColor="#888"
-          selectionColor="#F8D154"
+          placeholderTextColor={COLORS.secondText}
+          selectionColor={COLORS.firtText}
           secureTextEntry={!showPassword}
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
         <TouchableWithoutFeedback style={styles.iconContainer} onPress={togglePasswordVisibility}>
-          <Feather name={showPassword ? 'eye-off' : 'eye'} size={24} color="gray" />
+          <Feather name={showPassword ? 'eye-off' : 'eye'} size={24} color={COLORS.firtText} />
         </TouchableWithoutFeedback>
       </View>
     );
@@ -96,15 +100,15 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
         <TextInput
           placeholder={placeholder}
           style={styles.input}
-          placeholderTextColor="#888"
-          selectionColor="#F8D154"
+          placeholderTextColor={COLORS.secondText}
+          selectionColor={COLORS.firtText}
           secureTextEntry={!showPassword}
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
         <TouchableWithoutFeedback style={styles.iconContainer} onPress={togglePasswordVisibility}>
-            <Feather name={showPassword ? 'eye-off' : 'eye'} size={24} color="gray" />
+          <Feather name={showPassword ? 'eye-off' : 'eye'} size={24} color={COLORS.firtText} />
         </TouchableWithoutFeedback>
       </View>
     );

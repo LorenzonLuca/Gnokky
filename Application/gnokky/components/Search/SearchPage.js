@@ -5,6 +5,7 @@ import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect, useState } from 'react';
 import ListUsers from './ListUsers';
+import { COLORS } from '../Models/Globals';
 
 
 
@@ -32,7 +33,7 @@ export default function SearchPage({ navigation }) {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: '#25292e',
+            backgroundColor: COLORS.background,
         },
         contentContainer: {
             flexGrow: 1,
@@ -43,7 +44,7 @@ export default function SearchPage({ navigation }) {
         headerText: {
             fontSize: 20,
             textAlign: 'center',
-            color: '#F8D154',
+            color: COLORS.firtText,
             fontSize: 45,
             fontFamily: 'mnst-bold'
         },

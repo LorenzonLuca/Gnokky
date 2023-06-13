@@ -1,6 +1,9 @@
 import { StyleSheet, Text } from "react-native";
+import { COLORS } from "../Models/Globals";
 
-export default function GNText({ children, color = '#fff', fontSize = 15 }) {
+export default function GNText({ children, color = COLORS.firtText, fontSize = 15 }) {
+
+
     const styles = StyleSheet.create({
         text: {
             color: color,

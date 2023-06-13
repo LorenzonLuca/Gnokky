@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import GNProfileImage from '../GN/GNProfileImage';
+import { COLORS } from '../Models/Globals';
 
 export default function ListUsers({ users, navigation }) {
+
+
     const styles = StyleSheet.create({
         userContainer: {
-            backgroundColor: '#fff',
+            backgroundColor: COLORS.thirdText,
             borderRadius: 15,
             width: '75%',
             margin: 5,
@@ -16,7 +19,7 @@ export default function ListUsers({ users, navigation }) {
             paddingHorizontal: 16,
             width: '100%',
             padding: 10,
-            color: '#fff'
+            color: COLORS.firtText
         },
         dataContainer: {
             marginLeft: 10,
@@ -28,8 +31,6 @@ export default function ListUsers({ users, navigation }) {
             fontSize: 12,
         },
     });
-
-
     if (users !== null) {
         const generateComponents = users.map(user => (
             <TouchableWithoutFeedback key={user.username} onPress={() => { navigation.navigate("ProfileSearch", { user: user }) }}>
@@ -54,5 +55,4 @@ export default function ListUsers({ users, navigation }) {
             <Text>No user found!</Text>
         );
     }
-
 }
