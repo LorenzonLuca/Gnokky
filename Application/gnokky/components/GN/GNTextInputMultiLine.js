@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, TextInput, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function GNTextInputMultiLine({ placeholder, onChangeText, width = '75%', height = 50, marginBottom = 24, defaultValue = "" }) {
+export default function GNTextInputMultiLine({ placeholder, onChangeText, width = '75%', minHeight = 50, marginBottom = 24, defaultValue = "" }) {
 
     const styles = StyleSheet.create({
         container: {
@@ -11,6 +11,9 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             borderRadius: 15,
             backgroundColor: '#F5F5F5',
             marginBottom: marginBottom,
+            paddingHorizontal: 24,
+            paddingTop: 14,
+            minHeight: minHeight,
         },
         input: {
             flex: 1,
@@ -22,9 +25,6 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             textAlignVertical: 'top',
             borderRadius: 15,
             backgroundColor: '#F5F5F5',
-            padding: 16,
-            borderColor: 'black',
-            borderWidth: 10,
         }
     });
 
