@@ -1,8 +1,7 @@
-import { View, Text, TextInput, Image } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import GNButton from '../GN/GNButton';
 import GNProfileImage from '../GN/GNProfileImage';
-import styles from "../../styles/Styles";
 import { useState, useRef } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
@@ -12,6 +11,7 @@ import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileManagement({ navigation, route, title, onSave }) {
     // const { title } = route.params;
@@ -107,11 +107,59 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
         return (value !== null && value !== "");
     }
 
+    const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: '#25292e',
+        },
+        contentContainer: {
+          flexGrow: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        header: {
+          paddingVertical: 50,
+        },
+        headerText: {
+          fontSize: 20,
+          textAlign: 'center',
+          color: '#F8D154',
+          fontSize: 45,
+          fontFamily: 'mnst-bold'
+        },
+        rowContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            marginBottom: 30,
+        },
+        body: {
+          flex: 1,
+          padding: 20,
+        },
+        bodyText: {
+          fontSize: 16,
+        },
+        footer: {
+          backgroundColor: '#f2f2f2',
+          padding: 20,
+        },
+        footerText: {
+          fontSize: 18,
+          fontWeight: 'bold',
+        },
+      });
+
     return (
-        <View style={styles.background}>
-            <Text style={styles.title3}>{title}</Text>
-            <View style={styles.container}>
-                <View>
+        <SafeAreaView style={styles.container}>
+            {/* <View style={styles.header}>
+                <Text style={styles.headerText}>{title}</Text>
+            </View> */}
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>{title}</Text>
+                </View> 
+                <View style={styles.body}>
                     <View style={styles.rowContainer}>
                         <View ref={imageRef} collapsable={false}>
                             <GNProfileImage
@@ -137,7 +185,7 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                     <GNTextInputMultiLine
                         placeholder={"Description..."}
                         onChangeText={handleInputChangeBio}
-                        height={90}
+                        minHeight={120}
                         defaultValue={appUser.bio}
                     />
                     <GNButton
@@ -145,7 +193,10 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                         onPress={onSaveProfileAsync}
                     />
                 </View>
-            </View>
-        </View >
+            </ScrollView>
+            {/* <View style={styles.footer}>
+                <Text style={styles.footerText}></Text>
+            </View> */}
+        </SafeAreaView>
     );
 }
