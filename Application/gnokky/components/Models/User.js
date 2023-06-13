@@ -11,7 +11,6 @@ export default class User {
 
     async getValueAndUpdate() {
         FirebaseUtils.getUser(this.id).then((result) => {
-            console.log(result);
             this.setUsername(result.username);
             this.setName(result.name);
             this.setSurname(result.surname);
@@ -21,6 +20,16 @@ export default class User {
             this.setPosts(result.posts);
             this.setProfilePic(result.profilePic);
         });
+    }
+    updateOnlyValues(newUser) {
+        this.setUsername(newUser.username);
+        this.setName(newUser.name);
+        this.setSurname(newUser.surname);
+        this.setBio(newUser.bio);
+        this.setFollowers(newUser.followers);
+        this.setFollowing(newUser.following);
+        this.setPosts(newUser.posts);
+        this.setProfilePic(newUser.profilePic);
     }
 
     setEmail(email) {

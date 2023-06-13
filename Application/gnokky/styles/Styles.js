@@ -10,12 +10,7 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         backgroundColor: '#25292e',
-        // backgroundColor: '#182638',
     },
-    // roundedContainer: {
-    //     borderTopLeftRadius: 25,
-    //     borderTopRightRadius: 25,
-    // },
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',

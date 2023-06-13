@@ -13,8 +13,8 @@ import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 
-export default function ProfileManagement({ navigation, route }) {
-    const { title } = route.params;
+export default function ProfileManagement({ navigation, route, title, onSave }) {
+    // const { title } = route.params;
     const size = 90;
     const placeholder = require('./../../assets/blank_profile.png');
     const [status, requestPermission] = MediaLibrary.usePermissions();
@@ -81,7 +81,7 @@ export default function ProfileManagement({ navigation, route }) {
                     FirebaseUtils.setDefaultValue();
                     navigation.navigate("NavigatorTab");
                 } else {
-                    navigation.navigate("Profile");
+                    onSave();
                 }
             }
         } catch (e) {
