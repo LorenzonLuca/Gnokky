@@ -12,9 +12,11 @@ export default function SearchPage({ navigation }) {
     const [research, setResearch] = useState("");
     const [listUsers, setListUsers] = useState([]);
 
+
     useEffect(() => {
         if (research !== "") {
-            FirebaseUtils.findUserFromSearchBar(research)
+            const lowerResearch = research.toLowerCase();
+            FirebaseUtils.findUserFromSearchBar(lowerResearch)
                 .then((result) => {
                     setListUsers(result);
                 })
@@ -29,8 +31,8 @@ export default function SearchPage({ navigation }) {
 
     const styles = StyleSheet.create({
         container: {
-          flex: 1,
-          backgroundColor: '#25292e',
+            flex: 1,
+            backgroundColor: '#25292e',
         },
         contentContainer: {
             flexGrow: 1,
@@ -39,11 +41,11 @@ export default function SearchPage({ navigation }) {
         header: {
         },
         headerText: {
-          fontSize: 20,
-          textAlign: 'center',
-          color: '#F8D154',
-          fontSize: 45,
-          fontFamily: 'mnst-bold'
+            fontSize: 20,
+            textAlign: 'center',
+            color: '#F8D154',
+            fontSize: 45,
+            fontFamily: 'mnst-bold'
         },
         rowContainer: {
             flexDirection: 'row',
@@ -52,12 +54,12 @@ export default function SearchPage({ navigation }) {
             marginBottom: 30,
         },
         body: {
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
         },
         bodyText: {
-          fontSize: 16,
+            fontSize: 16,
         },
 
     });
