@@ -183,7 +183,7 @@ export default function ProfilePage({ navigation, route }) {
                             {!alreadyFollowing ? (
                                 <GNButton title={"Follow"} onPress={handleFollowing} />
                             ) : (
-                                <GNButton title={"Already Following"} />
+                                <GNButton title={"Unfollow"} />
                             )}
                         </View>
 

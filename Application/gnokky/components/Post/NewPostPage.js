@@ -6,9 +6,6 @@ import homestyle from "../../styles/Home";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-
-
-
 export default function NewPostPage({ navigation }) {
     const styles = StyleSheet.create({
         container: {
