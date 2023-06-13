@@ -29,22 +29,30 @@ export default function ListUsers({ users, navigation }) {
         },
     });
 
-    const generateComponents = users.map(user => (
-        <TouchableWithoutFeedback key={user.username} onPress={() => { navigation.navigate("ProfileSearch", { user: user }) }}>
-            <View style={styles.userContainer}>
-                <View style={styles.rowContainer}>
-                    <GNProfileImage selectedImage={user.profilePic} size={55} />
-                    <View style={styles.dataContainer}>
-                        <Text style={styles.username}>{user.username}</Text>
-                        <Text style={styles.personalData}>{user.name} {user.surname}</Text>
-                        <Text style={styles.personalData}>followers: {user.followers}</Text>
+
+    if (users !== null) {
+        const generateComponents = users.map(user => (
+            <TouchableWithoutFeedback key={user.username} onPress={() => { navigation.navigate("ProfileSearch", { user: user }) }}>
+                <View style={styles.userContainer}>
+                    <View style={styles.rowContainer}>
+                        <GNProfileImage selectedImage={user.profilePic} size={55} />
+                        <View style={styles.dataContainer}>
+                            <Text style={styles.username}>{user.username}</Text>
+                            <Text style={styles.personalData}>{user.name} {user.surname}</Text>
+                            <Text style={styles.personalData}>followers: {user.followers}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </TouchableWithoutFeedback>
-    ));
+            </TouchableWithoutFeedback>
+        ));
 
-    return (
-        <>{generateComponents}</>
-    );
+        return (
+            <>{generateComponents}</>
+        );
+    } else {
+        return (
+            <Text>No user found!</Text>
+        );
+    }
+
 }
