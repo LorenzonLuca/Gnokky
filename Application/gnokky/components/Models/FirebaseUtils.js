@@ -8,7 +8,7 @@ export default class FirebaseUtils {
   static async insertUser(username, email) {
     try {
       const docRef = await addDoc(collection(db, "users"), {
-        username: username,
+        username: username.toLowerCase(),
         email: email,
         timestamp: new Date().getTime(),
       });

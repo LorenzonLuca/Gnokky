@@ -35,7 +35,7 @@ export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles
             resizeMode: 'cover',
         }
     });
-    const logo = require('./../../assets/logo/logo_gnocchi_outline.png');
+    const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
 
     const title = (
         <View style={styles.imageContainer}>
