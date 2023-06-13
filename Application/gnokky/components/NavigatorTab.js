@@ -3,11 +3,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import HomePage from "../pages/Home/HomePage";
 import NotificationsPage from "../pages/Notifications/NotificationsPage";
-import SearchPage from "../pages/Search/SearchPage";
+import SearchNavigator from "../pages/Search/SearchNavigator";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NewPostPage from '../pages/Post/NewPostPage';
 import FloatingButton from './FloatingButton';
+import { appUser } from '../Models/Globals';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,13 +60,13 @@ export default function NavigatorTab() {
                 },
             }}
         >
-            <Tab.Screen name="Home" component={HomePage}  options={{
+            <Tab.Screen name="Home" component={HomePage} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'home' : 'home-outline'} size={30} />
                 ),
                 headerShown: false,
             }} />
-            <Tab.Screen name="Search" component={SearchPage} options={{
+            <Tab.Screen name="Search" component={SearchNavigator} options={{
                 tabBarIcon: ({ focused }) => (
                     <Ionicons name={focused ? 'search' : 'search-outline'} size={30} />
                 ),
@@ -89,7 +90,7 @@ export default function NavigatorTab() {
                 ),
                 headerShown: false,
             }}
-                initialParams={{ property: true }} />
+                initialParams={{ user: appUser }} />
         </Tab.Navigator>
     );
 }

@@ -6,13 +6,14 @@ import NavigatorTab from './../../components/NavigatorTab'
 import ChatPage from '../Chat/ChatPage';
 import ProfileManagement from '../Profile/ProfileManagement';
 import GNAppBar from '../../components/GNAppBar';
+import ProfilePage from '../Profile/ProfilePage';
 
 const Stack = createStackNavigator();
 
 export default function HomeTemplate() {
     return (
         <NavigationContainer independent={true}>
-            <GNAppBar title={"Gnokky"}/>
+            <GNAppBar title={"Gnokky"} />
             <Stack.Navigator>
                 <Stack.Screen name="NaviagatorTab" component={NavigatorTab} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />

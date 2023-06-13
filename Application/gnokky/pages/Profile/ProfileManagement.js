@@ -17,11 +17,11 @@ export default function ProfileManagement({ navigation, route }) {
     const { title } = route.params;
     const size = 90;
     const placeholder = require('./../../assets/blank_profile.png');
-    const [selectedImage, setSelectedImage] = useState(null);
     const [status, requestPermission] = MediaLibrary.usePermissions();
+    const [selectedImage, setSelectedImage] = useState(null);
     const [name, setName] = useState(null);
-    const [surnname, setSurname] = useState(null);
-    const [bio, setBio] = useState("");
+    const [surname, setSurname] = useState(null);
+    const [bio, setBio] = useState(null);
 
     if (status === null) {
         requestPermission();
@@ -29,6 +29,15 @@ export default function ProfileManagement({ navigation, route }) {
 
     if (appUser.profilePic && selectedImage === null) {
         setSelectedImage(appUser.profilePic);
+    }
+    if (appUser.name && name === null) {
+        setName(appUser.name);
+    }
+    if (appUser.surname && surname === null) {
+        setSurname(appUser.surname);
+    }
+    if (appUser.bio && bio === null) {
+        setBio(appUser.bio);
     }
 
     const imageRef = useRef();
@@ -66,16 +75,14 @@ export default function ProfileManagement({ navigation, route }) {
             const fileName = appUser.username + ".jpg";
             saveImageInStorage(localUri, fileName);
 
-            if (checkValue(name) && checkValue(surnname)) {
-                FirebaseUtils.insertPersonalInformation(name, surnname, bio);
+            if (checkValue(name) && checkValue(surname)) {
+                FirebaseUtils.insertPersonalInformation(name, surname, bio)
                 if (title === "Create profile") {
                     FirebaseUtils.setDefaultValue();
+                    navigation.navigate("HomeTemplate");
+                } else {
+                    navigation.navigate("Profile");
                 }
-            }
-            if (title === "Create profile") {
-                navigation.navigate("HomeTemplate");
-            } else {
-                navigation.goBack();
             }
         } catch (e) {
             console.log(e);
@@ -101,38 +108,6 @@ export default function ProfileManagement({ navigation, route }) {
     }
 
     return (
-        // <View style={styles.background}>
-        //     <View style={styles.container}>
-        //         <View style={styles.rowContainer}>
-        //             <View ref={imageRef} collapsable={false}>
-        //                 <GNProfileImage
-        //                     placeholder={placeholder}
-        //                     size={size}
-        //                     selectedImage={selectedImage} />
-        //             </View>
-        //             <GNButton
-        //                 title={"Edit"}
-        //                 width={'50%'}
-        //                 onPress={pickImageAsync}
-        //                 style={{ marginLeft: 10 }} />
-        //         </View>
-        //         <GNTextInput
-        //             placeholder={"Name"}
-        //             onChangeText={handleInputChangeName} />
-        //         <GNTextInput
-        //             placeholder={"Surname"}
-        //             onChangeText={handleInputChangeSurname} />
-        //         <GNTextInputMultiLine
-        //             placeholder={"Description..."}
-        //             onChangeText={handleInputChangeBio}
-        //             height={20}
-        //         />
-        //         <GNButton
-        //             title={"Save"}
-        //             onPress={onSaveProfileAsync}
-        //         />
-        //     </View>
-        // </View >
         <View style={styles.background}>
             <Text style={styles.title3}>{title}</Text>
             <View style={styles.container}>
