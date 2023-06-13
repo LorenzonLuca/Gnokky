@@ -62,7 +62,7 @@ export default function HomePage({ navigation }) {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 {/* <Text style={styles.headerText}>{title}</Text> */}
-                <GNAppBar title='Gnokky'></GNAppBar>
+                <GNAppBar title='Gnokky'/>
             </View>
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.body}>

@@ -1,10 +1,6 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import homestyle from "../../styles/Home";
-
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 

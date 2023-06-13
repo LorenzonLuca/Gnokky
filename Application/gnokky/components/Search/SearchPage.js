@@ -1,10 +1,6 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import styless from '../../styles/Styles'
-
-import Ionicons from '@expo/vector-icons/Ionicons';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect, useState } from 'react';
@@ -68,20 +64,26 @@ export default function SearchPage({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <GNAppBar title='Gnokky' />
-            </View>
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-                <View style={styles.body}>
-                    <GNTextInput
-                        placeholder="Search"
-                        iconName="search-outline"
-                        iconNameFocused="search-sharp"
-                        onChangeText={handleResearch}
-                        animation={true} />
-                    <ListUsers users={listUsers} navigation={navigation} />
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 25}
+            >
+                <View style={styles.header}>
+                    <GNAppBar title='Gnokky' />
                 </View>
-            </ScrollView>
+                <ScrollView contentContainerStyle={styles.contentContainer}>
+                    <View style={styles.body}>
+                        <GNTextInput
+                            placeholder="Search"
+                            iconName="search-outline"
+                            iconNameFocused="search-sharp"
+                            onChangeText={handleResearch}
+                            animation={true} />
+                        <ListUsers users={listUsers} navigation={navigation} />
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }

@@ -6,6 +6,8 @@ import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 
 export default function LoginPage({ navigation }) {
