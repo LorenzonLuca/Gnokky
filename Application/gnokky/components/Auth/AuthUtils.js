@@ -3,17 +3,19 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import NewPostUtils from '../Post/NewPostUtils';
 
 
 export const handleLogin = async (email, password, navigation, setError) => {
+
     email = email.trim();
     password = password.trim();
 
-    if(!(email && password)){
+    if (!(email && password)) {
         setError('Email and password fields are required');
         return;
     }
-        
+
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -33,18 +35,18 @@ export const handleLogin = async (email, password, navigation, setError) => {
         });
 }
 
-export const handleRegister = async ( username, email, password, password2, navigation, setError) => {
+export const handleRegister = async (username, email, password, password2, navigation, setError) => {
     username = username.trim();
     email = email.trim();
     password = password.trim();
     password2 = password2.trim();
 
-    if(!(username && email && password && password2)){
+    if (!(username && email && password && password2)) {
         setError('All fields are required. Insert valid values!');
         return;
     }
 
-    if(password != password2){
+    if (password != password2) {
         setError('Passwords do not match!');
         return;
     }
@@ -67,5 +69,5 @@ export const handleRegister = async ( username, email, password, password2, navi
             setError(error.message);
             appUser.setUsername(null);
             appUser.setEmail(null);
-        });  
+        });
 }
