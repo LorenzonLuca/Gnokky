@@ -10,6 +10,7 @@ import WaitingPage from './components/Auth/WaitingPage';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import GNCamera from './components/GN/GNCamera';
 
 const Stack = createStackNavigator();
 
@@ -92,7 +93,7 @@ export default function App() {
         }}
           transitionConfig={transitionConfig}
         >
-          <Stack.Screen name="Login" component={LoginPage} initialParams={{title: "SIU"}} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={LoginPage} initialParams={{ title: "SIU" }} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
           <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
           <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />

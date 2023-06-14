@@ -29,8 +29,6 @@ export default function GNButton({ title, backgroundColor = COLORS.elements, col
     },
   });
 
-
-
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={onPress}>
