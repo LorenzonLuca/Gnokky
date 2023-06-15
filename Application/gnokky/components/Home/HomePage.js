@@ -21,26 +21,16 @@ import { FlatList, RefreshControl } from 'react-native';
 export default function HomePage({ navigation }) {
   appUser.getValueAndUpdate();
 
-  // const [posts, setPosts] = useState([]);
-  
-  // useEffect(() => {
-  //   PostUtils.getPostsByUser(appUser.username)
-  //     .then((posts) => {
-  //       setPosts(posts);
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     })
-  // }, [])
-
-  // const messageClick = () => {
-  //   navigation.navigate("Chat")
-  // }
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
   const [refreshing, setRefreshing] = useState(false);
   const [visiblePosts, setVisiblePosts] = useState(5);
 
-  const visiblePostsData = posts.slice(0, visiblePosts);
+  let visiblePostsData = [];
+
+  if (posts && posts.length > 0) {
+    visiblePostsData = posts.slice(0, visiblePosts);
+  }
 
   const onRefresh = async () => {
     setRefreshing(true);
