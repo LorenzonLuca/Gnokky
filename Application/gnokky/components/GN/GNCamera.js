@@ -1,10 +1,11 @@
 import { Camera, CameraType } from 'expo-camera';
 import { StyleSheet, Text, View } from 'react-native';
 import GNIconButton from './GNIconButton';
+import GNAppBar from './GNAppBar';
 import { useState, useEffect } from 'react';
 import { COLORS } from '../Models/Globals';
 
-export default function GNCamera({ onSave }) {
+export default function GNCamera({ onSave, onCancel }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(CameraType.back);
@@ -44,7 +45,7 @@ export default function GNCamera({ onSave }) {
         centerItem: {
             alignItems: 'center',
             justifyContent: 'center',
-            height: '15%'
+            height: '9%'
         },
         photoButtonContainer: {
             position: 'absolute',
@@ -62,13 +63,14 @@ export default function GNCamera({ onSave }) {
         rowContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-            padding: 30,
+            padding: 20,
         },
 
     });
 
     return (
         <View style={{ flex: 1 }}>
+            <GNAppBar iconLeading='close-outline' onPressLeading={() => { onCancel() }} iconTrailing="" />
             <Camera style={styles.container} type={type} ref={(ref) => setCameraRef(ref)} ratio={'16:9'} />
             <View style={styles.centerItem}>
                 <View style={styles.photoButtonContainer}>

@@ -2,7 +2,7 @@ import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arra
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { appUser } from "./Globals";
-import { getDownloadURL, ref } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export default class FirebaseUtils {
   static async insertUser(username, email) {
@@ -60,13 +60,15 @@ export default class FirebaseUtils {
       if (userSnapshot.exists()) {
         const user = userSnapshot.data();
 
-        const fileName = user.username + ".jpg";
-        const storageRef = ref(storage, `profilespic/${fileName}`);
+        // const fileName = user.username + ".jpg";
+        // const storageRef = ref(storage, `profilespic/${fileName}`);
 
-        console.log(fileName);
+        // console.log(fileName);
 
+        const path = user.username + "/profilepic";
         try {
-          const downloadUrl = await getDownloadURL(storageRef);
+          // const downloadUrl = await getDownloadURL(storageRef);
+          const downloadUrl = await this.getImage(path);
           user.profilePic = downloadUrl;
           console.log(user);
           return user;
@@ -120,10 +122,13 @@ export default class FirebaseUtils {
           const user = doc.data();
           user.id = doc.id;
 
-          const fileName = user.username + ".jpg";
-          const storageRef = ref(storage, `profilespic/${fileName}`);
+          // const fileName = user.username + ".jpg";
+          // const storageRef = ref(storage, `profilespic/${fileName}`);
 
-          const downloadUrlPromise = getDownloadURL(storageRef)
+          // const downloadUrlPromise = getDownloadURL(storageRef)
+
+          const path = user.username + "/profilepic";
+          const downloadUrlPromise = this.getImage(path)
             .then((downloadUrl) => {
               user.profilePic = downloadUrl;
               users.push(user);
@@ -174,5 +179,23 @@ export default class FirebaseUtils {
     } catch (error) {
       console.log("Error while following someone:", error);
     }
+  }
+  static async getImage(path) {
+    path = path.toLowerCase();
+    const storageRef = ref(storage, path);
+    try {
+      const downloadUrl = await getDownloadURL(storageRef);
+      return downloadUrl;
+    } catch (e) {
+      console.log("Error while getting profile image: " + e);
+    }
+  }
+  static async uploadImage(imageUri, path) {
+    path = path.toLowerCase();
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+
+    const storageRef = ref(storage, path);
+    await uploadBytes(storageRef, blob);
   }
 }

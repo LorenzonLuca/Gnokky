@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, TouchableHighlight   } from 'react-native';
+import { View, Text, Modal, StyleSheet, ScrollView, TouchableHighlight } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,7 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native-elements';
 import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
-
+import GNCamera from '../GN/GNCamera';
 
 export default function NewPostPage({ navigation, onCancel }) {
   const [caption, setCaption] = useState("");
@@ -20,6 +20,7 @@ export default function NewPostPage({ navigation, onCancel }) {
   const [mediaUri, setMediaUri] = useState(null);
   const [mediaType, setMediaType] = useState(null);
   const [submitColor, setSubmitColor] = useState("gray");
+  const [openCamera, setOpenCamera] = useState(false);
 
   useEffect(() => {
     if(!(mediaUri && mediaType) && caption == ""){
@@ -40,6 +41,15 @@ export default function NewPostPage({ navigation, onCancel }) {
       setLocationIcon("location");
     }else{
       setLocationInfo("");
+    }
+  }
+
+  const handleSetCityInfo = (infos) => {
+    if (cityInfo == "") {
+      setCityInfo(infos);
+      setLocationIcon("location");
+    } else {
+      setCityInfo("");
       setLocationIcon("location-outline");
     }
   }
@@ -94,7 +104,7 @@ export default function NewPostPage({ navigation, onCancel }) {
       borderRadius: 20,
     }
   });
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -124,18 +134,30 @@ export default function NewPostPage({ navigation, onCancel }) {
                 <Text>{locationInfo}</Text>
             </View>
         </View>
-        <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50}}>
+        <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50 }}>
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={selectMedia} style={styles.iconButton}>
-              <Ionicons name="image-outline" size={33} color="black" />
+            <Ionicons name="image-outline" size={33} color="black" />
           </TouchableHighlight>
-          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => console.log('Icona camera')} style={styles.iconButton}>
-              <Ionicons name="camera-outline" size={33} color="black" />
+          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => setOpenCamera(true)} style={styles.iconButton}>
+            <Ionicons name="camera-outline" size={33} color="black" />
           </TouchableHighlight>
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => {handleSetLocationInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
               <Ionicons name={locationIcon} size={33} color="black" />
           </TouchableHighlight>
         </View>
       </ScrollView>
-    </SafeAreaView>
+      <Modal visible={openCamera} animationType="slide">
+        <GNCamera
+          onSave={(photo) => {
+            setMediaUri(photo.uri);
+            setMediaType('image');
+            setOpenCamera(false);
+          }}
+          onCancel={() => {
+            setOpenCamera(false);
+          }} />
+      </Modal>
+    </SafeAreaView >
+
   );
 }
