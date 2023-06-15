@@ -4,7 +4,8 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { COLORS } from "../Models/Globals";
 
 
-export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { }, onPressTrailing = () => { } }) {
+export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { }, 
+                                   onPressTrailing = () => { }, iconLeadingColor = COLORS.firtText, iconTrailingColor = COLORS.firtText }) {
 
     const styles = StyleSheet.create({
         container: {
@@ -51,14 +52,14 @@ export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles
                 style={styles.appbar}
                 leading={props => (
                     <IconButton
-                        icon={props => <Ionicons name={iconLeading} size={30} color={"#000"} />}
+                        icon={props => <Ionicons name={iconLeading} size={30} color={iconLeadingColor} />}
                         onPress={onPressLeading}
                         {...props}
                     />
                 )}
                 trailing={props => (
                     <IconButton
-                        icon={props => <Ionicons name={iconTrailing} size={30} color={"#000"} />}
+                        icon={props => <Ionicons name={iconTrailing} size={30} color={iconTrailingColor} />}
                         onPress={onPressTrailing}
                         {...props}
                     />

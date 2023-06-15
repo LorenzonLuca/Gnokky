@@ -1,8 +1,16 @@
 import * as Location from 'expo-location';
 import axios from 'axios';
 import { MAPBOX_ACCESS_TOKEN } from '../../private.conf';
+import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
+import { db } from "../Models/Firebase"
+import { storage } from '../Models/Firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { appUser } from '../Models/Globals';
 
 export default class NewPostUtils {
+
+    /// LOCAITON SECTION ///
+
     static async getUserLocation() {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
@@ -29,5 +37,49 @@ export default class NewPostUtils {
         }
 
         return null;
+    }
+
+    /// MEDIA SECTION ///
+
+    static async insertNewPost(mediaUri, mediaType, caption = "", locationInfo = "",){
+        try{
+            let downloadUrl = "";
+            if(mediaUri && mediaType){
+                const response = await fetch(mediaUri);
+                const blob = await response.blob();
+
+                const fileName = `${appUser.username}_${mediaType}_${Date.now()}`;
+                const storageRef = ref(storage, `${appUser.username}/posts/${fileName}`);
+
+                await uploadBytes(storageRef, blob);
+
+                downloadUrl = await getDownloadURL(storageRef);
+                console.log(`${mediaType} URL:`, downloadUrl);
+            }
+
+            const postDocRef = await addDoc(collection(db, "posts"), {
+                owner: appUser.username,
+                likes: [],
+                comments: [],
+                repost: 0,
+                location: locationInfo,
+                caption: caption,
+                downloadUrl: downloadUrl,
+                timestamp: new Date().getTime(),
+              }
+            );
+
+            console.log("new post id: "+ postDocRef.id);
+
+            const userDocRef = doc(db, "users", appUser.id);
+
+            await updateDoc(userDocRef, {
+                posts: arrayUnion(postDocRef.id),
+            });
+
+            console.log(appUser.username + "'s post has been uploaded successfully into firebase");
+        } catch (e){
+            console.log("error uploading new post into firestore/storage "+ e);
+        }
     }
 }

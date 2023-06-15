@@ -6,33 +6,43 @@ import { COLORS, appUser } from '../Models/Globals';
 import GNProfileImage from '../GN/GNProfileImage';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import NewPostUtils from './NewPostUtils'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native-elements';
 import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
-// import * as FileSystem from 'expo-file-system';
-import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
-import { db } from "../Models/Firebase"
-import { storage } from '../Models/Firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
 
 export default function NewPostPage({ navigation, onCancel }) {
-  const [cityInfo, setCityInfo] = useState("");
+  const [caption, setCaption] = useState("");
+  const [locationInfo, setLocationInfo] = useState("");
   const [locationIcon, setLocationIcon] = useState("location-outline");
+  const [mediaUri, setMediaUri] = useState(null);
+  const [mediaType, setMediaType] = useState(null);
+  const [submitColor, setSubmitColor] = useState("gray");
 
-  const handleSetCityInfo = (infos) => {
-    if(cityInfo == ""){
-      setCityInfo(infos);
+  useEffect(() => {
+    if(!(mediaUri && mediaType) && caption == ""){
+      setSubmitColor(COLORS.thirdText);
+    }else {
+      setSubmitColor(COLORS.firtText);
+    }
+  }, [mediaUri, mediaType, caption]);
+
+
+  const handleInputChangeCaption = (inputText) => {
+    setCaption(inputText.trim());
+  }
+
+  const handleSetLocationInfo = (infos) => {
+    if(locationInfo == ""){
+      setLocationInfo(infos);
       setLocationIcon("location");
     }else{
-      setCityInfo("");
+      setLocationInfo("");
       setLocationIcon("location-outline");
     }
   }
-
-  const [mediaUri, setMediaUri] = useState(null);
-  const [mediaType, setMediaType] = useState(null);
 
   const selectMedia = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -52,46 +62,12 @@ export default function NewPostPage({ navigation, onCancel }) {
     }
   };
 
-  const uploadMedia = async () => {
-    if (mediaUri && mediaType) {
-      // const response = await fetch(c);
-      // const blob = await response.blob();
-
-      // const fileName = `${mediaType}_${Date.now()}`;
-      // const ref = storage.ref().child(`${mediaType}s/${fileName}`);
-
-      // await ref.put(blob);
-
-      // const downloadUrl = await ref.getDownloadURL();
-      // console.log(`${mediaType} URL:`, downloadUrl);
-
-      try {
-        const response = await fetch(mediaUri);
-        const blob = await response.blob();
-
-        const fileName = `${mediaType}_${Date.now()}`;
-        const storageRef = ref(storage, `posts/${mediaType}s/${fileName}`);
-
-        await uploadBytes(storageRef, blob);
-
-        const downloadUrl = await getDownloadURL(storageRef);
-        console.log(`${mediaType} URL:`, downloadUrl);
-
-      } catch (e) {
-          console.log("error uploading media in storage: " + e);
-      }
-
-      try{
-
-      } catch (e) {
-        console.log("error uploading media in firebase: " + e);
-      }
-
-      // Esegui altre operazioni con l'URL del media, come salvarlo nel database
+  const handleUploadMedia = () => {
+    if(!(mediaUri && mediaType) && caption == ""){
+      return;
     }
+    NewPostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
   };
-
-
 
   const styles = StyleSheet.create({
     container: {
@@ -122,7 +98,7 @@ export default function NewPostPage({ navigation, onCancel }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <GNAppBar iconLeading='close-outline' onPressLeading={() => { onCancel() }} iconTrailing='checkmark-outline' onPressTrailing={uploadMedia} />
+        <GNAppBar iconLeading='close-outline' onPressLeading={() => { onCancel() }} iconTrailing='checkmark-outline' onPressTrailing={handleUploadMedia} iconTrailingColor={submitColor} />
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
@@ -130,7 +106,10 @@ export default function NewPostPage({ navigation, onCancel }) {
               <GNProfileImage selectedImage={appUser.profilePic} size={50} /> 
             </View>
             <View style={{ flex: 1, padding: 10}}>
-                <GNTextInputMultiLine placeholder={"Caption..."} />
+                <GNTextInputMultiLine 
+                  placeholder={"Caption..."} 
+                  onChangeText={handleInputChangeCaption}
+                />
                 {mediaUri && mediaType === 'image' && (
                   <Image source={{ uri: mediaUri }} style={{height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }} />
                 )}
@@ -142,7 +121,7 @@ export default function NewPostPage({ navigation, onCancel }) {
                     resizeMode="contain"
                   />
                 )}
-                <Text>{cityInfo}</Text>
+                <Text>{locationInfo}</Text>
             </View>
         </View>
         <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50}}>
@@ -152,7 +131,7 @@ export default function NewPostPage({ navigation, onCancel }) {
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => console.log('Icona camera')} style={styles.iconButton}>
               <Ionicons name="camera-outline" size={33} color="black" />
           </TouchableHighlight>
-          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => {handleSetCityInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
+          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => {handleSetLocationInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
               <Ionicons name={locationIcon} size={33} color="black" />
           </TouchableHighlight>
         </View>

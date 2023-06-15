@@ -43,7 +43,7 @@ export default class FirebaseUtils {
       await updateDoc(docRef, {
         followers: 0,
         following: 0,
-        posts: 0,
+        posts: [],
         followersUsernames: [],
         followingUsernames: [],
       });
