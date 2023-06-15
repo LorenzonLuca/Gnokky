@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, TouchableHighlight   } from 'react-native';
+import { View, Text, Modal, StyleSheet, ScrollView, TouchableHighlight } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native-elements';
 import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
+import GNCamera from '../GN/GNCamera';
 // import * as FileSystem from 'expo-file-system';
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "../Models/Firebase"
@@ -20,12 +21,13 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 export default function NewPostPage({ navigation, onCancel }) {
   const [cityInfo, setCityInfo] = useState("");
   const [locationIcon, setLocationIcon] = useState("location-outline");
+  const [openCamera, setOpenCamera] = useState(false);
 
   const handleSetCityInfo = (infos) => {
-    if(cityInfo == ""){
+    if (cityInfo == "") {
       setCityInfo(infos);
       setLocationIcon("location");
-    }else{
+    } else {
       setCityInfo("");
       setLocationIcon("location-outline");
     }
@@ -78,10 +80,10 @@ export default function NewPostPage({ navigation, onCancel }) {
         console.log(`${mediaType} URL:`, downloadUrl);
 
       } catch (e) {
-          console.log("error uploading media in storage: " + e);
+        console.log("error uploading media in storage: " + e);
       }
 
-      try{
+      try {
 
       } catch (e) {
         console.log("error uploading media in firebase: " + e);
@@ -90,7 +92,6 @@ export default function NewPostPage({ navigation, onCancel }) {
       // Esegui altre operazioni con l'URL del media, come salvarlo nel database
     }
   };
-
 
 
   const styles = StyleSheet.create({
@@ -118,7 +119,7 @@ export default function NewPostPage({ navigation, onCancel }) {
       borderRadius: 20,
     }
   });
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -126,37 +127,49 @@ export default function NewPostPage({ navigation, onCancel }) {
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
-            <View style={{ padding: 10 }}>
-              <GNProfileImage selectedImage={appUser.profilePic} size={50} /> 
-            </View>
-            <View style={{ flex: 1, padding: 10}}>
-                <GNTextInputMultiLine placeholder={"Caption..."} />
-                {mediaUri && mediaType === 'image' && (
-                  <Image source={{ uri: mediaUri }} style={{height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }} />
-                )}
-                {mediaUri && mediaType === 'video' && (
-                  <Video
-                    source={{ uri: mediaUri }}
-                    style={{height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }}
-                    useNativeControls
-                    resizeMode="contain"
-                  />
-                )}
-                <Text>{cityInfo}</Text>
-            </View>
+          <View style={{ padding: 10 }}>
+            <GNProfileImage selectedImage={appUser.profilePic} size={50} />
+          </View>
+          <View style={{ flex: 1, padding: 10 }}>
+            <GNTextInputMultiLine placeholder={"Caption..."} />
+            {mediaUri && mediaType === 'image' && (
+              <Image source={{ uri: mediaUri }} style={{ height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }} />
+            )}
+            {mediaUri && mediaType === 'video' && (
+              <Video
+                source={{ uri: mediaUri }}
+                style={{ height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }}
+                useNativeControls
+                resizeMode="contain"
+              />
+            )}
+            <Text>{cityInfo}</Text>
+          </View>
         </View>
-        <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50}}>
+        <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50 }}>
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={selectMedia} style={styles.iconButton}>
-              <Ionicons name="image-outline" size={33} color="black" />
+            <Ionicons name="image-outline" size={33} color="black" />
           </TouchableHighlight>
-          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => console.log('Icona camera')} style={styles.iconButton}>
-              <Ionicons name="camera-outline" size={33} color="black" />
+          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => setOpenCamera(true)} style={styles.iconButton}>
+            <Ionicons name="camera-outline" size={33} color="black" />
           </TouchableHighlight>
-          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => {handleSetCityInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
-              <Ionicons name={locationIcon} size={33} color="black" />
+          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => { handleSetCityInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
+            <Ionicons name={locationIcon} size={33} color="black" />
           </TouchableHighlight>
         </View>
       </ScrollView>
-    </SafeAreaView>
+      <Modal visible={openCamera} animationType="slide">
+        <GNCamera
+          onSave={(photo) => {
+            setMediaUri(photo.uri);
+            setMediaType('image');
+            setOpenCamera(false);
+          }}
+          onCancel={() => {
+            setOpenCamera(false);
+          }} />
+      </Modal>
+    </SafeAreaView >
+
   );
 }
