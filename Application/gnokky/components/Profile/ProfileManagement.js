@@ -72,8 +72,7 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
             });
 
             console.log(localUri);
-            const fileName = appUser.username + ".jpg";
-            saveImageInStorage(localUri, fileName);
+            saveImageInStorage(localUri);
 
             if (checkValue(name) && checkValue(surname)) {
                 FirebaseUtils.insertPersonalInformation(name, surname, bio)
@@ -85,18 +84,19 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                 }
             }
         } catch (e) {
-            console.log(e);
+            console.log("Problem while saving new data for user: " + e);
         }
     };
 
-    const saveImageInStorage = async (imageUri, fileName) => {
+    const saveImageInStorage = async (imageUri) => {
         try {
-            const response = await fetch(imageUri);
-            const blob = await response.blob();
+            // const response = await fetch(imageUri);
+            // const blob = await response.blob();
 
-            const storageRef = ref(storage, `profilespic/${fileName}`);
-            await uploadBytes(storageRef, blob);
-
+            // const storageRef = ref(storage, `profilespic/${fileName}`);
+            // await uploadBytes(storageRef, blob);
+            const path = appUser.username + "/profilepic";
+            await FirebaseUtils.uploadImage(imageUri, path);
 
         } catch (e) {
             console.log("error uploading photo in db: " + e);
