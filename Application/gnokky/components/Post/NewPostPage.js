@@ -76,8 +76,8 @@ export default function NewPostPage({ navigation, onClose }) {
     if (!(mediaUri && mediaType) && caption == "") {
       return;
     }
-    await PostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
     onClose()
+    await PostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
   };
 
   const styles = StyleSheet.create({

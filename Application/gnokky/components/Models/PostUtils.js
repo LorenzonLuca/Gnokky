@@ -95,8 +95,10 @@ export default class PostUtils {
         const now = moment();
         const time = moment(timestamp);
         const diff = now.diff(time, 'minutes');
-      
-        if (diff < 60) {
+        
+        if (diff == 0){
+         return "now";
+        }else if (diff < 60) {
           return `${diff}m`;
         } else if (diff < 24 * 60) {
           return `${Math.floor(diff / 60)}h`;
@@ -113,7 +115,7 @@ export default class PostUtils {
     static async getPostsByUser(username) {
         try {
             const postsCollection = collection(db, "posts");
-            const querySnapshot = await getDocs(query(postsCollection, where('owner', '==', username)));
+            const querySnapshot = await getDocs(query(postsCollection, where('owner', '==', username), orderBy('timestamp','desc')));
 
             if (!querySnapshot.empty) {
                 const posts = [];
@@ -129,6 +131,7 @@ export default class PostUtils {
             }
         } catch (e) {
             console.log("Error getting posts: ", e);
+            return null;
         }
     }
 }
