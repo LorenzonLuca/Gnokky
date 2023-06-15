@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS, appUser, updateUser } from '../Models/Globals';
 import GNProfileImage from '../GN/GNProfileImage';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
-import NewPostUtils from './NewPostUtils'
+import PostUtils from '../Models/PostUtils'
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native-elements';
@@ -76,7 +76,7 @@ export default function NewPostPage({ navigation, onClose }) {
     if (!(mediaUri && mediaType) && caption == "") {
       return;
     }
-    await NewPostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
+    await PostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
     onClose()
   };
 
@@ -142,7 +142,7 @@ export default function NewPostPage({ navigation, onClose }) {
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => setOpenCamera(true)} style={styles.iconButton}>
             <Ionicons name="camera-outline" size={33} color="black" />
           </TouchableHighlight>
-          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => { handleSetLocationInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
+          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => { handleSetLocationInfo(await PostUtils.getUserLocation()); }} style={styles.iconButton}>
             <Ionicons name={locationIcon} size={33} color="black" />
           </TouchableHighlight>
         </View>

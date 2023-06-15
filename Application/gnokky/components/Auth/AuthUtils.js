@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import NewPostUtils from '../Post/NewPostUtils';
+import PostUtils from '../Models/PostUtils';
 
 
 export const handleLogin = async (email, password, navigation, setError) => {

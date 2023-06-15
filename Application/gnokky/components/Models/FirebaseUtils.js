@@ -120,11 +120,6 @@ export default class FirebaseUtils {
           const user = doc.data();
           user.id = doc.id;
 
-          // const fileName = user.username + ".jpg";
-          // const storageRef = ref(storage, `profilespic/${fileName}`);
-
-          // const downloadUrlPromise = getDownloadURL(storageRef)
-
           const path = user.username + "/profilepic";
           const downloadUrlPromise = this.getImage(path)
             .then((downloadUrl) => {

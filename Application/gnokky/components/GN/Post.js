@@ -9,7 +9,7 @@ import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function Post({caption = "", locationInfo = "", timestamp = "ora", mediaUri = null, mediaType = null}){
+export default function Post({caption = "", locationInfo = "", timestamp, mediaUri = null, mediaType = null}){
 
     const EmptyText = ({ style,icon = "",text }) => {
         if (!text) {

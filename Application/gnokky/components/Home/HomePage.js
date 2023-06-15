@@ -9,8 +9,27 @@ import { appUser } from '../../components/Models/Globals';
 import { COLORS } from '../../components/Models/Globals';
 import Post from '../GN/Post';
 
+import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
+import { db } from "../Models/Firebase"
+import { storage } from '../Models/Firebase';
+import { updateUser } from "../Models/Globals";
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useState, useEffect } from 'react';
+import PostUtils from '../Models/PostUtils';
+
 export default function HomePage({ navigation }) {
   appUser.getValueAndUpdate();
+
+  const [posts, setPosts] = useState([]);
+  
+  useEffect(() => {
+    PostUtils.getPostsByUser(appUser.username)
+      .then((posts) => {
+        setPosts(posts);
+      }).catch((error) => {
+        console.log(error);
+      })
+  }, [])
 
   const messageClick = () => {
     navigation.navigate("Chat")
@@ -35,19 +54,36 @@ export default function HomePage({ navigation }) {
     },
   });
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <GNAppBar />
-      </View>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <View style={styles.body}>
-          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
-          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
-          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
-          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
+  if (posts !== undefined) {
+    const generateComponents = posts.map(post => (
+      <Post caption={post.caption} locationInfo={post.location} timestamp={PostUtils.formatDate(post.timestamp)} mediaType={post.mediaType} mediaUri={post.downloadUrl} key={post.id}/>
+    ));
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <GNAppBar />
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <View style={styles.body}>
+            <>{generateComponents}</>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+
+  } else {
+      return (
+        <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <GNAppBar />
+        </View>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <View style={styles.body}>
+            <Text>No posts found</Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      );
+  }
 }
