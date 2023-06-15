@@ -65,6 +65,7 @@ export default class NewPostUtils {
                 location: locationInfo,
                 caption: caption,
                 downloadUrl: downloadUrl,
+                mediaType: mediaType,
                 timestamp: new Date().getTime(),
               }
             );

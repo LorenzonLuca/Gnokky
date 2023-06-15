@@ -7,6 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements';
 import { appUser } from '../../components/Models/Globals';
 import { COLORS } from '../../components/Models/Globals';
+import Post from '../GN/Post';
 
 export default function HomePage({ navigation }) {
   appUser.getValueAndUpdate();
@@ -29,7 +30,8 @@ export default function HomePage({ navigation }) {
     },
     body: {
       flex: 1,
-      padding: 20,
+      padding: 5,
+      width: '100%',
     },
   });
 
@@ -40,7 +42,10 @@ export default function HomePage({ navigation }) {
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
-          <Text>Je suis homepage diocane</Text>
+          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
+          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
+          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
+          <Post caption='sono un post hard coded' locationInfo='Belfast' mediaType='image' mediaUri='https://firebasestorage.googleapis.com/v0/b/gnokky-966fe.appspot.com/o/provastorage%2Fposts%2Fprovastorage_image_1686822777972?alt=media&token=d679d82f-ea36-4fdd-8a6c-ed9ab72f136d'/>
         </View>
       </ScrollView>
     </SafeAreaView>
