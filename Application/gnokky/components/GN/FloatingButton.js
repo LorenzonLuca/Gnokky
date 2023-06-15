@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Animated, TouchableWithoutFeedback, Modal } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -90,12 +90,12 @@ export default function FloatingButton() {
             backgroundColor: COLORS.fourthText
         }
     });
-    
+
 
     return (
         <View style={styles.container}>
             <Modal visible={modalVisible} animationType="slide">
-                <NewPostPage onCancel={() => setModalVisible(false)}></NewPostPage>
+                <NewPostPage onClose={() => setModalVisible(false)}></NewPostPage>
             </Modal>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, mediaStyle]}>
@@ -114,6 +114,6 @@ export default function FloatingButton() {
                     <AntDesign name="plus" size={24} color={COLORS.background} />
                 </Animated.View>
             </TouchableWithoutFeedback>
-        </View>
+        </View >
     );
 };

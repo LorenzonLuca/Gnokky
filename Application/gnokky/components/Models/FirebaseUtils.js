@@ -1,7 +1,7 @@
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
-import { appUser } from "./Globals";
+import { appUser, updateUser } from "./Globals";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export default class FirebaseUtils {
@@ -41,11 +41,9 @@ export default class FirebaseUtils {
       const docRef = doc(db, "users", appUser.id);
 
       await updateDoc(docRef, {
-        followers: 0,
-        following: 0,
         posts: [],
-        followersUsernames: [],
-        followingUsernames: [],
+        followers: [],
+        following: [],
       });
 
     } catch (e) {
@@ -158,8 +156,7 @@ export default class FirebaseUtils {
         const docRef = doc(db, "users", id);
 
         await updateDoc(docRef, {
-          followers: user.followers + 1,
-          followersUsernames: arrayUnion(appUser.username),
+          followers: arrayUnion(appUser.username),
         });
 
         const myself = await this.getUser(appUser.id);
@@ -167,9 +164,11 @@ export default class FirebaseUtils {
           const myDocRef = doc(db, "users", appUser.id);
 
           await updateDoc(myDocRef, {
-            following: myself.following + 1,
-            followingUsernames: arrayUnion(user.username),
+            following: arrayUnion(user.username),
           });
+
+          const tmpUser = await this.getUser(appUser.id);
+          updateUser(tmpUser);
         }
 
         console.log("Successfully updated user data.");

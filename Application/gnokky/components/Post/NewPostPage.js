@@ -2,7 +2,7 @@ import { View, Text, Modal, StyleSheet, ScrollView, TouchableHighlight } from 'r
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { COLORS, appUser } from '../Models/Globals';
+import { COLORS, appUser, updateUser } from '../Models/Globals';
 import GNProfileImage from '../GN/GNProfileImage';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import NewPostUtils from './NewPostUtils'
@@ -13,7 +13,7 @@ import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import GNCamera from '../GN/GNCamera';
 
-export default function NewPostPage({ navigation, onCancel }) {
+export default function NewPostPage({ navigation, onClose }) {
   const [caption, setCaption] = useState("");
   const [locationInfo, setLocationInfo] = useState("");
   const [locationIcon, setLocationIcon] = useState("location-outline");
@@ -23,9 +23,9 @@ export default function NewPostPage({ navigation, onCancel }) {
   const [openCamera, setOpenCamera] = useState(false);
 
   useEffect(() => {
-    if(!(mediaUri && mediaType) && caption == ""){
+    if (!(mediaUri && mediaType) && caption == "") {
       setSubmitColor(COLORS.thirdText);
-    }else {
+    } else {
       setSubmitColor(COLORS.firtText);
     }
   }, [mediaUri, mediaType, caption]);
@@ -36,10 +36,10 @@ export default function NewPostPage({ navigation, onCancel }) {
   }
 
   const handleSetLocationInfo = (infos) => {
-    if(locationInfo == ""){
+    if (locationInfo == "") {
       setLocationInfo(infos);
       setLocationIcon("location");
-    }else{
+    } else {
       setLocationInfo("");
     }
   }
@@ -72,11 +72,12 @@ export default function NewPostPage({ navigation, onCancel }) {
     }
   };
 
-  const handleUploadMedia = () => {
-    if(!(mediaUri && mediaType) && caption == ""){
+  const handleUploadMedia = async () => {
+    if (!(mediaUri && mediaType) && caption == "") {
       return;
     }
-    NewPostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
+    await NewPostUtils.insertNewPost(mediaUri, mediaType, caption, locationInfo);
+    onClose()
   };
 
   const styles = StyleSheet.create({
@@ -108,31 +109,31 @@ export default function NewPostPage({ navigation, onCancel }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <GNAppBar iconLeading='close-outline' onPressLeading={() => { onCancel() }} iconTrailing='checkmark-outline' onPressTrailing={handleUploadMedia} iconTrailingColor={submitColor} />
+        <GNAppBar iconLeading='close-outline' onPressLeading={() => { onClose() }} iconTrailing='checkmark-outline' onPressTrailing={handleUploadMedia} iconTrailingColor={submitColor} />
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
-            <View style={{ padding: 10 }}>
-              <GNProfileImage selectedImage={appUser.profilePic} size={50} /> 
-            </View>
-            <View style={{ flex: 1, padding: 10}}>
-                <GNTextInputMultiLine 
-                  placeholder={"Caption..."} 
-                  onChangeText={handleInputChangeCaption}
-                />
-                {mediaUri && mediaType === 'image' && (
-                  <Image source={{ uri: mediaUri }} style={{height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }} />
-                )}
-                {mediaUri && mediaType === 'video' && (
-                  <Video
-                    source={{ uri: mediaUri }}
-                    style={{height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }}
-                    useNativeControls
-                    resizeMode="contain"
-                  />
-                )}
-                <Text>{locationInfo}</Text>
-            </View>
+          <View style={{ padding: 10 }}>
+            <GNProfileImage selectedImage={appUser.profilePic} size={50} />
+          </View>
+          <View style={{ flex: 1, padding: 10 }}>
+            <GNTextInputMultiLine
+              placeholder={"Caption..."}
+              onChangeText={handleInputChangeCaption}
+            />
+            {mediaUri && mediaType === 'image' && (
+              <Image source={{ uri: mediaUri }} style={{ height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }} />
+            )}
+            {mediaUri && mediaType === 'video' && (
+              <Video
+                source={{ uri: mediaUri }}
+                style={{ height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }}
+                useNativeControls
+                resizeMode="contain"
+              />
+            )}
+            <Text>{locationInfo}</Text>
+          </View>
         </View>
         <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50 }}>
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={selectMedia} style={styles.iconButton}>
@@ -141,8 +142,8 @@ export default function NewPostPage({ navigation, onCancel }) {
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={() => setOpenCamera(true)} style={styles.iconButton}>
             <Ionicons name="camera-outline" size={33} color="black" />
           </TouchableHighlight>
-          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => {handleSetLocationInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
-              <Ionicons name={locationIcon} size={33} color="black" />
+          <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.05)" onPress={async () => { handleSetLocationInfo(await NewPostUtils.getUserLocation()); }} style={styles.iconButton}>
+            <Ionicons name={locationIcon} size={33} color="black" />
           </TouchableHighlight>
         </View>
       </ScrollView>

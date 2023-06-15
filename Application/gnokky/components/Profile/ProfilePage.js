@@ -2,12 +2,13 @@ import { View, Modal, StyleSheet, ScrollView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GNProfileImage from '../GN/GNProfileImage';
-import { appUser, COLORS } from '../Models/Globals';
+import { appUser, COLORS, dataStoreEmitter } from '../Models/Globals';
 import GNText from '../GN//GNText';
 import GNButton from '../GN//GNButton';
 import { useEffect, useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ProfileManagement from './ProfileManagement';
+import _isEqual from 'lodash/isEqual';
 
 
 export default function ProfilePage({ navigation, route }) {
@@ -68,7 +69,9 @@ export default function ProfilePage({ navigation, route }) {
 
         useEffect(() => {
             console.log("useEffect triggered");
+
             if (!modalVisible) {
+                console.log("update profile values");
                 FirebaseUtils.getUser(appUser.id)
                     .then((newUser) => {
                         appUser.updateOnlyValues(newUser)
@@ -77,8 +80,22 @@ export default function ProfilePage({ navigation, route }) {
             }
         }, [modalVisible])
 
+        useEffect(() => {
+            console.log("useEffect triggered");
+            const updateUser = () => {
+                console.log("UPdated values user siummmmmmmmmmmmmmmmm");
+                setUserData(appUser);
+            };
+
+            dataStoreEmitter.on('changeUser', updateUser);
+
+            return () => {
+                dataStoreEmitter.off('changeUser', updateUser);
+            };
+        }, [userData.profilePic, userData.posts.length, userData.name, userData.surname
+            , userData.bio, userData.followers.length, userData.following.length])
+
         const handleEditProfile = () => {
-            // navigation.navigate("ProfileManagement", { title: "Edit Profile" })
             setModalVisible(true);
         }
 
@@ -96,15 +113,15 @@ export default function ProfilePage({ navigation, route }) {
                                     <GNText>@{userData.username}</GNText>
                                 </View>
                                 <View style={[styles.container, styles.background]}>
-                                    <GNText>{userData.followers}</GNText>
+                                    <GNText>{userData.followers.length}</GNText>
                                     <GNText>Followers</GNText>
                                 </View>
                                 <View style={[styles.container, styles.background]}>
-                                    <GNText>{userData.following}</GNText>
+                                    <GNText>{userData.following.length}</GNText>
                                     <GNText>Following</GNText>
                                 </View>
                                 <View style={[styles.container, styles.background]}>
-                                    <GNText>{userData.posts}</GNText>
+                                    <GNText>{userData.posts.length}</GNText>
                                     <GNText>Posts</GNText>
                                 </View>
                             </View>
@@ -125,11 +142,11 @@ export default function ProfilePage({ navigation, route }) {
             </SafeAreaView>
         );
     } else {
-        const [alreadyFollowing, setAlreadyFollowing] = useState(user.followersUsernames.includes(appUser.username))
+        const [alreadyFollowing, setAlreadyFollowing] = useState(user.followers.includes(appUser.username))
         const [userDB, setUserDb] = useState(user);
 
         useEffect(() => {
-            setAlreadyFollowing(userDB.followersUsernames.includes(appUser.username));
+            setAlreadyFollowing(userDB.followers.includes(appUser.username));
         }, [userDB]);
 
         const handleFollowing = () => {
@@ -163,15 +180,15 @@ export default function ProfilePage({ navigation, route }) {
                                     <GNText>@{userDB.username}</GNText>
                                 </View>
                                 <View style={[styles.container, styles.background]}>
-                                    <GNText>{userDB.followers}</GNText>
+                                    <GNText>{userDB.followers.length}</GNText>
                                     <GNText>Followers</GNText>
                                 </View>
                                 <View style={[styles.container, styles.background]}>
-                                    <GNText>{userDB.following}</GNText>
+                                    <GNText>{userDB.following.length}</GNText>
                                     <GNText>Following</GNText>
                                 </View>
                                 <View style={[styles.container, styles.background]}>
-                                    <GNText>{userDB.posts}</GNText>
+                                    <GNText>{userDB.posts.length}</GNText>
                                     <GNText>Posts</GNText>
                                 </View>
                             </View>
