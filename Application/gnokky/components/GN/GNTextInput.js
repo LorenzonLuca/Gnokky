@@ -70,7 +70,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
           placeholder={placeholder}
           style={styles.input}
           placeholderTextColor={COLORS.secondText}
-          selectionColor={COLORS.firtText}
+          selectionColor={COLORS.fourthText}
           secureTextEntry={secureTextEntry}
           onChangeText={onChangeText}
           onFocus={handleFocus}
@@ -87,7 +87,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
           placeholder={placeholder}
           style={styles.input}
           placeholderTextColor={COLORS.secondText}
-          selectionColor={COLORS.firtText}
+          selectionColor={COLORS.fourthText}
           secureTextEntry={secureTextEntry}
           onChangeText={onChangeText}
           onFocus={handleFocus}

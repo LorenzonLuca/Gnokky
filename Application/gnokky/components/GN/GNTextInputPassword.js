@@ -82,7 +82,7 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
           placeholder={placeholder}
           style={styles.input}
           placeholderTextColor={COLORS.secondText}
-          selectionColor={COLORS.firtText}
+          selectionColor={COLORS.fourthText}
           secureTextEntry={!showPassword}
           onChangeText={onChangeText}
           onFocus={handleFocus}
@@ -101,7 +101,7 @@ export default function GNTextInputPassword({ placeholder, iconName, iconNameFoc
           placeholder={placeholder}
           style={styles.input}
           placeholderTextColor={COLORS.secondText}
-          selectionColor={COLORS.firtText}
+          selectionColor={COLORS.fourthText}
           secureTextEntry={!showPassword}
           onChangeText={onChangeText}
           onFocus={handleFocus}

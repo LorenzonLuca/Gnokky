@@ -15,6 +15,7 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             marginBottom: marginBottom,
             paddingHorizontal: 24,
             paddingTop: 14,
+            paddingBottom: 10,
             minHeight: minHeight,
             // borderColor: COLORS.elements,
             // borderWidth: 1,
@@ -38,7 +39,7 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
                 placeholder={placeholder}
                 style={styles.input}
                 placeholderTextColor={COLORS.secondText}
-                selectionColor={COLORS.firtText}
+                selectionColor={COLORS.fourthText}
                 onChangeText={onChangeText}
                 multiline={true}
                 defaultValue={defaultValue}
