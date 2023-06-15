@@ -40,7 +40,7 @@ export default function ListUsers({ users, navigation }) {
                         <View style={styles.dataContainer}>
                             <Text style={styles.username}>{user.username}</Text>
                             <Text style={styles.personalData}>{user.name} {user.surname}</Text>
-                            <Text style={styles.personalData}>followers: {user.followers}</Text>
+                            <Text style={styles.personalData}>followers: {user.followers.length}</Text>
                         </View>
                     </View>
                 </View>

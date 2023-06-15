@@ -5,7 +5,8 @@ import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arra
 import { db } from "../Models/Firebase"
 import { storage } from '../Models/Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { appUser } from '../Models/Globals';
+import { appUser, updateUser } from '../Models/Globals';
+import FirebaseUtils from '../Models/FirebaseUtils';
 
 export default class NewPostUtils {
 
@@ -41,10 +42,10 @@ export default class NewPostUtils {
 
     /// MEDIA SECTION ///
 
-    static async insertNewPost(mediaUri, mediaType, caption = "", locationInfo = "",){
-        try{
+    static async insertNewPost(mediaUri, mediaType, caption = "", locationInfo = "",) {
+        try {
             let downloadUrl = "";
-            if(mediaUri && mediaType){
+            if (mediaUri && mediaType) {
                 const response = await fetch(mediaUri);
                 const blob = await response.blob();
 
@@ -67,10 +68,10 @@ export default class NewPostUtils {
                 downloadUrl: downloadUrl,
                 mediaType: mediaType,
                 timestamp: new Date().getTime(),
-              }
+            }
             );
 
-            console.log("new post id: "+ postDocRef.id);
+            console.log("new post id: " + postDocRef.id);
 
             const userDocRef = doc(db, "users", appUser.id);
 
@@ -78,9 +79,13 @@ export default class NewPostUtils {
                 posts: arrayUnion(postDocRef.id),
             });
 
-            console.log(appUser.username + "'s post has been uploaded successfully into firebase");
-        } catch (e){
-            console.log("error uploading new post into firestore/storage "+ e);
+            setTimeout(async () => {
+                const tmpUser = await FirebaseUtils.getUser(appUser.id);
+                updateUser(tmpUser)
+                console.log(appUser.username + "'s post has been uploaded successfully into firebase");
+            }, 1000)
+        } catch (e) {
+            console.log("error uploading new post into firestore/storage " + e);
         }
     }
 }
