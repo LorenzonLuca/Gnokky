@@ -9,25 +9,17 @@ import { useEffect, useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ProfileManagement from './ProfileManagement';
 import _isEqual from 'lodash/isEqual';
-
+import Divider from '../GN/Divider';
+import PostLoader from '../GN/PostLoader';
 
 export default function ProfilePage({ navigation, route }) {
     const { user } = route.params;
     let property = user.id === appUser.id;
 
-    // if (!userData && !user) {
-    //     return (
-    //         <View style={profileStyles.container}>
-    //             <Text>Loading Profile page</Text>
-    //         </View>
-    //     );
-    // }
-
-
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: COLORS.background,
+            //backgroundColor: COLORS.background,
         },
         contentContainer: {
             flexGrow: 1,
@@ -37,14 +29,14 @@ export default function ProfilePage({ navigation, route }) {
         },
         body: {
             flex: 1,
-            justifyContent: 'center',
+            //justifyContent: 'center',
             alignItems: 'center',
         },
         bodyText: {
             fontSize: 16,
         },
         background: {
-            backgroundColor: COLORS.background,
+            //backgroundColor: COLORS.background,
             alignItems: 'center',
             justifyContent: 'center',
         },
@@ -57,7 +49,7 @@ export default function ProfilePage({ navigation, route }) {
             color: COLORS.textBlack
         },
         bioContainer: {
-            backgroundColor: COLORS.background,
+            //backgroundColor: COLORS.background,
             margin: 20,
             marginTop: 0,
         },
@@ -106,7 +98,7 @@ export default function ProfilePage({ navigation, route }) {
                 </View>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     <View style={styles.body}>
-                        <View style={[styles.background, { marginBottom: 20 }]}>
+                        <View style={[styles.background, {marginBottom: 5}]}>
                             <View style={styles.rowContainer}>
                                 <View style={[styles.container, styles.background]}>
                                     <GNProfileImage selectedImage={userData.profilePic} size={80} />
@@ -136,7 +128,10 @@ export default function ProfilePage({ navigation, route }) {
                         <Modal visible={modalVisible} animationType="slide">
                             <ProfileManagement title={"Edit profile"} onSave={() => setModalVisible(false)}></ProfileManagement>
                         </Modal>
-                        <GNText>Your Profile Page</GNText>
+                        <Divider  color={'lightgray'} width={3}/>
+                        <View style={{width: '100%'}}>
+                            <PostLoader username={userData.username}/>
+                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -204,8 +199,10 @@ export default function ProfilePage({ navigation, route }) {
                                 <GNButton title={"Unfollow"} />
                             )}
                         </View>
-
-                        <GNText>Your Profile Page</GNText>
+                        <Divider  color={'lightgray'} width={3}/>
+                        <View style={{width: '100%'}}>
+                            <PostLoader username={userDB.username}/>
+                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>

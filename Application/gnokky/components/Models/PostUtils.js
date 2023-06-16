@@ -61,6 +61,7 @@ export default class PostUtils {
 
             const postDocRef = await addDoc(collection(db, "posts"), {
                 owner: appUser.username,
+                ownerProfilePicUrl: appUser.profilePic,
                 likes: [],
                 comments: [],
                 repost: 0,

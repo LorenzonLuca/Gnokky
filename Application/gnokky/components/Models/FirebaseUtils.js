@@ -174,6 +174,7 @@ export default class FirebaseUtils {
       console.log("Error while following someone:", error);
     }
   }
+  
   static async getImage(path) {
     path = path.toLowerCase();
     const storageRef = ref(storage, path);
