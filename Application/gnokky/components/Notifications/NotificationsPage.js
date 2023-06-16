@@ -30,7 +30,7 @@ export default function NotificationsPage({ navigation }) {
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
-          <Text>Je suis notification tu boccaciccio</Text>
+          <Text>Notification APGJAKG</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -19,7 +19,7 @@ export const handleLogin = async (email, password, navigation, setError) => {
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            appUser.setEmail = email;
+            appUser.setEmail(email);
             FirebaseUtils.getUserByEmail(email)
                 .then((result) => {
                     appUser.setUsername(result[0].username);
