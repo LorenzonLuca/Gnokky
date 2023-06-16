@@ -26,7 +26,7 @@ export default function NavigatorTab() {
                     borderTopLeftRadius: 15,
                     borderTopRightRadius: 15,
                     height: 60,
-                    zIndex: 3, 
+                    zIndex: 3,
                     elevation: 3,
                     // bottom: 10,
                     // left: 20,

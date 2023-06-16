@@ -4,7 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from "../Models/Globals";
 
 export default function GNTextInput({ placeholder, iconName, iconNameFocused, secureTextEntry,
-  onChangeText, animation = false, width = '75%', height = 50, marginBottom = 24, defaultValue = "" }) {
+  onChangeText, animation = false, width = '75%', height = 50, marginBottom = 24, defaultValue = "",
+  autoFocus = false, onSubmitEditing }) {
 
   const styles = StyleSheet.create({
     container: {
@@ -93,6 +94,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
           onFocus={handleFocus}
           onBlur={handleBlur}
           defaultValue={defaultValue}
+          autoFocus={autoFocus}
         />
       </View>
     );
