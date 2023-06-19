@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { Modal } from 'react-native-paper';
 import GNTextInput from '../GN/GNTextInput';
@@ -9,16 +9,19 @@ import Animated, {
     useAnimatedGestureHandler,
 } from 'react-native-reanimated';
 import { COLORS } from '../Models/Globals';
+import ColorPicker from './ColorPicker';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export default function DraggableTextInput() {
+export default function DraggableTextInput({ setBottomBar, setColorPicker }) {
     const [text, setText] = useState("Enter text");
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(true);
+    const [color, setColor] = useState('#000');
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
 
     useEffect(() => {
+        handlePressText()
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
         return () => {
@@ -27,7 +30,9 @@ export default function DraggableTextInput() {
     }, []);
 
     const _keyboardDidHide = () => {
+        // setColorPicker(null)
         setShowModal(false);
+        setBottomBar(true);
         Keyboard.dismiss;
     };
 
@@ -57,7 +62,13 @@ export default function DraggableTextInput() {
 
     const handlePressText = () => {
         setShowModal(true);
+        setBottomBar(false);
+        setColorPicker(<ColorPicker setColor={(color) => onColorChange(color)} />)
     }
+
+    const onColorChange = (color) => {
+        setColor(color);
+    };
 
     const styles = StyleSheet.create({
         textInput: {
@@ -66,14 +77,26 @@ export default function DraggableTextInput() {
             left: 20,
             right: 20,
             fontSize: 20,
-            color: '#000',
             backgroundColor: 'transparent',
-            color: text === "Enter text" ? COLORS.secondText : COLORS.firtText
+            color: text === "Enter text" ? COLORS.secondText : color
         },
         container: {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
+        },
+        iconButton: {
+            justifyContent: 'center',
+            height: '100%',
+            paddingHorizontal: 10,
+            marginHorizontal: 10,
+            borderRadius: 20,
+        },
+        modalContent: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingBottom: 20,
         },
     });
 
@@ -81,17 +104,19 @@ export default function DraggableTextInput() {
         <>
             <PanGestureHandler onGestureEvent={onDrag}>
                 <AnimatedView style={[containerStyle, { top: -350 }]}>
-                    <Text style={styles.textInput} onPress={handlePressText}>{text}</Text>
+                    <Text style={[styles.textInput, { display: !showModal ? "flex" : "none" }]} onPress={handlePressText}>{text}</Text>
                 </AnimatedView>
             </PanGestureHandler>
-            <Modal visible={showModal} tranparent>
+            <Modal visible={showModal} tranparent style={{ borderColor: '#000', borderWidth: 1 }}>
                 <View style={styles.container}>
-                    <GNTextInput
-                        autoFocus={true}
-                        placeholder={"Enter text"}
-                        defaultValue={text !== "Enter text" ? text : ""}
-                        onChangeText={setText}
-                    />
+                    <View style={styles.modalContent}>
+                        <GNTextInput
+                            autoFocus={true}
+                            placeholder={"Enter text"}
+                            defaultValue={text !== "Enter text" ? text : ""}
+                            onChangeText={setText}
+                        />
+                    </View>
                 </View>
             </Modal>
         </>

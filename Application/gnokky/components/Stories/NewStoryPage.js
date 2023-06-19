@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableHighlight, Keyboard } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appUser, COLORS } from '../Models/Globals';
@@ -15,6 +15,8 @@ import { captureRef } from 'react-native-view-shot';
 
 export default function NewStoryPage({ onClose, media, mediaType }) {
     const [textInputs, setTextInputs] = useState([]);
+    const [bottomBar, showBottomBar] = useState(true);
+    const [colorPicker, setColorPicker] = useState(null);
     const keyboard = useKeyboard()
     const imageRef = useRef();
 
@@ -35,8 +37,13 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
     }
 
     const handleAddText = () => {
+        showBottomBar(false);
         const newTextInput = (
-            <DraggableTextInput key={textInputs.length} />
+            <DraggableTextInput
+                key={textInputs.length}
+                setBottomBar={(value) => showBottomBar(value)}
+                setColorPicker={(picker) => setColorPicker(picker)}
+            />
         );
         setTextInputs([...textInputs, newTextInput]);
     }
@@ -76,6 +83,7 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
                 contentContainerStyle={styles.contentContainer}
                 style={{ height: keyboard.keyboardShown ? 510 - keyboard.keyboardHeight : 510 }}
             >
+                {[colorPicker]}
                 <GestureHandlerRootView style={styles.body}>
                     <View style={{ flex: 1, padding: 10 }} >
                         <View ref={imageRef} collapsable={false}>
@@ -98,11 +106,39 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
                         </View>
                     </View>
                 </GestureHandlerRootView>
-                <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50 }}>
-                    <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={handleAddText} style={styles.iconButton}>
-                        <Ionicons name="text-outline" size={33} color="black" />
-                    </TouchableHighlight>
-                </View>
+                {/* {bottomBar ? (
+                    <View style={{
+                        borderColor: 'black',
+                        backgroundColor: 'white',
+                        borderWidth: 1,
+                        width: '100%',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        height: 50,
+                    }}>
+                        <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={handleAddText} style={styles.iconButton}>
+                            <Ionicons name="text-outline" size={33} color="black" />
+                        </TouchableHighlight>
+                    </View>
+                ) : (
+                    [colorPicker]
+                )} */}
+                {bottomBar &&
+                    <View style={{
+                        borderColor: 'black',
+                        backgroundColor: 'white',
+                        borderWidth: 1,
+                        width: '100%',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        height: 50,
+                        display: bottomBar ? "flex" : "none",
+                    }}>
+                        <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={handleAddText} style={styles.iconButton}>
+                            <Ionicons name="text-outline" size={33} color="black" />
+                        </TouchableHighlight>
+                    </View>
+                }
             </ScrollView>
         </SafeAreaView >
 
