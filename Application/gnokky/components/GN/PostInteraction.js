@@ -23,7 +23,7 @@ export default function PostInteractions() {
           justifyContent: 'space-between',
           paddingHorizontal: 10,
           paddingVertical: 5,
-          backgroundColor: '#ebebeb',
+          // backgroundColor: '#ebebeb',
           borderRadius: 10,
         },
         interaction: {
@@ -35,12 +35,12 @@ export default function PostInteractions() {
         },
         interactionCount: {
           marginLeft: 5,
-          fontSize: 14,
+          fontSize: 16,
           color: COLORS.secondText,
         },
         border: {
-          borderColor: 'black',
-          borderWidth: 1,
+          // borderColor: 'black',
+          // borderWidth: 1,
         },
     });
       
@@ -53,7 +53,7 @@ export default function PostInteractions() {
             name={liked ? 'heart' : 'heart-outline'}
             color={liked ? 'red' : '#63666A'}
             onPress={() => { setLiked(!liked) }}
-            size={20}
+            size={24}
         />
         <Text style={styles.interactionCount}>{likesCount}</Text>
       </View>
@@ -62,7 +62,7 @@ export default function PostInteractions() {
             style={styles.interactionIcon}
             name='chatbox-outline'
             onPress={() => { console.log("Commenti"); }}
-            size={20}
+            size={24}
         />
         <Text style={styles.interactionCount}>{commentsCount}</Text>
       </View>
@@ -71,7 +71,7 @@ export default function PostInteractions() {
             style={styles.interactionIcon}
             name='sync-outline'
             onPress={() => { console.log("Condivisioni"); }}
-            size={20}
+            size={24}
         />
         <Text style={styles.interactionCount}>{repostsCount}</Text>
       </View>
@@ -80,7 +80,7 @@ export default function PostInteractions() {
             style={styles.interactionIcon}
             name='paper-plane-outline'
             onPress={() => { console.log("Invia messaggio"); }}
-            size={20}
+            size={24}
         />
         {/* <Text style={styles.interactionCount}></Text> */}
       </View>

@@ -7,7 +7,7 @@ export default function Divider({color = 'black',width = 1}){
         divider: {
             borderBottomColor: color, // Colore della riga
             borderBottomWidth: width, // Spessore della riga
-            marginVertical: 10,
+            marginVertical: 5,
             width: '100%', // Margine verticale
         },
     });

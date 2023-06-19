@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { appUser } from '../../components/Models/Globals';
 import { COLORS } from '../../components/Models/Globals';
 import PostLoader from '../GN/PostLoader';
+import HomeFeedUtils from './HomeFeedUtils';
+import HomeFeed from './HomeFeed';
 
 export default function HomePage({ navigation }) {
   const styles = StyleSheet.create({
@@ -30,7 +32,7 @@ export default function HomePage({ navigation }) {
       <View style={styles.header}>
         <GNAppBar />
       </View>
-      <PostLoader username={appUser.username}/>
+      <HomeFeed id={appUser.id}/>
     </SafeAreaView>
   );
 }
