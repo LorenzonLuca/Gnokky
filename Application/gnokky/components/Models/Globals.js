@@ -13,3 +13,18 @@ export const updateUser = (newUser) => {
     console.log(appUser.posts.length);
     dataStoreEmitter.emit('changeUser');
 }
+
+export const ROUTES = {
+    LOGIN: 'Login',
+    REGISTER: 'Register',
+    VERIFY_EMAIL: 'Verify Email',
+
+    HOME: "Home",
+    SEARCH: "Search",
+    NOTIFICATION: "Notification",
+    PROFILE: "Profile",
+
+    FLOATING_NAVITAGOR: 'FloatingNavigator',
+    POST: "Post",
+    STORY: "Story",
+};

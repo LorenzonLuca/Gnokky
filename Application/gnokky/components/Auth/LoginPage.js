@@ -6,6 +6,8 @@ import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
 import { StyleSheet } from 'react-native';
+
+import { ROUTES } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
 
 
@@ -83,7 +85,7 @@ export default function LoginPage({ navigation }) {
                     <Text style={styles.errorText}>{error}</Text>
                     <Text style={styles.text}>
                         Don't have already an account?
-                        <Text style={styles.link} onPress={() => {navigation.navigate("Register")}}> Sign up now!</Text>
+                        <Text style={styles.link} onPress={() => {navigation.navigate(ROUTES.REGISTER)}}> Sign up now!</Text>
                     </Text>
                     <StatusBar style="dark" />
                 </View>

@@ -1,6 +1,5 @@
-import { View, Modal, StyleSheet, ScrollView } from 'react-native';
+import { View, Modal, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import GNProfileImage from '../GN/GNProfileImage';
 import { appUser, COLORS, dataStoreEmitter } from '../Models/Globals';
 import GNText from '../GN//GNText';
@@ -93,9 +92,6 @@ export default function ProfilePage({ navigation, route }) {
 
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
-                    <GNAppBar />
-                </View>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     <View style={styles.body}>
                         <View style={[styles.background, {marginBottom: 5}]}>

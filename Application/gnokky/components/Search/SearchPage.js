@@ -1,6 +1,5 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect, useState } from 'react';
@@ -67,9 +66,6 @@ export default function SearchPage({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <GNAppBar />
-            </View>
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.body}>
                     <GNTextInput

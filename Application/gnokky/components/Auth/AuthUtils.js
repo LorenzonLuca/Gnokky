@@ -4,7 +4,7 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import PostUtils from '../Models/PostUtils';
-
+import { ROUTES } from '../Models/Globals';
 
 export const handleLogin = async (email, password, navigation, setError) => {
 
@@ -24,7 +24,7 @@ export const handleLogin = async (email, password, navigation, setError) => {
                 .then((result) => {
                     appUser.setUsername(result[0].username);
                     appUser.setId(result[0].id)
-                    navigation.navigate('NavigatorTab');
+                    navigation.navigate(ROUTES.HOME);
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -58,7 +58,7 @@ export const handleRegister = async (username, email, password, password2, navig
                 .then(() => {
                     appUser.setUsername(username);
                     appUser.setEmail(email);
-                    navigation.navigate('Waiting');
+                    navigation.navigate(ROUTES.VERIFY_EMAIL);
                 })
                 .catch((error) => {
                     console.log(error);

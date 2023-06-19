@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../Models/Globals';
 
 export default function NotificationsPage({ navigation }) {
@@ -25,9 +24,6 @@ export default function NotificationsPage({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <GNAppBar />
-      </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
           <Text>Notification APGJAKG</Text>

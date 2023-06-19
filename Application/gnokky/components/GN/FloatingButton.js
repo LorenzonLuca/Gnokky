@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Animated, TouchableWithoutFeedback, Modal } fro
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import NewPostPage from '../Post/NewPostPage';
-import { COLORS } from '../Models/Globals';
+import { COLORS, ROUTES } from '../Models/Globals';
 
 
 export default function FloatingButton() {
@@ -68,10 +68,10 @@ export default function FloatingButton() {
             alignItems: "center",
         },
         button: {
-            top: -35,
-            width: 70,
-            height: 70,
-            borderRadius: 70 / 2,
+            top: -30,
+            width: 60,
+            height: 60,
+            borderRadius: 60 / 2,
             alignItems: "center",
             justifyContent: "center",
         },
@@ -103,7 +103,7 @@ export default function FloatingButton() {
                 </Animated.View>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => navigation.navigate("CreateStory")}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTES.FLOATING_NAVITAGOR)}>
                 <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, textStyle]}>
                     <Entypo name="clock" size={20} color={COLORS.elements} />
                 </Animated.View>

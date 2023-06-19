@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,SafeAreaView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { appUser } from '../../components/Models/Globals';
 import { COLORS } from '../../components/Models/Globals';
@@ -29,9 +28,6 @@ export default function HomePage({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <GNAppBar />
-      </View>
       <HomeFeed id={appUser.id}/>
     </SafeAreaView>
   );
