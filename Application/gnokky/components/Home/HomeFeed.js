@@ -17,10 +17,10 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState, useEffect } from 'react';
 import PostUtils from '../Models/PostUtils';
 import { RefreshControl } from 'react-native';
-import Divider from './Divider';
 import { ActivityIndicator } from 'react-native';
+import HomeFeedUtils from './HomeFeedUtils';
 
-export default function HomeFeed({ username }) {
+export default function HomeFeed({ id }) {
   appUser.getValueAndUpdate();
 
 
@@ -40,7 +40,7 @@ export default function HomeFeed({ username }) {
     setRefreshing(true);
   
     try {
-      const fetchedPosts = await PostUtils.getPostsByUser(username);
+      const fetchedPosts = await HomeFeedUtils.fillHomeFeed(id);
       setPosts(fetchedPosts);
       setVisiblePosts(5); // Ripristina il numero di post visualizzati a 5
     } catch (error) {
@@ -63,7 +63,7 @@ export default function HomeFeed({ username }) {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const fetchedPosts = await PostUtils.getPostsByUser(username);
+        const fetchedPosts = await HomeFeedUtils.fillHomeFeed(id);
         setPosts(fetchedPosts);
         setLoading(false); // Imposta lo stato di caricamento su false quando i dati sono stati caricati
       } catch (error) {

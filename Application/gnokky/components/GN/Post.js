@@ -10,6 +10,7 @@ import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import PostInteraction from './PostInteraction';
+import Divider from './Divider';
 
 
 export default function Post({username, profilePicUrl, caption = "", locationInfo = "", timestamp, mediaUri = null, mediaType = null}){
@@ -157,6 +158,7 @@ export default function Post({username, profilePicUrl, caption = "", locationInf
                     </View>
                 </View>
             </View>
+            <Divider color={COLORS.thirdText}/>
         </View>
     );
 }
