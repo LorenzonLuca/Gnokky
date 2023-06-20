@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef, useReducer } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ProfileManagement from './components/Profile/ProfileManagement';
@@ -15,6 +15,16 @@ import CreateStoriesNavigator from './components/Stories/CreateStoriesNavigator'
 import 'react-native-gesture-handler';
 import AuthNavigator from './components/Navigations/AuthNavigator';
 
+
+import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
+import { db } from "./components/Models/Firebase"
+import { storage } from "./components/Models/Firebase"
+import { appUser, updateUser } from "./components/Models/Globals"
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { auth } from './components/Models/Firebase';
+import BottomTabNavigator from './components/Navigations/BottomTabNavigator';
+
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -27,25 +37,25 @@ export default function App() {
     });
 
 
-    useEffect(() => {
-        const checkAuthStatus = async () => {
-            try {
-                const value = await AsyncStorage.getItem('_id');
-                if (value !== null) {
-                    setInitialRoute('NavigatorTab');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    // useEffect(() => {
+    //     const checkAuthStatus = async () => {
+    //         try {
+    //             const value = await AsyncStorage.getItem('_id');
+    //             if (value !== null) {
+    //                 setInitialRoute('NavigatorTab');
+    //             }
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
 
-        const setUserId = async () => {
-            const value = await AsyncStorage.getItem('_id');
-            global.USER_ID = value;
-        };
-        setUserId();
-        checkAuthStatus();
-    }, [])
+    //     const setUserId = async () => {
+    //         const value = await AsyncStorage.getItem('_id');
+    //         global.USER_ID = value;
+    //     };
+    //     setUserId();
+    //     checkAuthStatus();
+    // }, [])
 
     // const transitionConfig = () => ({
     //     transitionSpec: {
@@ -66,10 +76,6 @@ export default function App() {
     //         return { transform: [{ translateX }] };
     //     },
     // });
-
-    if (!loaded) {
-        return null;
-    }
 
     // return (
     //     <SafeAreaProvider>
@@ -106,9 +112,37 @@ export default function App() {
     //         </NavigationContainer>
     //     </SafeAreaProvider>
     // );
+    
+    const [initializing, setInitializing] = useState(true);
+    const [user, setUser] = useState();
+
+    function onAuthStateChanged(user) {
+        setUser(user);
+        if(initializing)
+            setInitializing(false);
+    }
+
+
+    useEffect(() => {
+        const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+        return subscriber;
+    }, []);
+
+    if(initializing){
+        return null;
+    }
+
+    if (!loaded) {
+        return null;
+    }
+
     return (
         <NavigationContainer>
+        {(!user) ? (
             <AuthNavigator />
+        ) : (
+            <BottomTabNavigator />
+        )}
         </NavigationContainer>
     );
 }

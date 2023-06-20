@@ -1,8 +1,24 @@
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView,TouchableOpacity, ImageBackground } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
-import { COLORS } from '../Models/Globals';
+import { COLORS, ROUTES } from '../Models/Globals';
 
-export default function NotificationsPage({ navigation }) {
+import { auth } from '../Models/Firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import FirebaseUtils from '../Models/FirebaseUtils';
+import { appUser } from '../Models/Globals';
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
+import PostUtils from '../Models/PostUtils';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+export default function NotificationsPage() {
+
+  const hanldeSignOut = async () => {
+    await signOut(auth)
+    .then(() => console.log("LOGGEDOUT"))
+    .catch((error) => Alert(error));
+  }
+
 
   const styles = StyleSheet.create({
     container: {
@@ -17,16 +33,21 @@ export default function NotificationsPage({ navigation }) {
     header: {
     },
     body: {
-      flex: 1,
+      // flex: 1,
       padding: 20,
-    },
+    }
   });
+
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
-          <Text>Notification APGJAKG</Text>
+          <TouchableOpacity 
+            style={{borderColor: 'blue', borderWidth: 1}}
+            onPress={() => {hanldeSignOut()}}>
+            <Text>SUCA</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

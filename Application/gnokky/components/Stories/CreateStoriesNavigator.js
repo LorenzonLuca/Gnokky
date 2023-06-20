@@ -3,6 +3,7 @@ import GNCamera from '../GN/GNCamera';
 import { Modal } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import { ROUTES } from '../Models/Globals';
 
 export default function CreateStoriesNavigator({ navigation }) {
 
@@ -24,7 +25,7 @@ export default function CreateStoriesNavigator({ navigation }) {
                 <NewStoryPage
                     onClose={() => {
                         setModalStoriesVisible(false)
-                        navigation.navigate("NavigatorTab");
+                        //navigation.goBack();
                     }}
                     media={media}
                     mediaType={mediaType} />
@@ -33,7 +34,8 @@ export default function CreateStoriesNavigator({ navigation }) {
                 <GNCamera
                     onCancel={() => {
                         setModalSelectionMedia(false);
-                        navigation.navigate("NavigatorTab");
+                        //navigation.goBack();
+
                     }}
                     onSave={(media) => {
                         setMedia(media.uri);

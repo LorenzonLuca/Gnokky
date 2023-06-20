@@ -19,12 +19,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo/logo_gnocchi_outline.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ollaretheste.gnokky"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d29ecc76-053f-4a95-bcda-b701f82f2830"
+      }
     }
   }
 }

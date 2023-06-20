@@ -69,7 +69,8 @@
 //     );
 // };
 
-import React from 'react';
+import React, { useState, useEffect} from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -82,7 +83,6 @@ import NewPostPage from '../Post/NewPostPage';
 import NotificationsPage from '../Notifications/NotificationsPage';
 import ProfilePage from '../Profile/ProfilePage';
 import FloatingButtonNavigator from './FloatingButtonNavigator';
-
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
 import NewStoryPage from '../Stories/NewStoryPage';
 
@@ -171,6 +171,7 @@ export default function BottomTabNavigator() {
                 name={ROUTES.FLOATING_NAVITAGOR} 
                 component={FloatingButtonNavigator} 
                 options={{
+                    headerShown: false,
                     tabBarButton: () => (
                         <FloatingButton />
                     ),

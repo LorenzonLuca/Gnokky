@@ -94,10 +94,10 @@ export default function FloatingButton() {
 
     return (
         <View style={styles.container}>
-            <Modal visible={modalVisible} animationType="slide">
+            {/* <Modal visible={modalVisible} animationType="slide">
                 <NewPostPage onClose={() => setModalVisible(false)} />
-            </Modal>
-            <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
+            </Modal> */}
+            <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTES.POST)}>
                 <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, mediaStyle]}>
                     <Entypo name="image" size={20} color={COLORS.elements} />
                 </Animated.View>
