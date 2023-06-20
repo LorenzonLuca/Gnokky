@@ -17,6 +17,8 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
     const [textInputs, setTextInputs] = useState([]);
     const [bottomBar, showBottomBar] = useState(true);
     const [colorPicker, setColorPicker] = useState(null);
+    const [dimensions, setDimensions] = useState({ w: 0, h: 0 });
+    const [start, setStart] = useState({ x: 0, y: 0 });
     const keyboard = useKeyboard()
     const imageRef = useRef();
 
@@ -36,6 +38,14 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
         await StoriesUtils.postStory(img)
     }
 
+    const handleLayout = () => {
+        imageRef.current.measure((fx, fy, w, h, px, py,) => {
+            setDimensions({ w: w, h: h });
+            setStart({ x: px, y: py });
+        });
+    };
+
+
     const handleAddText = () => {
         showBottomBar(false);
         const newTextInput = (
@@ -43,6 +53,9 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
                 key={textInputs.length}
                 setBottomBar={(value) => showBottomBar(value)}
                 setColorPicker={(picker) => setColorPicker(picker)}
+                innerKey={textInputs.length}
+                draggableSpace={dimensions}
+                startDraggableSpace={start}
             />
         );
         setTextInputs([...textInputs, newTextInput]);
@@ -85,7 +98,7 @@ export default function NewStoryPage({ onClose, media, mediaType }) {
             >
                 {[colorPicker]}
                 <GestureHandlerRootView style={styles.body}>
-                    <View style={{ flex: 1, padding: 10 }} >
+                    <View style={{ flex: 1, padding: 10 }} onLayout={handleLayout}>
                         <View ref={imageRef} collapsable={false}>
                             {mediaType === 'image' && (
                                 <Image

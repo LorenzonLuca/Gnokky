@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, SafeAreaView} from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
@@ -30,10 +30,10 @@ export default function LoginPage({ navigation }) {
             textAlign: 'center',
             marginVertical: 35,
         },
-        text:{
+        text: {
             textAlign: 'center',
             color: COLORS.secondText,
-        },  
+        },
         forgotPasswordLink: {
             color: COLORS.elements,
             fontWeight: 'bold',
@@ -52,7 +52,7 @@ export default function LoginPage({ navigation }) {
             fontFamily: 'mnst-bold'
         }
     });
-    
+
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
@@ -71,19 +71,19 @@ export default function LoginPage({ navigation }) {
                         onChangeText={setPassword}
                         animation="true"
                         marginBottom={15} />
-                    <Text 
-                        style={styles.forgotPasswordLink} 
-                        onPress={() => {}}>
-                            Forgot password?
+                    <Text
+                        style={styles.forgotPasswordLink}
+                        onPress={() => { }}>
+                        Forgot password?
                     </Text>
                     <GNButton
                         title={"SIGN IN"}
-                        onPress={() => {handleLogin(email, password, navigation, setError)}}
+                        onPress={() => { handleLogin(email, password, navigation, setError) }}
                     />
                     <Text style={styles.errorText}>{error}</Text>
                     <Text style={styles.text}>
                         Don't have already an account?
-                        <Text style={styles.link} onPress={() => {navigation.navigate("Register")}}> Sign up now!</Text>
+                        <Text style={styles.link} onPress={() => { navigation.navigate("Register") }}> Sign up now!</Text>
                     </Text>
                     <StatusBar style="dark" />
                 </View>

@@ -9,14 +9,15 @@ import { appUser, updateUser } from '../Models/Globals';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import moment from 'moment';
 import PostUtils from '../Models/PostUtils';
+import StoriesUtils from '../Models/StoriesUtils';
 
 export default class HomeFeedUtils {
 
-    static async getFollowedUsernames(id){
+    static async getFollowedUsernames(id) {
         try {
             const userDocRef = doc(db, 'users', id);
             const userDocSnapshot = await getDoc(userDocRef);
-        
+
             if (userDocSnapshot.exists()) {
                 const userData = userDocSnapshot.data();
                 const followingArray = userData.following || [];
@@ -33,29 +34,68 @@ export default class HomeFeedUtils {
     static async fillHomeFeed(id) {
         const users = await this.getFollowedUsernames(id);
         if (!users) {
-          console.log("Username array empty or null");
-          return null;
+            console.log("Username array empty or null");
+            return null;
         }
-        
+
         const promises = users.map(user => PostUtils.getPostsByUser(user));
-      
+
         try {
-          const posts = await Promise.all(promises);
-          const flattenedPosts = posts.flat();
-      
-          const sortedPosts = flattenedPosts.sort((a, b) => {
-            const timestampA = a.timestamp;
-            const timestampB = b.timestamp;
-      
-            // Ordine crescente in base al timestamp
-            return timestampB - timestampA;
-          });
-      
-          console.log("VO LUGAN A LAVURA", sortedPosts);
-          return sortedPosts;
+            const posts = await Promise.all(promises);
+            const flattenedPosts = posts.flat();
+
+            const sortedPosts = flattenedPosts.sort((a, b) => {
+                const timestampA = a.timestamp;
+                const timestampB = b.timestamp;
+
+                // Ordine crescente in base al timestamp
+                return timestampB - timestampA;
+            });
+
+            console.log("VO LUGAN A LAVURA", sortedPosts);
+            return sortedPosts;
         } catch (error) {
-          console.error("Error while getting or pushing posts into array: ", error);
-          return null;
+            console.error("Error while getting or pushing posts into array: ", error);
+            return null;
         }
-    } 
+    }
+
+
+
+    // Metodo per le storie
+    static async getStoriesByUser(id) {
+        const users = await this.getFollowedUsernames(id);
+        if (!users) {
+            console.log("Username array empty or null");
+            return null;
+        }
+
+        const promises = users.map(user => StoriesUtils.getStoriesByUsername(user));
+
+        try {
+            const stories = await Promise.all(promises);
+
+            const filtered = stories.filter((element) => {
+                return element != null;
+            });
+
+
+            if (filtered.length > 1) {
+                const sortedStory = filtered.sort((a, b) => {
+                    const timestampA = a.timestamp;
+                    const timestampB = b.timestamp;
+
+                    // Ordine crescente in base al timestamp
+                    return timestampB - timestampA;
+                });
+
+                return sortedStory;
+            } else {
+                return filtered;
+            }
+        } catch (error) {
+            console.error("Error while getting or pushing stories into array: ", error);
+            return null;
+        }
+    }
 }
