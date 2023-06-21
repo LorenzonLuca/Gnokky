@@ -1,57 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, SafeAreaView} from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
 import { StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import { ROUTES } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
 
-import { auth } from '../Models/Firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import FirebaseUtils from '../Models/FirebaseUtils';
-import { appUser } from '../Models/Globals';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import PostUtils from '../Models/PostUtils';
 
-
-export default function LoginPage() {
-
-    const navigation = useNavigation();
+export default function LoginPage({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const handleLoginUser = async (email, password) => {
-    
-        if (!(email && password)) {
-            setError('Email and password fields are required');
-            return;
-        }
-    
-        await signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                appUser.setEmail(email);
-                FirebaseUtils.getUserByEmail(email)
-                    .then((result) => {
-                        appUser.setUsername(result[0].username);
-                        appUser.setId(result[0].id)
-                        navigation.navigate(ROUTES.HOME);
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-            })
-            .catch((error) => {
-                console.log(error.message);
-                setError(error.message)
-            });
-    }
 
     const styles = StyleSheet.create({
         safeAreaContainer: {
@@ -68,10 +30,10 @@ export default function LoginPage() {
             textAlign: 'center',
             marginVertical: 35,
         },
-        text:{
+        text: {
             textAlign: 'center',
             color: COLORS.secondText,
-        },  
+        },
         forgotPasswordLink: {
             color: COLORS.elements,
             fontWeight: 'bold',
@@ -90,7 +52,7 @@ export default function LoginPage() {
             fontFamily: 'mnst-bold'
         }
     });
-    
+
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
@@ -100,28 +62,28 @@ export default function LoginPage() {
                         placeholder='Email'
                         iconName="mail-outline"
                         iconNameFocused="mail"
-                        onChangeText={(email) => setEmail(email.trim())}
+                        onChangeText={setEmail}
                         animation="true" />
                     <GNTextInputPassword
                         placeholder='Password'
                         iconName="lock-closed-outline"
                         iconNameFocused="lock-closed"
-                        onChangeText={(password) => setPassword(password.trim())}
+                        onChangeText={setPassword}
                         animation="true"
                         marginBottom={15} />
-                    <Text 
-                        style={styles.forgotPasswordLink} 
-                        onPress={() => {}}>
-                            Forgot password?
+                    <Text
+                        style={styles.forgotPasswordLink}
+                        onPress={() => { }}>
+                        Forgot password?
                     </Text>
                     <GNButton
                         title={"SIGN IN"}
-                        onPress={() => {handleLoginUser(email, password)}}
+                        onPress={() => { handleLogin(email, password, navigation, setError) }}
                     />
                     <Text style={styles.errorText}>{error}</Text>
                     <Text style={styles.text}>
                         Don't have already an account?
-                        <Text style={styles.link} onPress={() => {navigation.navigate(ROUTES.REGISTER)}}> Sign up now!</Text>
+                        <Text style={styles.link} onPress={() => { navigation.navigate("Register") }}> Sign up now!</Text>
                     </Text>
                     <StatusBar style="dark" />
                 </View>

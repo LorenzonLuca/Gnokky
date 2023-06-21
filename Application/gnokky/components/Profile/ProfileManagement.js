@@ -12,6 +12,7 @@ import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ROUTES } from '../Models/Globals';
 
 export default function ProfileManagement({ navigation, route, title, onSave }) {
     // const { title } = route.params;
@@ -78,7 +79,7 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                 FirebaseUtils.insertPersonalInformation(name, surname, bio)
                 if (title === "Create profile") {
                     FirebaseUtils.setDefaultValue();
-                    navigation.navigate("NavigatorTab");
+                    navigation.navigate(ROUTES.HOME);
                 } else {
                     onSave();
                 }

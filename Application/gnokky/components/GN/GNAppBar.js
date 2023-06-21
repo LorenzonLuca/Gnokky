@@ -14,8 +14,8 @@ export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles
         appbar: {
             backgroundColor: COLORS.background,
             color: COLORS.firtText,
-            borderBottomLeftRadius: 15,
-            borderBottomRightRadius: 15,
+            // borderBottomLeftRadius: 15,
+            // borderBottomRightRadius: 15,
             zIndex: 3, // works on ios
             elevation: 3, // works on android
             // borderRadius: 15,

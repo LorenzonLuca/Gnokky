@@ -19,6 +19,8 @@ import PostUtils from '../Models/PostUtils';
 import { RefreshControl } from 'react-native';
 import { ActivityIndicator } from 'react-native';
 import HomeFeedUtils from './HomeFeedUtils';
+import HomeStories from './HomeStories';
+import Divider from '../GN/Divider';
 
 export default function HomeFeed({ id }) {
   appUser.getValueAndUpdate();
@@ -38,7 +40,7 @@ export default function HomeFeed({ id }) {
 
   const onRefresh = async () => {
     setRefreshing(true);
-  
+
     try {
       const fetchedPosts = await HomeFeedUtils.fillHomeFeed(id);
       setPosts(fetchedPosts);
@@ -46,19 +48,19 @@ export default function HomeFeed({ id }) {
     } catch (error) {
       console.log(error);
     }
-  
+
     setRefreshing(false);
   };
-  
+
   // const handleScrollEnd = () => {
   //   const totalPosts = posts.length;
   //   const visiblePostsCount = visiblePosts + 5;
-  
+
   //   if (visiblePostsCount <= totalPosts) {
   //     setVisiblePosts(visiblePostsCount);
   //   }
   // };
-  
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -103,12 +105,12 @@ export default function HomeFeed({ id }) {
   // Restituisci un messaggio di caricamento durante il caricamento dei dati
   if (loading) {
     return (
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.contentContainer}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-          onScrollEndDrag={() => {}}>
+        onScrollEndDrag={() => { }}>
         <View style={styles.body}>
           <ActivityIndicator size="large" color={COLORS.elements} />
         </View>
@@ -130,34 +132,38 @@ export default function HomeFeed({ id }) {
         key={post.id}
       />
     ));
-    
+
 
     return (
-      <ScrollView 
-        contentContainerStyle={styles.contentContainer}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        onScrollEndDrag={() => {}}
-      >
-        <View style={styles.body}>
-          <>{generateComponents}</>
-        </View>
-      </ScrollView>
+      <>
+        <ScrollView
+          contentContainerStyle={styles.contentContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          onScrollEndDrag={() => { }}
+        >
+          <View style={styles.body}>
+            <HomeStories />
+            <Divider />
+            <>{generateComponents}</>
+          </View>
+        </ScrollView>
+      </>
     );
   }
 
   // Se non ci sono post, mostra un messaggio appropriato
   return (
-      <ScrollView 
-          contentContainerStyle={styles.contentContainer}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          onScrollEndDrag={() => {}}>
-          <View style={styles.warningBody}>
-            <Text>No posts found, try to refresh!</Text>
-          </View>
-      </ScrollView>
+    <ScrollView
+      contentContainerStyle={styles.contentContainer}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      onScrollEndDrag={() => { }}>
+      <View style={styles.warningBody}>
+        <Text>No posts found, try to refresh!</Text>
+      </View>
+    </ScrollView>
   );
 }

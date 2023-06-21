@@ -6,6 +6,7 @@ import { COLORS } from '../../components/Models/Globals';
 import PostLoader from '../GN/PostLoader';
 import HomeFeedUtils from './HomeFeedUtils';
 import HomeFeed from './HomeFeed';
+import StoriesUtils from '../Models/StoriesUtils';
 
 export default function HomePage({ navigation }) {
   const styles = StyleSheet.create({
@@ -28,7 +29,7 @@ export default function HomePage({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HomeFeed id={appUser.id}/>
+      <HomeFeed id={appUser.id} />
     </SafeAreaView>
   );
 }

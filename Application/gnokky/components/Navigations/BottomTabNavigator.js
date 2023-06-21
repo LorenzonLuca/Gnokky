@@ -82,9 +82,9 @@ import SearchPage from '../Search/SearchPage';
 import NewPostPage from '../Post/NewPostPage';
 import NotificationsPage from '../Notifications/NotificationsPage';
 import ProfilePage from '../Profile/ProfilePage';
-import FloatingButtonNavigator from './FloatingButtonNavigator';
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
 import NewStoryPage from '../Stories/NewStoryPage';
+import CreateStoriesNavigator from '../Stories/CreateStoriesNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -168,8 +168,8 @@ export default function BottomTabNavigator() {
                 component={SearchPage} 
             />
             <Tab.Screen 
-                name={ROUTES.FLOATING_NAVITAGOR} 
-                component={FloatingButtonNavigator} 
+                name={ROUTES.STORY} 
+                component={CreateStoriesNavigator} 
                 options={{
                     headerShown: false,
                     tabBarButton: () => (

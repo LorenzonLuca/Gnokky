@@ -25,7 +25,7 @@ export default function CreateStoriesNavigator({ navigation }) {
                 <NewStoryPage
                     onClose={() => {
                         setModalStoriesVisible(false)
-                        //navigation.goBack();
+                        navigation.goBack();
                     }}
                     media={media}
                     mediaType={mediaType} />
@@ -34,7 +34,7 @@ export default function CreateStoriesNavigator({ navigation }) {
                 <GNCamera
                     onCancel={() => {
                         setModalSelectionMedia(false);
-                        //navigation.goBack();
+                        navigation.goBack();
 
                     }}
                     onSave={(media) => {

@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Modal, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, Modal, StyleSheet, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
 import { auth } from '../Models/Firebase';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import ProfileManagement from '../Profile/ProfileManagement';
-import { COLORS, ROUTES } from '../Models/Globals';
+import { COLORS } from '../Models/Globals';
+import { SafeAreaView } from 'react-native';
 
 export default function WaitingPage({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
