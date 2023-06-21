@@ -19,9 +19,6 @@ export default function Post({ post }){
 
     const [modalVisible, setModalVisible] = useState(false);
 
-
-    console.log("ollarethesium ", post.owner)
-
     const handleMediaClick = () => {
         if(post.mediaType == 'image')
             setModalVisible(true);

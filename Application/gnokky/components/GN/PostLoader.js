@@ -119,19 +119,7 @@ export default function PostLoader({ username }) {
 
   // Restituisci i dati solo quando sono completamente caricati
   if (posts && posts.length > 0) {
-    const generateComponents = posts.map((post) => (
-    //   <Post
-    //     username={post.owner}
-    //     profilePicUrl={post.ownerProfilePicUrl}
-    //     caption={post.caption}
-    //     locationInfo={post.location}
-    //     timestamp={PostUtils.formatDate(post.timestamp)}
-    //     mediaType={post.mediaType}
-    //     mediaUri={post.downloadUrl}
-    //     key={post.id}
-    //   />
-    // ));
-      
+    const generateComponents = posts.map((post) => (      
       <Post
         post={post}
         key={post.id}

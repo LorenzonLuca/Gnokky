@@ -13,14 +13,19 @@ export default function PostInteractions({id}) {
     const [commentsCount, setCommentsCount] = useState(0);
     const [repostsCount, setRepostsCount] = useState(0);
 
-    useEffect(() => {
-        
+    useEffect(async () => {
+      setLiked(await PostUtils.checkIfLiked(id));
+      setLikesCount(await PostUtils.getLikeCount(id));
     }, [])
 
     const handleLikePost = async () =>{
-      //setLiked(!liked);
-      console.log(id)
-      //PostUtils.likePost(id);
+      if(liked){
+        await PostUtils.dislikePost(id);
+      }else{
+        await PostUtils.likePost(id);
+      }
+      setLiked(!liked);
+      setLikesCount(await PostUtils.getLikeCount(id));
     }
 
     const styles = StyleSheet.create({
