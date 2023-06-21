@@ -4,8 +4,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState } from 'react';
 
-export default function StoriesVisualizer({ stories, closeStories }) {
+export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property }) {
     const [storyIndex, setStoryIndex] = useState(0);
+    const [userIndex, setUserIndex] = useState(startIndex);
 
     const size = 45;
     const styles = StyleSheet.create({
@@ -67,8 +68,13 @@ export default function StoriesVisualizer({ stories, closeStories }) {
 
     const handleNextStory = () => {
         console.log("NEXTTTT");
-        if (storyIndex < stories.length - 1) {
+        if (storyIndex < (!property ? stories[userIndex].length - 1 : stories.length - 1)) {
             setStoryIndex(storyIndex + 1);
+        } else if (userIndex < stories.length - 1 && !property) {
+            setUserIndex(userIndex + 1);
+            setStoryIndex(0);
+        } else {
+            closeStories();
         }
     }
 
@@ -76,6 +82,9 @@ export default function StoriesVisualizer({ stories, closeStories }) {
         console.log("PREVIOUSSSSS");
         if (storyIndex > 0) {
             setStoryIndex(storyIndex - 1);
+        } else if (userIndex > 0 && !property) {
+            setUserIndex(userIndex - 1);
+            setStoryIndex(stories[userIndex - 1].length - 1);
         }
     }
 
@@ -83,9 +92,13 @@ export default function StoriesVisualizer({ stories, closeStories }) {
         <>
             <View style={styles.header}>
                 <View style={styles.storyIcon}>
-                    <Image source={{ uri: stories[0].profilePic }} resizeMode="cover" style={styles.mediaIcon} />
+                    <Image
+                        source={{ uri: !property ? stories[userIndex][0].profilePic : stories[0].profilePic }}
+                        resizeMode="cover"
+                        style={styles.mediaIcon}
+                    />
                 </View>
-                <Text>{stories[0].owner}</Text>
+                <Text>{!property ? stories[userIndex][0].owner : "Your story"}</Text>
                 <View style={styles.iconContainer}>
                     <TouchableWithoutFeedback onPress={closeStories}>
                         <Ionicons name='close-outline' size={40} />
@@ -94,7 +107,10 @@ export default function StoriesVisualizer({ stories, closeStories }) {
             </View>
             <View style={styles.contentContainer}>
                 <View style={styles.storyImg}>
-                    <ImageBackground source={{ uri: stories[storyIndex].img }} style={styles.media}>
+                    <ImageBackground
+                        source={{ uri: !property ? stories[userIndex][storyIndex].img : stories[storyIndex].img }}
+                        style={styles.media}
+                    >
                         <TouchableOpacity style={styles.button} onPress={handlePrevoiusStory} activeOpacity={1}>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={handleNextStory} activeOpacity={1}>
