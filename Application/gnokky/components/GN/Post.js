@@ -15,38 +15,38 @@ import PostUtils from '../Models/PostUtils';
 
 
 //export default function Post({username, profilePicUrl, caption = "", locationInfo = "", timestamp, mediaUri = null, mediaType = null}){
-export default function Post({ post }){
+export default function Post({ post }) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleMediaClick = () => {
-        if(post.mediaType == 'image')
+        if (post.mediaType == 'image')
             setModalVisible(true);
     };
-    
+
 
     const closeModal = () => {
         setModalVisible(false);
     };
 
-    const EmptyText = ({ style,icon = "",text }) => {
+    const EmptyText = ({ style, icon = "", text }) => {
         if (!text) {
-          return <Text style={{ display: 'none' }}>{text}</Text>;
+            return <Text style={{ display: 'none' }}>{text}</Text>;
         }
-      
+
         return <Text style={style}><Ionicons name={icon} size={15} />{text}</Text>;
     };
 
     const styles = StyleSheet.create({
         container: {
-          flex: 1,
-          backgroundColor: COLORS.background,
-        //   borderColor: 'red',
-        //   borderWidth: 1,
+            flex: 1,
+            backgroundColor: COLORS.background,
+            //   borderColor: 'red',
+            //   borderWidth: 1,
         },
         body: {
-          flex: 1,
-          flexDirection: 'row',
+            flex: 1,
+            flexDirection: 'row',
         },
         infoContainer: {
             flexDirection: 'row',
@@ -55,7 +55,7 @@ export default function Post({ post }){
         mediaContainer: {
             marginVertical: 5,
             borderRadius: 15,
-        },  
+        },
         username: {
             fontWeight: 'bold',
         },
@@ -64,7 +64,7 @@ export default function Post({ post }){
         },
         location: {
             paddingVertical: 5,
-        },  
+        },
         media: {
             // height: '100%',
             // aspectRatio: 3/4,
@@ -82,10 +82,10 @@ export default function Post({ post }){
             top: 16,
             left: 16,
             zIndex: 1,
-          },
+        },
         modalVideo: {
             flex: 1,
-          },
+        },
         border: {
             // borderColor: 'black',
             // borderWidth: 1,
@@ -94,19 +94,19 @@ export default function Post({ post }){
 
     return (
         <View style={styles.container}>
-            <View style={styles.body}> 
-                <View style={[styles.border, { padding: 10}]}>
-                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} /> 
+            <View style={styles.body}>
+                <View style={[styles.border, { padding: 10 }]}>
+                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
                 </View>
-                <View style={[styles.border, { flex: 1, padding: 10}]}>
+                <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
                         <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
                         <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
                     </View>
                     <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
-                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />  
-                            {/* {mediaUri && mediaType === 'image' && (
+                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />
+                        {/* {mediaUri && mediaType === 'image' && (
                                 <Image 
                                     source={{ uri: mediaUri }} 
                                     style={styles.media} 
@@ -123,9 +123,9 @@ export default function Post({ post }){
                             )} */}
                         <TouchableOpacity onPress={handleMediaClick}>
                             {post.downloadUrl && post.mediaType === 'image' && (
-                                <Image 
-                                    source={{ uri: post.downloadUrl }} 
-                                    style={styles.media} 
+                                <Image
+                                    source={{ uri: post.downloadUrl }}
+                                    style={styles.media}
                                     // resizeMode="cover"
                                     resizeMode="cover"
                                 />
@@ -138,7 +138,7 @@ export default function Post({ post }){
                                     resizeMode="contain" />
                             )}
                         </TouchableOpacity>
-                        <PostInteraction id={post.id}/>
+                        <PostInteraction id={post.id} />
                         <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
                             <View style={styles.modalContainer}>
                                 <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
@@ -160,7 +160,7 @@ export default function Post({ post }){
                     </View>
                 </View>
             </View>
-            <Divider color={COLORS.thirdText}/>
+            <Divider color={COLORS.thirdText} />
         </View>
     );
 }

@@ -1,7 +1,11 @@
-import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, orderBy } from "firebase/firestore";
+import {
+    collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs,
+    arrayUnion, orderBy, deleteDoc, arrayRemove
+} from "firebase/firestore";
 import { db } from "./Firebase"
 import FirebaseUtils from "./FirebaseUtils";
 import { appUser } from "./Globals";
+import moment from "moment";
 
 export default class StoriesUtils {
     static async postStory(url) {
@@ -23,18 +27,28 @@ export default class StoriesUtils {
     static async getStoriesByUsername(username) {
         try {
             const storiesCollection = collection(db, "stories");
-            const querySnapshot = await getDocs(query(storiesCollection, where('owner', '==', username), orderBy('timestamp', 'desc')));
+            const querySnapshot = await getDocs(query(storiesCollection, where('owner', '==', username), orderBy('timestamp', 'asc')));
             const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
 
             if (!querySnapshot.empty) {
                 const stories = [];
+                const oldStories = [];
+                const currentTime = moment();
+
                 querySnapshot.forEach((doc) => {
                     const story = doc.data();
                     story.id = doc.id;
                     story.profilePic = profilePic;
-                    stories.push(story);
+
+                    if (currentTime.diff(story.timestamp, 'days') > 0) {
+                        oldStories.push(story);
+                    } else {
+                        console.log("DIFFERENZA DI TEMPO (PER ELIMINARE LA STORIA): ", currentTime.diff(story.timestamp, 'days'));
+                        stories.push(story);
+                    }
                 });
                 console.log("le storie di ", username, " mannaggia a ddio sono: ", stories);
+                this.removeOldStories(oldStories);
                 return stories;
             } else {
                 console.log("No stories found by this username " + username);
@@ -57,6 +71,29 @@ export default class StoriesUtils {
             });
         } catch (e) {
             console.log("Error during adding personal information: ", e);
+        }
+    }
+
+    static async removeOldStories(stories) {
+        try {
+
+            await stories.forEach(async (story) => {
+                const docRef = doc(db, "stories", story.id);
+
+
+                deleteDoc(docRef)
+                    .then(() => {
+                        console.log(`Story with id ${story} has been deleted`);
+                    })
+                    .catch((error) => {
+                        console.log("Error while deleting a story: ", error);
+                    })
+
+                await FirebaseUtils.removeImage(story.img);
+            })
+
+        } catch (e) {
+            console.log("Error during adding default value: ", e);
         }
     }
 }

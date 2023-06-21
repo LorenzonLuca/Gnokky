@@ -23,11 +23,9 @@ import HomeStories from './HomeStories';
 import Divider from '../GN/Divider';
 
 export default function HomeFeed({ id }) {
-    appUser.getValueAndUpdate();
-
-
 
     const [posts, setPosts] = useState([]);
+    const [stories, setStories] = useState([]);
     const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
     const [refreshing, setRefreshing] = useState(false);
     const [visiblePosts, setVisiblePosts] = useState(5);
@@ -43,6 +41,8 @@ export default function HomeFeed({ id }) {
 
         try {
             const fetchedPosts = await HomeFeedUtils.fillHomeFeed(id);
+            const fetchedStories = await HomeFeedUtils.getStoriesByUser(id);
+            setStories(fetchedStories);
             setPosts(fetchedPosts);
             setVisiblePosts(5); // Ripristina il numero di post visualizzati a 5
         } catch (error) {
@@ -74,7 +74,22 @@ export default function HomeFeed({ id }) {
             }
         };
 
+        const fetchStories = async () => {
+            try {
+                const fetchedStories = await HomeFeedUtils.getStoriesByUser(id);
+                setStories(fetchedStories);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        const fetchUser = async () => {
+            await appUser.getValueAndUpdate();
+        }
+
+        fetchUser();
         fetchPosts();
+        fetchStories();
     }, []);
 
     const styles = StyleSheet.create({
@@ -138,7 +153,7 @@ export default function HomeFeed({ id }) {
                     onScrollEndDrag={() => { }}
                 >
                     <View style={styles.body}>
-                        <HomeStories />
+                        <HomeStories fetchedStories={stories} />
                         <Divider />
                         <>{generateComponents}</>
                     </View>

@@ -6,8 +6,8 @@ import StoriesUtils from "../Models/StoriesUtils";
 import HomeFeedUtils from "./HomeFeedUtils";
 
 
-export default function HomeStories() {
-    const [stories, setStories] = useState(null);
+export default function HomeStories({ fetchedStories }) {
+    const [stories, setStories] = useState(fetchedStories);
     const [openStory, setOpenStory] = useState(false);
     const [userStories, setUserStories] = useState(0);
     const [myStories, setMyStories] = useState([]);
@@ -24,7 +24,7 @@ export default function HomeStories() {
                     setMyStories(result);
                 })
         }
-    }, [])
+    }, [openStory])
 
     const size = 85;
 
@@ -70,6 +70,25 @@ export default function HomeStories() {
             setOpenMyStories(true);
         }
 
+        const handleAlreadySeen = (user) => {
+            let result = true;
+            user.forEach(story => {
+                console.log("storyyyyyyyyyyyyyyyyy", story);
+                let tmpResult = false;
+                story.watchedBy.forEach((users) => {
+                    if (users.username == appUser.username) {
+                        console.log("UELA SOIC ", users.username, "MA ALORA ", appUser.username);
+                        tmpResult = true;
+                    }
+                });
+                if (!tmpResult) {
+                    result = tmpResult;
+                }
+
+            });
+            return result;
+        }
+
         const myStory = (
             <View key={myStories[0].owner} style={styles.storyContainer} >
                 {console.log("GENERATING Your STORY ICONS")}
@@ -85,7 +104,8 @@ export default function HomeStories() {
         const storiesElements = stories.map((user) => (
             <View key={user[0].owner} style={styles.storyContainer} >
                 {console.log("GENERATING STORY ICONS", user)}
-                <View style={styles.storyIcon}>
+                {console.log("USER ALREADY SEEN : ", handleAlreadySeen(user))}
+                <View style={[styles.storyIcon, { borderColor: handleAlreadySeen(user) ? COLORS.firtText : COLORS.elements }]}>
                     <TouchableWithoutFeedback onPress={() => handleOpenStory(user)}>
                         <Image source={{ uri: user[0].profilePic }} resizeMode="cover" style={styles.media} />
                     </TouchableWithoutFeedback>
@@ -110,7 +130,7 @@ export default function HomeStories() {
                         <StoriesVisualizer stories={stories} closeStories={handleCloseStoriesModal} startIndex={userStories} />
                     </Modal>
                     <Modal visible={openMyStories} animationType='slide'>
-                        <StoriesVisualizer stories={myStories} closeStories={handleCloseStoriesModal} property={true} />
+                        <StoriesVisualizer stories={myStories} closeStories={handleCloseStoriesModal} property={true} viewAction={true} />
                     </Modal>
                 </View>
             </ScrollView>
