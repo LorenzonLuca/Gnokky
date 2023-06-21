@@ -184,7 +184,6 @@ export default class PostUtils {
             const docRef = doc(db, "posts", id);
             const postSnapshot = await getDoc(docRef);
             if (postSnapshot.exists() && postSnapshot.data()) {
-                console.log("SIUMMSM", postSnapshot.data())
                 const post = postSnapshot.data();
                 return post.likes.length;
             } else {

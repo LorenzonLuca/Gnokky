@@ -85,6 +85,7 @@ import ProfilePage from '../Profile/ProfilePage';
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
 import NewStoryPage from '../Stories/NewStoryPage';
 import CreateStoriesNavigator from '../Stories/CreateStoriesNavigator';
+import SearchNavigator from '../Search/SearchNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -165,7 +166,8 @@ export default function BottomTabNavigator() {
             />
             <Tab.Screen 
                 name={ROUTES.SEARCH} 
-                component={SearchPage} 
+                component={SearchNavigator} 
+                options={{headerShown: false}}
             />
             <Tab.Screen 
                 name={ROUTES.STORY} 

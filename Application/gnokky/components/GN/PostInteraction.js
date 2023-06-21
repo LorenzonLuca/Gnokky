@@ -13,9 +13,12 @@ export default function PostInteractions({id}) {
     const [commentsCount, setCommentsCount] = useState(0);
     const [repostsCount, setRepostsCount] = useState(0);
 
-    useEffect(async () => {
-      setLiked(await PostUtils.checkIfLiked(id));
-      setLikesCount(await PostUtils.getLikeCount(id));
+    useEffect(() => {
+      const fetchData = async () => {
+        setLiked(await PostUtils.checkIfLiked(id));
+        setLikesCount(await PostUtils.getLikeCount(id));
+      }
+      fetchData();
     }, [])
 
     const handleLikePost = async () =>{

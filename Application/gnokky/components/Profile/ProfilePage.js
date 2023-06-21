@@ -156,12 +156,12 @@ export default function ProfilePage({ navigation, route }) {
 
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
+                {/* <View style={styles.header}>
                     <GNAppBar
                         iconLeading='arrow-back-outline'
                         onPressLeading={() => { navigation.goBack() }}
                         iconTrailing='' />
-                </View>
+                </View> */}
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     <View style={styles.body}>
                         <View style={[styles.background, { marginBottom: 20 }]}>
