@@ -4,8 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { COLORS } from '../Models/Globals';
 import { useEffect } from 'react';
+import PostUtils from '../Models/PostUtils';
 
-export default function PostInteractions() {
+export default function PostInteractions({id}) {
 
     const [liked, setLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
@@ -15,6 +16,12 @@ export default function PostInteractions() {
     useEffect(() => {
         
     }, [])
+
+    const handleLikePost = async () =>{
+      //setLiked(!liked);
+      console.log(id)
+      //PostUtils.likePost(id);
+    }
 
     const styles = StyleSheet.create({
         container: {
@@ -52,7 +59,7 @@ export default function PostInteractions() {
         <Ionicons
             name={liked ? 'heart' : 'heart-outline'}
             color={liked ? 'red' : '#63666A'}
-            onPress={() => { setLiked(!liked) }}
+            onPress={handleLikePost}
             size={24}
         />
         <Text style={styles.interactionCount}>{likesCount}</Text>

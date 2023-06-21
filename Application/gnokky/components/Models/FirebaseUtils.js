@@ -57,12 +57,7 @@ export default class FirebaseUtils {
 
             if (userSnapshot.exists()) {
                 const user = userSnapshot.data();
-
-                // const fileName = user.username + ".jpg";
-                // const storageRef = ref(storage, `profilespic/${fileName}`);
-
-                // console.log(fileName);
-
+                
                 const path = user.username + "/profilepic";
                 try {
                     // const downloadUrl = await getDownloadURL(storageRef);

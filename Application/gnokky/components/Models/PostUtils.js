@@ -135,4 +135,54 @@ export default class PostUtils {
             return null;
         }
     }
+
+    // POST INTERACTIONS
+    static async getPostsById(id) {
+        try {
+            const postDoc = doc(db, "posts", id);
+            const postSnapshot = await getDoc(postDoc);
+
+            if (postSnapshot.exists()) {
+                const post = postSnapshot.data();
+                return post;
+            } else {
+                console.log("No post found by this id " + username);
+                return null;
+            }
+        } catch (e) {
+            console.log("Error getting post: ", e);
+            return null;
+        }
+    }
+
+    static async likePost(id){
+        try {
+            
+            const postRef = doc(db, "posts", id);
+
+            // await updateDoc(postRef, {
+            //     likes: arrayUnion(appUser.username)
+            // });
+
+            // console.log("numero di mi piace: " + postRef.data().likes.length)
+            console.log("siasfdam")
+        } catch (e) {
+            console.log("Error during adding default value: ", e);
+        }
+    }
+
+    /*static async dislikePost(id){
+        try {
+            const postRef = doc(db, "posts", id);
+
+            await updateDoc(postRef, {
+                likes: arrayUnion(appUser.username)
+            });
+
+            console.log("numero di mi piace: " + postRef.data().likes.length)
+
+        } catch (e) {
+            console.log("Error during adding default value: ", e);
+        }
+    }*/
 }

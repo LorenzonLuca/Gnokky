@@ -6,6 +6,7 @@ import LoginPage from '../Auth/LoginPage';
 import RegisterPage from '../Auth/RegisterPage';
 import WaitingPage from '../Auth/WaitingPage';
 import BottomTabNavigator from './BottomTabNavigator';
+import ProfileManagement from '../Profile/ProfileManagement';
 
 const Stack = createStackNavigator();
 // Navigator, Screen, Group
@@ -26,6 +27,11 @@ export default function AuthNavigator() {
         <Stack.Screen 
             name={ROUTES.REGISTER} 
             component={RegisterPage}
+            options={{headerShown: false}}
+        />
+        <Stack.Screen 
+            name={ROUTES.VERIFY_EMAIL} 
+            component={WaitingPage}
             options={{headerShown: false}}
         />
         <Stack.Screen 

@@ -6,7 +6,7 @@ import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleRegister } from './AuthUtils';
-import { COLORS } from '../Models/Globals';
+import { COLORS, ROUTES } from '../Models/Globals';
 
 
 export default function RegisterPage({ navigation }) {
@@ -92,7 +92,7 @@ export default function RegisterPage({ navigation }) {
                     <Text style={styles.errorText}>{error}</Text>
                     <Text style={styles.text}>
                         Already have an account? 
-                        <Text style={styles.link} onPress={() => {navigation.navigate("Login")}}> Sign in!</Text>
+                        <Text style={styles.link} onPress={() => {navigation.navigate(ROUTES.LOGIN)}}> Sign in!</Text>
                     </Text>
                     <StatusBar style="dark" />
                 </View>
