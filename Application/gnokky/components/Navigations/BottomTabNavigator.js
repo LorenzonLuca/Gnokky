@@ -87,6 +87,13 @@ import NewStoryPage from '../Stories/NewStoryPage';
 import CreateStoriesNavigator from '../Stories/CreateStoriesNavigator';
 import SearchNavigator from '../Search/SearchNavigator';
 
+
+import { useRef } from 'react';
+
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import 'react-native-gesture-handler';
+
+
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -109,86 +116,88 @@ export default function BottomTabNavigator() {
     });
 
     return (
-        <Tab.Navigator 
-            screenOptions={({route}) => ({
-                headerTintColor: COLORS.firtText,
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: COLORS.background,
-                    borderBottomColor: COLORS.thirdText,
-                    borderBottomWidth: 1,
-                },
-                headerLeft: () => (
-                    <IconButton
-                        icon={() => <Ionicons name={''} size={30} color={'black'} />}
-                        onPress={() => {console.log("pressed leading")}}
-                    />
-                ),
-                headerTitle: () => (
-                    <View style={styles.imageContainer}>
-                        <Image source={logo} style={styles.image} />
-                    </View>
-                ),
-                headerRight: () => (
-                    <IconButton
-                        icon={() => <Ionicons name={'chatbubbles-outline'} size={30} color={'black'} />}
-                        onPress={() => {console.log("pressed trailing")}}
-                    />
-                ),
-                tabBarStyle: {
-                    backgroundColor: COLORS.background,
-                    borderTopColor: COLORS.thirdText,
-                    borderTopWidth: 1,
-                },
-                tabBarLabel: () => { return ""; },
-                tabBarActiveTintColor: COLORS.elements,
-                tabBarIcon: ({color, size, focused}) => {
-                    let iconName;
-
-                    if(route.name === ROUTES.HOME){
-                        iconName = focused ? 'home' : 'home-outline';
-                    }else if(route.name === ROUTES.SEARCH){
-                        iconName = focused ? 'search' : 'search-outline';
-                    }else if(route.name === ROUTES.POST){
-                        
-                    }else if(route.name === ROUTES.NOTIFICATION){
-                        iconName = focused ? 'notifications' : 'notifications-outline';
-                    }else if(route.name === ROUTES.PROFILE){
-                        iconName = focused ? 'person' : 'person-outline';
-                    }
-                    return <Ionicons name={iconName} size={30} color={color} />
-                } 
-            })}>    
-            <Tab.Screen 
-                name={ROUTES.HOME} 
-                component={HomePage} 
-                options={{headerShown: true}}
-            />
-            <Tab.Screen 
-                name={ROUTES.SEARCH} 
-                component={SearchNavigator} 
-                options={{headerShown: false}}
-            />
-            <Tab.Screen 
-                name={ROUTES.STORY} 
-                component={CreateStoriesNavigator} 
-                options={{
-                    headerShown: false,
-                    tabBarButton: () => (
-                        <FloatingButton />
+        <BottomSheetModalProvider>
+            <Tab.Navigator 
+                screenOptions={({route}) => ({
+                    headerTintColor: COLORS.firtText,
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: COLORS.background,
+                        borderBottomColor: COLORS.thirdText,
+                        borderBottomWidth: 1,
+                    },
+                    headerLeft: () => (
+                        <IconButton
+                            icon={() => <Ionicons name={''} size={30} color={'black'} />}
+                            onPress={() => {console.log("pressed leading")}}
+                        />
                     ),
-                }}
-            />
-            <Tab.Screen 
-                name={ROUTES.NOTIFICATION} 
-                component={NotificationsPage} 
-            />
-            <Tab.Screen 
-                name={ROUTES.PROFILE} 
-                component={ProfilePage} 
-                initialParams={{ user: appUser }}
-            />
-        </Tab.Navigator>
+                    headerTitle: () => (
+                        <View style={styles.imageContainer}>
+                            <Image source={logo} style={styles.image} />
+                        </View>
+                    ),
+                    headerRight: () => (
+                        <IconButton
+                            icon={() => <Ionicons name={'chatbubbles-outline'} size={30} color={'black'} />}
+                            onPress={() => {console.log("pressed trailing")}}
+                        />
+                    ),
+                    tabBarStyle: {
+                        backgroundColor: COLORS.background,
+                        borderTopColor: COLORS.thirdText,
+                        borderTopWidth: 1,
+                    },
+                    tabBarLabel: () => { return ""; },
+                    tabBarActiveTintColor: COLORS.elements,
+                    tabBarIcon: ({color, size, focused}) => {
+                        let iconName;
+
+                        if(route.name === ROUTES.HOME){
+                            iconName = focused ? 'home' : 'home-outline';
+                        }else if(route.name === ROUTES.SEARCH){
+                            iconName = focused ? 'search' : 'search-outline';
+                        }else if(route.name === ROUTES.POST){
+                            
+                        }else if(route.name === ROUTES.NOTIFICATION){
+                            iconName = focused ? 'notifications' : 'notifications-outline';
+                        }else if(route.name === ROUTES.PROFILE){
+                            iconName = focused ? 'person' : 'person-outline';
+                        }
+                        return <Ionicons name={iconName} size={30} color={color} />
+                    } 
+                })}>    
+                <Tab.Screen 
+                    name={ROUTES.HOME} 
+                    component={HomePage} 
+                    options={{headerShown: true}}
+                />
+                <Tab.Screen 
+                    name={ROUTES.SEARCH} 
+                    component={SearchNavigator} 
+                    options={{headerShown: false}}
+                />
+                <Tab.Screen 
+                    name={ROUTES.STORY} 
+                    component={CreateStoriesNavigator} 
+                    options={{
+                        headerShown: false,
+                        tabBarButton: () => (
+                            <FloatingButton />
+                        ),
+                    }}
+                />
+                <Tab.Screen 
+                    name={ROUTES.NOTIFICATION} 
+                    component={NotificationsPage} 
+                />
+                <Tab.Screen 
+                    name={ROUTES.PROFILE} 
+                    component={ProfilePage} 
+                    initialParams={{ user: appUser }}
+                />
+            </Tab.Navigator>
+        </BottomSheetModalProvider>
     );
 }
 

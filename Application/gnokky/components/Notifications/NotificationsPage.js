@@ -8,8 +8,13 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
 import PostUtils from '../Models/PostUtils';
-import { Alert } from 'react-native';
+import { Alert, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useRef } from 'react';
+
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import 'react-native-gesture-handler';
+
 
 export default function NotificationsPage() {
 
@@ -35,21 +40,22 @@ export default function NotificationsPage() {
     body: {
       // flex: 1,
       padding: 20,
-    }
+    },
   });
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <View style={styles.body}>
-          <TouchableOpacity 
-            style={{borderColor: 'blue', borderWidth: 1}}
-            onPress={() => {hanldeSignOut()}}>
-            <Text>SUCA</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <View style={styles.body}>
+            <Button 
+              title={'suca'}
+              style={{borderColor: 'blue', borderWidth: 1}}
+              // onPress={() => {hanldeSignOut()}}
+              onPress={hanldeSignOut}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
   );
 }

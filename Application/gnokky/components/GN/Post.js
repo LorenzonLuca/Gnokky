@@ -2,7 +2,7 @@ import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Modal } from 'rea
 import GNProfileImage from './GNProfileImage';
 import { appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native-elements';
 import * as VideoPicker from 'expo-image-picker';
@@ -12,12 +12,33 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import PostInteraction from './PostInteraction';
 import Divider from './Divider';
 import PostUtils from '../Models/PostUtils';
+import { BottomSheet } from '@rneui/themed';
 
 
-//export default function Post({username, profilePicUrl, caption = "", locationInfo = "", timestamp, mediaUri = null, mediaType = null}){
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import 'react-native-gesture-handler';
+import { TouchableWithoutFeedback } from 'react-native';
+
+
 export default function Post({ post }){
 
+    const [isVisible, setIsVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+
+    const bottomSheetModalRef = useRef(null);
+
+    const snapPoints = ["25%","48%","75%"];
+
+    const handlePresentModal = () =>{
+        //console.log("diocane");
+        bottomSheetModalRef.current?.present();
+    }
+
+    const handleDismissModal = () =>{
+        //console.log("diocane");
+        bottomSheetModalRef.current?.dismiss();
+    }
+
 
     const handleMediaClick = () => {
         if(post.mediaType == 'image')
@@ -62,6 +83,9 @@ export default function Post({ post }){
         timestamp: {
 
         },
+        options: {
+           
+        },
         location: {
             paddingVertical: 5,
         },  
@@ -89,6 +113,31 @@ export default function Post({ post }){
         border: {
             // borderColor: 'black',
             // borderWidth: 1,
+        },
+        bottomSheetContent: {
+            flex: 1,
+            alignItems: 'center',
+            paddingHorizontal: 20,
+        },
+        bottomSheetTitle: {
+            fontWeight: "900",
+            letterSpacing: 0.5,
+            fontSize: 16,
+            paddingHorizontal: 20,
+        },
+        bottomSheetSubtitle: {
+            fontWeight: "bold",
+            color: COLORS.firtText,
+            fontSize: 14,
+        },
+        bottomSheetRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'flex-start',
+            marginVertical: 20,
+            borderBottomColor: 'black',
+            borderWidth: 1,
         }
     });
 
@@ -102,6 +151,7 @@ export default function Post({ post }){
                     <View style={styles.infoContainer}>
                         <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
                         <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
+                        <Ionicons  onPress={handlePresentModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText}/>
                     </View>
                     <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
@@ -160,6 +210,30 @@ export default function Post({ post }){
                     </View>
                 </View>
             </View>
+            {/* <BottomSheet modalProps={{}} isVisible={isVisible}>
+                <View style={{backgroundColor: COLORS.background,}}>
+                    <TouchableOpacity onPress={() => setIsVisible(false)}>
+                        <Text>Sium</Text>
+                    </TouchableOpacity>
+                </View>
+            </BottomSheet> */}
+            <BottomSheetModal
+              ref={bottomSheetModalRef}
+              index={1}
+              snapPoints={snapPoints}
+              backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText}}
+            >
+              <View style={styles.bottomSheetContent}>
+                <Text style={styles.bottomSheetTitle}>Options</Text>
+                <TouchableWithoutFeedback onPress={handleDismissModal} >
+                    <View style={[styles.bottomSheetRow, styles.border]}>
+                        <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                        <Text style={styles.bottomSheetSubtitle}>Stop following</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                
+              </View>
+            </BottomSheetModal>
             <Divider color={COLORS.thirdText}/>
         </View>
     );
