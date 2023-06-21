@@ -11,18 +11,19 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import PostInteraction from './PostInteraction';
 import Divider from './Divider';
+import PostUtils from '../Models/PostUtils';
 
 
 //export default function Post({username, profilePicUrl, caption = "", locationInfo = "", timestamp, mediaUri = null, mediaType = null}){
-export default function Post(props){
+export default function Post({ post }){
 
     const [modalVisible, setModalVisible] = useState(false);
 
 
-    console.log("MADONNA LADRA ", props)
+    console.log("ollarethesium ", post.owner)
 
     const handleMediaClick = () => {
-        if(props.mediaType == 'image')
+        if(post.mediaType == 'image')
             setModalVisible(true);
     };
     
@@ -98,16 +99,16 @@ export default function Post(props){
         <View style={styles.container}>
             <View style={styles.body}> 
                 <View style={[styles.border, { padding: 10}]}>
-                    <GNProfileImage selectedImage={props.profilePicUrl} size={50} /> 
+                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} /> 
                 </View>
                 <View style={[styles.border, { flex: 1, padding: 10}]}>
                     <View style={styles.infoContainer}>
-                        <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{props.username}</Text>
-                        <Text style={[styles.border, styles.timestamp]}> ⋅ {props.timestamp}</Text>
+                        <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
+                        <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
                     </View>
-                    <EmptyText style={styles.border} text={props.caption} />
+                    <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
-                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={props.locationInfo} />  
+                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />  
                             {/* {mediaUri && mediaType === 'image' && (
                                 <Image 
                                     source={{ uri: mediaUri }} 
@@ -124,31 +125,31 @@ export default function Post(props){
                                     resizeMode="contain" />
                             )} */}
                         <TouchableOpacity onPress={handleMediaClick}>
-                            {props.mediaUri && props.mediaType === 'image' && (
+                            {post.downloadUrl && post.mediaType === 'image' && (
                                 <Image 
-                                    source={{ uri: props.mediaUri }} 
+                                    source={{ uri: post.downloadUrl }} 
                                     style={styles.media} 
                                     // resizeMode="cover"
                                     resizeMode="cover"
                                 />
                             )}
-                            {props.mediaUri && props.mediaType === 'video' && (
+                            {post.downloadUrl && post.mediaType === 'video' && (
                                 <Video
-                                    source={{ uri: props.mediaUri }}
+                                    source={{ uri: post.downloadUrl }}
                                     style={styles.media}
                                     useNativeControls
                                     resizeMode="contain" />
                             )}
                         </TouchableOpacity>
-                        <PostInteraction id={props.id}/>
+                        <PostInteraction id={post.id}/>
                         <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
                             <View style={styles.modalContainer}>
                                 <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                                     <Ionicons name="ios-arrow-back" size={24} color="white" />
                                 </TouchableOpacity>
-                                {props.mediaType === 'image' ? (
+                                {post.mediaType === 'image' ? (
                                     <ImageViewer
-                                        imageUrls={[{ url: props.mediaUri }]}
+                                        imageUrls={[{ url: post.downloadUrl }]}
                                         enableSwipeDown={true}
                                         onCancel={closeModal}
                                         renderIndicator={() => null}
