@@ -12,10 +12,9 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import PostInteraction from './PostInteraction';
 import Divider from './Divider';
 import PostUtils from '../Models/PostUtils';
-import { BottomSheet } from '@rneui/themed';
 
 
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { BottomSheet, BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
 import { TouchableWithoutFeedback } from 'react-native';
 
@@ -27,47 +26,45 @@ export default function Post({ post }){
 
     const bottomSheetModalRef = useRef(null);
 
-    const snapPoints = ["25%","48%","75%"];
+    const snapPoints = ["25%"];
 
     const handlePresentModal = () =>{
-        //console.log("diocane");
         bottomSheetModalRef.current?.present();
     }
 
     const handleDismissModal = () =>{
-        //console.log("diocane");
         bottomSheetModalRef.current?.dismiss();
     }
 
 
     const handleMediaClick = () => {
-        if(post.mediaType == 'image')
+        if (post.mediaType == 'image')
             setModalVisible(true);
     };
-    
+
 
     const closeModal = () => {
         setModalVisible(false);
     };
 
-    const EmptyText = ({ style,icon = "",text }) => {
+    const EmptyText = ({ style, icon = "", text }) => {
         if (!text) {
-          return <Text style={{ display: 'none' }}>{text}</Text>;
+            return <Text style={{ display: 'none' }}>{text}</Text>;
         }
-      
+
         return <Text style={style}><Ionicons name={icon} size={15} />{text}</Text>;
     };
 
     const styles = StyleSheet.create({
         container: {
-          flex: 1,
-          backgroundColor: COLORS.background,
-        //   borderColor: 'red',
-        //   borderWidth: 1,
+            flex: 1,
+            backgroundColor: COLORS.background,
+            //   borderColor: 'red',
+            //   borderWidth: 1,
         },
         body: {
-          flex: 1,
-          flexDirection: 'row',
+            flex: 1,
+            flexDirection: 'row',
         },
         infoContainer: {
             flexDirection: 'row',
@@ -76,7 +73,7 @@ export default function Post({ post }){
         mediaContainer: {
             marginVertical: 5,
             borderRadius: 15,
-        },  
+        },
         username: {
             fontWeight: 'bold',
         },
@@ -88,7 +85,7 @@ export default function Post({ post }){
         },
         location: {
             paddingVertical: 5,
-        },  
+        },
         media: {
             // height: '100%',
             // aspectRatio: 3/4,
@@ -106,10 +103,10 @@ export default function Post({ post }){
             top: 16,
             left: 16,
             zIndex: 1,
-          },
+        },
         modalVideo: {
             flex: 1,
-          },
+        },
         border: {
             // borderColor: 'black',
             // borderWidth: 1,
@@ -123,7 +120,7 @@ export default function Post({ post }){
             fontWeight: "900",
             letterSpacing: 0.5,
             fontSize: 16,
-            paddingHorizontal: 20,
+            paddingBottom: 15,
         },
         bottomSheetSubtitle: {
             fontWeight: "bold",
@@ -135,19 +132,17 @@ export default function Post({ post }){
             alignItems: 'center',
             width: '100%',
             justifyContent: 'flex-start',
-            marginVertical: 20,
-            borderBottomColor: 'black',
-            borderWidth: 1,
+            marginVertical: 5,
         }
     });
 
     return (
         <View style={styles.container}>
-            <View style={styles.body}> 
-                <View style={[styles.border, { padding: 10}]}>
-                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} /> 
+            <View style={styles.body}>
+                <View style={[styles.border, { padding: 10 }]}>
+                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
                 </View>
-                <View style={[styles.border, { flex: 1, padding: 10}]}>
+                <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
                         <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
                         <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
@@ -155,8 +150,8 @@ export default function Post({ post }){
                     </View>
                     <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
-                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />  
-                            {/* {mediaUri && mediaType === 'image' && (
+                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />
+                        {/* {mediaUri && mediaType === 'image' && (
                                 <Image 
                                     source={{ uri: mediaUri }} 
                                     style={styles.media} 
@@ -173,9 +168,9 @@ export default function Post({ post }){
                             )} */}
                         <TouchableOpacity onPress={handleMediaClick}>
                             {post.downloadUrl && post.mediaType === 'image' && (
-                                <Image 
-                                    source={{ uri: post.downloadUrl }} 
-                                    style={styles.media} 
+                                <Image
+                                    source={{ uri: post.downloadUrl }}
+                                    style={styles.media}
                                     // resizeMode="cover"
                                     resizeMode="cover"
                                 />
@@ -188,7 +183,7 @@ export default function Post({ post }){
                                     resizeMode="contain" />
                             )}
                         </TouchableOpacity>
-                        <PostInteraction id={post.id}/>
+                        <PostInteraction id={post.id} />
                         <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
                             <View style={styles.modalContainer}>
                                 <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
@@ -210,29 +205,34 @@ export default function Post({ post }){
                     </View>
                 </View>
             </View>
-            {/* <BottomSheet modalProps={{}} isVisible={isVisible}>
-                <View style={{backgroundColor: COLORS.background,}}>
-                    <TouchableOpacity onPress={() => setIsVisible(false)}>
-                        <Text>Sium</Text>
-                    </TouchableOpacity>
-                </View>
-            </BottomSheet> */}
             <BottomSheetModal
-              ref={bottomSheetModalRef}
-              index={1}
-              snapPoints={snapPoints}
-              backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText}}
+                ref={bottomSheetModalRef}
+                index={0}
+                snapPoints={snapPoints}
+                backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText}}
+                backdropComponent={({ style }) => (
+                    <TouchableWithoutFeedback onPress={handleDismissModal} >
+                        <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} />
+                    </TouchableWithoutFeedback>
+                )}
             >
-              <View style={styles.bottomSheetContent}>
+            <View style={styles.bottomSheetContent}>
                 <Text style={styles.bottomSheetTitle}>Options</Text>
                 <TouchableWithoutFeedback onPress={handleDismissModal} >
-                    <View style={[styles.bottomSheetRow, styles.border]}>
+                    <View style={[styles.bottomSheetRow]}>
                         <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                        <Text style={styles.bottomSheetSubtitle}>Stop following</Text>
+                        <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
                     </View>
                 </TouchableWithoutFeedback>
-                
-              </View>
+                <Divider color={COLORS.thirdText}/>
+                <TouchableWithoutFeedback onPress={handleDismissModal} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                        <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText}/>
+            </View>
             </BottomSheetModal>
             <Divider color={COLORS.thirdText}/>
         </View>

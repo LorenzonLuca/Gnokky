@@ -1,4 +1,7 @@
-import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, ImageBackground, TouchableOpacity, Modal } from 'react-native';
+import {
+    View, Text, StyleSheet, Image, TouchableWithoutFeedback,
+    ImageBackground, TouchableOpacity, Modal, Dimensions, ScrollView
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
@@ -6,13 +9,17 @@ import { useState } from 'react';
 import StoriesUtils from '../Models/StoriesUtils';
 import { useEffect } from 'react';
 import GNProfileImage from './GNProfileImage';
+import Divider from './Divider';
 
-export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property }) {
+export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction }) {
     const [storyIndex, setStoryIndex] = useState(0);
     const [userIndex, setUserIndex] = useState(startIndex);
     const [openUsersModal, setOpenUsersModal] = useState(false);
 
     const size = 45;
+    const windowHeight = Dimensions.get('window').height;
+    const modalMaxHeight = windowHeight * 0.7;
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -24,7 +31,6 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             alignItems: 'center',
         },
         header: {
-            backgroundColor: COLORS.background,
             flexDirection: 'row',
             alignItems: 'center',
             margin: 3
@@ -75,15 +81,31 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             flexDirection: 'row',
             alignItems: 'center',
             height: 50,
+            borderColor: COLORS.firtText,
+            borderWidth: 1,
         },
         userView: {
             flexDirection: 'row',
             alignItems: 'center',
             margin: 5
         },
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+        },
         modalContent: {
-            height: '25%',
+            maxHeight: modalMaxHeight,
             width: '100%',
+            backgroundColor: 'white',
+            borderColor: COLORS.firtText,
+            borderWidth: 1,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            padding: 16,
+        },
+        buttonWatchUsers: {
+            margin: 5
         }
     });
 
@@ -118,13 +140,17 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
     const StoryViewer = () => {
         if (property) {
-            console.log(stories[storyIndex].watchedBy);
-            return stories[storyIndex].watchedBy.map((user) => (
-                <View key={user.username} style={styles.userView}>
-                    <GNProfileImage selectedImage={user.profilePic} size={40} />
-                    <Text style={{ marginHorizontal: 4 }}>{user.username}</Text>
-                </View>
-            ))
+            if (stories[storyIndex].watchedBy.length > 0) {
+                return stories[storyIndex].watchedBy.map((user) => (
+                    <View key={user.username}>
+                        <View style={styles.userView}>
+                            <GNProfileImage selectedImage={user.profilePic} size={40} />
+                            <Text style={{ marginHorizontal: 4 }}>{user.username}</Text>
+                        </View>
+                        <Divider />
+                    </View>
+                ))
+            }
         }
     }
 
@@ -156,16 +182,31 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         </TouchableOpacity>
                     </ImageBackground>
                 </View>
-                {property && (
+                {(property && viewAction) && (
                     <>
                         <View style={styles.propertyActionMenu}>
-                            <TouchableWithoutFeedback onPress={() => setOpenUsersModal(true)}>
-                                <Text>Watch users</Text>
+                            <TouchableWithoutFeedback onPress={() => setOpenUsersModal(true)} style={styles.buttonWatchUsers}>
+                                <Text style={styles.buttonWatchUsers}>Watch users</Text>
                             </TouchableWithoutFeedback>
                         </View>
-                        <Modal visible={openUsersModal} animationType='slide' transparent={true}>
-                            <View style={styles.modalContent}>
-                                <StoryViewer />
+                        <Modal
+                            visible={openUsersModal}
+                            animationType='slide'
+                            transparent={true}>
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent}>
+                                    <ScrollView>
+                                        <View style={styles.header}>
+                                            <Text>Users who whatched your story</Text>
+                                            <View style={styles.iconContainer}>
+                                                <TouchableWithoutFeedback onPress={() => setOpenUsersModal(false)}>
+                                                    <Ionicons name='close-outline' size={30} />
+                                                </TouchableWithoutFeedback>
+                                            </View>
+                                        </View>
+                                        <StoryViewer />
+                                    </ScrollView>
+                                </View>
                             </View>
                         </Modal>
                     </>

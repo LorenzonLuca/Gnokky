@@ -2,7 +2,7 @@ import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arra
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { appUser, updateUser } from "./Globals";
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storage';
 
 export default class FirebaseUtils {
     static async insertUser(username, email) {
@@ -57,7 +57,7 @@ export default class FirebaseUtils {
 
             if (userSnapshot.exists()) {
                 const user = userSnapshot.data();
-                
+
                 const path = user.username + "/profilepic";
                 try {
                     // const downloadUrl = await getDownloadURL(storageRef);
@@ -197,6 +197,22 @@ export default class FirebaseUtils {
         } catch (error) {
             console.log('Error getting download URL:', error);
             return null;
+        }
+    }
+
+    static async removeImage(uri) {
+        try {
+            const storageRef = ref(storage, uri);
+
+            deleteObject(storageRef)
+                .then(() => {
+                    console.log("Image succesfully removed");
+                })
+                .catch((error) => {
+                    console.log("Error while removing image from storage: " + error);
+                })
+        } catch (error) {
+            console.log("Error while removing an image from the storage: " + error);
         }
     }
 }

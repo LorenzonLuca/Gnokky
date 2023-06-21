@@ -23,6 +23,7 @@ import { appUser, updateUser } from "./components/Models/Globals"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth } from './components/Models/Firebase';
 import BottomTabNavigator from './components/Navigations/BottomTabNavigator';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 const Stack = createStackNavigator();
@@ -137,12 +138,14 @@ export default function App() {
     }
 
     return (
-        <NavigationContainer>
-        {(!user) ? (
-            <AuthNavigator />
-        ) : (
-            <BottomTabNavigator />
-        )}
-        </NavigationContainer>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+            {(!user) ? (
+                <AuthNavigator />
+            ) : (
+                <BottomTabNavigator />
+            )}
+            </NavigationContainer>
+        </GestureHandlerRootView>
     );
 }
