@@ -3,6 +3,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState } from 'react';
+import StoriesUtils from '../Models/StoriesUtils';
+import { useEffect } from 'react';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property }) {
     const [storyIndex, setStoryIndex] = useState(0);
@@ -66,6 +68,12 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         }
     });
 
+    useEffect(() => {
+        if (!property) {
+            StoriesUtils.viewedStory(stories[userIndex][storyIndex].id, appUser.username)
+        }
+    }, [userIndex, storyIndex])
+
     const handleNextStory = () => {
         console.log("NEXTTTT");
         if (storyIndex < (!property ? stories[userIndex].length - 1 : stories.length - 1)) {
@@ -75,6 +83,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             setStoryIndex(0);
         } else {
             closeStories();
+            return;
         }
     }
 

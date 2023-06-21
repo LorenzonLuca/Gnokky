@@ -9,6 +9,7 @@ export default class StoriesUtils {
             const docRef = await addDoc(collection(db, "stories"), {
                 owner: appUser.username,
                 img: url,
+                watchedBy: [],
                 timestamp: new Date().getTime(),
             });
 
@@ -42,6 +43,18 @@ export default class StoriesUtils {
         } catch (e) {
             console.log("Error getting stories: ", e);
             return null;
+        }
+    }
+
+    static async viewedStory(idStory, username) {
+        try {
+            const docRef = doc(db, "stories", idStory);
+
+            await updateDoc(docRef, {
+                watchedBy: arrayUnion(username)
+            });
+        } catch (e) {
+            console.log("Error during adding personal information: ", e);
         }
     }
 }

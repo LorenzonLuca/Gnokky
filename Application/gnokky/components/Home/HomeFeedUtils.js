@@ -30,7 +30,7 @@ export default class HomeFeedUtils {
         }
     }
     // METODO CHE PUZZA DI CULO
-
+    // (username id)
     static async fillHomeFeed(id) {
         const users = await this.getFollowedUsernames(id);
         if (!users) {

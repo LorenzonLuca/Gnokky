@@ -17,7 +17,8 @@ export const updateUser = (newUser) => {
 export const ROUTES = {
     LOGIN: 'Login',
     REGISTER: 'Register',
-    VERIFY_EMAIL: 'Verify Email',
+    VERIFY_EMAIL: 'VerifyEmail',
+    CREATE_PROFILE: 'CreateProfile',
 
     HOME: "Home",
     SEARCH: "Search",
