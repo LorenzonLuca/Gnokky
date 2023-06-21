@@ -1,14 +1,16 @@
-import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, ImageBackground, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState } from 'react';
 import StoriesUtils from '../Models/StoriesUtils';
 import { useEffect } from 'react';
+import GNProfileImage from './GNProfileImage';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property }) {
     const [storyIndex, setStoryIndex] = useState(0);
     const [userIndex, setUserIndex] = useState(startIndex);
+    const [openUsersModal, setOpenUsersModal] = useState(false);
 
     const size = 45;
     const styles = StyleSheet.create({
@@ -18,7 +20,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         },
         contentContainer: {
             flexGrow: 1,
-            justifyContent: 'center',
+            justifyContent: 'flex-end',
             alignItems: 'center',
         },
         header: {
@@ -45,6 +47,8 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             width: '100%',
             height: '100%',
             flexDirection: 'row',
+            flex: 1,
+            resizeMode: 'cover'
         },
         iconContainer: {
             flex: 1,
@@ -65,6 +69,21 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         button: {
             opacity: 0,
             flex: 1,
+        },
+        propertyActionMenu: {
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: 50,
+        },
+        userView: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 5
+        },
+        modalContent: {
+            height: '25%',
+            width: '100%',
         }
     });
 
@@ -97,13 +116,24 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         }
     }
 
+    const StoryViewer = () => {
+        if (property) {
+            console.log(stories[storyIndex].watchedBy);
+            return stories[storyIndex].watchedBy.map((user) => (
+                <View key={user.username} style={styles.userView}>
+                    <GNProfileImage selectedImage={user.profilePic} size={40} />
+                    <Text style={{ marginHorizontal: 4 }}>{user.username}</Text>
+                </View>
+            ))
+        }
+    }
+
     return (
         <>
             <View style={styles.header}>
                 <View style={styles.storyIcon}>
                     <Image
                         source={{ uri: !property ? stories[userIndex][0].profilePic : stories[0].profilePic }}
-                        resizeMode="cover"
                         style={styles.mediaIcon}
                     />
                 </View>
@@ -126,6 +156,20 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         </TouchableOpacity>
                     </ImageBackground>
                 </View>
+                {property && (
+                    <>
+                        <View style={styles.propertyActionMenu}>
+                            <TouchableWithoutFeedback onPress={() => setOpenUsersModal(true)}>
+                                <Text>Watch users</Text>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <Modal visible={openUsersModal} animationType='slide' transparent={true}>
+                            <View style={styles.modalContent}>
+                                <StoryViewer />
+                            </View>
+                        </Modal>
+                    </>
+                )}
             </View>
         </>
     );

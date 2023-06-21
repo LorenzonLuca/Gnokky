@@ -75,7 +75,7 @@ export default function HomeStories() {
                 {console.log("GENERATING Your STORY ICONS")}
                 <View style={styles.storyIcon}>
                     <TouchableWithoutFeedback onPress={() => handleOpenYourStory()}>
-                        <Image source={{ uri: myStories[0].profilePic }} resizeMode="cover" style={styles.media} />
+                        <Image source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.media} />
                     </TouchableWithoutFeedback>
                 </View>
                 <Text>Your story</Text>

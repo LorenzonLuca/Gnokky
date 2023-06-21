@@ -49,9 +49,11 @@ export default class StoriesUtils {
     static async viewedStory(idStory, username) {
         try {
             const docRef = doc(db, "stories", idStory);
+            const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
+
 
             await updateDoc(docRef, {
-                watchedBy: arrayUnion(username)
+                watchedBy: arrayUnion({ "username": username, "profilePic": profilePic })
             });
         } catch (e) {
             console.log("Error during adding personal information: ", e);
