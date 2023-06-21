@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import axios from 'axios';
 import { MAPBOX_ACCESS_TOKEN } from '../../private.conf';
-import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, orderBy } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion,arrayRemove, orderBy} from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -155,34 +155,66 @@ export default class PostUtils {
         }
     }
 
+
+    // check if the current user has already liked the post with this id
+    static async checkIfLiked(id) {
+        try {
+          const docRef = doc(db, "posts", id);
+          
+          const postSnapshot = await getDoc(docRef);
+          
+          if (postSnapshot.exists()) {
+            const post = postSnapshot.data();
+            
+            const liked = post.likes.includes(appUser.username);
+            console.log("maremma troia " + liked)
+            return liked;
+          } else {
+            console.log("Post not found");
+            return false;
+          }
+        } catch (e) {
+          console.log("Error during checking value: ", e);
+          return false;
+        }
+    }
+      
+    static async getLikeCount(id){
+        try {
+            const docRef = doc(db, "posts", id);
+            const postSnapshot = await getDoc(docRef);
+            if (postSnapshot.exists() && postSnapshot.data()) {
+                console.log("SIUMMSM", postSnapshot.data())
+                const post = postSnapshot.data();
+                return post.likes.length;
+            } else {
+                console.log("Post not found");
+                return null;
+            }
+        } catch (e) {
+            console.log("Error while getting likes number: ", e);
+        }
+    }
+
     static async likePost(id){
         try {
-            
-            const postRef = doc(db, "posts", id);
-
-            // await updateDoc(postRef, {
-            //     likes: arrayUnion(appUser.username)
-            // });
-
-            // console.log("numero di mi piace: " + postRef.data().likes.length)
-            console.log("siasfdam")
+            const docRef = doc(db, "posts", id);
+            await updateDoc(docRef, {
+                likes: arrayUnion(appUser.username)
+            });
         } catch (e) {
             console.log("Error during adding default value: ", e);
         }
     }
 
-    /*static async dislikePost(id){
+    static async dislikePost(id){
         try {
-            const postRef = doc(db, "posts", id);
-
-            await updateDoc(postRef, {
-                likes: arrayUnion(appUser.username)
+            const docRef = doc(db, "posts", id);
+            await updateDoc(docRef, {
+                likes: arrayRemove(appUser.username)
             });
-
-            console.log("numero di mi piace: " + postRef.data().likes.length)
-
         } catch (e) {
             console.log("Error during adding default value: ", e);
         }
-    }*/
+    }
 }
