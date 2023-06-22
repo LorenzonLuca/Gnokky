@@ -12,7 +12,9 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import PostInteraction from './PostInteraction';
 import Divider from './Divider';
 import PostUtils from '../Models/PostUtils';
-
+import GNBottomSheetModal from './GNBottomSheetModal';
+import { handleDismissModal } from './GNBottomSheetModal';
+import { handlePresentModal } from './GNBottomSheetModal';
 
 import { BottomSheet, BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
@@ -21,27 +23,24 @@ import { TouchableWithoutFeedback } from 'react-native';
 
 export default function Post({ post }){
 
-    const [isVisible, setIsVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
+    ///// bottomSheet modal /////
     const bottomSheetModalRef = useRef(null);
-
-    const snapPoints = ["25%"];
 
     const handlePresentModal = () =>{
         bottomSheetModalRef.current?.present();
     }
-
+    
     const handleDismissModal = () =>{
         bottomSheetModalRef.current?.dismiss();
     }
-
+     //////////
 
     const handleMediaClick = () => {
         if (post.mediaType == 'image')
             setModalVisible(true);
     };
-
 
     const closeModal = () => {
         setModalVisible(false);
@@ -110,17 +109,6 @@ export default function Post({ post }){
         border: {
             // borderColor: 'black',
             // borderWidth: 1,
-        },
-        bottomSheetContent: {
-            flex: 1,
-            alignItems: 'center',
-            paddingHorizontal: 20,
-        },
-        bottomSheetTitle: {
-            fontWeight: "900",
-            letterSpacing: 0.5,
-            fontSize: 16,
-            paddingBottom: 15,
         },
         bottomSheetSubtitle: {
             fontWeight: "bold",
@@ -205,7 +193,23 @@ export default function Post({ post }){
                     </View>
                 </View>
             </View>
-            <BottomSheetModal
+            <GNBottomSheetModal modalRef={bottomSheetModalRef} >
+                <TouchableWithoutFeedback onPress={() => {console.log("SIUMRIMUOVI")}} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                        <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText}/>
+                <TouchableWithoutFeedback onPress={() => {console.log("SIUMBLOKA")}} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                        <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText}/>
+            </GNBottomSheetModal>
+            {/* <BottomSheetModal
                 ref={bottomSheetModalRef}
                 index={0}
                 snapPoints={snapPoints}
@@ -216,24 +220,24 @@ export default function Post({ post }){
                     </TouchableWithoutFeedback>
                 )}
             >
-            <View style={styles.bottomSheetContent}>
-                <Text style={styles.bottomSheetTitle}>Options</Text>
-                <TouchableWithoutFeedback onPress={handleDismissModal} >
-                    <View style={[styles.bottomSheetRow]}>
-                        <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                        <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <Divider color={COLORS.thirdText}/>
-                <TouchableWithoutFeedback onPress={handleDismissModal} >
-                    <View style={[styles.bottomSheetRow]}>
-                        <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                        <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <Divider color={COLORS.thirdText}/>
-            </View>
-            </BottomSheetModal>
+                <View style={styles.bottomSheetContent}>
+                    <Text style={styles.bottomSheetTitle}>Options</Text>
+                    <TouchableWithoutFeedback onPress={handleDismissModal} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                            <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText}/>
+                    <TouchableWithoutFeedback onPress={handleDismissModal} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                            <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText}/>
+                </View>
+            </BottomSheetModal> */}
             <Divider color={COLORS.thirdText}/>
         </View>
     );

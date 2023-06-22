@@ -89,30 +89,30 @@ export default function HomeStories({ fetchedStories }) {
             return result;
         }
 
-        const myStory = (
-            <View key={myStories[0].owner} style={styles.storyContainer} >
-                {console.log("GENERATING Your STORY ICONS")}
-                <View style={styles.storyIcon}>
-                    <TouchableWithoutFeedback onPress={() => handleOpenYourStory()}>
-                        <Image source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.media} />
-                    </TouchableWithoutFeedback>
-                </View>
-                <Text>Your story</Text>
-            </View >
-        )
+        // const myStory = (
+        //     <View key={myStories[0].owner} style={styles.storyContainer} >
+        //         {console.log("GENERATING Your STORY ICONS")}
+        //         <View style={styles.storyIcon}>
+        //             <TouchableWithoutFeedback onPress={() => handleOpenYourStory()}>
+        //                 <Image source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.media} />
+        //             </TouchableWithoutFeedback>
+        //         </View>
+        //         <Text>Your story</Text>
+        //     </View >
+        // )
 
-        const storiesElements = stories.map((user) => (
-            <View key={user[0].owner} style={styles.storyContainer} >
-                {console.log("GENERATING STORY ICONS", user)}
-                {console.log("USER ALREADY SEEN : ", handleAlreadySeen(user))}
-                <View style={[styles.storyIcon, { borderColor: handleAlreadySeen(user) ? COLORS.firtText : COLORS.elements }]}>
-                    <TouchableWithoutFeedback onPress={() => handleOpenStory(user)}>
-                        <Image source={{ uri: user[0].profilePic }} resizeMode="cover" style={styles.media} />
-                    </TouchableWithoutFeedback>
-                </View>
-                <Text>{user[0].owner}</Text>
-            </View >
-        ))
+        // const storiesElements = stories.map((user) => (
+        //     <View key={user[0].owner} style={styles.storyContainer} >
+        //         {console.log("GENERATING STORY ICONS", user)}
+        //         {console.log("USER ALREADY SEEN : ", handleAlreadySeen(user))}
+        //         <View style={[styles.storyIcon, { borderColor: handleAlreadySeen(user) ? COLORS.firtText : COLORS.elements }]}>
+        //             <TouchableWithoutFeedback onPress={() => handleOpenStory(user)}>
+        //                 <Image source={{ uri: user[0].profilePic }} resizeMode="cover" style={styles.media} />
+        //             </TouchableWithoutFeedback>
+        //         </View>
+        //         <Text>{user[0].owner}</Text>
+        //     </View >
+        // ))
 
         const handleCloseStoriesModal = () => {
             setOpenStory(false);
@@ -122,7 +122,7 @@ export default function HomeStories({ fetchedStories }) {
         return (
             <ScrollView horizontal>
                 <View style={styles.container}>
-                    {(myStories && myStories.length > 0) &&
+                    {/* {(myStories && myStories.length > 0) &&
                         [myStory]
                     }
                     {storiesElements}
@@ -131,7 +131,7 @@ export default function HomeStories({ fetchedStories }) {
                     </Modal>
                     <Modal visible={openMyStories} animationType='slide'>
                         <StoriesVisualizer stories={myStories} closeStories={handleCloseStoriesModal} property={true} viewAction={true} />
-                    </Modal>
+                    </Modal> */}
                 </View>
             </ScrollView>
         );

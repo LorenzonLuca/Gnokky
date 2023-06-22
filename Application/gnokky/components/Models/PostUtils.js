@@ -61,7 +61,6 @@ export default class PostUtils {
 
             const postDocRef = await addDoc(collection(db, "posts"), {
                 owner: appUser.username,
-                ownerProfilePicUrl: appUser.profilePic,
                 likes: [],
                 comments: [],
                 repost: 0,
@@ -113,17 +112,27 @@ export default class PostUtils {
     }
       
     // QUERIES
-    static async getPostsByUser(username) {
+    static async getPostsByUser(username, limit = false) {
         try {
             const postsCollection = collection(db, "posts");
             const querySnapshot = await getDocs(query(postsCollection, where('owner', '==', username), orderBy('timestamp','desc')));
+            const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
 
             if (!querySnapshot.empty) {
                 const posts = [];
+                const currentTime = moment();
                 querySnapshot.forEach((doc) => {
                     const post = doc.data();
                     post.id = doc.id;
-                    posts.push(post);
+                    post.ownerProfilePicUrl = profilePic;
+                    if(limit){
+                        console.log("siumdiscreto")
+                        if (currentTime.diff(post.timestamp, 'days') <= 2) {
+                            posts.push(post);
+                        } 
+                    } else {
+                        posts.push(post);
+                    }
                 });
                 return posts;
             } else {

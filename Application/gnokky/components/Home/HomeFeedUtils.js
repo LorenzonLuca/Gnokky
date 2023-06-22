@@ -38,26 +38,28 @@ export default class HomeFeedUtils {
             return null;
         }
 
-        const promises = users.map(user => PostUtils.getPostsByUser(user));
+        const promises = users.map(user => PostUtils.getPostsByUser(user, true));
 
         try {
             const posts = await Promise.all(promises);
-            const flattenedPosts = posts.flat();
-
-            const sortedPosts = flattenedPosts.sort((a, b) => {
+            const flattenedPosts = posts.flat().filter(post => post.timestamp !== null && post.timestamp !== undefined);
+          
+            if (flattenedPosts.length > 1) {
+              const sortedPosts = flattenedPosts.sort((a, b) => {
                 const timestampA = a.timestamp;
                 const timestampB = b.timestamp;
-
+          
                 // Ordine crescente in base al timestamp
                 return timestampB - timestampA;
-            });
-
-            console.log("VO LUGAN A LAVURA", sortedPosts);
-            return sortedPosts;
-        } catch (error) {
-            console.error("Error while getting or pushing posts into array: ", error);
+              });
+              return sortedPosts;
+            } else {
+              return flattenedPosts;
+            }
+          } catch (error) {
+            console.error("Errore durante il recupero o l'inserimento dei post nell'array: ", error);
             return null;
-        }
+          }
     }
 
 
