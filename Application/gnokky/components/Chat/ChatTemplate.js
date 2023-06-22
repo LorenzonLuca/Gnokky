@@ -1,13 +1,8 @@
-import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import { SafeAreaView, ScrollView, View, StyleSheet, Text } from "react-native";
 import { COLORS, appUser } from '../Models/Globals';
 
-import homestyle from "../../styles/Home";
 
-import Ionicons from '@expo/vector-icons/Ionicons';
-
-
-
-export default function ChatPage({ navigation }) {
+export default function ChatTemplate() {
 
     const styles = StyleSheet.create({
         container: {
@@ -32,7 +27,7 @@ export default function ChatPage({ navigation }) {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.body}>
-                    <Text>Diocane</Text>
+                    <Text>Coddio</Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -69,7 +69,7 @@
 //     );
 // };
 
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -92,6 +92,7 @@ import { useRef } from 'react';
 
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
+import ChatNavigator from '../Chat/ChatNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -117,8 +118,8 @@ export default function BottomTabNavigator() {
 
     return (
         <BottomSheetModalProvider>
-            <Tab.Navigator 
-                screenOptions={({route}) => ({
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
                     headerTintColor: COLORS.firtText,
                     headerTitleAlign: 'center',
                     headerStyle: {
@@ -129,7 +130,7 @@ export default function BottomTabNavigator() {
                     headerLeft: () => (
                         <IconButton
                             icon={() => <Ionicons name={''} size={30} color={'black'} />}
-                            onPress={() => {console.log("pressed leading")}}
+                            onPress={() => { console.log("pressed leading") }}
                         />
                     ),
                     headerTitle: () => (
@@ -139,8 +140,8 @@ export default function BottomTabNavigator() {
                     ),
                     headerRight: () => (
                         <IconButton
-                            icon={() => <Ionicons name={'chatbubbles-outline'} size={30} color={'black'} />}
-                            onPress={() => {console.log("pressed trailing")}}
+                            icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
+                            onPress={() => { console.log("pressed trailing") }}
                         />
                     ),
                     tabBarStyle: {
@@ -150,36 +151,36 @@ export default function BottomTabNavigator() {
                     },
                     tabBarLabel: () => { return ""; },
                     tabBarActiveTintColor: COLORS.elements,
-                    tabBarIcon: ({color, size, focused}) => {
+                    tabBarIcon: ({ color, size, focused }) => {
                         let iconName;
 
-                        if(route.name === ROUTES.HOME){
+                        if (route.name === ROUTES.HOME) {
                             iconName = focused ? 'home' : 'home-outline';
-                        }else if(route.name === ROUTES.SEARCH){
+                        } else if (route.name === ROUTES.SEARCH) {
                             iconName = focused ? 'search' : 'search-outline';
-                        }else if(route.name === ROUTES.POST){
-                            
-                        }else if(route.name === ROUTES.NOTIFICATION){
-                            iconName = focused ? 'notifications' : 'notifications-outline';
-                        }else if(route.name === ROUTES.PROFILE){
+                        } else if (route.name === ROUTES.POST) {
+
+                        } else if (route.name === ROUTES.CHAT) {
+                            iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+                        } else if (route.name === ROUTES.PROFILE) {
                             iconName = focused ? 'person' : 'person-outline';
                         }
                         return <Ionicons name={iconName} size={30} color={color} />
-                    } 
-                })}>    
-                <Tab.Screen 
-                    name={ROUTES.HOME} 
-                    component={HomePage} 
-                    options={{headerShown: true}}
+                    }
+                })}>
+                <Tab.Screen
+                    name={ROUTES.HOME}
+                    component={HomePage}
+                    options={{ headerShown: true }}
                 />
-                <Tab.Screen 
-                    name={ROUTES.SEARCH} 
-                    component={SearchNavigator} 
-                    options={{headerShown: false}}
+                <Tab.Screen
+                    name={ROUTES.SEARCH}
+                    component={SearchNavigator}
+                    options={{ headerShown: false }}
                 />
-                <Tab.Screen 
-                    name={ROUTES.STORY} 
-                    component={CreateStoriesNavigator} 
+                <Tab.Screen
+                    name={ROUTES.STORY}
+                    component={CreateStoriesNavigator}
                     options={{
                         headerShown: false,
                         tabBarButton: () => (
@@ -187,13 +188,14 @@ export default function BottomTabNavigator() {
                         ),
                     }}
                 />
-                <Tab.Screen 
-                    name={ROUTES.NOTIFICATION} 
-                    component={NotificationsPage} 
+                <Tab.Screen
+                    name={ROUTES.CHAT}
+                    component={ChatNavigator}
+                    options={{ headerShown: false }}
                 />
-                <Tab.Screen 
-                    name={ROUTES.PROFILE} 
-                    component={ProfilePage} 
+                <Tab.Screen
+                    name={ROUTES.PROFILE}
+                    component={ProfilePage}
                     initialParams={{ user: appUser }}
                 />
             </Tab.Navigator>

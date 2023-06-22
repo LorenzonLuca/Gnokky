@@ -13,6 +13,7 @@ export const ROUTES = {
     SEARCH: "Search",
     NOTIFICATION: "Notification",
     PROFILE: "Profile",
+    CHAT: "Chat",
 
     FLOATING_NAVITAGOR: 'FloatingNavigator',
     POST: "Post",
