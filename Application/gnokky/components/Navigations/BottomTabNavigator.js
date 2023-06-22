@@ -90,7 +90,7 @@ import SearchNavigator from '../Search/SearchNavigator';
 
 import { useRef } from 'react';
 
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
 import ChatNavigator from '../Chat/ChatNavigator';
 
