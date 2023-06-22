@@ -62,7 +62,6 @@ export default class PostUtils {
             const postDocRef = await addDoc(collection(db, "posts"), {
                 owner: appUser.username,
                 likes: [],
-                comments: [],
                 repost: 0,
                 location: locationInfo,
                 caption: caption,
@@ -176,7 +175,6 @@ export default class PostUtils {
             const post = postSnapshot.data();
             
             const liked = post.likes.includes(appUser.username);
-            console.log("maremma troia " + liked)
             return liked;
           } else {
             console.log("Post not found");
@@ -225,4 +223,41 @@ export default class PostUtils {
             console.log("Error during adding default value: ", e);
         }
     }
+
+    static async insertComment(postId, text) {
+        try {
+            const postDocRef = doc(db, "posts", postId);
+            const innerCollectionRef = collection(postDocRef, 'comments');
+            await addDoc(innerCollectionRef, {
+                owner: appUser.username,
+                text: text,
+                timestamp: new Date().getTime(),
+            });
+        } catch (e) {
+            console.log("Error during adding default value: ", e);
+        }
+    }
+
+
+    static async fetchComments(postId) {
+        try {
+          const postDocRef = doc(db, "posts", postId);
+          const commentsRef = collection(postDocRef, 'comments');
+          const commentsSnapshot = await getDocs(commentsRef);
+      
+          const comments = [];
+          commentsSnapshot.forEach((doc) => {
+            const comment = doc.data();
+            comment.id = doc.id;
+            comments.push(comment);
+          });
+      
+          return comments;
+        } catch (e) {
+          console.log("Error getting post's comments: ", e);
+          return [];
+        }
+      }
+      
+
 }

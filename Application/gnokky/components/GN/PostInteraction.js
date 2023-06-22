@@ -3,8 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { COLORS } from '../Models/Globals';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import PostUtils from '../Models/PostUtils';
+import CommentSection from '../Post/CommentSection';
 
 export default function PostInteractions({id}) {
 
@@ -12,6 +13,8 @@ export default function PostInteractions({id}) {
     const [likesCount, setLikesCount] = useState(0);
     const [commentsCount, setCommentsCount] = useState(0);
     const [repostsCount, setRepostsCount] = useState(0);
+    
+    const bottomSheetCommentsModalRef = useRef(null);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -20,6 +23,10 @@ export default function PostInteractions({id}) {
       }
       fetchData();
     }, [])
+
+    const handlePresentCommentsModal = () =>{
+      bottomSheetCommentsModalRef.current?.present();
+    }
 
     const handleLikePost = async () =>{
       if(liked){
@@ -31,36 +38,38 @@ export default function PostInteractions({id}) {
       setLikesCount(await PostUtils.getLikeCount(id));
     }
 
+    const handleComments = () => {
+      handlePresentCommentsModal();
+    }
+
     const styles = StyleSheet.create({
-        container: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          // backgroundColor: '#ebebeb',
-          borderRadius: 10,
-        },
-        interaction: {
-          flexDirection: 'row',
-          alignItems: 'center',
-        },
-        interactionIcon: {
-            color: '#63666A',
-        },
-        interactionCount: {
-          marginLeft: 5,
-          fontSize: 16,
-          color: COLORS.secondText,
-        },
-        border: {
-          // borderColor: 'black',
-          // borderWidth: 1,
-        },
-    });
+      container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        // backgroundColor: '#ebebeb',
+        borderRadius: 10,
+      },
+      interaction: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      interactionIcon: {
+          color: '#63666A',
+      },
+      interactionCount: {
+        marginLeft: 5,
+        fontSize: 16,
+        color: COLORS.secondText,
+      },
+      border: {
+        // borderColor: 'black',
+        // borderWidth: 1,
+      },
+  });
       
-
-
   return (
     <View style={[styles.container, styles.border]}>
       <View style={styles.interaction}>
@@ -76,7 +85,7 @@ export default function PostInteractions({id}) {
         <Ionicons
             style={styles.interactionIcon}
             name='chatbox-outline'
-            onPress={() => { console.log("Commenti"); }}
+            onPress={handleComments}
             size={24}
         />
         <Text style={styles.interactionCount}>{commentsCount}</Text>
@@ -99,6 +108,7 @@ export default function PostInteractions({id}) {
         />
         {/* <Text style={styles.interactionCount}></Text> */}
       </View>
+      <CommentSection postId={id} modalRef={bottomSheetCommentsModalRef} title='Comments' height='90%' />
     </View>
   );
 }

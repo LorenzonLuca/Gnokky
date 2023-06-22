@@ -13,8 +13,6 @@ import PostInteraction from './PostInteraction';
 import Divider from './Divider';
 import PostUtils from '../Models/PostUtils';
 import GNBottomSheetModal from './GNBottomSheetModal';
-import { handleDismissModal } from './GNBottomSheetModal';
-import { handlePresentModal } from './GNBottomSheetModal';
 
 import { BottomSheet, BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
@@ -26,14 +24,10 @@ export default function Post({ post }){
     const [modalVisible, setModalVisible] = useState(false);
 
     ///// bottomSheet modal /////
-    const bottomSheetModalRef = useRef(null);
+    const bottomSheetOptionModalRef = useRef(null);
 
-    const handlePresentModal = () =>{
-        bottomSheetModalRef.current?.present();
-    }
-    
-    const handleDismissModal = () =>{
-        bottomSheetModalRef.current?.dismiss();
+    const handlePresentOptionModal = () =>{
+        bottomSheetOptionModalRef.current?.present();
     }
      //////////
 
@@ -134,7 +128,7 @@ export default function Post({ post }){
                     <View style={styles.infoContainer}>
                         <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
                         <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
-                        <Ionicons  onPress={handlePresentModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText}/>
+                        <Ionicons  onPress={handlePresentOptionModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText}/>
                     </View>
                     <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
@@ -193,7 +187,7 @@ export default function Post({ post }){
                     </View>
                 </View>
             </View>
-            <GNBottomSheetModal modalRef={bottomSheetModalRef} >
+            <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
                 <TouchableWithoutFeedback onPress={() => {console.log("SIUMRIMUOVI")}} >
                     <View style={[styles.bottomSheetRow]}>
                         <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
@@ -209,35 +203,6 @@ export default function Post({ post }){
                 </TouchableWithoutFeedback>
                 <Divider color={COLORS.thirdText}/>
             </GNBottomSheetModal>
-            {/* <BottomSheetModal
-                ref={bottomSheetModalRef}
-                index={0}
-                snapPoints={snapPoints}
-                backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText}}
-                backdropComponent={({ style }) => (
-                    <TouchableWithoutFeedback onPress={handleDismissModal} >
-                        <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} />
-                    </TouchableWithoutFeedback>
-                )}
-            >
-                <View style={styles.bottomSheetContent}>
-                    <Text style={styles.bottomSheetTitle}>Options</Text>
-                    <TouchableWithoutFeedback onPress={handleDismissModal} >
-                        <View style={[styles.bottomSheetRow]}>
-                            <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                            <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText}/>
-                    <TouchableWithoutFeedback onPress={handleDismissModal} >
-                        <View style={[styles.bottomSheetRow]}>
-                            <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                            <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText}/>
-                </View>
-            </BottomSheetModal> */}
             <Divider color={COLORS.thirdText}/>
         </View>
     );
