@@ -63,11 +63,10 @@ export default class StoriesUtils {
     static async viewedStory(idStory, username) {
         try {
             const docRef = doc(db, "stories", idStory);
-            const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
 
 
             await updateDoc(docRef, {
-                watchedBy: arrayUnion({ "username": username, "profilePic": profilePic })
+                watchedBy: arrayUnion(username)
             });
         } catch (e) {
             console.log("Error during adding personal information: ", e);
@@ -78,22 +77,42 @@ export default class StoriesUtils {
         try {
 
             await stories.forEach(async (story) => {
-                const docRef = doc(db, "stories", story.id);
-
-
-                deleteDoc(docRef)
-                    .then(() => {
-                        console.log(`Story with id ${story} has been deleted`);
-                    })
-                    .catch((error) => {
-                        console.log("Error while deleting a story: ", error);
-                    })
-
-                await FirebaseUtils.removeImage(story.img);
+                await this.removeStory(story);
             })
 
         } catch (e) {
             console.log("Error during adding default value: ", e);
         }
+    }
+
+    static async removeStory(story) {
+        try {
+            const docRef = doc(db, "stories", story.id);
+
+            deleteDoc(docRef)
+                .then(() => {
+                    console.log(`Story with id ${story} has been deleted`);
+                })
+                .catch((error) => {
+                    console.log("Error while deleting a story: ", error);
+                })
+
+            await FirebaseUtils.removeImage(story.img);
+        } catch (error) {
+            console.log("Error while removing a story: ", error);
+        }
+    }
+
+    static async getAllProfilePic(myStories) {
+        const result = await Promise.all(myStories.map(async (story) => {
+            const newWatchedBy = await Promise.all(story.watchedBy.map(async (user) => {
+                const profilePic = await FirebaseUtils.getProfilePicFromUsername(user);
+                return { username: user, profilePic: profilePic };
+            }));
+            console.log(newWatchedBy);
+            return { ...story, watchedBy: newWatchedBy };
+        }));
+
+        return result;
     }
 }

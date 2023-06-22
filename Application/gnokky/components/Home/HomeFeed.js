@@ -29,6 +29,8 @@ export default function HomeFeed({ id }) {
     const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
     const [refreshing, setRefreshing] = useState(false);
     const [visiblePosts, setVisiblePosts] = useState(5);
+    const [refreshAftetDeleteStory, setRefreshAftetDeleteStory] = useState(false);
+    const [refreshMyStory, setRefreshMyStory] = useState(false);
 
     // let visiblePostsData = [];
 
@@ -37,8 +39,9 @@ export default function HomeFeed({ id }) {
     // }
 
     const onRefresh = async () => {
+        console.log("PROCAMADONAA");
         setRefreshing(true);
-
+        setRefreshMyStory(true);
         try {
             const fetchedPosts = await HomeFeedUtils.fillHomeFeed(id);
             const fetchedStories = await HomeFeedUtils.getStoriesByUser(id);
@@ -48,7 +51,7 @@ export default function HomeFeed({ id }) {
         } catch (error) {
             console.log(error);
         }
-
+        setRefreshMyStory(false);
         setRefreshing(false);
     };
 
@@ -91,6 +94,24 @@ export default function HomeFeed({ id }) {
         fetchPosts();
         fetchStories();
     }, []);
+
+    useState(() => {
+
+        const refetch = async () => {
+            const fetchedStories = await HomeFeedUtils.getStoriesByUser(id);
+            setStories(fetchedStories);
+            console.log("STORIES REFETCHED");
+            setRefreshAftetDeleteStory(false);
+        }
+
+        if (refreshAftetDeleteStory) {
+            refetch();
+        }
+    }, [refreshAftetDeleteStory])
+
+    const handleRefreshStories = () => {
+        setRefreshAftetDeleteStory(true);
+    }
 
     const styles = StyleSheet.create({
         container: {
@@ -153,7 +174,7 @@ export default function HomeFeed({ id }) {
                     onScrollEndDrag={() => { }}
                 >
                     <View style={styles.body}>
-                        <HomeStories fetchedStories={stories} />
+                        <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
                         <Divider />
                         <>{generateComponents}</>
                     </View>

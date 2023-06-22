@@ -4,7 +4,6 @@ import PostLoader from '../GN/PostLoader';
 import ProfileData from './ProfileData';
 import { useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
-import PostUtils from '../Models/PostUtils';
 import { useEffect } from 'react';
 import { appUser, COLORS } from '../Models/Globals';
 

@@ -7,11 +7,11 @@ import Divider from './Divider';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
-export default function GNBottomSheetModal({modalRef, height = '25%', children, title = "Options"}) {
+export default function GNBottomSheetModal({ modalRef, height = '25%', children, title = "Options" }) {
 
     const snapPoints = [height];
 
-    const handleDismissModal = () =>{
+    const handleDismissModal = () => {
         modalRef.current?.dismiss();
     }
 
@@ -34,7 +34,8 @@ export default function GNBottomSheetModal({modalRef, height = '25%', children, 
             ref={modalRef}
             index={0}
             snapPoints={snapPoints}
-            backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText}}
+            backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText }}
+            style={{ elevation: 1000, zIndex: 1000 }}
             backdropComponent={({ style }) => (
                 <TouchableWithoutFeedback onPress={handleDismissModal} >
                     <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} />

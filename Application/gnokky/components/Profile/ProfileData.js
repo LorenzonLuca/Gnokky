@@ -48,6 +48,16 @@ export default function ProfileData({ user, property }) {
 
     useEffect(() => {
         setUserData(user);
+        StoriesUtils.getStoriesByUsername(user.username)
+            .then(async (myStories) => {
+                if (property) {
+                    console.log("PROPERTYYYYYYYYYYYYY,", myStories);
+                    const result = await StoriesUtils.getAllProfilePic(myStories);
+                    setStories(result);
+                } else {
+                    setStories(myStories);
+                }
+            })
     }, [user])
 
     if (property) {
@@ -90,8 +100,14 @@ export default function ProfileData({ user, property }) {
     useEffect(() => {
         if (userData.id) {
             StoriesUtils.getStoriesByUsername(userData.username)
-                .then((result) => {
-                    setStories(result);
+                .then(async (myStories) => {
+                    if (property) {
+                        console.log("PROPERTYYYYYYYYYYYYY,", myStories);
+                        const result = await StoriesUtils.getAllProfilePic(myStories);
+                        setStories(result);
+                    } else {
+                        setStories(myStories);
+                    }
                 })
         }
     }, [storiesModal]);
