@@ -35,6 +35,7 @@ export default function ListUsers({ users, navigation }) {
         const generateComponents = users.map(user => (
             <TouchableWithoutFeedback key={user.username} onPress={() => { navigation.navigate("ProfileSearch", { user: user }) }}>
                 <View style={styles.userContainer}>
+                    {console.log("MI CIOLO ", user)}
                     <View style={styles.rowContainer}>
                         <GNProfileImage selectedImage={user.profilePic} size={55} />
                         <View style={styles.dataContainer}>
