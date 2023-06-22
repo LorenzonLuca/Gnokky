@@ -114,7 +114,7 @@ export default class FirebaseUtils {
                 querySnapshot.forEach((doc) => {
                     const user = doc.data();
                     user.id = doc.id;
-
+                    console.log("ID DEL DIOCANE", doc.id);
                     const path = user.username + "/profilepic";
                     const downloadUrlPromise = this.getImage(path)
                         .then((downloadUrl) => {
@@ -129,6 +129,7 @@ export default class FirebaseUtils {
                 });
 
                 await Promise.all(downloadUrlPromises);
+                console.log("RICERCA PAZZA SGRAVA ", users);
                 return users;
             } else {
                 console.log("No users found with the specified property");

@@ -10,9 +10,8 @@ import StoriesUtils from '../Models/StoriesUtils';
 import StoriesVisualizer from '../GN/StoriesVisualizer';
 
 
-export default function ProfileData({ user }) {
+export default function ProfileData({ user, property }) {
     const [userData, setUserData] = useState(user);
-    let property = user.id === appUser.id;
     const [alreadyFollowing, setAlreadyFollowing] = useState(user.followers.includes(appUser.username));
     const [modalVisible, setModalVisible] = useState(false);
     const [storiesModal, setStoriesModal] = useState(false);
@@ -47,35 +46,40 @@ export default function ProfileData({ user }) {
     });
 
 
+    useEffect(() => {
+        setUserData(user);
+    }, [user])
+
     if (property) {
+        // useEffect(() => {
+        //     console.log("useEffect triggered");
+
+        //     if (!modalVisible) {
+        //         console.log("update profile values");
+        //         FirebaseUtils.getUser(appUser.id)
+        //             .then((newUser) => {
+        //                 appUser.updateOnlyValues(newUser)
+        //                 setUserData(newUser);
+        //             })
+        //     }
+        // }, [modalVisible])
+
+        // useEffect(() => {
+        //     console.log("useEffect triggered");
+        //     const updateUser = () => {
+        //         console.log("UPdated values user siummmmmmmmmmmmmmmmm");
+        //         setUserData(appUser);
+        //     };
+
+        //     dataStoreEmitter.on('changeUser', updateUser);
+
+        //     return () => {
+        //         dataStoreEmitter.off('changeUser', updateUser);
+        //     };
+        // }, [userData]);
         useEffect(() => {
-            console.log("useEffect triggered");
-
-            if (!modalVisible) {
-                console.log("update profile values");
-                FirebaseUtils.getUser(appUser.id)
-                    .then((newUser) => {
-                        appUser.updateOnlyValues(newUser)
-                        setUserData(newUser);
-                    })
-            }
-        }, [modalVisible])
-
-        useEffect(() => {
-            console.log("useEffect triggered");
-            const updateUser = () => {
-                console.log("UPdated values user siummmmmmmmmmmmmmmmm");
-                setUserData(appUser);
-            };
-
-            dataStoreEmitter.on('changeUser', updateUser);
-
-            return () => {
-                dataStoreEmitter.off('changeUser', updateUser);
-            };
-        }, [userData.profilePic, userData.posts.length, userData.name, userData.surname
-            , userData.bio, userData.followers.length, userData.following.length]);
-
+            appUser.updateOnlyValues(userData);
+        }, [userData])
 
     } else {
         useEffect(() => {
@@ -87,7 +91,6 @@ export default function ProfileData({ user }) {
         if (userData.id) {
             StoriesUtils.getStoriesByUsername(userData.username)
                 .then((result) => {
-                    console.log("DIOCODCJDOICNDIO", result);
                     setStories(result);
                 })
         }
