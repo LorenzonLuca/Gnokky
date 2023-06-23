@@ -252,12 +252,19 @@ export default class PostUtils {
             comments.push(comment);
           });
       
-          return comments;
+          const sortedComments = this.getSortedComments(comments);
+      
+          return sortedComments;
         } catch (e) {
           console.log("Error getting post's comments: ", e);
           return [];
         }
-      }
+    }
       
 
+    static getSortedComments(comments) {
+        // Ordina l'array di commenti in base alla proprietà timestamp
+        const sortedComments = comments.sort((a, b) => b.timestamp - a.timestamp);
+        return sortedComments;
+    }
 }
