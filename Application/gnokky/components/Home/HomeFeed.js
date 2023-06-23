@@ -154,11 +154,8 @@ export default function HomeFeed({ id }) {
 
     // Restituisci i dati solo quando sono completamente caricati
     if (posts && posts.length > 0) {
-        {console.log("pfozz pt2.5 ", posts)}
         const generateComponents = posts.map((post) => (
             <View key={post.id}>
-                {console.log("okaymario pt3 ", post)}
-                {console.log("tuamadre pt4 ", post.id)}
                 <Post
                     post={post}
                     key={post.id}

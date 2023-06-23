@@ -48,7 +48,13 @@ export default function SearchNavigator() {
                     ),
                 })}
             >
-                <Stack.Screen name="Search" component={SearchPage} />
+                <Stack.Screen 
+                    name="Search" 
+                    component={SearchPage}
+                    options={{
+                        headerLeft: null, // Rimuove il pulsante di navigazione "Indietro"
+                    }} 
+                />
                 <Stack.Screen name="ProfileSearch" component={ProfilePage} />
             </Stack.Navigator>
         </NavigationContainer>

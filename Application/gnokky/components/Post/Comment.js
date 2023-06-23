@@ -37,26 +37,6 @@ export default function Comment( { comment } ){
         bottomSheetOptionModalRef.current?.present();
     }
     
-    // const styles = StyleSheet.create({
-    //     itemContainer: {
-    //         flexDirection: 'row',
-    //         padding: 6,
-    //         margin: 6,
-    //         backgroundColor: "#eee",
-    //         width: '100%',
-    //     },
-    //     username: {
-    //         fontWeight: 'bold',
-    //         marginHorizontal: 5,
-    //     },
-    //     text: {
-
-    //     },
-    //     border: {
-    //         borderWidth: 1,
-    //     }
-    // });
-
     const styles = StyleSheet.create({
         container: {
             flexDirection: 'row',
@@ -98,13 +78,6 @@ export default function Comment( { comment } ){
     });
 
     return (
-        // <View style={[styles.itemContainer, styles.border]}>
-        //     <View style={{ padding: 0 }}>
-        //         <GNProfileImage selectedImage={profilePic} size={35} />
-        //     </View>
-        //     <Text style={[styles.username, styles.border]}>{comment.owner}</Text>
-        //     <Text style={[styles.text, styles.border]}>{comment.text}</Text>
-        // </View>
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={[styles.border, { padding: 10 }]}>

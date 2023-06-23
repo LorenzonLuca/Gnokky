@@ -1,8 +1,8 @@
 import { SafeAreaView, ScrollView, View, StyleSheet, Text, TextInput } from "react-native";
 import GNButton from '../GN/GNButton';
 import { COLORS, appUser } from '../Models/Globals';
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import GNProfileImage from "../GN/GNProfileImage";
 
 export default function ChatTemplate({ navigation, route }) {
     const { user } = route.params;
@@ -10,6 +10,24 @@ export default function ChatTemplate({ navigation, route }) {
     const [message, setMessage] = useState("");
 
     const isTextInputValid = message.trim().length === 0;
+
+    const renderTitle = () => {
+        return (
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ padding: 10 }}>
+                    <GNProfileImage selectedImage={user.profilePic} size={35} />
+                </View>
+                <Text style={{fontWeight: 'bold'}}>{user.username}</Text>
+            </View>
+        )
+    }
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: renderTitle, // Mostra i dati nell'intestazione
+          });
+          
+    }, [navigation, user]);
 
 
     const handleWriteMessage = (text) => {
