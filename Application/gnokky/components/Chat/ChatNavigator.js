@@ -47,8 +47,8 @@ export default function ChatNavigator() {
                     ),
                 })}
             >
-                <Stack.Screen name="TemplateChat" component={ChatTemplate} options={{ headerShown: false }} />
                 <Stack.Screen name="Chat" component={ChatPage} />
+                <Stack.Screen name="TemplateChat" component={ChatTemplate} />
             </Stack.Navigator>
         </NavigationContainer>
     )

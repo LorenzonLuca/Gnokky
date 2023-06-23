@@ -2,7 +2,9 @@ import { SafeAreaView, ScrollView, View, StyleSheet, Text } from "react-native";
 import { COLORS, appUser } from '../Models/Globals';
 
 
-export default function ChatTemplate() {
+export default function ChatTemplate({ navigation, route }) {
+    const { user } = route.params;
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOO", user);
 
     const styles = StyleSheet.create({
         container: {
@@ -15,9 +17,10 @@ export default function ChatTemplate() {
             alignItems: 'center',
         },
         header: {
+            paddingVertical: 25,
         },
         body: {
-            // flex: 1,
+            flex: 1,
             padding: 20,
         },
     });

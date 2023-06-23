@@ -4,8 +4,8 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { COLORS } from "../Models/Globals";
 
 
-export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { }, 
-                                   onPressTrailing = () => { }, iconLeadingColor = COLORS.firtText, iconTrailingColor = COLORS.firtText }) {
+export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { },
+    onPressTrailing = () => { }, iconLeadingColor = COLORS.firtText, iconTrailingColor = COLORS.firtText }) {
 
     const styles = StyleSheet.create({
         container: {

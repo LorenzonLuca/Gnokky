@@ -101,6 +101,42 @@ export default class FirebaseUtils {
             return null;
         }
     }
+    static async getUserByUsername(username) {
+        try {
+            const usersCollection = collection(db, "users");
+            const querySnapshot = await getDocs(query(usersCollection, where("username", "==", username)));
+
+            if (!querySnapshot.empty) {
+                const users = [];
+                const downloadUrlPromises = [];
+
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    user.id = doc.id;
+                    const path = user.username + "/profilepic";
+                    const downloadUrlPromise = this.getImage(path)
+                        .then((downloadUrl) => {
+                            user.profilePic = downloadUrl;
+                            users.push(user);
+                        })
+                        .catch((error) => {
+                            console.log("Error getting download URL:", error);
+                        });
+
+                    downloadUrlPromises.push(downloadUrlPromise);
+                });
+
+                await Promise.all(downloadUrlPromises);
+                return users;
+            } else {
+                console.log("No users found with the specified property");
+                return null;
+            }
+        } catch (e) {
+            console.log("Error while trying to get data from Firestore: ", e);
+            return null;
+        }
+    }
     static async findUserFromSearchBar(keyword) {
         try {
             const usersCollection = collection(db, "users");
@@ -133,7 +169,7 @@ export default class FirebaseUtils {
                 return users;
             } else {
                 console.log("No users found with the specified property");
-                return null;
+                return [];
             }
         } catch (e) {
             console.log("Error while trying to search user: ", e);
