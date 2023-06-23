@@ -12,7 +12,6 @@ import Post from '../GN/Post';
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "../Models/Firebase"
 import { storage } from '../Models/Firebase';
-import { updateUser } from "../Models/Globals";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState, useEffect } from 'react';
 import PostUtils from '../Models/PostUtils';

@@ -6,6 +6,7 @@ import Divider from '../GN/Divider';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import PostUtils from '../Models/PostUtils';
 import Comment from './Comment';
+import GNButton from '../GN/GNButton'
 
 export default function CommentSection({postId, modalRef, height = '25%', children, title = 'Options' }) {
   
@@ -14,8 +15,8 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
   const [sent, setSent] = useState(true);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
-//const [comments, setComments] = useState([{text: "sium"},{text: "asldkjaséflkasfd"}]);
 
+  const isTextInputValid = comment.trim().length === 0;
 
   useEffect(() => {
     const fetchCommentsFromFirestore = async () => {
@@ -30,11 +31,15 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
     modalRef.current?.dismiss();
   };
 
+  const handleChangeText = (text) => {
+    setComment(text);
+  }
+
   const handleAddComment = () => {
     if(comment == "" && comment == null){
       return
     }
-    PostUtils.insertComment(postId, comment);
+    PostUtils.insertComment(postId, comment.trim());
     setComment("");
     setSent(!sent);
   }
@@ -58,6 +63,7 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
       borderBottomColor: '#CCCCCC',
     },
     commentInputContainer: {
+      height: 65,
       flexDirection: 'row',
       alignItems: 'center',
       borderTopWidth: 1,
@@ -69,8 +75,9 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
       marginRight: 8,
       borderWidth: 1,
       borderColor: '#CCCCCC',
-      borderRadius: 4,
+      borderRadius: 15,
       padding: 8,
+      height: '100%',
     },
     contentContainer: {
       backgroundColor: "white",
@@ -78,52 +85,16 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
     },
   });
 
+  let renderComments = <Text>No one commented yet, be the firt one!</Text>;
+
   if (comments && comments.length > 0) {
-    const renderComments = comments.map((com) => (
-      // <View key={comment.id} style={styles.itemContainer}>
-      //   <View style={{ padding: 10 }}>
-      //     {/* <GNProfileImage selectedImage={''} size={50} /> */}
-      //   </View>
-      //   <Text>{comment.text}</Text>
-      // </View>
-      <>
+    renderComments = comments.map((com) => (
       <Comment 
         comment={com} 
         key={com.id}
       />
-      </>
     ));
-
-    return (
-      <BottomSheetModal
-        ref={modalRef}
-        index={0}
-        snapPoints={snapPoints}
-        backgroundStyle={{ borderRadius: 30, backgroundColor: COLORS.fourthText }}
-        backdropComponent={({ style }) => (
-          <TouchableWithoutFeedback onPress={handleDismissModal}>
-            <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]} />
-          </TouchableWithoutFeedback>
-        )}
-        keyboardBehavior="fillParent"
-      >
-        <View style={styles.commentSectionContainer}>
-          <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-            <>{renderComments}</>
-          </BottomSheetScrollView>
   
-          <View style={styles.commentInputContainer}>
-            <TextInput
-              style={styles.commentInput}
-              placeholder="Add a comment..."
-              value={comment}
-              onChangeText={setComment}
-            />
-            <Button title="Send" onPress={handleAddComment} />
-          </View>
-        </View>
-      </BottomSheetModal>
-    );
   }
 
   return (
@@ -141,17 +112,17 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
     >
       <View style={styles.commentSectionContainer}>
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
-           <Text>No comments yet, be the first one!</Text>
+          <>{renderComments}</>
         </BottomSheetScrollView>
-  
+
         <View style={styles.commentInputContainer}>
           <TextInput
             style={styles.commentInput}
             placeholder="Add a comment..."
             value={comment}
-            onChangeText={setComment}
+            onChangeText={handleChangeText}
           />
-          <Button title="Send" onPress={handleAddComment} />
+          <GNButton title={'SEND'} backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements} isDisabled={isTextInputValid} width={'20%'} height={'100%'} onPress={handleAddComment}/>
         </View>
       </View>
     </BottomSheetModal>

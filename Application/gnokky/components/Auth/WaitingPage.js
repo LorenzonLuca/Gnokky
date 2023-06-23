@@ -8,14 +8,19 @@ import ProfileManagement from '../Profile/ProfileManagement';
 import { COLORS } from '../Models/Globals';
 import { SafeAreaView } from 'react-native';
 
+
 export default function WaitingPage({ navigation }) {
+
     const [modalVisible, setModalVisible] = useState(false);
+    console.log("sono entrato nella waiting page diocan")
 
     useEffect(() => {
+        console.log("sono entrato nello use effect diocan")
         const intervalCheck = setInterval(() => {
             auth.currentUser.reload()
                 .then(() => {
                     if (auth.currentUser.emailVerified) {
+                        console.log("TUAMADRELECCACIOLE")
                         console.log(auth.currentUser.emailVerified);
                         FirebaseUtils.insertUser(appUser.username, appUser.email);
                         clearInterval(intervalCheck);

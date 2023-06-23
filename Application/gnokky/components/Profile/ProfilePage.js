@@ -42,6 +42,7 @@ export default function ProfilePage({ navigation, route }) {
         const fetchUser = async () => {
             try {
                 const fetchedUser = await FirebaseUtils.getUser(profileUser.id)
+                console.log("MATERAZZI è CADUTO ", fetchedUser);
                 setProfileUser(fetchedUser);
                 setLoading(false); // Imposta lo stato di caricamento su false quando i dati sono stati caricati
             } catch (error) {

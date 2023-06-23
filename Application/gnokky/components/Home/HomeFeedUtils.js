@@ -5,7 +5,7 @@ import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arra
 import { db } from "../Models/Firebase"
 import { storage } from '../Models/Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { appUser, updateUser } from '../Models/Globals';
+import { appUser } from '../Models/Globals';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import moment from 'moment';
 import PostUtils from '../Models/PostUtils';
@@ -42,20 +42,28 @@ export default class HomeFeedUtils {
 
         try {
             const posts = await Promise.all(promises);
-            const flattenedPosts = posts.flat().filter(post => post.timestamp !== null && post.timestamp !== undefined);
-          
+            console.log("per me è si ", flattenedPosts);
+            const flattenedPosts = posts
+                .flat()
+                .filter(post => post && post.timestamp !== null && post.timestamp !== undefined);
+
             if (flattenedPosts.length > 1) {
-              const sortedPosts = flattenedPosts.sort((a, b) => {
+            const sortedPosts = flattenedPosts.sort((a, b) => {
                 const timestampA = a.timestamp;
                 const timestampB = b.timestamp;
-          
+
+                if (timestampA && timestampB) {
                 // Ordine crescente in base al timestamp
                 return timestampB - timestampA;
-              });
-              return sortedPosts;
+                } else {
+                    return 0;
+                }
+            });
+                return sortedPosts;
             } else {
-              return flattenedPosts;
+                return flattenedPosts;
             }
+
           } catch (error) {
             console.error("Errore durante il recupero o l'inserimento dei post nell'array: ", error);
             return null;

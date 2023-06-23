@@ -57,6 +57,4 @@ export default function CreateStoriesNavigator({ navigation }) {
             </Modal>
         </>
     );
-
-
 }

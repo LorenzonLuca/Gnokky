@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { COLORS } from '../Models/Globals';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useRoute  } from 'react';
 import PostUtils from '../Models/PostUtils';
 import CommentSection from '../Post/CommentSection';
 
@@ -20,6 +20,7 @@ export default function PostInteractions({id}) {
       const fetchData = async () => {
         setLiked(await PostUtils.checkIfLiked(id));
         setLikesCount(await PostUtils.getLikeCount(id));
+        setCommentsCount(await PostUtils.getCommentsCount(id));
       }
       fetchData();
     }, [])

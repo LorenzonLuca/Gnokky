@@ -35,6 +35,11 @@ export default function AuthNavigator() {
             options={{headerShown: false}}
         />
         <Stack.Screen 
+            name={ROUTES.PROFILE_MANAGEMENT} 
+            component={ProfileManagement}
+            options={{headerShown: false}}
+        />
+        <Stack.Screen 
             name={ROUTES.HOME} 
             component={BottomTabNavigator} 
             options={{headerShown: false}}
