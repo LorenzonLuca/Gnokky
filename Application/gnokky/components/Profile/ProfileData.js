@@ -61,32 +61,6 @@ export default function ProfileData({ user, property }) {
     }, [user])
 
     if (property) {
-        // useEffect(() => {
-        //     console.log("useEffect triggered");
-
-        //     if (!modalVisible) {
-        //         console.log("update profile values");
-        //         FirebaseUtils.getUser(appUser.id)
-        //             .then((newUser) => {
-        //                 appUser.updateOnlyValues(newUser)
-        //                 setUserData(newUser);
-        //             })
-        //     }
-        // }, [modalVisible])
-
-        // useEffect(() => {
-        //     console.log("useEffect triggered");
-        //     const updateUser = () => {
-        //         console.log("UPdated values user siummmmmmmmmmmmmmmmm");
-        //         setUserData(appUser);
-        //     };
-
-        //     dataStoreEmitter.on('changeUser', updateUser);
-
-        //     return () => {
-        //         dataStoreEmitter.off('changeUser', updateUser);
-        //     };
-        // }, [userData]);
         useEffect(() => {
             appUser.updateOnlyValues(userData);
         }, [userData])
@@ -118,6 +92,7 @@ export default function ProfileData({ user, property }) {
 
     const handleFollowing = () => {
         console.log("Following " + userData.username);
+        console.log("MADONNA PUTTANA SBLAO"+ userData.id);
         FirebaseUtils.followSomeone(userData.id)
             .then(() => {
                 FirebaseUtils.getUser(userData.id)

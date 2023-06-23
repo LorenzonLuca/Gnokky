@@ -2,7 +2,7 @@ import { View, Text, Modal, StyleSheet, ScrollView, TouchableHighlight } from 'r
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { COLORS, appUser, updateUser } from '../Models/Globals';
+import { COLORS, appUser } from '../Models/Globals';
 import GNProfileImage from '../GN/GNProfileImage';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import PostUtils from '../Models/PostUtils'

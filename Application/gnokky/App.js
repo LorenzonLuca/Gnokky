@@ -19,7 +19,7 @@ import AuthNavigator from './components/Navigations/AuthNavigator';
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "./components/Models/Firebase"
 import { storage } from "./components/Models/Firebase"
-import { appUser, updateUser } from "./components/Models/Globals"
+import { appUser } from "./components/Models/Globals"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth } from './components/Models/Firebase';
 import BottomTabNavigator from './components/Navigations/BottomTabNavigator';
@@ -140,11 +140,12 @@ export default function App() {
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
-            {(!user) ? (
+            {/* {(!user) ? (
                 <AuthNavigator />
             ) : (
                 <BottomTabNavigator />
-            )}
+            )} */}
+                <AuthNavigator />
             </NavigationContainer>
         </GestureHandlerRootView>
     );

@@ -8,8 +8,9 @@ import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleRegister } from './AuthUtils';
 import { COLORS, ROUTES } from '../Models/Globals';
 
-
 export default function RegisterPage({ navigation }) {
+
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

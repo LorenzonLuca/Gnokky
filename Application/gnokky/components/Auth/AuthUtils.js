@@ -50,7 +50,6 @@ export const handleRegister = async (username, email, password, password2, navig
         setError('Passwords do not match!');
         return;
     }
-
     await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
             const user = userCredentials.user;
@@ -61,11 +60,11 @@ export const handleRegister = async (username, email, password, password2, navig
                     navigation.navigate(ROUTES.VERIFY_EMAIL);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log("errore nel settare la madonna (primo then) ", error);
                 });
         })
         .catch((error) => {
-            console.log(error);
+            console.log("errore nel settare la madonna (secondo then) " ,error);
             setError(error.message);
             appUser.setUsername(null);
             appUser.setEmail(null);

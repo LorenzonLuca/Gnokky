@@ -1,7 +1,7 @@
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
-import { appUser, updateUser } from "./Globals";
+import { appUser } from "./Globals";
 import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storage';
 
 export default class FirebaseUtils {
@@ -62,6 +62,7 @@ export default class FirebaseUtils {
                 try {
                     // const downloadUrl = await getDownloadURL(storageRef);
                     const downloadUrl = await this.getImage(path);
+                    user.id = id;
                     user.profilePic = downloadUrl;
                     console.log(user);
                     return user;
@@ -158,8 +159,8 @@ export default class FirebaseUtils {
                         following: arrayUnion(user.username),
                     });
 
-                    const tmpUser = await this.getUser(appUser.id);
-                    updateUser(tmpUser);
+                    // const tmpUser = await this.getUser(appUser.id);
+                    // updateUser(tmpUser);
                 }
 
                 console.log("Successfully updated user data.");

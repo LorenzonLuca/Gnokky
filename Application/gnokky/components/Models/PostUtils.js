@@ -5,7 +5,7 @@ import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arra
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { appUser, updateUser } from './Globals';
+import { appUser } from './Globals';
 import FirebaseUtils from './FirebaseUtils';
 import moment from 'moment';
 
@@ -81,7 +81,6 @@ export default class PostUtils {
 
             setTimeout(async () => {
                 const tmpUser = await FirebaseUtils.getUser(appUser.id);
-                updateUser(tmpUser)
                 console.log(appUser.username + "'s post has been uploaded successfully into firebase");
             }, 1000)
         } catch (e) {
@@ -251,9 +250,7 @@ export default class PostUtils {
             comment.id = doc.id;
             comments.push(comment);
           });
-      
-          const sortedComments = this.getSortedComments(comments);
-      
+          const sortedComments = this.sortComments(comments);
           return sortedComments;
         } catch (e) {
           console.log("Error getting post's comments: ", e);
@@ -261,10 +258,21 @@ export default class PostUtils {
         }
     }
       
-
-    static getSortedComments(comments) {
+    static sortComments(comments) {
         // Ordina l'array di commenti in base alla proprietà timestamp
         const sortedComments = comments.sort((a, b) => b.timestamp - a.timestamp);
         return sortedComments;
+    }
+
+    static async getCommentsCount(postId){
+        try {
+            const postDocRef = doc(db, "posts", postId);
+            const commentsRef = collection(postDocRef, 'comments');
+            const commentsSnapshot = await getDocs(commentsRef);
+            const commentsCount = commentsSnapshot.size;
+            return commentsCount;
+        } catch (error) {
+            console.error('Errore durante il conteggio dei commenti:', error);
+        }
     }
 }

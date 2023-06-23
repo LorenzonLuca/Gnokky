@@ -6,7 +6,8 @@ export const COLORS = { "background": "#F2F3F4", "elements": "#A020F0", "firtTex
 export const ROUTES = {
     LOGIN: 'Login',
     REGISTER: 'Register',
-    VERIFY_EMAIL: 'VerifyEmail',
+    VERIFY_EMAIL: 'WaitingPage',
+    PROFILE_MANAGEMENT: 'ProfileManagement',
     CREATE_PROFILE: 'CreateProfile',
 
     HOME: "Home",
