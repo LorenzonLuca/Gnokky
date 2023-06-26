@@ -103,7 +103,13 @@ export default function NewPostPage({ navigation, onClose }) {
       paddingHorizontal: 10,
       marginHorizontal: 10,
       borderRadius: 20,
-    }
+    },
+    media: {
+      marginBottom: 10,
+      aspectRatio: 1,
+      borderRadius: 15,
+      borderColor: COLORS.thirdText,
+    },
   });
 
   return (
@@ -122,12 +128,12 @@ export default function NewPostPage({ navigation, onClose }) {
               onChangeText={handleInputChangeCaption}
             />
             {mediaUri && mediaType === 'image' && (
-              <Image source={{ uri: mediaUri }} style={{ height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }} />
+              <Image source={{ uri: mediaUri }} style={styles.media} />
             )}
             {mediaUri && mediaType === 'video' && (
               <Video
                 source={{ uri: mediaUri }}
-                style={{ height: '75%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }}
+                style={styles.media}
                 useNativeControls
                 resizeMode="contain"
               />

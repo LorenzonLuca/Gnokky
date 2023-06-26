@@ -6,21 +6,23 @@ import { COLORS } from '../Models/Globals';
 import { useEffect, useRef, useRoute  } from 'react';
 import PostUtils from '../Models/PostUtils';
 import CommentSection from '../Post/CommentSection';
+import RepostPage from '../Repost/RepostPage';
+import { Modal } from 'react-native';
 
-export default function PostInteractions({id}) {
+export default function PostInteractions({post}) {
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [liked, setLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
     const [commentsCount, setCommentsCount] = useState(0);
-    const [repostsCount, setRepostsCount] = useState(0);
     
     const bottomSheetCommentsModalRef = useRef(null);
 
     useEffect(() => {
       const fetchData = async () => {
-        setLiked(await PostUtils.checkIfLiked(id));
-        setLikesCount(await PostUtils.getLikeCount(id));
-        setCommentsCount(await PostUtils.getCommentsCount(id));
+        setLiked(await PostUtils.checkIfLiked(post.id));
+        setLikesCount(await PostUtils.getLikeCount(post.id));
+        setCommentsCount(await PostUtils.getCommentsCount(post.id));
       }
       fetchData();
     }, [])
@@ -31,12 +33,12 @@ export default function PostInteractions({id}) {
 
     const handleLikePost = async () =>{
       if(liked){
-        await PostUtils.dislikePost(id);
+        await PostUtils.dislikePost(post.id);
       }else{
-        await PostUtils.likePost(id);
+        await PostUtils.likePost(post.id);
       }
       setLiked(!liked);
-      setLikesCount(await PostUtils.getLikeCount(id));
+      setLikesCount(await PostUtils.getLikeCount(post.id));
     }
 
     const handleComments = () => {
@@ -73,6 +75,9 @@ export default function PostInteractions({id}) {
       
   return (
     <View style={[styles.container, styles.border]}>
+      <Modal visible={modalVisible} animationType="slide">
+          <RepostPage post={post} onClose={() => setModalVisible(false)} />
+      </Modal>
       <View style={styles.interaction}>
         <Ionicons
             name={liked ? 'heart' : 'heart-outline'}
@@ -95,10 +100,9 @@ export default function PostInteractions({id}) {
         <Ionicons
             style={styles.interactionIcon}
             name='sync-outline'
-            onPress={() => { console.log("Condivisioni"); }}
+            onPress={() => setModalVisible(true)}
             size={24}
         />
-        <Text style={styles.interactionCount}>{repostsCount}</Text>
       </View>
       <View style={styles.interaction}>
         <Ionicons
@@ -109,7 +113,7 @@ export default function PostInteractions({id}) {
         />
         {/* <Text style={styles.interactionCount}></Text> */}
       </View>
-      <CommentSection postId={id} modalRef={bottomSheetCommentsModalRef} title='Comments' height='90%' />
+      <CommentSection postId={post.id} modalRef={bottomSheetCommentsModalRef} title='Comments' height='90%' />
     </View>
   );
 }

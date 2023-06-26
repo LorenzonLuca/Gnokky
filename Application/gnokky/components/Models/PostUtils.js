@@ -43,7 +43,7 @@ export default class PostUtils {
 
     /// MEDIA SECTION ///
 
-    static async insertNewPost(mediaUri, mediaType, caption = "", locationInfo = "",) {
+    static async insertNewPost(mediaUri, mediaType, caption = "", locationInfo = "", repostRef = "") {
         try {
             let downloadUrl = "";
             if (mediaUri && mediaType) {
@@ -62,7 +62,7 @@ export default class PostUtils {
             const postDocRef = await addDoc(collection(db, "posts"), {
                 owner: appUser.username,
                 likes: [],
-                repost: 0,
+                repost: repostRef,
                 location: locationInfo,
                 caption: caption,
                 downloadUrl: downloadUrl,
@@ -124,7 +124,6 @@ export default class PostUtils {
                     post.id = doc.id;
                     post.ownerProfilePicUrl = profilePic;
                     if(limit){
-                        console.log("siumdiscreto")
                         if (currentTime.diff(post.timestamp, 'days') <= 2) {
                             posts.push(post);
                         } 
@@ -144,16 +143,19 @@ export default class PostUtils {
     }
 
     // POST INTERACTIONS
-    static async getPostsById(id) {
+    static async getPostById(postId) {
         try {
-            const postDoc = doc(db, "posts", id);
+            const postDoc = doc(db, "posts", postId);
             const postSnapshot = await getDoc(postDoc);
+            //const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
 
             if (postSnapshot.exists()) {
                 const post = postSnapshot.data();
+                post.id = postSnapshot.id;
+                post.ownerProfilePicUrl = await FirebaseUtils.getProfilePicFromUsername(post.owner);;
                 return post;
             } else {
-                console.log("No post found by this id " + username);
+                console.log("No post found by this id ", postId);
                 return null;
             }
         } catch (e) {

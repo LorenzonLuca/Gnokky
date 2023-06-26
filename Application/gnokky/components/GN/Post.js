@@ -22,6 +22,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 export default function Post({ post }){
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [repost, setRepost] = useState(post);
 
     ///// bottomSheet modal /////
     const bottomSheetOptionModalRef = useRef(null);
@@ -48,12 +49,20 @@ export default function Post({ post }){
         return <Text style={style}><Ionicons name={icon} size={15} />{text}</Text>;
     };
 
+    useEffect(() => {
+        const fetchRepost =  async () => {
+            setRepost(await PostUtils.getPostById(post.repost));
+        }
+        if(post.repost){
+            console.log("hippo ", post.repost)
+            fetchRepost();
+        }
+    }, [])
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             backgroundColor: COLORS.background,
-            //   borderColor: 'red',
-            //   borderWidth: 1,
         },
         body: {
             flex: 1,
@@ -115,14 +124,20 @@ export default function Post({ post }){
             width: '100%',
             justifyContent: 'flex-start',
             marginVertical: 5,
-        }
+        },
+        repostContainer: {
+            flexDirection: 'row',
+            borderRadius: 15,
+            borderWidth: 1,
+            borderColor: COLORS.thirdText,
+        },  
     });
 
     return (
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={[styles.border, { padding: 10 }]}>
-                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
+                    <GNProfileImage selectedImage={post.ownerProfilePicUrl ? post.ownerProfilePicUrl : ""} size={50} />
                 </View>
                 <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
@@ -133,27 +148,11 @@ export default function Post({ post }){
                     <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
                         <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />
-                        {/* {mediaUri && mediaType === 'image' && (
-                                <Image 
-                                    source={{ uri: mediaUri }} 
-                                    style={styles.media} 
-                                    // resizeMode="cover"
-                                    resizeMode="cover"
-                                />
-                            )}
-                            {mediaUri && mediaType === 'video' && (
-                                <Video
-                                    source={{ uri: mediaUri }}
-                                    style={styles.media}
-                                    useNativeControls
-                                    resizeMode="contain" />
-                            )} */}
                         <TouchableOpacity onPress={handleMediaClick}>
                             {post.downloadUrl && post.mediaType === 'image' && (
                                 <Image
                                     source={{ uri: post.downloadUrl }}
                                     style={styles.media}
-                                    // resizeMode="cover"
                                     resizeMode="cover"
                                 />
                             )}
@@ -165,7 +164,60 @@ export default function Post({ post }){
                                     resizeMode="contain" />
                             )}
                         </TouchableOpacity>
-                        <PostInteraction id={post.id} />
+                        {/* REPOST SECTION */}
+                        {post.repost !== "" ? (
+                            <View style={styles.repostContainer}>
+                                <View style={[styles.border, { flex: 1, padding: 10 }]}>
+                                    <View style={styles.infoContainer}>
+                                        {console.log("istrice ", repost.ownerProfilePicUrl)}
+                                        <GNProfileImage selectedImage={repost.ownerProfilePicUrl} size={30} />
+                                        <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{repost.owner}</Text>
+                                        <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(repost.timestamp)}</Text>
+                                    </View>
+                                    <EmptyText style={styles.border} text={repost.caption} />
+                                    <View style={styles.mediaContainer}>
+                                        <TouchableOpacity onPress={handleMediaClick}>
+                                            {repost.downloadUrl && repost.mediaType === 'image' && (
+                                                <Image
+                                                    source={{ uri: repost.downloadUrl }}
+                                                    style={styles.media}
+                                                    resizeMode="cover"
+                                                />
+                                            )}
+                                            {repost.downloadUrl && repost.mediaType === 'video' && (
+                                                <Video
+                                                    source={{ uri: repost.downloadUrl }}
+                                                    style={styles.media}
+                                                    useNativeControls
+                                                    resizeMode="contain" />
+                                            )}
+                                        </TouchableOpacity>
+                                        <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
+                                            <View style={styles.modalContainer}>
+                                                <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                                                    <Ionicons name="ios-arrow-back" size={24} color="white" />
+                                                </TouchableOpacity>
+                                                {repost.mediaType === 'image' ? (
+                                                    <ImageViewer
+                                                        imageUrls={[{ url: repost.downloadUrl }]}
+                                                        enableSwipeDown={true}
+                                                        onCancel={closeModal}
+                                                        renderIndicator={() => null}
+                                                        index={0}
+                                                    />
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </View>
+                                        </Modal>
+                                    </View>
+                                </View>
+                            </View>
+                        ) : (
+                            <></>
+                        )}
+                        {/* END REPOST */}
+                        <PostInteraction post={post} />
                         <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
                             <View style={styles.modalContainer}>
                                 <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
