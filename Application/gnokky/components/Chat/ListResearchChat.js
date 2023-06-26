@@ -24,10 +24,9 @@ export default function ListResearchChat({ existingChats = [], otherUsers = [], 
         userLabel: {
             flexDirection: 'row',
             alignItems: 'center',
-            marginVertical: 5,
+            margin: 10,
             backgroundColor: COLORS.fourthText,
             padding: 2,
-            borderRadius: 10,
         },
         username: {
             marginHorizontal: 10,
@@ -37,7 +36,7 @@ export default function ListResearchChat({ existingChats = [], otherUsers = [], 
     const generateExistingChats = existingChats.map(chat => (
         <TouchableWithoutFeedback key={chat.id} onPress={() => openChat(chat)}>
             <View style={styles.userLabel}>
-                <GNProfileImage selectedImage={chat.profilePic} size={40} />
+                <GNProfileImage selectedImage={chat.profilePic} size={60} />
                 <Text style={styles.username}>{chat.username}</Text>
             </View>
         </TouchableWithoutFeedback>

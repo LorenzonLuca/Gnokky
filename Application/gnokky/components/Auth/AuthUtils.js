@@ -23,7 +23,8 @@ export const handleLogin = async (email, password, navigation, setError) => {
             FirebaseUtils.getUserByEmail(email)
                 .then((result) => {
                     appUser.setUsername(result[0].username);
-                    appUser.setId(result[0].id)
+                    appUser.setId(result[0].id);
+                    storeUserData(result[0].id);
                     navigation.navigate(ROUTES.HOME);
                 }).catch((error) => {
                     console.log(error);
@@ -64,9 +65,17 @@ export const handleRegister = async (username, email, password, password2, navig
                 });
         })
         .catch((error) => {
-            console.log("errore nel settare la madonna (secondo then) " ,error);
+            console.log("errore nel settare la madonna (secondo then) ", error);
             setError(error.message);
             appUser.setUsername(null);
             appUser.setEmail(null);
         });
 }
+
+const storeUserData = async (value) => {
+    try {
+        await AsyncStorage.setItem('userID', value);
+    } catch (e) {
+        console.log("error while trying to save user id in async storage");
+    }
+};

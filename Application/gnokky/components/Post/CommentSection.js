@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
-import { TouchableWithoutFeedback, Text, TextInput, Button, View, StyleSheet, Animated,FlatList , ScrollView } from 'react-native';
+import { TouchableWithoutFeedback, Text, TextInput, Button, View, StyleSheet, Animated, FlatList, ScrollView } from 'react-native';
 import BottomSheet, { BottomSheetFooter, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { COLORS } from '../Models/Globals';
 import Divider from '../GN/Divider';
@@ -8,8 +8,8 @@ import PostUtils from '../Models/PostUtils';
 import Comment from './Comment';
 import GNButton from '../GN/GNButton'
 
-export default function CommentSection({postId, modalRef, height = '25%', children, title = 'Options' }) {
-  
+export default function CommentSection({ postId, modalRef, height = '25%', children, title = 'Options' }) {
+
   const snapPoints = [height];
 
   const [sent, setSent] = useState(true);
@@ -36,7 +36,7 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
   }
 
   const handleAddComment = () => {
-    if(comment == "" && comment == null){
+    if (comment == "" || comment == null) {
       return
     }
     PostUtils.insertComment(postId, comment.trim());
@@ -89,12 +89,12 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
 
   if (comments && comments.length > 0) {
     renderComments = comments.map((com) => (
-      <Comment 
-        comment={com} 
+      <Comment
+        comment={com}
         key={com.id}
       />
     ));
-  
+
   }
 
   return (
@@ -122,7 +122,7 @@ export default function CommentSection({postId, modalRef, height = '25%', childr
             value={comment}
             onChangeText={handleChangeText}
           />
-          <GNButton title={'SEND'} backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements} isDisabled={isTextInputValid} width={'20%'} height={'100%'} onPress={handleAddComment}/>
+          <GNButton title={'SEND'} backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements} isDisabled={isTextInputValid} width={'20%'} height={'100%'} onPress={handleAddComment} />
         </View>
       </View>
     </BottomSheetModal>

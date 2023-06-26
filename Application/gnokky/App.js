@@ -113,23 +113,37 @@ export default function App() {
     //         </NavigationContainer>
     //     </SafeAreaProvider>
     // );
-    
+
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
 
     function onAuthStateChanged(user) {
         setUser(user);
-        if(initializing)
+        if (initializing)
             setInitializing(false);
     }
 
 
     useEffect(() => {
+        const getUserData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('userID');
+                if (value !== null) {
+                    appUser.setId(value);
+                    await appUser.getValueAndUpdate();
+                    setInitializing(false);
+                }
+            } catch (e) {
+                console.log("Error while trying to get value from async storage: ", e);
+            }
+        };
+
+        getUserData();
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
         return subscriber;
     }, []);
 
-    if(initializing){
+    if (initializing) {
         return null;
     }
 
@@ -140,7 +154,7 @@ export default function App() {
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <NavigationContainer>
-            {/* {(!user) ? (
+                {/* {(!user) ? (
                 <AuthNavigator />
             ) : (
                 <BottomTabNavigator />

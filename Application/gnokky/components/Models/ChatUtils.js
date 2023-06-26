@@ -1,13 +1,13 @@
 import {
     collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs,
-    arrayUnion, orderBy, deleteDoc, arrayRemove
+    arrayUnion, orderBy, deleteDoc, arrayRemove, onSnapshot
 } from "firebase/firestore";
 import { db } from "./Firebase"
 import FirebaseUtils from "./FirebaseUtils";
 import { appUser } from "./Globals";
 
 export default class ChatUtils {
-    static async getAllChats(keyword) {
+    static async getAllChats(keyword = "") {
         try {
             const userDocRef = doc(db, "users", appUser.id);
             const chatRef = collection(userDocRef, 'chats');
@@ -17,12 +17,16 @@ export default class ChatUtils {
             const chatPromises = chatsSnapshot.docs.map(async (doc) => {
                 const chat = doc.data();
                 console.log("DIOCANEEEEEEEEEEEEEEEEEEEE", chat);
-                const tmpChat = await FirebaseUtils.getUserByUsername(chat.user);
+                let tmpChat = await FirebaseUtils.getUserByUsername(chat.user);
+                console.log(chat.chatID);
+                console.log("BEVOOOOOO", tmpChat)
+                tmpChat[0].chatId = chat.chatID
                 return tmpChat;
             });
 
             const chats = await Promise.all(chatPromises);
             return chats.flat();
+            // return chats;
         } catch (e) {
             console.log("Error getting chats from user: ", e);
             return [];
@@ -58,7 +62,39 @@ export default class ChatUtils {
         }
     }
 
-    static async fetchChat(id) {
+    static async fetchChat(id, updateCallback) {
+        console.log("MI PIGLI PER IL CULO?");
+        return new Promise((resolve, reject) => {
+            const chatDocRef = doc(db, "chats", id);
 
+            console.log("DIOCANE DOVE CAZZO È IL PROBLEMA");
+            onSnapshot(collection(chatDocRef, 'messages'), (querySnapshot) => {
+                console.log("PORCODIDDDDIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+                const updatedData = querySnapshot.docs.map((doc) => doc.data());
+
+                var res = updatedData.sort(({ timestamp: a }, { timestamp: b }) => b - a);
+
+                updateCallback(res.reverse());
+            }, reject);
+        });
+    }
+
+    static async sendMessage(chatId, text) {
+        try {
+            const chatDocRef = doc(db, "chats", chatId);
+            const innerCollectionRef = collection(chatDocRef, 'messages');
+
+            console.log("BOIAAA");
+
+            await addDoc(innerCollectionRef, {
+                owner: appUser.username,
+                text: text,
+                timestamp: new Date().getTime(),
+            });
+
+            console.log("BOIAAAAAA");
+        } catch (error) {
+            console.log("Error while trying to send a message: ", error);
+        }
     }
 }

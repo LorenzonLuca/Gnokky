@@ -1,12 +1,12 @@
-import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text, TouchableWithoutFeedback } from 'react-native';
 import { COLORS, appUser } from '../Models/Globals';
 import GNTextInput from '../GN/GNTextInput';
+import GNProfileImage from '../GN/GNProfileImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
 import ListResearchChat from './ListResearchChat';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ChatUtils from '../Models/ChatUtils';
-
 
 
 export default function ChatPage({ navigation }) {
@@ -22,10 +22,6 @@ export default function ChatPage({ navigation }) {
         const getExisting = async (keyword) => {
             const chats = await ChatUtils.getAllChats(keyword);
             return chats;
-        }
-
-        const isEqual = (obj1, obj2) => {
-            return JSON.stringify(obj1) === JSON.stringify(obj2);
         }
 
         const findUniqueValues = (arr1, arr2) => {
@@ -53,6 +49,21 @@ export default function ChatPage({ navigation }) {
         }
     }, [research, refresh])
 
+    useEffect(() => {
+        const fetchChats = async () => {
+            try {
+                const chats = await ChatUtils.getAllChats();
+                setExistingChats(chats);
+            } catch (error) {
+                console.log("Error while getting all chat: ", error);
+            }
+        }
+
+        if (showExistingChats) {
+            fetchChats();
+        }
+    }, [showExistingChats])
+
     const handleResearch = (text) => {
         console.log("RESEARCH: ", text);
         setResearch(text)
@@ -72,6 +83,10 @@ export default function ChatPage({ navigation }) {
         setRefresh(!refresh);
     }
 
+    const openChat = (user) => {
+        navigation.navigate("TemplateChat", { user: user });
+    }
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -85,13 +100,32 @@ export default function ChatPage({ navigation }) {
         },
         body: {
             flex: 1,
-            padding: 20,
+            // padding: 20,
             width: '100%'
         },
         header: {
             paddingVertical: 25,
         },
+        userLabel: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 10,
+            backgroundColor: COLORS.fourthText,
+            padding: 2,
+        },
+        username: {
+            marginHorizontal: 10,
+        }
     });
+
+    const generateExistingChats = existingChats.map(chat => (
+        <TouchableWithoutFeedback key={chat.id} onPress={() => openChat(chat)}>
+            <View style={styles.userLabel}>
+                <GNProfileImage selectedImage={chat.profilePic} size={60} />
+                <Text style={styles.username}>{chat.username}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    ));
 
     return (
         <SafeAreaView style={styles.container}>
@@ -110,7 +144,10 @@ export default function ChatPage({ navigation }) {
                 </View>
                 <View style={styles.body}>
                     {showExistingChats ? (
-                        <></>
+                        <>
+                            {console.log("PORCODIODSIOIODIDODIDDOIDOSDODS", existingChats)}
+                            {generateExistingChats}
+                        </>
                     ) : (
                         <ListResearchChat
                             existingChats={existingChats}
