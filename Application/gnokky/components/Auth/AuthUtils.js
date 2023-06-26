@@ -17,21 +17,24 @@ export const handleLogin = async (email, password, navigation, setError) => {
         return;
     }
 
-    
+
 
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            const user = userCredential.user;
-            appUser.setEmail(email);
-            FirebaseUtils.getUserByEmail(email)
-                .then((result) => {
-                    appUser.setUsername(result[0].username);
-                    appUser.setId(result[0].id);
-                    storeUserData(result[0].id);
-                    navigation.navigate(ROUTES.HOME);
-                }).catch((error) => {
-                    console.log(error);
-                });
+            if(email == "admin@sium.com"){
+                navigation.navigate(ROUTES.ADMIN);
+            } else {
+                appUser.setEmail(email);
+                FirebaseUtils.getUserByEmail(email)
+                    .then((result) => {
+                        appUser.setUsername(result[0].username);
+                        appUser.setId(result[0].id);
+                        storeUserData(result[0].id);
+                        navigation.navigate(ROUTES.HOME);
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+            }
         })
         .catch((error) => {
             console.log(error.message);
