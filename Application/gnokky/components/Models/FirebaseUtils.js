@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { appUser } from "./Globals";
@@ -263,6 +263,26 @@ export default class FirebaseUtils {
                 })
         } catch (error) {
             console.log("Error while removing an image from the storage: " + error);
+        }
+    }
+
+    static async removeFollower(username) {
+        try {
+            // console.log("jcdsohvdshpviusdpvkjnéb");
+            const docRef = doc(db, "users", appUser.id);
+            await updateDoc(docRef, {
+                followers: arrayRemove(username)
+            });
+
+            const user = await this.getUserByUsername(username);
+            console.log("aaaaaaaaaaaaaaaaaaaaaa", user)
+            const userDocRef = doc(db, "users", user[0].id);
+
+            await updateDoc(userDocRef, {
+                following: arrayRemove(appUser.username)
+            })
+        } catch (error) {
+            console.log("error while trying to remove an user from your followers: ", error);
         }
     }
 }
