@@ -22,6 +22,8 @@ import { TouchableWithoutFeedback } from 'react-native';
 export default function Post({ post }){
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [repostModalVisible, setRepostModalVisible] = useState(false);
+
     const [repost, setRepost] = useState(post);
 
     ///// bottomSheet modal /////
@@ -37,8 +39,17 @@ export default function Post({ post }){
             setModalVisible(true);
     };
 
+    const handleRepostMediaClick = () => {
+        if (repost.mediaType == 'image')
+            setRepostModalVisible(true);
+    };
+
     const closeModal = () => {
         setModalVisible(false);
+    };
+
+    const closeRepostModal = () => {
+        setRepostModalVisible(false);
     };
 
     const EmptyText = ({ style, icon = "", text }) => {
@@ -90,7 +101,7 @@ export default function Post({ post }){
         },
         media: {
             // height: '100%',
-            // aspectRatio: 3/4,
+            //aspectRatio: 3/4,
             aspectRatio: 1,
             borderRadius: 15,
             borderColor: COLORS.thirdText,
@@ -176,7 +187,7 @@ export default function Post({ post }){
                                     </View>
                                     <EmptyText style={styles.border} text={repost.caption} />
                                     <View style={styles.mediaContainer}>
-                                        <TouchableOpacity onPress={handleMediaClick}>
+                                        <TouchableOpacity onPress={handleRepostMediaClick}>
                                             {repost.downloadUrl && repost.mediaType === 'image' && (
                                                 <Image
                                                     source={{ uri: repost.downloadUrl }}
@@ -192,24 +203,6 @@ export default function Post({ post }){
                                                     resizeMode="contain" />
                                             )}
                                         </TouchableOpacity>
-                                        <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
-                                            <View style={styles.modalContainer}>
-                                                <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                                                    <Ionicons name="ios-arrow-back" size={24} color="white" />
-                                                </TouchableOpacity>
-                                                {repost.mediaType === 'image' ? (
-                                                    <ImageViewer
-                                                        imageUrls={[{ url: repost.downloadUrl }]}
-                                                        enableSwipeDown={true}
-                                                        onCancel={closeModal}
-                                                        renderIndicator={() => null}
-                                                        index={0}
-                                                    />
-                                                ) : (
-                                                    <></>
-                                                )}
-                                            </View>
-                                        </Modal>
                                     </View>
                                 </View>
                             </View>
@@ -228,6 +221,24 @@ export default function Post({ post }){
                                         imageUrls={[{ url: post.downloadUrl }]}
                                         enableSwipeDown={true}
                                         onCancel={closeModal}
+                                        renderIndicator={() => null}
+                                        index={0}
+                                    />
+                                ) : (
+                                    <></>
+                                )}
+                            </View>
+                        </Modal>
+                        <Modal visible={repostModalVisible} transparent={true} onRequestClose={closeRepostModal}>
+                            <View style={styles.modalContainer}>
+                                <TouchableOpacity style={styles.closeButton} onPress={closeRepostModal}>
+                                    <Ionicons name="ios-arrow-back" size={24} color="white" />
+                                </TouchableOpacity>
+                                {repost.mediaType === 'image' ? (
+                                    <ImageViewer
+                                        imageUrls={[{ url: repost.downloadUrl }]}
+                                        enableSwipeDown={true}
+                                        onCancel={closeRepostModal}
                                         renderIndicator={() => null}
                                         index={0}
                                     />
