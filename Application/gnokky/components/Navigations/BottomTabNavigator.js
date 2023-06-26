@@ -81,7 +81,7 @@ import ProfilePage from '../Profile/ProfilePage';
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
 import CreateStoriesNavigator from '../Stories/CreateStoriesNavigator';
 import SearchNavigator from '../Search/SearchNavigator';
-import {signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 
 import { useRef } from 'react';
 import { auth } from '../Models/Firebase';
@@ -99,12 +99,13 @@ export default function BottomTabNavigator() {
 
     const hanldeSignOut = async () => {
         await signOut(auth)
-        .then(async () => {
-            await AsyncStorage.removeItem("userID");
-            navigation.navigate(ROUTES.LOGIN)
-            console.log("LOGGEDOUT")
-        })
-        .catch((error) => Alert(error));
+            .then(async () => {
+                await AsyncStorage.removeItem("userID");
+                appUser.resetAllValues();
+                navigation.navigate(ROUTES.LOGIN)
+                console.log("LOGGEDOUT")
+            })
+            .catch((error) => Alert(error));
     }
 
     const logo = require('./../../assets/logo/logo_gnocchi_viola.png');

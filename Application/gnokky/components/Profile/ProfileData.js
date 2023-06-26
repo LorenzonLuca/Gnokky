@@ -1,13 +1,16 @@
-import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Text, ScrollView } from 'react-native';
 import GNProfileImage from '../GN/GNProfileImage';
 import { appUser, COLORS, dataStoreEmitter } from '../Models/Globals';
 import GNText from '../GN//GNText';
 import GNButton from '../GN//GNButton';
+import GNAppBar from '../GN/GNAppBar';
 import { useEffect, useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ProfileManagement from './ProfileManagement';
 import StoriesUtils from '../Models/StoriesUtils';
 import StoriesVisualizer from '../GN/StoriesVisualizer';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 
 export default function ProfileData({ user, property }) {
@@ -15,36 +18,10 @@ export default function ProfileData({ user, property }) {
     const [alreadyFollowing, setAlreadyFollowing] = useState(user.followers.includes(appUser.username));
     const [modalVisible, setModalVisible] = useState(false);
     const [storiesModal, setStoriesModal] = useState(false);
-    const [stories, setStories] = useState([]);
-
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            //backgroundColor: COLORS.background,
-        },
-        bodyText: {
-            fontSize: 16,
-        },
-        background: {
-            //backgroundColor: COLORS.background,
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        rowContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 16,
-            width: '100%',
-            padding: 10,
-            color: COLORS.textBlack
-        },
-        bioContainer: {
-            //backgroundColor: COLORS.background,
-            margin: 20,
-            marginTop: 0,
-        },
-    });
-
+    const [followersModal, setFollowersModal] = useState(false);
+    const [stories, setStories] = useState([])
+    const [followersList, setFollowersList] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         setUserData(user);
@@ -86,13 +63,22 @@ export default function ProfileData({ user, property }) {
         }
     }, [storiesModal]);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            await appUser.getValueAndUpdate();
+            setUserData(appUser);
+        }
+
+        fetchUser();
+    }, [refresh])
+
     const handleEditProfile = () => {
         setModalVisible(true);
     }
 
     const handleFollowing = () => {
         console.log("Following " + userData.username);
-        console.log("MADONNA PUTTANA SBLAO"+ userData.id);
+        console.log("MADONNA PUTTANA SBLAO" + userData.id);
         FirebaseUtils.followSomeone(userData.id)
             .then(() => {
                 FirebaseUtils.getUser(userData.id)
@@ -106,8 +92,77 @@ export default function ProfileData({ user, property }) {
     };
 
     const handleOpenStories = () => {
-        setStoriesModal(true);
+        if (stories.length > 0) {
+            setStoriesModal(true);
+        }
     }
+
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            //backgroundColor: COLORS.background,
+        },
+        bodyText: {
+            fontSize: 16,
+        },
+        background: {
+            //backgroundColor: COLORS.background,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        rowContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+            width: '100%',
+            padding: 10,
+            color: COLORS.textBlack
+        },
+        bioContainer: {
+            //backgroundColor: COLORS.background,
+            margin: 20,
+            marginTop: 0,
+        },
+        userListContainer: {
+            backgroundColor: COLORS.fourthText,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 5,
+            padding: 5,
+        },
+        userListText: {
+            color: COLORS.firtText,
+            fontSize: 17,
+            marginHorizontal: 10,
+            flex: 1
+        },
+    });
+
+    useEffect(() => {
+        const fetchFollowersList = async () => {
+            const list = [];
+            for (const user of userData.followers) {
+                const profilePic = await FirebaseUtils.getProfilePicFromUsername(user);
+                const followerComponent = (
+                    <View key={user} style={styles.userListContainer}>
+                        <GNProfileImage selectedImage={profilePic} size={50} />
+                        <Text style={styles.userListText}>{user}</Text>
+                        <TouchableWithoutFeedback onPress={() => {
+                            FirebaseUtils.removeFollower(user)
+                            setRefresh(!refresh);
+                        }}>
+                            <Ionicons name='trash-outline' size={25} color={'red'} />
+                        </TouchableWithoutFeedback>
+                    </View>
+                );
+                list.push(followerComponent);
+            }
+            setFollowersList(list);
+        };
+
+        fetchFollowersList();
+    }, [userData]);
 
     return (
         <View style={[styles.background, { marginBottom: 5 }]}>
@@ -126,10 +181,18 @@ export default function ProfileData({ user, property }) {
                     </Modal>
                     <GNText>@{userData.username}</GNText>
                 </View>
-                <View style={[styles.container, styles.background]}>
-                    <GNText>{userData.followers.length}</GNText>
-                    <GNText>Followers</GNText>
-                </View>
+                <TouchableWithoutFeedback onPress={() => setFollowersModal(true)}>
+                    <View style={[styles.container, styles.background]}>
+                        <GNText>{userData.followers.length}</GNText>
+                        <GNText>Followers</GNText>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Modal visible={followersModal} animationType='slide'>
+                    <GNAppBar iconLeading='close-outline' onPressLeading={() => setFollowersModal(false)} iconTrailing='' />
+                    <ScrollView>
+                        {followersList}
+                    </ScrollView>
+                </Modal>
                 <View style={[styles.container, styles.background]}>
                     <GNText>{userData.following.length}</GNText>
                     <GNText>Following</GNText>

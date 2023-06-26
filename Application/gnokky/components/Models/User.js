@@ -31,6 +31,17 @@ export default class User {
         this.setPosts(newUser.posts);
         this.setProfilePic(newUser.profilePic);
     }
+    resetAllValues() {
+        this.setId("");
+        this.setUsername("");
+        this.setName("");
+        this.setSurname("");
+        this.setBio("");
+        this.setFollowers("");
+        this.setFollowing("");
+        this.setPosts("");
+        this.setProfilePic("");
+    }
 
     setEmail(email) {
         this.email = email;
