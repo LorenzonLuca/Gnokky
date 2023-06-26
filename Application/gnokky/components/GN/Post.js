@@ -13,8 +13,8 @@ import PostInteraction from './PostInteraction';
 import Divider from './Divider';
 import PostUtils from '../Models/PostUtils';
 import GNBottomSheetModal from './GNBottomSheetModal';
+import Repost from '../Repost/Repost';
 
-import { BottomSheet, BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
 import { TouchableWithoutFeedback } from 'react-native';
 
@@ -22,7 +22,6 @@ import { TouchableWithoutFeedback } from 'react-native';
 export default function Post({ post }){
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [repostModalVisible, setRepostModalVisible] = useState(false);
 
     const [repost, setRepost] = useState(post);
 
@@ -39,18 +38,10 @@ export default function Post({ post }){
             setModalVisible(true);
     };
 
-    const handleRepostMediaClick = () => {
-        if (repost.mediaType == 'image')
-            setRepostModalVisible(true);
-    };
-
     const closeModal = () => {
         setModalVisible(false);
     };
 
-    const closeRepostModal = () => {
-        setRepostModalVisible(false);
-    };
 
     const EmptyText = ({ style, icon = "", text }) => {
         if (!text) {
@@ -65,7 +56,6 @@ export default function Post({ post }){
             setRepost(await PostUtils.getPostById(post.repost));
         }
         if(post.repost){
-            console.log("hippo ", post.repost)
             fetchRepost();
         }
     }, [])
@@ -141,14 +131,35 @@ export default function Post({ post }){
             borderRadius: 15,
             borderWidth: 1,
             borderColor: COLORS.thirdText,
-        },  
+        }, 
+        repostMediaContainer: {
+            flexDirection: 'row',
+            marginVertical: 5,
+            borderRadius: 15,
+        }, 
+        repostMedia: {
+            width: 65,
+            height: 65,
+            aspectRatio: 1,
+            borderRadius: 15,
+            borderColor: COLORS.thirdText,
+            borderWidth: 1,
+            marginRight: 10,
+        },
+        repostUsername: {
+            fontWeight: 'bold',
+            marginLeft: 10,
+        }, 
+        repostCaption: {
+            flex: 1,
+        }
     });
 
     return (
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={[styles.border, { padding: 10 }]}>
-                    <GNProfileImage selectedImage={post.ownerProfilePicUrl ? post.ownerProfilePicUrl : ""} size={50} />
+                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
                 </View>
                 <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
@@ -176,36 +187,8 @@ export default function Post({ post }){
                             )}
                         </TouchableOpacity>
                         {/* REPOST SECTION */}
-                        {post.repost !== "" ? (
-                            <View style={styles.repostContainer}>
-                                <View style={[styles.border, { flex: 1, padding: 10 }]}>
-                                    <View style={styles.infoContainer}>
-                                        {console.log("istrice ", repost.ownerProfilePicUrl)}
-                                        <GNProfileImage selectedImage={repost.ownerProfilePicUrl} size={30} />
-                                        <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{repost.owner}</Text>
-                                        <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(repost.timestamp)}</Text>
-                                    </View>
-                                    <EmptyText style={styles.border} text={repost.caption} />
-                                    <View style={styles.mediaContainer}>
-                                        <TouchableOpacity onPress={handleRepostMediaClick}>
-                                            {repost.downloadUrl && repost.mediaType === 'image' && (
-                                                <Image
-                                                    source={{ uri: repost.downloadUrl }}
-                                                    style={styles.media}
-                                                    resizeMode="cover"
-                                                />
-                                            )}
-                                            {repost.downloadUrl && repost.mediaType === 'video' && (
-                                                <Video
-                                                    source={{ uri: repost.downloadUrl }}
-                                                    style={styles.media}
-                                                    useNativeControls
-                                                    resizeMode="contain" />
-                                            )}
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
+                        {post.repost !== "" ? ( 
+                            <Repost repost={repost} postHasMedia={post.downloadUrl} />
                         ) : (
                             <></>
                         )}
@@ -229,24 +212,7 @@ export default function Post({ post }){
                                 )}
                             </View>
                         </Modal>
-                        <Modal visible={repostModalVisible} transparent={true} onRequestClose={closeRepostModal}>
-                            <View style={styles.modalContainer}>
-                                <TouchableOpacity style={styles.closeButton} onPress={closeRepostModal}>
-                                    <Ionicons name="ios-arrow-back" size={24} color="white" />
-                                </TouchableOpacity>
-                                {repost.mediaType === 'image' ? (
-                                    <ImageViewer
-                                        imageUrls={[{ url: repost.downloadUrl }]}
-                                        enableSwipeDown={true}
-                                        onCancel={closeRepostModal}
-                                        renderIndicator={() => null}
-                                        index={0}
-                                    />
-                                ) : (
-                                    <></>
-                                )}
-                            </View>
-                        </Modal>
+                        
                     </View>
                 </View>
             </View>

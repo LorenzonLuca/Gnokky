@@ -13,6 +13,7 @@ import * as VideoPicker from 'expo-image-picker';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Video } from 'expo-av';
 import GNCamera from '../GN/GNCamera';
+import Repost from './Repost';
 
 export default function RepostPage({ navigation, onClose, post }) {
 
@@ -229,52 +230,7 @@ export default function RepostPage({ navigation, onClose, post }) {
                 )}
                 <EmptyText style={{marginBottom: 10}} text={locationInfo} />
                 {/* REPOST */}
-                <View style={styles.repostContainer}>
-                    <View style={[styles.border, { flex: 1, padding: 10 }]}>
-                        <View style={styles.infoContainer}>
-                            <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={30} />
-                            <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
-                            <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
-                        </View>
-                        <EmptyText style={styles.border} text={post.caption} />
-                        <View style={styles.mediaContainer}>
-                            <TouchableOpacity onPress={handleMediaClick}>
-                                {post.downloadUrl && post.mediaType === 'image' && (
-                                    <Image
-                                        source={{ uri: post.downloadUrl }}
-                                        style={styles.media}
-                                        resizeMode="cover"
-                                    />
-                                )}
-                                {post.downloadUrl && post.mediaType === 'video' && (
-                                    <Video
-                                        source={{ uri: post.downloadUrl }}
-                                        style={styles.media}
-                                        useNativeControls
-                                        resizeMode="contain" />
-                                )}
-                            </TouchableOpacity>
-                            <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
-                                <View style={styles.modalContainer}>
-                                    <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                                        <Ionicons name="ios-arrow-back" size={24} color="white" />
-                                    </TouchableOpacity>
-                                    {post.mediaType === 'image' ? (
-                                        <ImageViewer
-                                            imageUrls={[{ url: post.downloadUrl }]}
-                                            enableSwipeDown={true}
-                                            onCancel={closeModal}
-                                            renderIndicator={() => null}
-                                            index={0}
-                                        />
-                                    ) : (
-                                        <></>
-                                    )}
-                                </View>
-                            </Modal>
-                        </View>
-                    </View>
-                </View>
+                <Repost repost={post} postHasMedia={mediaUri} />
                 {/* END REPOST */}
             </View>
         </View>

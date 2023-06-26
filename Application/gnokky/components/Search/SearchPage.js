@@ -5,8 +5,8 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect, useState } from 'react';
 import ListUsers from './ListUsers';
 import { COLORS } from '../Models/Globals';
-
-
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
+import { Button } from 'react-native-paper';
 
 export default function SearchPage({ navigation }) {
     const [research, setResearch] = useState("");
@@ -28,6 +28,12 @@ export default function SearchPage({ navigation }) {
     const handleResearch = (inputText) => {
         setResearch(inputText);
     }
+
+    const hanldeSignOut = async () => {
+        await signOut(auth)
+        .then(() => console.log("LOGGEDOUT"))
+        .catch((error) => Alert(error));
+      }
 
     const styles = StyleSheet.create({
         container: {
@@ -76,6 +82,12 @@ export default function SearchPage({ navigation }) {
                         animation={true} />
                     <ListUsers users={listUsers} navigation={navigation} />
                 </View>
+                {/* <Button 
+                    title={'suca'}
+                    style={{borderColor: 'blue', borderWidth: 1}}
+                    // onPress={() => {hanldeSignOut()}}
+                    onPress={hanldeSignOut}
+                /> */}
             </ScrollView>
         </SafeAreaView>
     );
