@@ -57,7 +57,8 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            flex: 1
+            flex: 1,
+            marginBottom: 7
         },
         storyContainer: {
             alignItems: 'center',

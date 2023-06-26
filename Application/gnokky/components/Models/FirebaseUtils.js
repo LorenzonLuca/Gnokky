@@ -17,6 +17,17 @@ export default class FirebaseUtils {
             appUser.setEmail(email);
             appUser.setId(docRef.id);
 
+
+            const storeUserData = async (value) => {
+                try {
+                    await AsyncStorage.setItem('userID', value);
+                } catch (e) {
+                    console.log("error while trying to save user id in async storage");
+                }
+            };
+
+            storeUserData(docRef.id);
+
             console.log("Document written with ID: ", docRef.id);
         } catch (e) {
             console.error("Error adding document: ", e);
