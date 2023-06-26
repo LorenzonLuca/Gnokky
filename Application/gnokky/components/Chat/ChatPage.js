@@ -50,6 +50,7 @@ export default function ChatPage({ navigation }) {
     }, [research, refresh])
 
     useEffect(() => {
+
         const fetchChats = async () => {
             try {
                 const chats = await ChatUtils.getAllChats();

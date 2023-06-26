@@ -4,6 +4,7 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import PostUtils from '../Models/PostUtils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ROUTES } from '../Models/Globals';
 
 export const handleLogin = async (email, password, navigation, setError) => {

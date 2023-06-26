@@ -3,6 +3,7 @@ import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { appUser } from "./Globals";
 import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class FirebaseUtils {
     static async insertUser(username, email) {
