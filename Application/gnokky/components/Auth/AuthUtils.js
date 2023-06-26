@@ -17,6 +17,8 @@ export const handleLogin = async (email, password, navigation, setError) => {
         return;
     }
 
+    
+
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;

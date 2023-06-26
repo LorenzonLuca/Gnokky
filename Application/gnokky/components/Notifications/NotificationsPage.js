@@ -2,11 +2,8 @@ import { View, Text, StyleSheet, ScrollView, SafeAreaView,TouchableOpacity, Imag
 import GNAppBar from '../GN/GNAppBar';
 import { COLORS, ROUTES } from '../Models/Globals';
 
-import { auth } from '../Models/Firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { appUser } from '../Models/Globals';
-import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
 import PostUtils from '../Models/PostUtils';
 import { Alert, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -17,13 +14,6 @@ import 'react-native-gesture-handler';
 
 
 export default function NotificationsPage() {
-
-  const hanldeSignOut = async () => {
-    await signOut(auth)
-    .then(() => console.log("LOGGEDOUT"))
-    .catch((error) => Alert(error));
-  }
-
 
   const styles = StyleSheet.create({
     container: {

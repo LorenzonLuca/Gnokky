@@ -70,34 +70,42 @@
 // };
 
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FloatingButton from '../GN/FloatingButton';
-import { AppBar, HStack, IconButton } from "@react-native-material/core";
+import { IconButton } from "@react-native-material/core";
 
 import HomePage from '../Home/HomePage';
-import SearchPage from '../Search/SearchPage';
-import NewPostPage from '../Post/NewPostPage';
-import NotificationsPage from '../Notifications/NotificationsPage';
 import ProfilePage from '../Profile/ProfilePage';
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
-import NewStoryPage from '../Stories/NewStoryPage';
 import CreateStoriesNavigator from '../Stories/CreateStoriesNavigator';
 import SearchNavigator from '../Search/SearchNavigator';
-
+import {signOut } from 'firebase/auth';
 
 import { useRef } from 'react';
-
+import { auth } from '../Models/Firebase';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
 import ChatNavigator from '../Chat/ChatNavigator';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+
+    const navigation = useNavigation();
+
+    const hanldeSignOut = async () => {
+        await signOut(auth)
+        .then(async () => {
+            await AsyncStorage.removeItem("userID");
+            navigation.navigate(ROUTES.LOGIN)
+            console.log("LOGGEDOUT")
+        })
+        .catch((error) => Alert(error));
+    }
 
     const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
 
@@ -141,7 +149,7 @@ export default function BottomTabNavigator() {
                     headerRight: () => (
                         <IconButton
                             icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
-                            onPress={() => { console.log("pressed trailing") }}
+                            onPress={hanldeSignOut}
                         />
                     ),
                     tabBarStyle: {

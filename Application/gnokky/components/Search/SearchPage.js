@@ -82,12 +82,6 @@ export default function SearchPage({ navigation }) {
                         animation={true} />
                     <ListUsers users={listUsers} navigation={navigation} />
                 </View>
-                {/* <Button 
-                    title={'suca'}
-                    style={{borderColor: 'blue', borderWidth: 1}}
-                    // onPress={() => {hanldeSignOut()}}
-                    onPress={hanldeSignOut}
-                /> */}
             </ScrollView>
         </SafeAreaView>
     );
