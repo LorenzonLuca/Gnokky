@@ -125,20 +125,6 @@ export default function App() {
 
 
     useEffect(() => {
-        const getUserData = async () => {
-            try {
-                const value = await AsyncStorage.getItem('userID');
-                if (value !== null) {
-                    appUser.setId(value);
-                    await appUser.getValueAndUpdate();
-                    setInitializing(false);
-                }
-            } catch (e) {
-                console.log("Error while trying to get value from async storage: ", e);
-            }
-        };
-
-        getUserData();
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
         return subscriber;
     }, []);

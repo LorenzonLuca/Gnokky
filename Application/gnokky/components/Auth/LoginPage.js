@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, SafeAreaView } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
 import { StyleSheet } from 'react-native';
-import { COLORS, ROUTES } from '../Models/Globals';
+import { COLORS, ROUTES, appUser } from '../Models/Globals';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function LoginPage({ navigation }) {
@@ -14,6 +16,24 @@ export default function LoginPage({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('userID');
+                if (value !== null) {
+                    console.log("ORCABOIA");
+                    appUser.setId(value);
+                    await appUser.getValueAndUpdate();
+                    navigation.navigate(ROUTES.HOME)
+                }
+            } catch (e) {
+                console.log("Error while trying to get value from async storage: ", e);
+            }
+        };
+
+        getUserData();
+    }, [])
 
     const styles = StyleSheet.create({
         safeAreaContainer: {

@@ -61,7 +61,7 @@ export default function ChatTemplate({ navigation, route }) {
         if (message == "" || message == null) {
             return
         }
-        ChatUtils.sendMessage(user.chatId, message);
+        ChatUtils.sendMessage(user.chatId, message.trim());
         scrollViewRef.current.scrollToEnd({ animated: true });
         setMessage("");
         setSend(!send);
