@@ -37,7 +37,7 @@ const AdminPage = () => {
           text: 'Delete',
           style: 'destructive',
           onPress: async () => {
-            await PostUtils.deletePost(postId);
+            await PostUtils.deletePost(await PostUtils.getPostById(postId));
             await AdminUtils.removeReport(reportId);
             fetchReports(); // Update the list after deletion
           },
@@ -85,7 +85,7 @@ const AdminPage = () => {
           </ListItem.Subtitle>
           <ListItem.Subtitle>
             Report date: 
-            <Text style={{fontWeight: 'bold'}}> {AdminUtils.formatDate(item.timestamp)}  </Text>
+            <Text style={{fontWeight: 'bold'}}> {AdminUtils.formatDateToText(item.timestamp)}  </Text>
           </ListItem.Subtitle>
             {isExpanded && (
               <>

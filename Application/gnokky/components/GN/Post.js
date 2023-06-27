@@ -66,8 +66,9 @@ export default function Post({ post, refreshAfterDelete }){
         bottomSheetOptionModalRef.current?.dismiss();
     }
 
-    const handleDeleteMyPost = async (postId) => {
-        await PostUtils.deletePost(postId);
+    const handleDeleteMyPost = async (post) => {
+        console.log("diobon sto provando ad eliminare ",post);
+        await PostUtils.deletePost(post);
         refreshAfterDelete();
         bottomSheetOptionModalRef.current?.dismiss();
     }
@@ -229,7 +230,7 @@ export default function Post({ post, refreshAfterDelete }){
             <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
                 {appUser.username == post.owner ? (
                     <>
-                    <TouchableWithoutFeedback onPress={() => handleDeleteMyPost(post.id)} >
+                    <TouchableWithoutFeedback onPress={() => handleDeleteMyPost(post)} >
                         <View style={[styles.bottomSheetRow]}>
                             <Ionicons name="trash-outline" size={30} color={'red'} />
                             <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Delete post</Text>

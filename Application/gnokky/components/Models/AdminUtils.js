@@ -26,7 +26,7 @@ export default class AdminUtils {
         }
     }
 
-    static formatDate(timestamp) {
+    static formatDateToText(timestamp) {
         const dateObj = new Date(timestamp);
         
         const day = dateObj.getDate();

@@ -278,16 +278,21 @@ export default class PostUtils {
         }
     }
 
-    static async deletePost(postId){
+    static async deletePost(post){
         try {
-            const docRef = doc(db, "posts", postId);
-        
+            const docRef = doc(db, "posts", post.id);
+            const ownerId = await FirebaseUtils.getIdFromUsername(post.owner);
+            const userRef = doc(db, "users", ownerId);
+            await updateDoc(userRef, {
+                posts: arrayRemove(post.id)
+            });
+
             deleteDoc(docRef)
                 .then(() => {
-                    console.log(`Post with id ${postId} has been deleted`);
+                    console.log(`Post with id ${post.id} has been deleted`);
                 })
                 .catch((error) => {
-                    console.log(`Error while deleting the post with id ${postId}: `, error);
+                    console.log(`Error while deleting the post with id ${post.id}: `, error);
                 })
         } catch (error) {
             console.log("Error while deleting a post: ", error);
