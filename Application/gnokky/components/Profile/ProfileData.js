@@ -3,6 +3,7 @@ import GNProfileImage from '../GN/GNProfileImage';
 import { appUser, COLORS, dataStoreEmitter } from '../Models/Globals';
 import GNText from '../GN//GNText';
 import GNButton from '../GN//GNButton';
+import GNTextInput from '../GN/GNTextInput';
 import GNAppBar from '../GN/GNAppBar';
 import { useEffect, useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
@@ -21,6 +22,7 @@ export default function ProfileData({ user, property }) {
     const [followersModal, setFollowersModal] = useState(false);
     const [stories, setStories] = useState([])
     const [followersList, setFollowersList] = useState([]);
+    const [filteredFollower, setFilteredFollower] = useState(null);
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
@@ -69,7 +71,10 @@ export default function ProfileData({ user, property }) {
             setUserData(appUser);
         }
 
-        fetchUser();
+
+        if (property) {
+            fetchUser();
+        }
     }, [refresh])
 
     const handleEditProfile = () => {
@@ -95,6 +100,13 @@ export default function ProfileData({ user, property }) {
         if (stories.length > 0) {
             setStoriesModal(true);
         }
+    }
+
+    const handleResearch = (text) => {
+        var filteredArray = userData.followers.filter((str) => {
+            return str.toLowerCase().indexOf(text.toLowerCase()) >= 0;
+        });
+        setFilteredFollower(filteredArray);
     }
 
 
@@ -142,7 +154,7 @@ export default function ProfileData({ user, property }) {
     useEffect(() => {
         const fetchFollowersList = async () => {
             const list = [];
-            for (const user of userData.followers) {
+            for (const user of (filteredFollower ? filteredFollower : userData.followers)) {
                 const profilePic = await FirebaseUtils.getProfilePicFromUsername(user);
                 const followerComponent = (
                     <View key={user} style={styles.userListContainer}>
@@ -158,11 +170,21 @@ export default function ProfileData({ user, property }) {
                 );
                 list.push(followerComponent);
             }
+            if (filteredFollower) {
+                if (filteredFollower.length < 1) {
+                    list.splice(0, list.length);
+                    list.push(
+                        <View key={user} style={styles.userListContainer}>
+                            <Text>There aren't follower with this name</Text>
+                        </View>
+                    )
+                }
+            }
             setFollowersList(list);
         };
 
         fetchFollowersList();
-    }, [userData]);
+    }, [userData, filteredFollower]);
 
     return (
         <View style={[styles.background, { marginBottom: 5 }]}>
@@ -188,8 +210,18 @@ export default function ProfileData({ user, property }) {
                     </View>
                 </TouchableWithoutFeedback>
                 <Modal visible={followersModal} animationType='slide'>
-                    <GNAppBar iconLeading='close-outline' onPressLeading={() => setFollowersModal(false)} iconTrailing='' />
+                    <GNAppBar iconLeading='close-outline' onPressLeading={() => {
+                        setFollowersModal(false);
+                        setFilteredFollower(null);
+                    }} iconTrailing='' />
                     <ScrollView>
+                        <GNTextInput
+                            placeholder="Search"
+                            iconName="search-outline"
+                            iconNameFocused="search-sharp"
+                            onChangeText={handleResearch}
+                            animation={true}
+                            width={'100%'} />
                         {followersList}
                     </ScrollView>
                 </Modal>
