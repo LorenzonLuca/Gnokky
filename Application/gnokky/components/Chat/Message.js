@@ -1,9 +1,37 @@
 import { appUser, COLORS } from "../Models/Globals";
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image, Modal, TouchableOpacity } from 'react-native';
+import { useEffect } from "react";
+import { useState } from "react";
+import StoriesUtils from "../Models/StoriesUtils";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import StoriesVisualizer from "../GN/StoriesVisualizer";
 
 
 export default function Message({ message }) {
     const property = message.owner === appUser.username;
+    const [propertyStory, setPropertyStory] = useState(null);
+    const [story, setStory] = useState(null);
+    const [openStory, setOpenStory] = useState(null)
+
+    useEffect(() => {
+        if (message.isStory) {
+            const fetchStory = async (id) => {
+                try {
+                    const newStory = await StoriesUtils.getStoryById(id);
+                    console.log("STORIA IN CHAT SIOUMI", newStory);
+                    setPropertyStory(newStory.owner === appUser.username);
+                    setStory(newStory);
+                } catch (error) {
+                    console.log("Error while trying to get story, ", error)
+                }
+            }
+
+            console.log("BOIA È STATA INVIATA UNA STORIA");
+            fetchStory(message.text)
+
+        }
+    }, [])
 
     const styles = StyleSheet.create({
         message: {
@@ -28,6 +56,18 @@ export default function Message({ message }) {
         timeDate: {
             color: property ? COLORS.thirdText : COLORS.firtText,
             paddingHorizontal: 5,
+        },
+        img: {
+            width: 200, // Define the appropriate width for your image
+            height: 200, // Define the appropriate height for your image
+            borderRadius: 30,
+        },
+        imgMessage: {
+            maxWidth: '100%',
+            padding: 5,
+            marginTop: 10,
+            marginBottom: -10,
+            alignSelf: property ? 'flex-end' : 'flex-start',
         }
     })
 
@@ -41,10 +81,35 @@ export default function Message({ message }) {
 
     return (
         <>
-            <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
-                <Text style={styles.messageText}>{message.text}</Text>
-                <Text style={styles.timeDate}>{transformDate(message.timestamp)}</Text>
-            </View>
+            {message.isStory ? (
+                <>
+                    {story ? (
+                        <>
+                            <TouchableOpacity style={styles.imgMessage} onPress={() => setOpenStory(true)}>
+                                <Image source={{ uri: story.img }} style={styles.img} />
+                            </TouchableOpacity>
+                            <Modal visible={openStory} animationType={'slide'}>
+                                <StoriesVisualizer
+                                    stories={[story]}
+                                    property={true}
+                                    viewAction={propertyStory}
+                                    closeStories={() => setOpenStory(false)}
+                                />
+                            </Modal>
+                        </>
+                    ) : (
+                        <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
+                            <Text style={styles.messageText}>Loading story</Text>
+                        </View>
+                    )}
+
+                </>
+            ) : (
+                <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
+                    <Text style={styles.messageText}>{message.text}</Text>
+                    <Text style={styles.timeDate}>{transformDate(message.timestamp)}</Text>
+                </View >
+            )}
         </>
     )
 }

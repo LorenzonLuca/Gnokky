@@ -14,6 +14,7 @@ export default class StoriesUtils {
                 owner: appUser.username,
                 img: url,
                 watchedBy: [],
+                likes: [],
                 timestamp: new Date().getTime(),
             });
 
@@ -114,5 +115,47 @@ export default class StoriesUtils {
         }));
 
         return result;
+    }
+
+    static async likeAStory(idStory) {
+        try {
+            const docRef = doc(db, "stories", idStory);
+
+            await updateDoc(docRef, {
+                likes: arrayUnion(appUser.username)
+            });
+        } catch (error) {
+            console.log("Error while trying to like a post: ", error);
+        }
+    }
+
+    static async removeLikeAStory(idStory) {
+        try {
+            const docRef = doc(db, "stories", idStory);
+
+            await updateDoc(docRef, {
+                likes: arrayRemove(appUser.username)
+            });
+        } catch (error) {
+            console.log("Error while trying to like a post: ", error);
+        }
+    }
+
+    static async getStoryById(id) {
+        try {
+            const docRef = doc(db, "stories", id);
+            const storySnapshot = await getDoc(docRef);
+
+            if (storySnapshot.exists()) {
+                const story = storySnapshot.data();
+
+                return story;
+            } else {
+                console.log("Story not found");
+                return null;
+            }
+        } catch (error) {
+            console.log("Error while trying to get story, ", error)
+        }
     }
 }
