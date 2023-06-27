@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import axios from 'axios';
 import { MAPBOX_ACCESS_TOKEN } from '../../private.conf';
-import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion,arrayRemove, orderBy} from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion,arrayRemove, orderBy} from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -275,6 +275,22 @@ export default class PostUtils {
             return commentsCount;
         } catch (error) {
             console.error('Errore durante il conteggio dei commenti:', error);
+        }
+    }
+
+    static async deletePost(postId){
+        try {
+            const docRef = doc(db, "posts", postId);
+        
+            deleteDoc(docRef)
+                .then(() => {
+                    console.log(`Post with id ${postId} has been deleted`);
+                })
+                .catch((error) => {
+                    console.log(`Error while deleting the post with id ${postId}: `, error);
+                })
+        } catch (error) {
+            console.log("Error while deleting a post: ", error);
         }
     }
 }
