@@ -191,6 +191,8 @@ export default function HomeFeed({ id }) {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             onScrollEndDrag={() => { }}>
+            <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
+
             <View style={styles.warningBody}>
                 <Text>No posts found, try to refresh!</Text>
             </View>

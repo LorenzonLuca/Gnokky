@@ -57,6 +57,8 @@ export default class ChatUtils {
                 chatID: chatId
             });
 
+            return chatId;
+
         } catch (error) {
             console.log("Error while creating a new chat with ", username, ": ", error);
         }
@@ -79,7 +81,7 @@ export default class ChatUtils {
         });
     }
 
-    static async sendMessage(chatId, text) {
+    static async sendMessage(chatId, text, isStory = false) {
         try {
             const chatDocRef = doc(db, "chats", chatId);
             const innerCollectionRef = collection(chatDocRef, 'messages');
@@ -90,11 +92,58 @@ export default class ChatUtils {
                 owner: appUser.username,
                 text: text,
                 timestamp: new Date().getTime(),
+                isStory: isStory,
             });
 
-            console.log("BOIAAAAAA");
+            console.log("BOIAAAAAA", text);
         } catch (error) {
             console.log("Error while trying to send a message: ", error);
+        }
+    }
+
+    static async findChatByUsername(username) {
+        try {
+            const userDocRef = doc(db, "users", appUser.id);
+            const chatRef = collection(userDocRef, 'chats');
+
+            console.log("DIOCANE PRIMA DELLA QUERY");
+
+            const chatsSnapshot = await getDocs(query(chatRef, where('user', '==', username)));
+
+            console.log("DIOBON DOPO ALLA QUERY");
+
+            if (chatsSnapshot.size > 0) {
+                let chatId = "";
+
+                chatsSnapshot.docs.map(async (doc) => {
+                    chatId = doc.data().chatID;
+                });
+
+                console.log("aaaaaaaaaaaaaaaa,", chatId);
+
+                return chatId;
+            } else {
+                console.log("CREATE CHAT LESSGO");
+
+                const id = await FirebaseUtils.getIdFromUsername(username);
+
+                const chatId = await this.createChat(username, id);
+
+                return chatId;
+            }
+
+        } catch (error) {
+            console.log("Error while getting chat from username: ", error);
+        }
+    }
+
+    static async sendStory(chat, answer, story) {
+        try {
+            console.log("ANSWERSTORYY:", story);
+            await this.sendMessage(chat, story.id, true)
+            this.sendMessage(chat, answer);
+        } catch (error) {
+            console.log("error while trying to answer to a story");
         }
     }
 }

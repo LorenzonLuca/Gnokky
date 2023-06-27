@@ -285,4 +285,27 @@ export default class FirebaseUtils {
             console.log("error while trying to remove an user from your followers: ", error);
         }
     }
+
+    static async getIdFromUsername(username) {
+        try {
+            const usersCollectionRef = collection(db, 'users');
+            const userQuery = query(usersCollectionRef, where('username', '==', username));
+            const userSnapshot = await getDocs(userQuery);
+
+            if (userSnapshot.size > 0) {
+                let id = "";
+
+                userSnapshot.docs.map(async (doc) => {
+                    id = doc.id;
+                });
+
+                console.log("user id^:", id);
+
+                return id;
+            }
+        } catch (error) {
+            console.log("Error while trying to get id from username", error);
+        }
+
+    }
 }

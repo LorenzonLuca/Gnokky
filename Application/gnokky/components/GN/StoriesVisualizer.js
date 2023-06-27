@@ -1,22 +1,32 @@
 import {
     View, Text, StyleSheet, Image, TouchableWithoutFeedback,
-    ImageBackground, TouchableOpacity, Modal, Dimensions, ScrollView
+    ImageBackground, TouchableOpacity, Modal, Dimensions, ScrollView,
+    KeyboardAvoidingView, TextInput
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState, useRef, useEffect } from 'react';
 import StoriesUtils from '../Models/StoriesUtils';
 import GNProfileImage from './GNProfileImage';
+import GNTextInput from '../GN/GNTextInput';
+import GNButton from '../GN/GNButton'
 import Divider from './Divider';
 import GNBottomSheetModal from './GNBottomSheetModal';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import FirebaseUtils from '../Models/FirebaseUtils';
+import ChatUtils from '../Models/ChatUtils';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
     const [storyIndex, setStoryIndex] = useState(0);
     const [userIndex, setUserIndex] = useState(startIndex);
+    const [answerWidth, setAnswerWidth] = useState('75%');
+    const [hideSomeAction, setHideSomeAction] = useState(true);
+    const [answer, setAnswer] = useState('');
+    const [color, toggleColor] = useState(false);
 
     const bottomSheetModalRef = useRef(null);
+
+    const isTextInputValid = answer.trim().length === 0;
 
     const handlePresentModal = () => {
         console.log("crepa");
@@ -108,14 +118,54 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         removeStoryLabel: {
             color: 'red',
             fontSize: 20,
-        }
+        },
+        actionStories: {
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+
+        },
+        iconsAction: {
+            marginHorizontal: 5,
+        },
+        answerInputContainer: {
+            height: 65,
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderTopWidth: 1,
+            borderTopColor: '#CCCCCC',
+            paddingVertical: 8,
+        },
+        answerInput: {
+            flex: 1,
+            marginRight: 8,
+            borderWidth: 1,
+            borderColor: '#CCCCCC',
+            borderRadius: 15,
+            padding: 8,
+            height: '100%',
+        },
     });
 
     useEffect(() => {
         if (!property) {
             StoriesUtils.viewedStory(stories[userIndex][storyIndex].id, appUser.username)
+            if (stories[userIndex][storyIndex].likes.includes(appUser.username)) {
+                toggleColor(true);
+            }
         }
     }, [userIndex, storyIndex])
+
+    useEffect(() => {
+        if (!property) {
+            if (color) {
+                StoriesUtils.likeAStory(stories[userIndex][storyIndex].id);
+            } else {
+                StoriesUtils.removeLikeAStory(stories[userIndex][storyIndex].id);
+            }
+        }
+    }, [color])
 
     const handleNextStory = () => {
         console.log("NEXTTTT");
@@ -140,6 +190,20 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         }
     }
 
+    const handleAnswer = (text) => {
+        setAnswer(text);
+    }
+
+    const handleSendAnswer = async () => {
+        if (!property) {
+            const chat = await ChatUtils.findChatByUsername(stories[userIndex][storyIndex].owner);
+
+            await ChatUtils.sendStory(chat, answer, stories[userIndex][storyIndex]);
+            setAnswer("");
+            // console.log("PORCODDIDIO");
+        }
+    }
+
     const StoryViewer = () => {
         if (property) {
             if (stories[storyIndex].watchedBy.length > 0) {
@@ -149,6 +213,13 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         <View style={styles.userView}>
                             <GNProfileImage selectedImage={user.profilePic} size={40} />
                             <Text style={{ marginHorizontal: 4 }}>{user.username}</Text>
+                            {stories[storyIndex].likes.includes(user.username) && (
+                                <Ionicons
+                                    name={'heart'}
+                                    size={20}
+                                    color={'#f00'}
+                                />
+                            )}
                         </View>
                         <Divider />
                     </View>
@@ -201,7 +272,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         </TouchableOpacity>
                     </ImageBackground>
                 </View>
-                {(property && viewAction) && (
+                {(property && viewAction) ? (
                     <>
                         <View style={styles.propertyActionMenu}>
                             <TouchableWithoutFeedback onPress={handlePresentModalUser} style={styles.buttonWatchUsers}>
@@ -225,6 +296,52 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                 </TouchableWithoutFeedback>
                             </View>
                         </GNBottomSheetModal>
+                    </>
+                ) : (
+                    <>
+                        <View
+                            style={styles.answerInputContainer}
+                            onFocus={() => {
+                                setHideSomeAction(false);
+                                setAnswerWidth('80%');
+                            }}
+                            onBlur={() => {
+                                setHideSomeAction(true);
+                                setAnswerWidth('75%');
+                            }}
+                        >
+                            <TextInput
+                                style={styles.answerInput}
+                                placeholder="Write an answer"
+                                value={answer}
+                                onChangeText={handleAnswer}
+                            />
+                            {hideSomeAction ? (
+                                <>
+                                    <TouchableWithoutFeedback onPress={() => console.log(stories[userIndex][storyIndex])}>
+                                        <Ionicons name='paper-plane-outline' size={35} style={styles.iconsAction} />
+                                    </TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        toggleColor(!color)
+                                    }}>
+                                        <Ionicons
+                                            name={color ? 'heart' : 'heart-outline'}
+                                            size={35}
+                                            style={styles.iconsAction}
+                                            color={color ? '#f00' : '#000'}
+                                        />
+                                    </TouchableWithoutFeedback>
+                                </>
+                            ) : (
+                                <GNButton
+                                    title={'SEND'}
+                                    backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements}
+                                    isDisabled={isTextInputValid}
+                                    width={'20%'}
+                                    onTouchStart={handleSendAnswer}
+                                />
+                            )}
+                        </View>
                     </>
                 )}
             </View>

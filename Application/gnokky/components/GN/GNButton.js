@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, Text, View, StyleSheet, Animated } from 'reac
 import { COLORS } from '../Models/Globals';
 
 export default function GNButton({ title, backgroundColor = COLORS.elements, color = COLORS.background,
-  width = '75%', height = 50, onPress, marginBottom = 24, style, isDisabled = false, }) {
+  width = '75%', height = 50, onPress, marginBottom = 24, style, isDisabled = false, onTouchStart }) {
 
   const styles = StyleSheet.create({
     container: {
@@ -30,7 +30,7 @@ export default function GNButton({ title, backgroundColor = COLORS.elements, col
   });
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onTouchStart={onTouchStart}>
       <TouchableWithoutFeedback disabled={isDisabled} onPress={onPress}>
         <Animated.View style={[styles.button, style]}>
           <Text style={styles.text}>{title}</Text>
