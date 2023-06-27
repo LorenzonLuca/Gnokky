@@ -7,11 +7,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class AdminUtils {
 
-    static async reportPost(postId) {
+    static async reportPost(post) {
+        console.log("mananggia agli dei ", post.mediaType);
         try {
             const docRef = await addDoc(collection(db, "reports"), {
                 author: appUser.username,
-                postId: postId,
+                postId: post.id,  
+                postOwner: post.owner,
+                postCaption: post.caption,
+                mediaUrl: post.downloadUrl,
+                mediaType: post.mediaType ? post.mediaType : "",
                 timestamp: new Date().getTime(),
             });
 
@@ -37,7 +42,7 @@ export default class AdminUtils {
         const formattedMinutes = minutes.toString().padStart(2, '0');
       
         // Creazione della stringa formattata
-        const formattedDate = `${formattedDay}-${formattedMonth}-${year} ${formattedHours}:${formattedMinutes}`;
+        const formattedDate = `${formattedDay}.${formattedMonth}.${year} ${formattedHours}:${formattedMinutes}`;
       
         return formattedDate;
     }

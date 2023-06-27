@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, ScrollView, Alert, Image } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import AdminUtils from '../Models/AdminUtils';
 import PostUtils from '../Models/PostUtils';
+import { COLORS } from '../Models/Globals';
+import { Video } from 'expo-av';
 
 const AdminPage = () => {
   const [reports, setReports] = useState([]);
+  const [expandedItemId, setExpandedItemId] = useState(null);
+
 
   useEffect(() => {
     fetchReports();
@@ -65,22 +69,55 @@ const AdminPage = () => {
     );
   };
 
-  const renderReportItem = ({ item }) => (
-    <ListItem bottomDivider>
-      <ListItem.Content>
-        <ListItem.Title>{item.author}</ListItem.Title>
-        <ListItem.Subtitle>{AdminUtils.formatDate(item.timestamp)}</ListItem.Subtitle>
-      </ListItem.Content>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={() => handleDelete(item.postId, item.id)}>
-          <Icon name="delete" type="material" color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleIgnore(item.id)}>
-          <Icon name="check" type="material" color="green" />
-        </TouchableOpacity>
-      </View>
-    </ListItem>
-  );
+  const renderReportItem = ({ item }) => {
+    const isExpanded = item.id === expandedItemId;
+  
+    return (
+      <ListItem bottomDivider onPress={() => setExpandedItemId(isExpanded ? null : item.id)}>
+        <ListItem.Content>
+          <ListItem.Title>
+            Caption: 
+            <Text style={{fontWeight: 'bold'}}> {item.postCaption}  </Text>
+          </ListItem.Title>
+          <ListItem.Subtitle>
+            Post author: 
+            <Text style={{fontWeight: 'bold'}}> {item.author}  </Text>
+          </ListItem.Subtitle>
+          <ListItem.Subtitle>
+            Report date: 
+            <Text style={{fontWeight: 'bold'}}> {AdminUtils.formatDate(item.timestamp)}  </Text>
+          </ListItem.Subtitle>
+            {isExpanded && (
+              <>
+              {item.mediaUrl && item.mediaType === 'image' && (
+                  <Image
+                    source={{ uri: item.mediaUrl }}
+                    style={styles.media}
+                    resizeMode="cover"/>
+              )}
+              {item.mediaUrl && item.mediaType === 'video' && (
+                  <Video
+                    source={{ uri: item.mediaUrl }}
+                    style={styles.media}
+                    useNativeControls
+                    resizeMode="contain" />
+              )}
+              </>
+            )}
+        </ListItem.Content>
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity onPress={() => handleDelete(item.postId, item.id)}>
+            <Icon name="delete" type="material" color="red" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleIgnore(item.id)}>
+            <Icon name="check" type="material" color="green" />
+          </TouchableOpacity>
+        </View>
+      </ListItem>
+    );
+
+  };
+  
 
   return (
     <>
@@ -94,7 +131,6 @@ const AdminPage = () => {
             data={reports}
             keyExtractor={(item) => item.id}
             renderItem={renderReportItem}
-            // Add other FlatList props if necessary
           />
         </View>
       )}
@@ -112,6 +148,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
+  },
+  media: {
+    width: '100%', 
+    aspectRatio: 1,
+    marginTop: 10,
+    borderRadius: 15,
+    borderColor: COLORS.thirdText,
+    borderWidth: 1,
   },
 });
 

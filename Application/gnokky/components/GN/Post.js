@@ -61,8 +61,8 @@ export default function Post({ post, refreshAfterDelete }){
         }
     }, [])
 
-    const handleReportPost = async (postId) => {
-        await AdminUtils.reportPost(postId);
+    const handleReportPost = async (post) => {
+        await AdminUtils.reportPost(post);
         bottomSheetOptionModalRef.current?.dismiss();
     }
 
@@ -246,7 +246,7 @@ export default function Post({ post, refreshAfterDelete }){
                         </View>
                     </TouchableWithoutFeedback>
                     <Divider color={COLORS.thirdText}/>
-                    <TouchableWithoutFeedback onPress={() => handleReportPost(post.id)} >
+                    <TouchableWithoutFeedback onPress={() => handleReportPost(post)} >
                         <View style={[styles.bottomSheetRow]}>
                             <Ionicons name="alert-circle-outline" size={30} color={'red'} />
                             <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
