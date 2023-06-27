@@ -6,6 +6,7 @@ import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storag
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class FirebaseUtils {
+    
     static async insertUser(username, email) {
         try {
             const docRef = await addDoc(collection(db, "users"), {

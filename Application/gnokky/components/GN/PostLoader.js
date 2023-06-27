@@ -23,7 +23,7 @@ export default function PostLoader({ username, refresh }) {
     appUser.getValueAndUpdate();
 
 
-
+    const [refreshAfterDelete, setRefreshAfterDelete] = useState(true);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
     const [visiblePosts, setVisiblePosts] = useState(5);
@@ -68,7 +68,7 @@ export default function PostLoader({ username, refresh }) {
         };
 
         fetchPosts();
-    }, []);
+    }, [refreshAfterDelete]);
 
     useEffect(() => {
         if (refresh) {
@@ -119,6 +119,7 @@ export default function PostLoader({ username, refresh }) {
         const generateComponents = posts.map((post) => (
             <Post
                 post={post}
+                refreshAfterDelete={() => setRefreshAfterDelete(!refreshAfterDelete)}
                 key={post.id}
             />
         ));

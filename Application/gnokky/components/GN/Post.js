@@ -17,9 +17,10 @@ import Repost from '../Repost/Repost';
 
 import 'react-native-gesture-handler';
 import { TouchableWithoutFeedback } from 'react-native';
+import AdminUtils from '../Models/AdminUtils';
 
 
-export default function Post({ post }){
+export default function Post({ post, refreshAfterDelete }){
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -60,6 +61,17 @@ export default function Post({ post }){
         }
     }, [])
 
+    const handleReportPost = async (postId) => {
+        await AdminUtils.reportPost(postId);
+        bottomSheetOptionModalRef.current?.dismiss();
+    }
+
+    const handleDeleteMyPost = async (postId) => {
+        await PostUtils.deletePost(postId);
+        refreshAfterDelete();
+        bottomSheetOptionModalRef.current?.dismiss();
+    }
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -90,8 +102,6 @@ export default function Post({ post }){
             paddingVertical: 5,
         },
         media: {
-            // height: '100%',
-            //aspectRatio: 3/4,
             aspectRatio: 1,
             borderRadius: 15,
             borderColor: COLORS.thirdText,
@@ -217,20 +227,34 @@ export default function Post({ post }){
                 </View>
             </View>
             <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
-                <TouchableWithoutFeedback onPress={() => {console.log("SIUMRIMUOVI")}} >
-                    <View style={[styles.bottomSheetRow]}>
-                        <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                        <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <Divider color={COLORS.thirdText}/>
-                <TouchableWithoutFeedback onPress={() => {console.log("SIUMBLOKA")}} >
-                    <View style={[styles.bottomSheetRow]}>
-                        <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                        <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <Divider color={COLORS.thirdText}/>
+                {appUser.username == post.owner ? (
+                    <>
+                    <TouchableWithoutFeedback onPress={() => handleDeleteMyPost(post.id)} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="trash-outline" size={30} color={'red'} />
+                            <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Delete post</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText}/>
+                    </>
+                ) : (
+                <>
+                    <TouchableWithoutFeedback onPress={() => {console.log("SIUMRIMUOVI")}} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                            <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText}/>
+                    <TouchableWithoutFeedback onPress={() => handleReportPost(post.id)} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                            <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText}/> 
+                </>
+                )}
             </GNBottomSheetModal>
             <Divider color={COLORS.thirdText}/>
         </View>
