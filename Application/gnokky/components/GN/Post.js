@@ -20,7 +20,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import AdminUtils from '../Models/AdminUtils';
 
 
-export default function Post({ post, refreshAfterDelete }){
+export default function Post({ post, refreshAfterDelete }) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -29,10 +29,10 @@ export default function Post({ post, refreshAfterDelete }){
     ///// bottomSheet modal /////
     const bottomSheetOptionModalRef = useRef(null);
 
-    const handlePresentOptionModal = () =>{
+    const handlePresentOptionModal = () => {
         bottomSheetOptionModalRef.current?.present();
     }
-     //////////
+    //////////
 
     const handleMediaClick = () => {
         if (post.mediaType == 'image')
@@ -53,10 +53,10 @@ export default function Post({ post, refreshAfterDelete }){
     };
 
     useEffect(() => {
-        const fetchRepost =  async () => {
+        const fetchRepost = async () => {
             setRepost(await PostUtils.getPostById(post.repost));
         }
-        if(post.repost){
+        if (post.repost) {
             fetchRepost();
         }
     }, [])
@@ -67,7 +67,7 @@ export default function Post({ post, refreshAfterDelete }){
     }
 
     const handleDeleteMyPost = async (post) => {
-        console.log("diobon sto provando ad eliminare ",post);
+        console.log("diobon sto provando ad eliminare ", post);
         await PostUtils.deletePost(post);
         refreshAfterDelete();
         bottomSheetOptionModalRef.current?.dismiss();
@@ -85,6 +85,7 @@ export default function Post({ post, refreshAfterDelete }){
         infoContainer: {
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'space-between',
         },
         mediaContainer: {
             marginVertical: 5,
@@ -97,7 +98,7 @@ export default function Post({ post, refreshAfterDelete }){
 
         },
         options: {
-           
+
         },
         location: {
             paddingVertical: 5,
@@ -142,12 +143,12 @@ export default function Post({ post, refreshAfterDelete }){
             borderRadius: 15,
             borderWidth: 1,
             borderColor: COLORS.thirdText,
-        }, 
+        },
         repostMediaContainer: {
             flexDirection: 'row',
             marginVertical: 5,
             borderRadius: 15,
-        }, 
+        },
         repostMedia: {
             width: 65,
             height: 65,
@@ -160,9 +161,12 @@ export default function Post({ post, refreshAfterDelete }){
         repostUsername: {
             fontWeight: 'bold',
             marginLeft: 10,
-        }, 
+        },
         repostCaption: {
             flex: 1,
+        },
+        nameAndTime: {
+            flexDirection: 'row',
         }
     });
 
@@ -174,9 +178,11 @@ export default function Post({ post, refreshAfterDelete }){
                 </View>
                 <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
-                        <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
-                        <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
-                        <Ionicons  onPress={handlePresentOptionModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText}/>
+                        <View style={styles.nameAndTime}>
+                            <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
+                            <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
+                        </View>
+                        <Ionicons onPress={handlePresentOptionModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText} />
                     </View>
                     <EmptyText style={styles.border} text={post.caption} />
                     <View style={styles.mediaContainer}>
@@ -198,7 +204,7 @@ export default function Post({ post, refreshAfterDelete }){
                             )}
                         </TouchableOpacity>
                         {/* REPOST SECTION */}
-                        {post.repost !== "" ? ( 
+                        {post.repost !== "" ? (
                             <Repost repost={repost} postHasMedia={post.downloadUrl} />
                         ) : (
                             <></>
@@ -223,41 +229,41 @@ export default function Post({ post, refreshAfterDelete }){
                                 )}
                             </View>
                         </Modal>
-                        
+
                     </View>
                 </View>
             </View>
             <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
                 {appUser.username == post.owner ? (
                     <>
-                    <TouchableWithoutFeedback onPress={() => handleDeleteMyPost(post)} >
-                        <View style={[styles.bottomSheetRow]}>
-                            <Ionicons name="trash-outline" size={30} color={'red'} />
-                            <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Delete post</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText}/>
+                        <TouchableWithoutFeedback onPress={() => handleDeleteMyPost(post)} >
+                            <View style={[styles.bottomSheetRow]}>
+                                <Ionicons name="trash-outline" size={30} color={'red'} />
+                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    Delete post</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        <Divider color={COLORS.thirdText} />
                     </>
                 ) : (
-                <>
-                    <TouchableWithoutFeedback onPress={() => {console.log("SIUMRIMUOVI")}} >
-                        <View style={[styles.bottomSheetRow]}>
-                            <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                            <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText}/>
-                    <TouchableWithoutFeedback onPress={() => handleReportPost(post)} >
-                        <View style={[styles.bottomSheetRow]}>
-                            <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                            <Text style={[styles.bottomSheetSubtitle, {color: 'red'}]}>    Report post</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText}/> 
-                </>
+                    <>
+                        <TouchableWithoutFeedback onPress={() => { console.log("SIUMRIMUOVI") }} >
+                            <View style={[styles.bottomSheetRow]}>
+                                <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                                <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        <Divider color={COLORS.thirdText} />
+                        <TouchableWithoutFeedback onPress={() => handleReportPost(post)} >
+                            <View style={[styles.bottomSheetRow]}>
+                                <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    Report post</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        <Divider color={COLORS.thirdText} />
+                    </>
                 )}
             </GNBottomSheetModal>
-            <Divider color={COLORS.thirdText}/>
+            <Divider color={COLORS.thirdText} />
         </View>
     );
 }

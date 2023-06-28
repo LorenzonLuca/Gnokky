@@ -137,11 +137,13 @@ export default class ChatUtils {
         }
     }
 
-    static async sendStory(chat, answer, story) {
+    static async sendStory(chat, story, answer) {
         try {
             console.log("ANSWERSTORYY:", story);
             await this.sendMessage(chat, story.id, true)
-            this.sendMessage(chat, answer);
+            if (answer) {
+                this.sendMessage(chat, answer);
+            }
         } catch (error) {
             console.log("error while trying to answer to a story");
         }

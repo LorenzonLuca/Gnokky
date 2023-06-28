@@ -201,12 +201,17 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         setAnswer(text);
     }
 
-    const handleSendAnswer = async () => {
+    const handleSendStory = async () => {
         if (!property) {
             const chat = await ChatUtils.findChatByUsername(stories[userIndex][storyIndex].owner);
 
-            await ChatUtils.sendStory(chat, answer, stories[userIndex][storyIndex]);
-            setAnswer("");
+
+            if (answer !== '') {
+                await ChatUtils.sendStory(chat, stories[userIndex][storyIndex], answer);
+                setAnswer('');
+            } else {
+                await ChatUtils.sendStory(chat, stories[userIndex][storyIndex]);
+            }
             // console.log("PORCODDIDIO");
         }
     }
@@ -335,7 +340,15 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                     >
                                         <View style={[styles.header, { width: '100%' }]}>
                                             <ScrollView>
-                                                <ContactList usernames={appUser.following} />
+                                                <ContactList
+                                                    usernames={appUser.following}
+                                                    iconName={'paper-plane'}
+                                                    contactOnPress={(username) => {
+                                                        console.log("Sending this story to ", username);
+                                                        handleSendStory()
+                                                    }}
+                                                    clickOpenProfile={false}
+                                                />
                                             </ScrollView>
                                         </View>
                                     </GNBottomSheetModal>
@@ -356,7 +369,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                     backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements}
                                     isDisabled={isTextInputValid}
                                     width={'20%'}
-                                    onTouchStart={handleSendAnswer}
+                                    onTouchStart={handleSendStory}
                                 />
                             )}
                         </View>

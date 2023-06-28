@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../Models/Globals';
 
 
-export default function ContactList({ usernames, size = 60, iconName = 'heart', iconOnPress = () => { }, iconColor = '#000',
+export default function ContactList({ usernames, size = 60, iconName = '', iconOnPress = null, iconColor = '#000',
     contactOnPress = () => { }, clickOpenProfile = true }) {
     const [profilePics, setProfilePics] = useState([])
     const navigation = useNavigation();
@@ -35,6 +35,11 @@ export default function ContactList({ usernames, size = 60, iconName = 'heart', 
 
         fetchProfilePics();
     }, [usernames])
+
+    const handleContactOnPress = (username) => {
+        contactOnPress(username);
+        handleOpenProfile(username);
+    }
 
     const handleOpenProfile = async (username) => {
         if (clickOpenProfile) {
@@ -65,18 +70,27 @@ export default function ContactList({ usernames, size = 60, iconName = 'heart', 
         iconRight: {
             alignSelf: 'center',
         },
+        iconAndName: {
+            flexDirection: 'row',
+            alignItems: 'center'
+        }
     });
 
     return usernames.map((user, index) => (
         <View key={user} style={styles.fullContainer}>
             <TouchableWithoutFeedback onPress={() => {
-                contactOnPress();
-                handleOpenProfile(user);
+                handleContactOnPress(user);
             }}>
                 <View style={styles.userElements}>
-                    <GNProfileImage selectedImage={profilePics[index]} size={size} />
-                    <Text style={styles.usernameLabel}>{user}</Text>
-                    <TouchableWithoutFeedback onPress={iconOnPress}>
+                    <View style={styles.iconAndName}>
+                        <GNProfileImage selectedImage={profilePics[index]} size={size} />
+                        <Text style={styles.usernameLabel}>{user}</Text>
+                    </View>
+                    <TouchableWithoutFeedback
+                        onPress={
+                            iconOnPress != null ? iconOnPress : () => {
+                                handleContactOnPress(user);
+                            }}>
                         <Ionicons name={iconName} style={styles.iconRight} size={size / 2} color={iconColor} />
                     </TouchableWithoutFeedback>
                 </View>
