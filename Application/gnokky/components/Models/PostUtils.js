@@ -293,7 +293,11 @@ export default class PostUtils {
                 })
                 .catch((error) => {
                     console.log(`Error while deleting the post with id ${post.id}: `, error);
-                })
+                });
+            
+            if(post.downloadUrl != ""){
+                await FirebaseUtils.removeImage(post.downloadUrl);
+            }
         } catch (error) {
             console.log("Error while deleting a post: ", error);
         }
