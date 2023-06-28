@@ -7,6 +7,7 @@ import { COLORS } from '../Models/Globals';
 import { IconButton } from 'react-native-paper';
 import { View, StyleSheet, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { KeyboardAvoidingView } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ export default function SearchNavigator() {
         <NavigationContainer independent={true} >
             <Stack.Navigator
                 screenOptions={() => ({
+                    tabBarHideOnKeyboard: true,
                     headerShown: true,
                     headerTintColor: COLORS.firtText,
                     headerTitleAlign: 'center',

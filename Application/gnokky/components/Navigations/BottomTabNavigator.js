@@ -70,7 +70,7 @@
 // };
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, SafeAreaView, ScrollView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FloatingButton from '../GN/FloatingButton';
@@ -90,12 +90,15 @@ import 'react-native-gesture-handler';
 import ChatNavigator from '../Chat/ChatNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { KeyboardAvoidingView } from 'react-native';
+import { useScrollToTop } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
-
     const navigation = useNavigation();
+
+    const [isTabBarVisible, setIsTabBarVisible] = useState(true);
 
     const hanldeSignOut = async () => {
         await signOut(auth)
@@ -129,6 +132,10 @@ export default function BottomTabNavigator() {
         <BottomSheetModalProvider>
             <Tab.Navigator
                 screenOptions={({ route }) => ({
+                    tabBarStyle: {
+                        display: 'none',
+                    },
+                    tabBarHideOnKeyboard: true,
                     headerTintColor: COLORS.firtText,
                     headerTitleAlign: 'center',
                     headerStyle: {
@@ -180,14 +187,21 @@ export default function BottomTabNavigator() {
                 <Tab.Screen
                     name={ROUTES.HOME}
                     component={HomePage}
-                    options={{ headerShown: true }}
+                    options={{ 
+                        headerShown: true,
+                        tabBarStyle: {
+                            display: isTabBarVisible ? 'flex' : 'none',
+                        },
+                    }}
                 />
                 <Tab.Screen
                     name={ROUTES.SEARCH}
                     component={SearchNavigator}
-                    options={{ headerShown: false }}
+                    options={{ 
+                        headerShown: false,
+                    }}
                 />
-                <Tab.Screen
+                {/* <Tab.Screen
                     name={ROUTES.STORY}
                     component={CreateStoriesNavigator}
                     options={{
@@ -196,11 +210,13 @@ export default function BottomTabNavigator() {
                             <FloatingButton />
                         ),
                     }}
-                />
+                /> */}
                 <Tab.Screen
                     name={ROUTES.CHAT}
                     component={ChatNavigator}
-                    options={{ headerShown: false }}
+                    options={{ 
+                        headerShown: false,
+                    }}
                 />
                 <Tab.Screen
                     name={ROUTES.PROFILE}

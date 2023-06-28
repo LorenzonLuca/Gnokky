@@ -54,7 +54,10 @@ export default function ChatNavigator() {
                         headerLeft: null, // Rimuove il pulsante di navigazione "Indietro"
                     }} 
                 />
-                <Stack.Screen name="TemplateChat" component={ChatTemplate} />
+                <Stack.Screen 
+                    name="TemplateChat" 
+                    component={ChatTemplate}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )

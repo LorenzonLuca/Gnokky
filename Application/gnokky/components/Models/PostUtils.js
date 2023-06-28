@@ -123,13 +123,14 @@ export default class PostUtils {
                     const post = doc.data();
                     post.id = doc.id;
                     post.ownerProfilePicUrl = profilePic;
-                    if(limit){
-                        if (currentTime.diff(post.timestamp, 'days') <= 2) {
-                            posts.push(post);
-                        } 
-                    } else {
-                        posts.push(post);
-                    }
+                    // if(limit){
+                    //     if (currentTime.diff(post.timestamp, 'days') <= 2) {
+                    //         posts.push(post);
+                    //     } 
+                    // } else {
+                    //     posts.push(post);
+                    // }
+                    posts.push(post);
                 });
                 return posts;
             } else {
