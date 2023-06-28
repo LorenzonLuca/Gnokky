@@ -15,6 +15,7 @@ import GNBottomSheetModal from './GNBottomSheetModal';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ChatUtils from '../Models/ChatUtils';
+import ContactList from './ContactList';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
     const [storyIndex, setStoryIndex] = useState(0);
@@ -37,6 +38,12 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
     const handlePresentModalUser = () => {
         watchUserBottomSheetModalRef.current?.present();
+    }
+
+    const sendStoryBottomSheetModalRef = useRef(null);
+
+    const handlePresentModalSend = () => {
+        sendStoryBottomSheetModalRef.current?.present();
     }
 
 
@@ -318,9 +325,20 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                             />
                             {hideSomeAction ? (
                                 <>
-                                    <TouchableWithoutFeedback onPress={() => console.log(stories[userIndex][storyIndex])}>
+                                    <TouchableWithoutFeedback onPress={handlePresentModalSend}>
                                         <Ionicons name='paper-plane-outline' size={35} style={styles.iconsAction} />
                                     </TouchableWithoutFeedback>
+                                    <GNBottomSheetModal
+                                        modalRef={sendStoryBottomSheetModalRef}
+                                        height={'50%'}
+                                        title={"Send to someone"}
+                                    >
+                                        <View style={[styles.header, { width: '100%' }]}>
+                                            <ScrollView>
+                                                <ContactList usernames={appUser.following} />
+                                            </ScrollView>
+                                        </View>
+                                    </GNBottomSheetModal>
                                     <TouchableWithoutFeedback onPress={() => {
                                         toggleColor(!color)
                                     }}>

@@ -46,6 +46,8 @@ export default function HomeFeed({ id }) {
             setStories(fetchedStories);
             setPosts(fetchedPosts);
             setVisiblePosts(5); // Ripristina il numero di post visualizzati a 5
+
+            appUser.getValueAndUpdate();
         } catch (error) {
             console.log(error);
         }
@@ -191,7 +193,10 @@ export default function HomeFeed({ id }) {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             onScrollEndDrag={() => { }}>
-            <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
+            <View style={styles.body}>
+                <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
+                <Divider />
+            </View>
 
             <View style={styles.warningBody}>
                 <Text>No posts found, try to refresh!</Text>
