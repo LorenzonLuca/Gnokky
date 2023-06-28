@@ -9,15 +9,19 @@ import Divider from './Divider';
 import GNProfileImage from './GNProfileImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../Models/Globals';
+import { COLORS, ROUTES } from '../Models/Globals';
 
 
-export default function ContactList({ usernames, size = 60, iconName = '', iconOnPress = null, iconColor = '#000',
-    contactOnPress = () => { }, clickOpenProfile = true }) {
-    const [profilePics, setProfilePics] = useState([])
+export default function ContactList({ usernames, size = 60, iconName = '', iconOnPress, iconColor = '#000',
+    contactOnPress = () => { }, clickOpenProfile = true, filterIcon, filterUser,
+    backgroundColor = COLORS.background, divider = true }) {
+    const [profilePics, setProfilePics] = useState([]);
+    const [filteredUsernames, setFilteredUsernames] = useState([]);
+    const [filteredPics, setFilteredPics] = useState([]);
     const navigation = useNavigation();
 
     useEffect(() => {
+        console.log("IL PORCODDIDIODODOD");
         const fetchProfilePics = async () => {
             try {
                 const profilePicsArray = [];
@@ -36,6 +40,30 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
         fetchProfilePics();
     }, [usernames])
 
+    useEffect(() => {
+        if (filterUser) {
+            if (filterUser !== "") {
+                var indexs = [];
+                const filteredValues = usernames.filter((str, index) => {
+                    const filtered = str.toLowerCase().indexOf(filterUser.toLowerCase()) >= 0;
+                    if (filtered) {
+                        indexs.push(index);
+                    }
+                    return filtered;
+                });
+                let filteredProfiles = [];
+                for (let i = 0; i < indexs.length; i++) {
+                    filteredProfiles.push(profilePics[indexs[i]]);
+                }
+                setFilteredUsernames(filteredValues);
+                setFilteredPics(filteredProfiles);
+            }
+        } else {
+            setFilteredUsernames([]);
+            setFilteredPics([]);
+        }
+    }, [filterUser])
+
     const handleContactOnPress = (username) => {
         contactOnPress(username);
         handleOpenProfile(username);
@@ -51,11 +79,20 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
         }
     }
 
+    const handleFilterIcon = (username) => {
+        if (filterIcon) {
+            // console.log("DIOMORTO ", username, "risultato", filterIcon(username));
+            return filterIcon(username)
+        }
+        return true;
+    }
+
     const styles = StyleSheet.create({
         fullContainer: {
             flex: 1,
             flexDirection: 'column',
             alignItems: 'center',
+            backgroundColor: backgroundColor,
         },
         userElements: {
             width: '100%',
@@ -76,26 +113,33 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
         }
     });
 
-    return usernames.map((user, index) => (
+    return (filteredUsernames.length > 0 ? filteredUsernames : usernames).map((user, index) => (
         <View key={user} style={styles.fullContainer}>
             <TouchableWithoutFeedback onPress={() => {
                 handleContactOnPress(user);
             }}>
                 <View style={styles.userElements}>
                     <View style={styles.iconAndName}>
-                        <GNProfileImage selectedImage={profilePics[index]} size={size} />
+                        <GNProfileImage
+                            selectedImage={filteredPics.length > 0 ? filteredPics[index] : profilePics[index]}
+                            size={size}
+                        />
                         <Text style={styles.usernameLabel}>{user}</Text>
                     </View>
-                    <TouchableWithoutFeedback
-                        onPress={
-                            iconOnPress != null ? iconOnPress : () => {
-                                handleContactOnPress(user);
-                            }}>
-                        <Ionicons name={iconName} style={styles.iconRight} size={size / 2} color={iconColor} />
-                    </TouchableWithoutFeedback>
+                    {handleFilterIcon(user) && (
+                        <TouchableWithoutFeedback
+                            onPress={
+                                iconOnPress != null ? iconOnPress : () => {
+                                    handleContactOnPress(user);
+                                }}>
+                            <Ionicons name={iconName} style={styles.iconRight} size={size / 2} color={iconColor} />
+                        </TouchableWithoutFeedback>
+                    )}
                 </View>
-            </TouchableWithoutFeedback>
-            <Divider />
-        </View>
+            </TouchableWithoutFeedback >
+            {divider && (
+                <Divider />
+            )}
+        </View >
     ));
 }

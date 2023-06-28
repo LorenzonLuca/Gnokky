@@ -47,12 +47,12 @@ export default function ChatNavigator() {
                     ),
                 })}
             >
-                <Stack.Screen 
-                    name="Chat" 
-                    component={ChatPage} 
+                <Stack.Screen
+                    name="Chat"
+                    component={ChatPage}
                     options={{
                         headerLeft: null, // Rimuove il pulsante di navigazione "Indietro"
-                    }} 
+                    }}
                 />
                 <Stack.Screen name="TemplateChat" component={ChatTemplate} />
             </Stack.Navigator>

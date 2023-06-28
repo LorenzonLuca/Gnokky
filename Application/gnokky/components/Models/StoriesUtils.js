@@ -152,7 +152,7 @@ export default class StoriesUtils {
                 return story;
             } else {
                 console.log("Story not found");
-                return null;
+                return "expired";
             }
         } catch (error) {
             console.log("Error while trying to get story, ", error)
