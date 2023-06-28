@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import { useState, useEffect } from 'react';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
@@ -53,6 +53,7 @@ export default function LoginPage({ navigation }) {
         text: {
             textAlign: 'center',
             color: COLORS.secondText,
+
         },
         forgotPasswordLink: {
             color: COLORS.elements,
@@ -70,13 +71,17 @@ export default function LoginPage({ navigation }) {
             marginBottom: 120,
             textAlign: 'center',
             fontFamily: 'mnst-bold'
+        },
+        porcoddio: {
+            top: 125,
+            flex: 1,
         }
     });
 
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
-                <View>
+                <KeyboardAvoidingView style={styles.porcoddio}>
                     <Text style={styles.title}>SIGN IN</Text>
                     <GNTextInput
                         placeholder='Email'
@@ -106,7 +111,7 @@ export default function LoginPage({ navigation }) {
                         <Text style={styles.link} onPress={() => { navigation.navigate(ROUTES.REGISTER) }}> Sign up now!</Text>
                     </Text>
                     <StatusBar style="dark" />
-                </View>
+                </KeyboardAvoidingView>
             </View>
         </SafeAreaView>
     )
