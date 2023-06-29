@@ -19,6 +19,8 @@ import 'react-native-gesture-handler';
 import AdminUtils from '../Models/AdminUtils';
 import { useNavigation } from '@react-navigation/native';
 import FirebaseUtils from '../Models/FirebaseUtils';
+import { Surface } from 'react-native-paper';
+import GNEmptyText from './GNEmptyText';
 
 export default function Post({ post, refreshAfterDelete }) {
 
@@ -43,15 +45,6 @@ export default function Post({ post, refreshAfterDelete }) {
 
     const closeModal = () => {
         setModalVisible(false);
-    };
-
-
-    const EmptyText = ({ style, icon = "", text }) => {
-        if (!text) {
-            return <Text style={{ display: 'none' }}>{text}</Text>;
-        }
-
-        return <Text style={style}><Ionicons name={icon} size={15} />{text}</Text>;
     };
 
     useEffect(() => {
@@ -89,12 +82,16 @@ export default function Post({ post, refreshAfterDelete }) {
         container: {
             flex: 1,
             backgroundColor: COLORS.background,
+            marginHorizontal: 10,
+            marginBottom: 12,
+            elevation: 6,
+            borderRadius: 16,
         },
         body: {
             flex: 1,
-            flexDirection: 'row',
+            padding: 10,
         },
-        infoContainer: {
+        topPostContainer: {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -104,6 +101,7 @@ export default function Post({ post, refreshAfterDelete }) {
             borderRadius: 15,
         },
         username: {
+            marginLeft: 7,
             fontWeight: 'bold',
         },
         timestamp: {
@@ -120,6 +118,7 @@ export default function Post({ post, refreshAfterDelete }) {
             borderRadius: 15,
             borderColor: COLORS.thirdText,
             borderWidth: 1,
+            //marginBottom: 10,
         },
         modalContainer: {
             flex: 1,
@@ -177,80 +176,75 @@ export default function Post({ post, refreshAfterDelete }) {
         repostCaption: {
             flex: 1,
         },
-        nameAndTime: {
+        userInformationContainer: {
             flexDirection: 'row',
+            alignItems: 'center',
         }
     });
 
     return (
-        <View style={styles.container}>
+        <Surface style={styles.container}>
             <View style={styles.body}>
-                <TouchableWithoutFeedback onPress={handleOpenProfile}>
-                    <View style={[styles.border, { padding: 10 }]}>
-                            <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
-                    </View>
-                </TouchableWithoutFeedback>
-                <View style={[styles.border, { flex: 1, padding: 10 }]}>
-                    <View style={styles.infoContainer}>
-                        <View style={styles.nameAndTime}>
-                            <Text 
-                                style={[styles.border, styles.username]} 
-                                numberOfLines={1} ellipsizeMode="tail"
-                                onPress={handleOpenProfile}>
-                                {post.owner}
-                            </Text>
+                <View style={styles.topPostContainer}>
+                    <TouchableWithoutFeedback onPress={handleOpenProfile}>
+                        <View style={styles.userInformationContainer}>
+                                <View>
+                                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={35} />
+                                </View>
+                            <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
                             <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
                         </View>
-                        <Ionicons onPress={handlePresentOptionModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText} />
-                    </View>
-                    <EmptyText style={styles.border} text={post.caption} />
-                    <View style={styles.mediaContainer}>
-                        <EmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />
-                        <TouchableOpacity onPress={handleMediaClick}>
-                            {post.downloadUrl && post.mediaType === 'image' && (
-                                <Image
-                                    source={{ uri: post.downloadUrl }}
-                                    style={styles.media}
-                                    resizeMode="cover"
-                                />
-                            )}
-                            {post.downloadUrl && post.mediaType === 'video' && (
-                                <Video
-                                    source={{ uri: post.downloadUrl }}
-                                    style={styles.media}
-                                    useNativeControls
-                                    resizeMode="contain" />
-                            )}
-                        </TouchableOpacity>
-                        {/* REPOST SECTION */}
-                        {post.repost !== "" ? (
-                            <Repost repost={repost} postHasMedia={post.downloadUrl} />
-                        ) : (
-                            <></>
-                        )}
-                        {/* END REPOST */}
-                        <PostInteraction post={post} />
-                        <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
-                            <View style={styles.modalContainer}>
-                                <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                                    <Ionicons name="ios-arrow-back" size={24} color="white" />
-                                </TouchableOpacity>
-                                {post.mediaType === 'image' ? (
-                                    <ImageViewer
-                                        imageUrls={[{ url: post.downloadUrl }]}
-                                        enableSwipeDown={true}
-                                        onCancel={closeModal}
-                                        renderIndicator={() => null}
-                                        index={0}
-                                    />
-                                ) : (
-                                    <></>
-                                )}
-                            </View>
-                        </Modal>
-
-                    </View>
+                    </TouchableWithoutFeedback>
+                    <Ionicons onPress={handlePresentOptionModal} style={styles.options} name='ellipsis-vertical' size={15} color={COLORS.secondText} />
                 </View>
+                <GNEmptyText style={styles.border} text={post.caption} />
+                <View style={styles.mediaContainer}>
+                    <GNEmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />
+                    <TouchableOpacity onPress={handleMediaClick}>
+                        {post.downloadUrl && post.mediaType === 'image' && (
+                            <Image
+                                source={{ uri: post.downloadUrl }}
+                                style={styles.media}
+                                resizeMode="cover"
+                            />
+                        )}
+                        {post.downloadUrl && post.mediaType === 'video' && (
+                            <Video
+                                source={{ uri: post.downloadUrl }}
+                                style={styles.media}
+                                useNativeControls
+                                resizeMode="contain" />
+                        )}
+                    </TouchableOpacity>
+                    {/* REPOST SECTION */}
+                    {post.repost !== "" ? (
+                        <Surface style={{borderRadius: 16}}>
+                            <Repost repost={repost} postHasMedia={post.downloadUrl} />
+                        </Surface>
+                    ) : (
+                        <></>
+                    )}
+                    {/* END REPOST */}
+                    <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
+                        <View style={styles.modalContainer}>
+                            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                                <Ionicons name="ios-arrow-back" size={24} color="white" />
+                            </TouchableOpacity>
+                            {post.mediaType === 'image' ? (
+                                <ImageViewer
+                                    imageUrls={[{ url: post.downloadUrl }]}
+                                    enableSwipeDown={true}
+                                    onCancel={closeModal}
+                                    renderIndicator={() => null}
+                                    index={0}
+                                />
+                            ) : (
+                                <></>
+                            )}
+                        </View>
+                    </Modal>
+                </View>
+                <PostInteraction post={post} />
             </View>
             <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
                 {appUser.username == post.owner ? (
@@ -282,7 +276,6 @@ export default function Post({ post, refreshAfterDelete }) {
                     </>
                 )}
             </GNBottomSheetModal>
-            <Divider color={COLORS.thirdText} />
-        </View>
+        </Surface>
     );
 }

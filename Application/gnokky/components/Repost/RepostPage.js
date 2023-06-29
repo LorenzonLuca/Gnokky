@@ -14,6 +14,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Video } from 'expo-av';
 import GNCamera from '../GN/GNCamera';
 import Repost from './Repost';
+import GNEmptyText from '../GN/GNEmptyText';
 
 export default function RepostPage({ navigation, onClose, post }) {
 
@@ -38,15 +39,6 @@ export default function RepostPage({ navigation, onClose, post }) {
     const handleInputChangeCaption = (inputText) => {
         setCaption(inputText.trim());
     }
-
-  
-    const EmptyText = ({style, icon = "", text }) => {
-        if (!text) {
-            return <Text style={{ display: 'none' }}>{text}</Text>;
-        }
-
-        return <Text style={style} ><Ionicons name={icon} size={15} />{text}</Text>;
-    };
 
     const handleMediaClick = () => {
         if (post.mediaType == 'image')
@@ -228,7 +220,7 @@ export default function RepostPage({ navigation, onClose, post }) {
                     resizeMode="contain"
                 />
                 )}
-                <EmptyText style={{marginBottom: 10}} text={locationInfo} />
+                <GNEmptyText style={{marginBottom: 10}} text={locationInfo} />
                 {/* REPOST */}
                 <Repost repost={post} postHasMedia={mediaUri} />
                 {/* END REPOST */}

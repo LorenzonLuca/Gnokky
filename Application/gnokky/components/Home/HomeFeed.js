@@ -179,7 +179,8 @@ export default function HomeFeed({ id }) {
                 >
                     <View style={styles.body}>
                         <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
-                        <Divider />
+                        <Divider color={COLORS.thirdText} />
+                        <Text></Text>
                         <>{generateComponents}</>
                     </View>
                 </ScrollView>

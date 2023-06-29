@@ -68,8 +68,7 @@ export default function PostInteractions({post}) {
         color: COLORS.secondText,
       },
       border: {
-        // borderColor: 'black',
-        // borderWidth: 1,
+        //borderWidth: 1,
       },
   });
       
