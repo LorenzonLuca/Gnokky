@@ -20,6 +20,7 @@ import { ActivityIndicator } from 'react-native';
 import HomeFeedUtils from './HomeFeedUtils';
 import HomeStories from './HomeStories';
 import Divider from '../GN/Divider';
+import FirebaseUtils from '../Models/FirebaseUtils';
 
 export default function HomeFeed({ id }) {
 
@@ -47,7 +48,8 @@ export default function HomeFeed({ id }) {
             setPosts(fetchedPosts);
             setVisiblePosts(5); // Ripristina il numero di post visualizzati a 5
 
-            appUser.getValueAndUpdate();
+            // appUser.getValueAndUpdate();
+            FirebaseUtils.updateAppUser();
         } catch (error) {
             console.log(error);
         }
@@ -87,7 +89,8 @@ export default function HomeFeed({ id }) {
         }
 
         const fetchUser = async () => {
-            await appUser.getValueAndUpdate();
+            // await appUser.getValueAndUpdate();
+            await FirebaseUtils.updateAppUser();
         }
 
         fetchUser();

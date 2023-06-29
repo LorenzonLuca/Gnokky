@@ -1,6 +1,6 @@
-import FirebaseUtils from './FirebaseUtils';
-import { storage } from './Firebase';
-import { getDownloadURL, ref } from 'firebase/storage';
+// import FirebaseUtils from './FirebaseUtils';
+// import { storage } from './Firebase';
+// import { getDownloadURL, ref } from 'firebase/storage';
 
 export default class User {
 
@@ -9,18 +9,18 @@ export default class User {
         this.email = email;
     }
 
-    async getValueAndUpdate() {
-        FirebaseUtils.getUser(this.id).then((result) => {
-            this.setUsername(result.username);
-            this.setName(result.name);
-            this.setSurname(result.surname);
-            this.setBio(result.bio);
-            this.setFollowers(result.followers);
-            this.setFollowing(result.following);
-            this.setPosts(result.posts);
-            this.setProfilePic(result.profilePic);
-        });
-    }
+    // async getValueAndUpdate() {
+    //     FirebaseUtils.getUser(this.id).then((result) => {
+    //         this.setUsername(result.username);
+    //         this.setName(result.name);
+    //         this.setSurname(result.surname);
+    //         this.setBio(result.bio);
+    //         this.setFollowers(result.followers);
+    //         this.setFollowing(result.following);
+    //         this.setPosts(result.posts);
+    //         this.setProfilePic(result.profilePic);
+    //     });
+    // }
     updateOnlyValues(newUser) {
         this.setUsername(newUser.username);
         this.setName(newUser.name);

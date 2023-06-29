@@ -68,7 +68,8 @@ export default function ProfileData({ user, property }) {
 
     useEffect(() => {
         const fetchUser = async () => {
-            await appUser.getValueAndUpdate();
+            // await appUser.getValueAndUpdate();
+            await FirebaseUtils.updateAppUser();
             setUserData(appUser);
         }
 

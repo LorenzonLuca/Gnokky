@@ -18,9 +18,11 @@ import PostUtils from '../Models/PostUtils';
 import { RefreshControl } from 'react-native';
 import Divider from './Divider';
 import { ActivityIndicator } from 'react-native';
+import FirebaseUtils from '../Models/FirebaseUtils';
 
 export default function PostLoader({ username, refresh }) {
-    appUser.getValueAndUpdate();
+    // appUser.getValueAndUpdate();
+    FirebaseUtils.updateAppUser();
 
 
     const [refreshAfterDelete, setRefreshAfterDelete] = useState(true);
