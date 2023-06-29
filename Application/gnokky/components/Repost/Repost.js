@@ -10,7 +10,7 @@ import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import PostUtils from '../Models/PostUtils';
-
+import GNEmptyText from '../GN/GNEmptyText';
 
 
 export default function Repost({ repost, postHasMedia = false }){
@@ -26,15 +26,6 @@ export default function Repost({ repost, postHasMedia = false }){
     const closeRepostModal = () => {
         setRepostModalVisible(false);
     };
-
-    const EmptyText = ({ style, icon = "", text }) => {
-        if (!text) {
-            return <Text style={{ display: 'none' }}>{text}</Text>;
-        }
-
-        return <Text style={style}><Ionicons name={icon} size={15} />{text}</Text>;
-    };
-
     // useEffect(() => {
     //     const fetchRepost =  async () => {
     //         setRepost(await PostUtils.getPostById(post.repost));
@@ -152,6 +143,7 @@ export default function Repost({ repost, postHasMedia = false }){
                     <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(repost.timestamp)}</Text>
                 </View>
                 {postHasMedia ? (
+                    
                     <View style={styles.mediaRowContainer}>
                         <TouchableOpacity onPress={handleRepostMediaClick}>
                             {repost.downloadUrl && repost.mediaType === 'image' && (
@@ -169,11 +161,11 @@ export default function Repost({ repost, postHasMedia = false }){
                                     resizeMode="contain" />
                             )}
                         </TouchableOpacity>
-                        <EmptyText style={styles.repostCaption} text={repost.caption} />
+                        <GNEmptyText style={styles.repostCaption} text={repost.caption} />
                     </View>
                 ) : (
                     <View style={styles.mediaContainer}>
-                        <EmptyText style={styles.repostCaption} text={repost.caption} />
+                        <GNEmptyText style={styles.repostCaption} text={repost.caption} />
                         <TouchableOpacity onPress={handleRepostMediaClick}>
                             {repost.downloadUrl && repost.mediaType === 'image' && (
                                 <Image
