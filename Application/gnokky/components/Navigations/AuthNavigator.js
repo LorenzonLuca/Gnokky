@@ -49,7 +49,7 @@ export default function AuthNavigator() {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name={ROUTES.HOME}
+                name={ROUTES.BOTTOM_NAVIGATOR}
                 component={BottomTabNavigator}
                 options={{ headerShown: false }}
             />

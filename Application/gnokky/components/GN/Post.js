@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Modal } from 'react-native';
 import GNProfileImage from './GNProfileImage';
-import { appUser } from '../Models/Globals';
+import { ROUTES, appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
 import { useEffect, useState, useRef } from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,9 +18,12 @@ import Repost from '../Repost/Repost';
 import 'react-native-gesture-handler';
 import { TouchableWithoutFeedback } from 'react-native';
 import AdminUtils from '../Models/AdminUtils';
-
+import { useNavigation } from '@react-navigation/native';
+import FirebaseUtils from '../Models/FirebaseUtils';
 
 export default function Post({ post, refreshAfterDelete }) {
+
+    const navigation = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -71,6 +74,16 @@ export default function Post({ post, refreshAfterDelete }) {
         await PostUtils.deletePost(post);
         refreshAfterDelete();
         bottomSheetOptionModalRef.current?.dismiss();
+    }
+
+    const handleOpenProfile = async () => {
+        FirebaseUtils.getUserByUsername(post.owner)
+            .then((user) => {
+                navigation.navigate("ProfileSearch", { user: user[0] });
+            })
+            .catch((error) => {
+                console.log("Error while getting username ", error)
+            })
     }
 
     const styles = StyleSheet.create({
@@ -174,12 +187,19 @@ export default function Post({ post, refreshAfterDelete }) {
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={[styles.border, { padding: 10 }]}>
-                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
+                    <TouchableOpacity onPress={() => handleOpenProfile()}>
+                        <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
+                    </TouchableOpacity>
                 </View>
                 <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
                         <View style={styles.nameAndTime}>
-                            <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
+                            <Text 
+                                style={[styles.border, styles.username]} 
+                                numberOfLines={1} ellipsizeMode="tail"
+                                onPress={handleOpenProfile}>
+                                {post.owner}
+                            </Text>
                             <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
                         </View>
                         <Ionicons onPress={handlePresentOptionModal} style={[styles.border, styles.options]} name='ellipsis-vertical' size={15} color={COLORS.thirdText} />

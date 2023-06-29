@@ -30,28 +30,27 @@ export default function ProfilePage({ navigation, route }) {
 
             setProfileUser(newUser);
         } catch (error) {
-            console.log(error);
+            console.log("Error during data refresh: ", error);
         }
-
         setRefreshing(false);
         setRefresh(false);
     };
 
     useEffect(() => {
-
         const fetchUser = async () => {
-            try {
-                const fetchedUser = await FirebaseUtils.getUser(profileUser.id)
-                console.log("MATERAZZI è CADUTO ", fetchedUser);
-                setProfileUser(fetchedUser);
-                setLoading(false); // Imposta lo stato di caricamento su false quando i dati sono stati caricati
-            } catch (error) {
-                console.log(error);
-                setLoading(false); // Gestisci l'errore e imposta lo stato di caricamento su false
-            }
-        }
-        fetchUser();
-    }, [])
+          try {
+            const fetchedUser = await FirebaseUtils.getUser(profileUser?.id);
+            console.log("MATERAZZI è CADUTO ", fetchedUser);
+            setProfileUser(fetchedUser);
+            setLoading(false); 
+          } catch (error) {
+            console.log("possible unhandled madonna troia 2 ", error);
+            setLoading(false); 
+          }
+        };
+        fetchUser()
+      }, []);
+      
 
     const styles = StyleSheet.create({
         container: {

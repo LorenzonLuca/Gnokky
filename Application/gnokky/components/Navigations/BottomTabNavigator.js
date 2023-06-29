@@ -91,6 +91,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView } from 'react-native';
 import { useScrollToTop } from '@react-navigation/native';
+import HomeNavigator from '../Home/HomeNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -169,7 +170,7 @@ export default function BottomTabNavigator() {
                     tabBarIcon: ({ color, size, focused }) => {
                         let iconName;
 
-                        if (route.name === ROUTES.HOME) {
+                        if (route.name === ROUTES.HOME_NAVIGATOR) {
                             iconName = focused ? 'home' : 'home-outline';
                         } else if (route.name === ROUTES.SEARCH) {
                             iconName = focused ? 'search' : 'search-outline';
@@ -184,13 +185,10 @@ export default function BottomTabNavigator() {
                     }
                 })}>
                 <Tab.Screen
-                    name={ROUTES.HOME}
-                    component={HomePage}
+                    name={ROUTES.HOME_NAVIGATOR}
+                    component={HomeNavigator}
                     options={{
-                        headerShown: true,
-                        tabBarStyle: {
-                            display: isTabBarVisible ? 'flex' : 'none',
-                        },
+                        headerShown: false,
                     }}
                 />
                 <Tab.Screen

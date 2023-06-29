@@ -30,7 +30,7 @@ export const handleLogin = async (email, password, navigation, setError) => {
                         appUser.setUsername(result[0].username);
                         appUser.setId(result[0].id);
                         storeUserData(result[0].id);
-                        navigation.navigate(ROUTES.HOME);
+                        navigation.navigate(ROUTES.BOTTOM_NAVIGATOR);
                     }).catch((error) => {
                         console.log(error);
                     });
