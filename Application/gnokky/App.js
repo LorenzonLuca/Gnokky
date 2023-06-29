@@ -11,7 +11,6 @@ import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import GNCamera from './components/GN/GNCamera';
-import CreateStoriesNavigator from './components/Stories/CreateStoriesNavigator';
 import 'react-native-gesture-handler';
 import AuthNavigator from './components/Navigations/AuthNavigator';
 
@@ -24,7 +23,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth } from './components/Models/Firebase';
 import BottomTabNavigator from './components/Navigations/BottomTabNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-        
+
 
 const Stack = createStackNavigator();
 
@@ -139,14 +138,14 @@ export default function App() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-                <NavigationContainer>
-                    {/* {(!user) ? (
+            <NavigationContainer>
+                {/* {(!user) ? (
                     <AuthNavigator />
                 ) : (
                     <BottomTabNavigator />
                 )} */}
-                    <AuthNavigator />
-                </NavigationContainer>
+                <AuthNavigator />
+            </NavigationContainer>
         </GestureHandlerRootView>
     );
 }
