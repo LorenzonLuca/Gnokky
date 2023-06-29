@@ -6,7 +6,7 @@ import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storag
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class FirebaseUtils {
-    
+
     static async insertUser(username, email) {
         try {
             const docRef = await addDoc(collection(db, "users"), {
@@ -67,7 +67,6 @@ export default class FirebaseUtils {
         try {
             const userDoc = doc(db, "users", id);
             const userSnapshot = await getDoc(userDoc);
-
             if (userSnapshot.exists()) {
                 const user = userSnapshot.data();
 
@@ -151,7 +150,7 @@ export default class FirebaseUtils {
             return null;
         }
     }
-    static async findUserFromSearchBar(keyword) {
+    static async oldFindUserFromSearchBar(keyword) {
         try {
             const usersCollection = collection(db, "users");
             const querySnapshot = await getDocs(query(usersCollection, where('username', '>=', keyword)
@@ -187,6 +186,30 @@ export default class FirebaseUtils {
             }
         } catch (e) {
             console.log("Error while trying to search user: ", e);
+        }
+    }
+
+    static async findUserFromSearchBar(keyword) {
+        try {
+            const usersCollection = collection(db, "users");
+            const querySnapshot = await getDocs(query(usersCollection, where('username', '>=', keyword)
+                , where('username', '<', keyword + '~'), where('username', '!=', appUser.username)));
+
+            if (!querySnapshot.empty) {
+                const users = [];
+
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    users.push(user.username);
+                });
+
+                return users;
+            } else {
+                console.log("No users found with the specified property");
+                return [];
+            }
+        } catch (error) {
+            console.log("Error while trying to search user: ", error);
         }
     }
 

@@ -24,7 +24,6 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth } from './components/Models/Firebase';
 import BottomTabNavigator from './components/Navigations/BottomTabNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
         
 
 const Stack = createStackNavigator();
@@ -140,7 +139,6 @@ export default function App() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <PrimeReactProvider>
                 <NavigationContainer>
                     {/* {(!user) ? (
                     <AuthNavigator />
@@ -149,7 +147,6 @@ export default function App() {
                 )} */}
                     <AuthNavigator />
                 </NavigationContainer>
-            </PrimeReactProvider>
         </GestureHandlerRootView>
     );
 }

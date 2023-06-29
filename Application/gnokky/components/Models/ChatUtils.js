@@ -103,6 +103,7 @@ export default class ChatUtils {
 
     static async findChatByUsername(username) {
         try {
+            console.log("DIOCAN MO PERCHö NON VA,", username);
             const userDocRef = doc(db, "users", appUser.id);
             const chatRef = collection(userDocRef, 'chats');
 

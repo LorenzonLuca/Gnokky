@@ -201,18 +201,21 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         setAnswer(text);
     }
 
-    const handleSendStory = async () => {
+    const handleSendAnswer = async () => {
         if (!property) {
             const chat = await ChatUtils.findChatByUsername(stories[userIndex][storyIndex].owner);
 
-
-            if (answer !== '') {
-                await ChatUtils.sendStory(chat, stories[userIndex][storyIndex], answer);
-                setAnswer('');
-            } else {
-                await ChatUtils.sendStory(chat, stories[userIndex][storyIndex]);
-            }
+            await ChatUtils.sendStory(chat, stories[userIndex][storyIndex], answer);
+            setAnswer("");
             // console.log("PORCODDIDIO");
+        }
+    }
+
+    const handleSendStory = async (user) => {
+        if (!property) {
+            const chat = await ChatUtils.findChatByUsername(user);
+
+            await ChatUtils.sendStory(chat, stories[userIndex][storyIndex]);
         }
     }
 
@@ -291,13 +294,24 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                 <Text style={styles.buttonWatchUsers}>Watch users</Text>
                             </TouchableWithoutFeedback>
                         </View>
-                        <GNBottomSheetModal modalRef={watchUserBottomSheetModalRef} height={'30%'}>
-                            <ScrollView>
-                                <View style={styles.header}>
-                                    <Text>Users who whatched your story</Text>
-                                </View>
-                                <StoryViewer />
-                            </ScrollView>
+                        <GNBottomSheetModal
+                            modalRef={watchUserBottomSheetModalRef}
+                            height={'50%'}
+                            title={"User who watched your story"}
+                        >
+                            <View style={[styles.header, { width: '100%' }]}>
+                                <ScrollView>
+                                    <ContactList
+                                        usernames={stories[storyIndex].watchedBy}
+                                        iconName={'heart'}
+                                        iconColor={'#f00'}
+                                        size={50}
+                                        filterIcon={(username) => {
+                                            return stories[storyIndex].likes.includes(username)
+                                        }}
+                                    />
+                                </ScrollView>
+                            </View>
                         </GNBottomSheetModal>
                         <GNBottomSheetModal modalRef={bottomSheetModalRef} height={'17%'}>
                             <View style={[styles.header, { width: '100%' }]}>
@@ -345,9 +359,10 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                                     iconName={'paper-plane'}
                                                     contactOnPress={(username) => {
                                                         console.log("Sending this story to ", username);
-                                                        handleSendStory()
+                                                        handleSendStory(username)
                                                     }}
                                                     clickOpenProfile={false}
+                                                    size={50}
                                                 />
                                             </ScrollView>
                                         </View>
@@ -369,7 +384,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                     backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements}
                                     isDisabled={isTextInputValid}
                                     width={'20%'}
-                                    onTouchStart={handleSendStory}
+                                    onTouchStart={handleSendAnswer}
                                 />
                             )}
                         </View>

@@ -28,7 +28,8 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                 })
             StoriesUtils.getStoriesByUsername(appUser.username)
                 .then((result) => {
-                    getAllProfilePic(result);
+                    // getAllProfilePic(result);
+                    setMyStories(result);
                 })
         }
     }, [openStory])
@@ -42,7 +43,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
             const refetchYourStory = async () => {
                 const newMyStory = await StoriesUtils.getStoriesByUsername(appUser.username)
 
-                getAllProfilePic(newMyStory);
+                setMyStories(newMyStory);
                 setRefresh(false);
             }
 

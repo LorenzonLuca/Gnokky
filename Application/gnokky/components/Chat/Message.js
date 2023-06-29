@@ -20,7 +20,9 @@ export default function Message({ message }) {
                 try {
                     const newStory = await StoriesUtils.getStoryById(id);
                     console.log("STORIA IN CHAT SIOUMI", newStory);
-                    setPropertyStory(newStory.owner === appUser.username);
+                    if (newStory !== 'expired') {
+                        setPropertyStory(newStory.owner === appUser.username);
+                    }
                     setStory(newStory);
                 } catch (error) {
                     console.log("Error while trying to get story, ", error)
@@ -68,6 +70,18 @@ export default function Message({ message }) {
             marginTop: 10,
             marginBottom: -10,
             alignSelf: property ? 'flex-end' : 'flex-start',
+        },
+        messageExpired: {
+            maxWidth: '100%',
+            padding: 2,
+            borderRadius: 20,
+            marginVertical: 2,
+            alignSelf: property ? 'flex-end' : 'flex-start',
+        },
+        expiredStory: {
+            color: COLORS.secondText,
+            padding: 10,
+            fontStyle: 'italic',
         }
     })
 
@@ -85,17 +99,25 @@ export default function Message({ message }) {
                 <>
                     {story ? (
                         <>
-                            <TouchableOpacity style={styles.imgMessage} onPress={() => setOpenStory(true)}>
-                                <Image source={{ uri: story.img }} style={styles.img} />
-                            </TouchableOpacity>
-                            <Modal visible={openStory} animationType={'slide'}>
-                                <StoriesVisualizer
-                                    stories={[story]}
-                                    property={true}
-                                    viewAction={propertyStory}
-                                    closeStories={() => setOpenStory(false)}
-                                />
-                            </Modal>
+                            {story === 'expired' ? (
+                                <View style={styles.messageExpired}>
+                                    <Text style={styles.expiredStory}>Story not avaiable</Text>
+                                </View>
+                            ) : (
+                                <>
+                                    <TouchableOpacity style={styles.imgMessage} onPress={() => setOpenStory(true)}>
+                                        <Image source={{ uri: story.img }} style={styles.img} />
+                                    </TouchableOpacity>
+                                    <Modal visible={openStory} animationType={'slide'}>
+                                        <StoriesVisualizer
+                                            stories={[story]}
+                                            property={true}
+                                            viewAction={propertyStory}
+                                            closeStories={() => setOpenStory(false)}
+                                        />
+                                    </Modal>
+                                </>
+                            )}
                         </>
                     ) : (
                         <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>

@@ -11,6 +11,7 @@ import ProfileManagement from './ProfileManagement';
 import StoriesUtils from '../Models/StoriesUtils';
 import StoriesVisualizer from '../GN/StoriesVisualizer';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import ContactList from '../GN/ContactList';
 
 
 
@@ -21,9 +22,9 @@ export default function ProfileData({ user, property }) {
     const [storiesModal, setStoriesModal] = useState(false);
     const [followersModal, setFollowersModal] = useState(false);
     const [stories, setStories] = useState([])
-    const [followersList, setFollowersList] = useState([]);
     const [filteredFollower, setFilteredFollower] = useState(null);
     const [refresh, setRefresh] = useState(false);
+    const [followerResearch, setFollowerResearch] = useState('');
 
     useEffect(() => {
         setUserData(user);
@@ -103,10 +104,7 @@ export default function ProfileData({ user, property }) {
     }
 
     const handleResearch = (text) => {
-        var filteredArray = userData.followers.filter((str) => {
-            return str.toLowerCase().indexOf(text.toLowerCase()) >= 0;
-        });
-        setFilteredFollower(filteredArray);
+        setFollowerResearch(text);
     }
 
 
@@ -151,41 +149,6 @@ export default function ProfileData({ user, property }) {
         },
     });
 
-    useEffect(() => {
-        const fetchFollowersList = async () => {
-            const list = [];
-            for (const user of (filteredFollower ? filteredFollower : userData.followers)) {
-                const profilePic = await FirebaseUtils.getProfilePicFromUsername(user);
-                const followerComponent = (
-                    <View key={user} style={styles.userListContainer}>
-                        <GNProfileImage selectedImage={profilePic} size={50} />
-                        <Text style={styles.userListText}>{user}</Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            FirebaseUtils.removeFollower(user)
-                            setRefresh(!refresh);
-                        }}>
-                            <Ionicons name='trash-outline' size={25} color={'red'} />
-                        </TouchableWithoutFeedback>
-                    </View>
-                );
-                list.push(followerComponent);
-            }
-            if (filteredFollower) {
-                if (filteredFollower.length < 1) {
-                    list.splice(0, list.length);
-                    list.push(
-                        <View key={user} style={styles.userListContainer}>
-                            <Text>There aren't follower with this name</Text>
-                        </View>
-                    )
-                }
-            }
-            setFollowersList(list);
-        };
-
-        fetchFollowersList();
-    }, [userData, filteredFollower]);
-
     return (
         <View style={[styles.background, { marginBottom: 5 }]}>
             <View style={styles.rowContainer}>
@@ -222,7 +185,17 @@ export default function ProfileData({ user, property }) {
                             onChangeText={handleResearch}
                             animation={true}
                             width={'100%'} />
-                        {followersList}
+                        <ContactList
+                            usernames={filteredFollower ? filteredFollower : userData.followers}
+                            size={50}
+                            iconName={'trash-outline'}
+                            iconColor={'#f00'}
+                            iconOnPress={(username) => {
+                                FirebaseUtils.removeFollower(username)
+                                setRefresh(!refresh);
+                            }}
+                            filterUser={followerResearch}
+                        />
                     </ScrollView>
                 </Modal>
                 <View style={[styles.container, styles.background]}>

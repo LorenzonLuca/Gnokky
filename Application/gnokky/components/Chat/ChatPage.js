@@ -36,7 +36,7 @@ export default function ChatPage({ navigation }) {
         if (research !== "") {
             const lowerResearch = research.toLowerCase();
 
-            FirebaseUtils.findUserFromSearchBar(lowerResearch)
+            FirebaseUtils.oldFindUserFromSearchBar(lowerResearch)
                 .then(async (result) => {
                     const existing = await getExisting(lowerResearch);
 
