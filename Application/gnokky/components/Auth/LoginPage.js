@@ -27,7 +27,7 @@ export default function LoginPage({ navigation }) {
                     appUser.setId(value);
                     // await appUser.getValueAndUpdate();
                     await FirebaseUtils.updateAppUser();
-                    navigation.navigate(ROUTES.HOME)
+                    navigation.navigate(ROUTES.BOTTOM_NAVIGATOR)
                 }
             } catch (e) {
                 console.log("Error while trying to get value from async storage: ", e);
