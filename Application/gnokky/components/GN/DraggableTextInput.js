@@ -11,16 +11,18 @@ import Animated, {
 } from 'react-native-reanimated';
 import { COLORS } from '../Models/Globals';
 import ColorPicker from './ColorPicker';
+import GNTextInputMultiLine from './GNTextInputMultiLine';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export default function DraggableTextInput({ setBottomBar, setColorPicker, innerKey, closeDraggable }) {
-
+export default function DraggableTextInput({ setBottomBar, setColorPicker, innerKey, closeDraggable,
+    setIndexDraggable, updateFontSize }) {
 
     const colorPicker = (<ColorPicker setColor={(color) => onColorChange(color)} key={innerKey} />);
     const [text, setText] = useState("Enter text");
     const [showModal, setShowModal] = useState(true);
     const [color, setColor] = useState('#000');
+    const [fontSize, setFontSize] = useState(15);
 
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
@@ -84,6 +86,8 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
         setBottomBar(false);
         setColorPicker(colorPicker)
         closeDraggable(() => closeInterface);
+        setIndexDraggable(innerKey);
+        updateFontSize((fontsize) => setFontSize(fontsize));
     }
 
     const onColorChange = (color) => {
@@ -127,7 +131,8 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
                     <Text
                         style={[
                             styles.textInput, {
-                                display: !showModal ? "flex" : "none"
+                                display: !showModal ? "flex" : "none",
+                                fontSize: fontSize,
                             }
                         ]}
                         onPress={handlePressText}>
@@ -138,12 +143,13 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
             <Modal visible={showModal} transparent>
                 <View style={styles.container}>
                     <View style={styles.modalContent}>
-                        <GNTextInput
+                        <GNTextInputMultiLine
                             autoFocus={true}
-                            placeholder={"Enter text"}
+                            // placeholder={"Enter text"}
                             defaultValue={text !== "Enter text" ? text : ""}
                             onChangeText={setText}
                             colorInput={color}
+                            backgroundColor={'rgba(0, 0, 0, 0)'}
                         />
                     </View>
                 </View>

@@ -4,14 +4,15 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from "../Models/Globals";
 
 
-export default function GNTextInputMultiLine({ placeholder, onChangeText, width = '75%', minHeight = 50, marginBottom = 24, defaultValue = "" }) {
+export default function GNTextInputMultiLine({ placeholder, onChangeText, width = '75%', minHeight = 50, marginBottom = 24,
+    defaultValue = "", colorInput, backgroundColor, autoFocus }) {
 
     const styles = StyleSheet.create({
         container: {
             flexDirection: 'row',
             alignItems: 'center',
             borderRadius: 15,
-            backgroundColor: COLORS.fourthText,
+            backgroundColor: backgroundColor ? backgroundColor : COLORS.fourthText,
             marginBottom: marginBottom,
             paddingHorizontal: 24,
             paddingTop: 14,
@@ -24,12 +25,12 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             flex: 1,
             alignItems: 'center',
             fontSize: 16,
-            color: COLORS.firtText,
+            color: colorInput ? colorInput : COLORS.firtText,
             width: '100%',
             height: '100%',
             textAlignVertical: 'top',
             borderRadius: 15,
-            backgroundColor: COLORS.fourthText,
+            backgroundColor: backgroundColor ? backgroundColor : COLORS.fourthText,
         }
     });
 
@@ -43,6 +44,7 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
                 onChangeText={onChangeText}
                 multiline={true}
                 defaultValue={defaultValue}
+                autoFocus={autoFocus}
             />
         </View>
     );

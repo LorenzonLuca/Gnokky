@@ -5,7 +5,7 @@ import GNAppBar from './GNAppBar';
 import { useState, useEffect } from 'react';
 import { COLORS } from '../Models/Globals';
 
-export default function GNCamera({ onSave, onCancel, displayOpenGallery = false, onOpen }) {
+export default function GNCamera({ onSave, onCancel }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(CameraType.back);
@@ -76,19 +76,6 @@ export default function GNCamera({ onSave, onCancel, displayOpenGallery = false,
                 <View style={styles.photoButtonContainer}>
                     <View style={styles.centerPhotoButton}>
                         <View style={styles.rowContainer}>
-                            {displayOpenGallery ? (
-                                <GNIconButton
-                                    onPress={onOpen}
-                                    iconName={"images-outline"}
-                                    width={'15%'}
-                                    height={50}
-                                    size={30}
-                                    backgroundColor={COLORS.background}
-                                    color={COLORS.firtText}
-                                />
-                            ) : (
-                                <></>
-                            )}
                             <GNIconButton onPress={takePicture} iconName={"camera-outline"} />
                             <GNIconButton
                                 onPress={toggleCameraType}

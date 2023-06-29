@@ -5,7 +5,7 @@ import { COLORS } from "../Models/Globals";
 
 export default function GNTextInput({ placeholder, iconName, iconNameFocused, secureTextEntry,
   onChangeText, animation = false, width = '75%', height = 50, marginBottom = 24, defaultValue = "",
-  autoFocus = false, onFocus = () => { }, onBlur = () => { }, colorInput }) {
+  autoFocus = false, onFocus = () => { }, onBlur = () => { }, colorInput, backgroundColor }) {
 
   const styles = StyleSheet.create({
     container: {
@@ -14,7 +14,7 @@ export default function GNTextInput({ placeholder, iconName, iconNameFocused, se
       width: width,
       height: height,
       borderRadius: 15,
-      backgroundColor: COLORS.fourthText,
+      backgroundColor: backgroundColor ? backgroundColor : COLORS.fourthText,
       paddingHorizontal: 16,
       marginBottom: marginBottom,
       // borderColor: COLORS.elements,
