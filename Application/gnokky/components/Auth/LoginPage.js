@@ -8,6 +8,7 @@ import { handleLogin } from './AuthUtils';
 import { StyleSheet } from 'react-native';
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FirebaseUtils from '../Models/FirebaseUtils';
 
 
 
@@ -24,7 +25,8 @@ export default function LoginPage({ navigation }) {
                 if (value !== null) {
                     console.log("ORCABOIA");
                     appUser.setId(value);
-                    await appUser.getValueAndUpdate();
+                    // await appUser.getValueAndUpdate();
+                    await FirebaseUtils.updateAppUser();
                     navigation.navigate(ROUTES.HOME)
                 }
             } catch (e) {

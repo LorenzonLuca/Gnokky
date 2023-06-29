@@ -1,5 +1,5 @@
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove } from "firebase/firestore";
-import { db } from "./Firebase"
+import app, { db } from "./Firebase"
 import { storage } from './Firebase';
 import { appUser } from "./Globals";
 import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storage';
@@ -331,5 +331,22 @@ export default class FirebaseUtils {
             console.log("Error while trying to get id from username", error);
         }
 
+    }
+
+    static async updateAppUser() {
+        try {
+            const newUser = await this.getUser(appUser.id);
+
+            appUser.setUsername(newUser.username);
+            appUser.setName(newUser.name);
+            appUser.setSurname(newUser.surname);
+            appUser.setBio(newUser.bio);
+            appUser.setFollowers(newUser.followers);
+            appUser.setFollowing(newUser.following);
+            appUser.setPosts(newUser.posts);
+            appUser.setProfilePic(newUser.profilePic);
+        } catch (error) {
+            console.log("Error while trying to update value of appUser: ", error);
+        }
     }
 }
