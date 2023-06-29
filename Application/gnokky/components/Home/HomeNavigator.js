@@ -101,12 +101,12 @@ export default function HomeNavigator() {
                                 <Image source={logo} style={styles.image} />
                             </View>
                         ),
-                        headerRight: () => (
-                            <IconButton
-                                icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
-                                onPress={hanldeSignOut}
-                            />
-                        ),
+                        // headerRight: () => (
+                        //     <IconButton
+                        //         icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
+                        //         onPress={hanldeSignOut}
+                        //     />
+                        // ),
                     }}
                 />
             </Stack.Navigator>

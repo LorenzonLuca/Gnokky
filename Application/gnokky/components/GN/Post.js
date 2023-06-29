@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity,TouchableWithoutFeedback, Modal } from 'react-native';
 import GNProfileImage from './GNProfileImage';
 import { ROUTES, appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
@@ -16,7 +16,6 @@ import GNBottomSheetModal from './GNBottomSheetModal';
 import Repost from '../Repost/Repost';
 
 import 'react-native-gesture-handler';
-import { TouchableWithoutFeedback } from 'react-native';
 import AdminUtils from '../Models/AdminUtils';
 import { useNavigation } from '@react-navigation/native';
 import FirebaseUtils from '../Models/FirebaseUtils';
@@ -186,11 +185,11 @@ export default function Post({ post, refreshAfterDelete }) {
     return (
         <View style={styles.container}>
             <View style={styles.body}>
-                <View style={[styles.border, { padding: 10 }]}>
-                    <TouchableOpacity onPress={() => handleOpenProfile()}>
-                        <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
-                    </TouchableOpacity>
-                </View>
+                <TouchableWithoutFeedback onPress={handleOpenProfile}>
+                    <View style={[styles.border, { padding: 10 }]}>
+                            <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={50} />
+                    </View>
+                </TouchableWithoutFeedback>
                 <View style={[styles.border, { flex: 1, padding: 10 }]}>
                     <View style={styles.infoContainer}>
                         <View style={styles.nameAndTime}>

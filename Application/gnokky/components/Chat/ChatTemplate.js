@@ -5,6 +5,11 @@ import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import GNProfileImage from "../GN/GNProfileImage";
 import ChatUtils from "../Models/ChatUtils";
 import Message from "./Message";
+import FirebaseUtils from "../Models/FirebaseUtils";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
+
 
 export default function ChatTemplate({ navigation, route }) {
     const { user } = route.params;
@@ -18,14 +23,26 @@ export default function ChatTemplate({ navigation, route }) {
 
     const isTextInputValid = message.trim().length === 0;
 
+    const handleOpenProfile = async () => {
+        FirebaseUtils.getUserByUsername(user.username)
+            .then((user) => {
+                navigation.navigate("ProfileSearch", { user: user[0] });
+            })
+            .catch((error) => {
+                console.log("Error while getting username ", error)
+            })
+    }
+
     const renderTitle = () => {
         return (
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ padding: 10 }}>
-                    <GNProfileImage selectedImage={user.profilePic} size={35} />
+            <TouchableWithoutFeedback style={{ flex: 1}} onPress={handleOpenProfile}>
+                <View style={{flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ padding: 10 }}>
+                            <GNProfileImage selectedImage={user.profilePic} size={35} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold' }}>{user.username}</Text>
                 </View>
-                <Text style={{ fontWeight: 'bold' }}>{user.username}</Text>
-            </View>
+            </TouchableWithoutFeedback>
         )
     }
 
