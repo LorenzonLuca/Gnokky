@@ -176,8 +176,6 @@ export default function HomeFeed({ id }) {
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }
-                    on
-                    onScrollEndDrag={() => { }}
                 >
                     <View style={styles.body}>
                         <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />

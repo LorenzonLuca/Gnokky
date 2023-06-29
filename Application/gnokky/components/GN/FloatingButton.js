@@ -4,11 +4,13 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import NewPostPage from '../Post/NewPostPage';
 import { COLORS, ROUTES } from '../Models/Globals';
+import NewStoryPage from '../Stories/NewStoryPage';
 
 
 export default function FloatingButton() {
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalStory, setModalStory] = useState(false);
 
     const animation = new Animated.Value(0);
     let open = false;
@@ -97,13 +99,16 @@ export default function FloatingButton() {
             <Modal visible={modalVisible} animationType="slide">
                 <NewPostPage onClose={() => setModalVisible(false)} />
             </Modal>
+            <Modal visible={modalStory} animationType="slide">
+                <NewStoryPage onClose={() => setModalStory(false)} />
+            </Modal>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, mediaStyle]}>
                     <Entypo name="image" size={20} color={COLORS.elements} />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTES.STORY)}>
+            <TouchableWithoutFeedback onPress={() => setModalStory(true)}>
                 <Animated.View style={[styles.button, styles.secondary, styles.secondaryButton, textStyle]}>
                     <Entypo name="clock" size={20} color={COLORS.elements} />
                 </Animated.View>

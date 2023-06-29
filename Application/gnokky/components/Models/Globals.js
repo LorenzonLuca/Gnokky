@@ -20,4 +20,6 @@ export const ROUTES = {
     FLOATING_NAVITAGOR: 'FloatingNavigator',
     POST: "Post",
     STORY: "Story",
+
+    NEW_STORY: "NewStory",
 };

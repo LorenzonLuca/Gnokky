@@ -79,7 +79,6 @@ import { IconButton } from "@react-native-material/core";
 import HomePage from '../Home/HomePage';
 import ProfilePage from '../Profile/ProfilePage';
 import { COLORS, ROUTES, appUser } from '../Models/Globals';
-import CreateStoriesNavigator from '../Stories/CreateStoriesNavigator';
 import SearchNavigator from '../Search/SearchNavigator';
 import { signOut } from 'firebase/auth';
 
@@ -187,7 +186,7 @@ export default function BottomTabNavigator() {
                 <Tab.Screen
                     name={ROUTES.HOME}
                     component={HomePage}
-                    options={{ 
+                    options={{
                         headerShown: true,
                         tabBarStyle: {
                             display: isTabBarVisible ? 'flex' : 'none',
@@ -197,7 +196,7 @@ export default function BottomTabNavigator() {
                 <Tab.Screen
                     name={ROUTES.SEARCH}
                     component={SearchNavigator}
-                    options={{ 
+                    options={{
                         headerShown: false,
                     }}
                 />
@@ -214,7 +213,7 @@ export default function BottomTabNavigator() {
                 <Tab.Screen
                     name={ROUTES.CHAT}
                     component={ChatNavigator}
-                    options={{ 
+                    options={{
                         headerShown: false,
                     }}
                 />
