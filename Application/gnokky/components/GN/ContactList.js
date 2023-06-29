@@ -75,7 +75,7 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
 
             console.log("AAAAAAAAAAAAAAAAAAA", user);
 
-            navigation.navigate(ROUTES.PROFILE, { user: user })
+            navigation.navigate("ProfileSearch", { user: user[0] })
         }
     }
 
