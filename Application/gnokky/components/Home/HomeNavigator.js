@@ -2,7 +2,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ProfilePage from '../Profile/ProfilePage';
-import { COLORS, ROUTES } from '../Models/Globals';
+import { COLORS, ROUTES, IMAGES } from '../Models/Globals';
 import { IconButton } from 'react-native-paper';
 import { View, StyleSheet, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -31,7 +31,7 @@ export default function HomeNavigator() {
             .catch((error) => Alert(error));
     }
 
-    const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
+    const logo = IMAGES.LOGO;
 
     const styles = StyleSheet.create({
         imageContainer: {
@@ -51,7 +51,7 @@ export default function HomeNavigator() {
     return (
         <NavigationContainer independent={true} >
             <Stack.Navigator>
-                <Stack.Screen 
+                <Stack.Screen
                     name={ROUTES.HOME}
                     component={HomePage}
                     options={{
@@ -81,11 +81,11 @@ export default function HomeNavigator() {
                                 onPress={hanldeSignOut}
                             />
                         ),
-                    }} 
+                    }}
                 />
-                <Stack.Screen 
+                <Stack.Screen
                     name={"ProfileSearch"}
-                    component={ProfilePage} 
+                    component={ProfilePage}
                     options={{
                         tabBarHideOnKeyboard: true,
                         headerShown: true,

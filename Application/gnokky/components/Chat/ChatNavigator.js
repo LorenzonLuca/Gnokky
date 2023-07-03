@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { COLORS } from '../Models/Globals';
+import { COLORS, IMAGES } from '../Models/Globals';
 import { View, StyleSheet, Image } from 'react-native';
 import ChatPage from './ChatPage';
 import ChatTemplate from './ChatTemplate';
@@ -10,7 +10,7 @@ import ProfilePage from '../Profile/ProfilePage';
 const Stack = createStackNavigator();
 
 export default function ChatNavigator() {
-    const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
+    const logo = IMAGES.LOGO;
 
     const styles = StyleSheet.create({
         imageContainer: {

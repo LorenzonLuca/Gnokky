@@ -1,7 +1,7 @@
 import { AppBar, HStack, IconButton } from "@react-native-material/core";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, Image, Text } from "react-native";
-import { COLORS } from "../Models/Globals";
+import { COLORS, IMAGES } from "../Models/Globals";
 
 
 export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { },
@@ -36,7 +36,7 @@ export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles
             resizeMode: 'cover',
         }
     });
-    const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
+    const logo = IMAGES.LOGO;
 
     const title = (
         <View style={styles.imageContainer}>

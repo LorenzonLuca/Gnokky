@@ -5,7 +5,7 @@ import GNProfileImage from '../GN/GNProfileImage';
 import { useState, useRef } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
-import { appUser, COLORS } from '../Models/Globals';
+import { appUser, COLORS, IMAGES } from '../Models/Globals';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
@@ -15,7 +15,7 @@ import { ROUTES } from '../Models/Globals';
 export default function ProfileManagement({ navigation, route, title, onSave }) {
     // const { title } = route.params;
     const size = 90;
-    const placeholder = require('./../../assets/blank_profile.png');
+    const placeholder = IMAGES.EMPTY_PROFILE;
     const [status, requestPermission] = MediaLibrary.usePermissions();
     const [selectedImage, setSelectedImage] = useState(null);
     const [name, setName] = useState(null);

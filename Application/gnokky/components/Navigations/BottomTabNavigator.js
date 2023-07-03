@@ -78,7 +78,7 @@ import { IconButton } from "@react-native-material/core";
 
 import HomePage from '../Home/HomePage';
 import ProfilePage from '../Profile/ProfilePage';
-import { COLORS, ROUTES, appUser } from '../Models/Globals';
+import { COLORS, ROUTES, appUser, IMAGES } from '../Models/Globals';
 import SearchNavigator from '../Search/SearchNavigator';
 import { signOut } from 'firebase/auth';
 
@@ -111,7 +111,7 @@ export default function BottomTabNavigator() {
             .catch((error) => Alert(error));
     }
 
-    const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
+    const logo = IMAGES.LOGO;
 
     const styles = StyleSheet.create({
         imageContainer: {

@@ -4,12 +4,12 @@
     "slug": "gnokky",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo/logo_gnocchi_outline.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F2F3F4"
     },
     "assetBundlePatterns": [
       "**/*"

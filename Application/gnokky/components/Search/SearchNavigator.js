@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchPage from './SearchPage';
 import ProfilePage from '../Profile/ProfilePage';
-import { COLORS } from '../Models/Globals';
+import { COLORS, IMAGES } from '../Models/Globals';
 import { IconButton } from 'react-native-paper';
 import { View, StyleSheet, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 
 export default function SearchNavigator() {
 
-    const logo = require('./../../assets/logo/logo_gnocchi_viola.png');
+    const logo = IMAGES.LOGO;
 
     const styles = StyleSheet.create({
         imageContainer: {
@@ -50,12 +50,12 @@ export default function SearchNavigator() {
                     ),
                 })}
             >
-                <Stack.Screen 
-                    name="Search" 
+                <Stack.Screen
+                    name="Search"
                     component={SearchPage}
                     options={{
                         headerLeft: null, // Rimuove il pulsante di navigazione "Indietro"
-                    }} 
+                    }}
                 />
                 <Stack.Screen name="ProfileSearch" component={ProfilePage} />
             </Stack.Navigator>
