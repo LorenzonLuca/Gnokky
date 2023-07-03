@@ -1,19 +1,16 @@
 import { SafeAreaView, ScrollView, View, StyleSheet, Text, TextInput } from "react-native";
 import GNButton from '../GN/GNButton';
-import { COLORS, appUser } from '../Models/Globals';
+import { COLORS } from '../Models/Globals';
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import GNProfileImage from "../GN/GNProfileImage";
 import ChatUtils from "../Models/ChatUtils";
 import Message from "./Message";
 import FirebaseUtils from "../Models/FirebaseUtils";
-import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native";
 import { TouchableWithoutFeedback } from "react-native";
 
 
 export default function ChatTemplate({ navigation, route }) {
     const { user } = route.params;
-    // console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOO", user);
 
     const scrollViewRef = useRef(null);
 
@@ -35,12 +32,12 @@ export default function ChatTemplate({ navigation, route }) {
 
     const renderTitle = () => {
         return (
-            <TouchableWithoutFeedback style={{ flex: 1}} onPress={handleOpenProfile}>
-                <View style={{flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{ padding: 10 }}>
-                            <GNProfileImage selectedImage={user.profilePic} size={35} />
-                        </View>
-                        <Text style={{ fontWeight: 'bold' }}>{user.username}</Text>
+            <TouchableWithoutFeedback style={{ flex: 1 }} onPress={handleOpenProfile}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ padding: 10 }}>
+                        <GNProfileImage selectedImage={user.profilePic} size={35} />
+                    </View>
+                    <Text style={{ fontWeight: 'bold' }}>{user.username}</Text>
                 </View>
             </TouchableWithoutFeedback>
         )

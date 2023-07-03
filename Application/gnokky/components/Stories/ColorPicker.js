@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, ScrollView } from 'react-native';
 
 export default function ColorPicker({ setColor }) {
     const COLORS_PICKER = [

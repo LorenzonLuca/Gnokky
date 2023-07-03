@@ -2,9 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { COLORS } from '../Models/Globals';
-import { IconButton } from 'react-native-paper';
 import { View, StyleSheet, Image } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import ChatPage from './ChatPage';
 import ChatTemplate from './ChatTemplate';
 import ProfilePage from '../Profile/ProfilePage';
@@ -55,35 +53,35 @@ export default function ChatNavigator() {
                         headerLeft: null, // Rimuove il pulsante di navigazione "Indietro"
                     }}
                 />
-                <Stack.Screen 
-                    name="TemplateChat" 
+                <Stack.Screen
+                    name="TemplateChat"
                     component={ChatTemplate}
                 />
-                <Stack.Screen 
+                <Stack.Screen
                     name={"ProfileSearch"}
-                    component={ProfilePage} 
-                    // options={{
-                    //     tabBarHideOnKeyboard: true,
-                    //     headerShown: true,
-                    //     headerTintColor: COLORS.firtText,
-                    //     headerTitleAlign: 'center',
-                    //     headerStyle: {
-                    //         backgroundColor: COLORS.background,
-                    //         borderBottomColor: COLORS.thirdText,
-                    //         borderBottomWidth: 1,
-                    //     },
-                    //     headerTitle: () => (
-                    //         <View style={styles.imageContainer}>
-                    //             <Image source={logo} style={styles.image} />
-                    //         </View>
-                    //     ),
-                    //     headerRight: () => (
-                    //         <IconButton
-                    //             icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
-                    //             onPress={hanldeSignOut}
-                    //         />
-                    //     ),
-                    // }}
+                    component={ProfilePage}
+                // options={{
+                //     tabBarHideOnKeyboard: true,
+                //     headerShown: true,
+                //     headerTintColor: COLORS.firtText,
+                //     headerTitleAlign: 'center',
+                //     headerStyle: {
+                //         backgroundColor: COLORS.background,
+                //         borderBottomColor: COLORS.thirdText,
+                //         borderBottomWidth: 1,
+                //     },
+                //     headerTitle: () => (
+                //         <View style={styles.imageContainer}>
+                //             <Image source={logo} style={styles.image} />
+                //         </View>
+                //     ),
+                //     headerRight: () => (
+                //         <IconButton
+                //             icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
+                //             onPress={hanldeSignOut}
+                //         />
+                //     ),
+                // }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

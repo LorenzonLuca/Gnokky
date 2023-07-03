@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ROUTES } from '../Models/Globals';
 
 export const handleLogin = async (email, password, navigation, setError) => {
-    //DIOCANE
 
     email = email.trim();
     password = password.trim();
@@ -21,7 +20,7 @@ export const handleLogin = async (email, password, navigation, setError) => {
 
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            if(email == "admin@sium.com"){
+            if (email == "admin@sium.com") {
                 navigation.navigate(ROUTES.ADMIN);
             } else {
                 appUser.setEmail(email);

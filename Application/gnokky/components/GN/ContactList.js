@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import {
-    View, Text, StyleSheet, Image, TouchableWithoutFeedback,
-    ImageBackground, TouchableOpacity, Modal, Dimensions, ScrollView,
-    KeyboardAvoidingView, TextInput
+    View, Text, StyleSheet, TouchableWithoutFeedback,
 } from 'react-native';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import Divider from './Divider';
 import GNProfileImage from './GNProfileImage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { COLORS, ROUTES } from '../Models/Globals';
+import { COLORS } from '../Models/Globals';
 
 
 export default function ContactList({ usernames, size = 60, iconName = '', iconOnPress, iconColor = '#000',
@@ -81,7 +79,6 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
 
     const handleFilterIcon = (username) => {
         if (filterIcon) {
-            // console.log("DIOMORTO ", username, "risultato", filterIcon(username));
             return filterIcon(username)
         }
         return true;

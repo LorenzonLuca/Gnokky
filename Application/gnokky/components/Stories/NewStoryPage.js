@@ -3,7 +3,6 @@ import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appUser, COLORS } from '../Models/Globals';
 import { Image } from 'react-native-elements';
-import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useRef, useEffect } from 'react';
 import { GestureHandlerRootView } from "react-native-gesture-handler";

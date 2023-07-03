@@ -1,8 +1,7 @@
 import { View, StyleSheet, SafeAreaView, ScrollView, Text, TouchableWithoutFeedback } from 'react-native';
-import { COLORS, appUser } from '../Models/Globals';
+import { COLORS } from '../Models/Globals';
 import GNTextInput from '../GN/GNTextInput';
 import GNProfileImage from '../GN/GNProfileImage';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
 import ListResearchChat from './ListResearchChat';
 import FirebaseUtils from '../Models/FirebaseUtils';
@@ -88,7 +87,7 @@ export default function ChatPage({ navigation }) {
         navigation.navigate("TemplateChat", { user: user });
     }
 
-    
+
 
     const styles = StyleSheet.create({
         container: {

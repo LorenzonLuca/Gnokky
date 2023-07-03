@@ -292,7 +292,6 @@ export default class FirebaseUtils {
 
     static async removeFollower(username) {
         try {
-            // console.log("jcdsohvdshpviusdpvkjnéb");
             const docRef = doc(db, "users", appUser.id);
             await updateDoc(docRef, {
                 followers: arrayRemove(username)

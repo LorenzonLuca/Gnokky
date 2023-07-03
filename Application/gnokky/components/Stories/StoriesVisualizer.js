@@ -1,19 +1,16 @@
 import {
     View, Text, StyleSheet, Image, TouchableWithoutFeedback,
-    ImageBackground, TouchableOpacity, Modal, Dimensions, ScrollView,
-    KeyboardAvoidingView, TextInput
+    ImageBackground, TouchableOpacity, ScrollView, TextInput
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState, useRef, useEffect } from 'react';
 import StoriesUtils from '../Models/StoriesUtils';
 import GNProfileImage from '../GN/GNProfileImage';
-import GNTextInput from '../GN/GNTextInput';
 import GNButton from '../GN/GNButton'
 import Divider from '../GN/Divider';
 import GNBottomSheetModal from '../GN/GNBottomSheetModal';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import FirebaseUtils from '../Models/FirebaseUtils';
 import ChatUtils from '../Models/ChatUtils';
 import ContactList from '../GN/ContactList';
 
@@ -207,7 +204,6 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
             await ChatUtils.sendStory(chat, stories[userIndex][storyIndex], answer);
             setAnswer("");
-            // console.log("PORCODDIDIO");
         }
     }
 

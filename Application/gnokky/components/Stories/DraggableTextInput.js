@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Keyboard, KeyboardAvoidingView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Keyboard } from 'react-native';
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { Modal } from 'react-native-paper';
-import GNTextInput from '../GN/GNTextInput';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
-    useAnimatedGestureHandler,
-    runOnJS
+    useAnimatedGestureHandler
 } from 'react-native-reanimated';
 import { COLORS } from '../Models/Globals';
 import ColorPicker from './ColorPicker';
-import GNTextInputMultiLine from './GNTextInputMultiLine';
+import GNTextInputMultiLine from '../GN//GNTextInputMultiLine';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 

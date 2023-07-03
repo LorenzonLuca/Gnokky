@@ -1,6 +1,6 @@
 import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Text, ScrollView } from 'react-native';
 import GNProfileImage from '../GN/GNProfileImage';
-import { appUser, COLORS, dataStoreEmitter } from '../Models/Globals';
+import { appUser, COLORS } from '../Models/Globals';
 import GNText from '../GN//GNText';
 import GNButton from '../GN//GNButton';
 import GNTextInput from '../GN/GNTextInput';
@@ -10,7 +10,6 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import ProfileManagement from './ProfileManagement';
 import StoriesUtils from '../Models/StoriesUtils';
 import StoriesVisualizer from '../Stories/StoriesVisualizer';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import ContactList from '../GN/ContactList';
 
 

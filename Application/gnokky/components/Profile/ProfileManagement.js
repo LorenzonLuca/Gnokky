@@ -6,8 +6,6 @@ import { useState, useRef } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
 import { appUser, COLORS } from '../Models/Globals';
-import { storage } from '../Models/Firebase';
-import { ref, uploadBytes } from 'firebase/storage';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';

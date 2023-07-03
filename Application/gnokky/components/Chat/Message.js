@@ -3,8 +3,6 @@ import { View, StyleSheet, Text, Image, Modal, TouchableOpacity } from 'react-na
 import { useEffect } from "react";
 import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
-import Ionicons from '@expo/vector-icons/Ionicons';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import StoriesVisualizer from "../Stories/StoriesVisualizer";
 
 
