@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { ScrollView, ActivityIndicator, View, StyleSheet, Text, Image, TouchableWithoutFeedback, Modal } from "react-native";
-import StoriesVisualizer from "../GN/StoriesVisualizer";
-import FirebaseUtils from "../Models/FirebaseUtils";
+import {
+    ScrollView, ActivityIndicator, View, StyleSheet, Text, Image, TouchableWithoutFeedback,
+    Modal, ImageBackground, TouchableOpacity
+} from "react-native";
+import StoriesVisualizer from "../Stories/StoriesVisualizer";
 import { appUser, COLORS } from "../Models/Globals";
 import StoriesUtils from "../Models/StoriesUtils";
 import HomeFeedUtils from "./HomeFeedUtils";
-
+import Ionicons from '@expo/vector-icons/Ionicons';
+import NewStoryPage from '../Stories/NewStoryPage';
 
 export default function HomeStories({ fetchedStories, refreshStories, refreshMyStory }) {
     const [stories, setStories] = useState(fetchedStories);
@@ -14,11 +17,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
     const [myStories, setMyStories] = useState([]);
     const [openMyStories, setOpenMyStories] = useState(false);
     const [refresh, setRefresh] = useState(false);
-
-    const getAllProfilePic = async (myStories) => {
-        const result = await StoriesUtils.getAllProfilePic(myStories);
-        setMyStories(result);
-    };
+    const [modalStory, setModalStory] = useState(false);
 
     useEffect(() => {
         if (appUser.id) {
@@ -74,10 +73,26 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         },
         media: {
             aspectRatio: 1,
+        },
+        createStoryIcon: {
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+            borderWidth: 2,
+            borderColor: COLORS.firtText
+        },
+        createMedia: {
+            aspectRatio: 1,
+            flexGrow: 1,
+            height: null,
+            width: null,
+            alignItems: 'center',
+            justifyContent: 'center',
         }
     });
 
     if (stories === null) {
+
         return (
             <ScrollView horizontal>
                 <ActivityIndicator size="large" color={COLORS.elements} />
@@ -85,7 +100,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         );
     }
 
-    if (stories && stories.length > 0) {
+    if ((stories && stories.length > 0) || (myStories && myStories.length > 0)) {
         const handleOpenStory = (user) => {
             console.log("MAREMMA HANE ", user[0].owner)
             setUserStories(stories.indexOf(user));
@@ -140,6 +155,28 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
             </View >
         ))
 
+        const createStory = (
+            <View key={appUser.username} style={styles.storyContainer} >
+                {console.log("GENERATING Your STORY ICONS")}
+                <View style={styles.createStoryIcon}>
+                    <TouchableOpacity onPress={() => setModalStory(true)}>
+                        <>
+                            <ImageBackground source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.createMedia}>
+                                <Ionicons
+                                    name="add-outline"
+                                    size={40}
+                                    style={{
+                                        textAlign: 'center',
+                                    }}
+                                />
+                            </ImageBackground>
+                        </>
+                    </TouchableOpacity>
+                </View>
+                <Text>Your story</Text>
+            </View >
+        )
+
         const handleCloseStoriesModal = () => {
             setOpenStory(false);
             setOpenMyStories(false);
@@ -153,9 +190,16 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         return (
             <ScrollView horizontal>
                 <View style={styles.container}>
-                    {(myStories && myStories.length > 0) &&
+                    {(myStories && myStories.length > 0) ? (
                         [myStory]
-                    }
+                    ) : (
+                        <>
+                            {createStory}
+                            <Modal visible={modalStory} animationType="slide">
+                                <NewStoryPage onClose={() => setModalStory(false)} />
+                            </Modal>
+                        </>
+                    )}
                     {storiesElements}
                     <Modal visible={openStory} animationType='slide'>
                         <StoriesVisualizer stories={stories} closeStories={handleCloseStoriesModal} startIndex={userStories} />
@@ -168,6 +212,40 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                             viewAction={true}
                             refreshAllStories={handleSetRefresh}
                         />
+                    </Modal>
+                </View>
+            </ScrollView>
+        );
+    } else {
+
+        const myStory = (
+            <View key={appUser.username} style={styles.storyContainer} >
+                {console.log("GENERATING Your STORY ICONS")}
+                <View style={styles.createStoryIcon}>
+                    <TouchableOpacity onPress={() => setModalStory(true)}>
+                        <>
+                            <ImageBackground source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.createMedia}>
+                                <Ionicons
+                                    name="add-outline"
+                                    size={40}
+                                    style={{
+                                        textAlign: 'center',
+                                    }}
+                                />
+                            </ImageBackground>
+                        </>
+                    </TouchableOpacity>
+                </View>
+                <Text>Your story</Text>
+            </View >
+        )
+
+        return (
+            <ScrollView horizontal>
+                <View style={styles.container}>
+                    {myStory}
+                    <Modal visible={modalStory} animationType="slide">
+                        <NewStoryPage onClose={() => setModalStory(false)} />
                     </Modal>
                 </View>
             </ScrollView>

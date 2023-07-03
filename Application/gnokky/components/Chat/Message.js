@@ -5,7 +5,7 @@ import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import StoriesVisualizer from "../GN/StoriesVisualizer";
+import StoriesVisualizer from "../Stories/StoriesVisualizer";
 
 
 export default function Message({ message }) {

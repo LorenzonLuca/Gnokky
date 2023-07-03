@@ -92,7 +92,7 @@ export default function SearchPage({ navigation }) {
             await AsyncStorage.setItem('history1', username);
 
         } catch (e) {
-            console.log("Error while updating async storage ", error);
+            console.log("Error while updating async storage ", e);
         }
     }
 

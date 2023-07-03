@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ProfileManagement from './ProfileManagement';
 import StoriesUtils from '../Models/StoriesUtils';
-import StoriesVisualizer from '../GN/StoriesVisualizer';
+import StoriesVisualizer from '../Stories/StoriesVisualizer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ContactList from '../GN/ContactList';
 
@@ -30,12 +30,16 @@ export default function ProfileData({ user, property }) {
         setUserData(user);
         StoriesUtils.getStoriesByUsername(user.username)
             .then(async (myStories) => {
-                if (property) {
-                    console.log("PROPERTYYYYYYYYYYYYY,", myStories);
-                    const result = await StoriesUtils.getAllProfilePic(myStories);
-                    setStories(result);
+                if (myStories && myStories.length > 0) {
+                    if (property) {
+                        console.log("PROPERTYYYYYYYYYYYYY,", myStories);
+                        const result = await StoriesUtils.getAllProfilePic(myStories);
+                        setStories(result);
+                    } else {
+                        setStories(myStories);
+                    }
                 } else {
-                    setStories(myStories);
+                    setStories([]);
                 }
             })
     }, [user])
@@ -55,12 +59,16 @@ export default function ProfileData({ user, property }) {
         if (userData.id) {
             StoriesUtils.getStoriesByUsername(userData.username)
                 .then(async (myStories) => {
-                    if (property) {
-                        console.log("PROPERTYYYYYYYYYYYYY,", myStories);
-                        const result = await StoriesUtils.getAllProfilePic(myStories);
-                        setStories(result);
+                    if (myStories && myStories.length > 0) {
+                        if (property) {
+                            console.log("PROPERTYYYYYYYYYYYYY,", myStories);
+                            const result = await StoriesUtils.getAllProfilePic(myStories);
+                            setStories(result);
+                        } else {
+                            setStories(myStories);
+                        }
                     } else {
-                        setStories(myStories);
+                        setStories([]);
                     }
                 })
         }

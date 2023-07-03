@@ -7,7 +7,7 @@ import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useRef, useEffect } from 'react';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import DraggableTextInput from '../GN/DraggableTextInput';
+import DraggableTextInput from './DraggableTextInput';
 import { useKeyboard } from '@react-native-community/hooks'
 import StoriesUtils from '../Models/StoriesUtils';
 import FirebaseUtils from '../Models/FirebaseUtils';
@@ -28,7 +28,7 @@ export default function NewStoryPage({ onClose }) {
     const [changePhoto, setChangePhoto] = useState(false);
     const [changeFont, setChangeFont] = useState(false);
     const [sliderValue, setSliderValue] = useState(15);
-    const [fontSize, updateFontSize] = useState(null);
+    const [newSize, setNewSize] = useState(sliderValue);
 
     const [closeDraggable, setCloseDraggable] = useState(null);
     const [indexClosedDraggable, setIndexClosedDraggable] = useState(null);
@@ -87,9 +87,9 @@ export default function NewStoryPage({ onClose }) {
 
     }
 
-    const handleChangeFont = (fontsize) => {
-        setSliderValue(fontsize);
-        fontSize(fontsize);
+    const handleChangeFont = (fontSize) => {
+        setSliderValue(fontSize);
+        setNewSize(fontSize);
     }
 
     const handleAddText = () => {
@@ -107,9 +107,11 @@ export default function NewStoryPage({ onClose }) {
                     setIndexClosedDraggable(index);
                     console.log("Index textInput: ", index);
                 }}
-                updateFontSize={(func) => {
-                    updateFontSize(func);
+                setSliderValue={(size) => {
+                    setSliderValue(size);
+                    console.log("font setted to ", size);
                 }}
+                newFontSize={newSize}
             />
         );
         setCounter(counter + 1);

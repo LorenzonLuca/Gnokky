@@ -7,15 +7,15 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState, useRef, useEffect } from 'react';
 import StoriesUtils from '../Models/StoriesUtils';
-import GNProfileImage from './GNProfileImage';
+import GNProfileImage from '../GN/GNProfileImage';
 import GNTextInput from '../GN/GNTextInput';
 import GNButton from '../GN/GNButton'
-import Divider from './Divider';
-import GNBottomSheetModal from './GNBottomSheetModal';
+import Divider from '../GN/Divider';
+import GNBottomSheetModal from '../GN/GNBottomSheetModal';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ChatUtils from '../Models/ChatUtils';
-import ContactList from './ContactList';
+import ContactList from '../GN/ContactList';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
     const [storyIndex, setStoryIndex] = useState(0);

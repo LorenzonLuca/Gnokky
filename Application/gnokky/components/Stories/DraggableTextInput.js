@@ -16,7 +16,7 @@ import GNTextInputMultiLine from './GNTextInputMultiLine';
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 export default function DraggableTextInput({ setBottomBar, setColorPicker, innerKey, closeDraggable,
-    setIndexDraggable, updateFontSize }) {
+    setIndexDraggable, setSliderValue, newFontSize }) {
 
     const colorPicker = (<ColorPicker setColor={(color) => onColorChange(color)} key={innerKey} />);
     const [text, setText] = useState("Enter text");
@@ -37,6 +37,11 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
             keyboardDidShowListener.remove();
         };
     }, []);
+
+    useEffect(() => {
+        console.log("font changed");
+        setFontSize(newFontSize);
+    }, [newFontSize]);
 
     const closeInterface = () => {
         console.log("Uela badola");
@@ -87,7 +92,7 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
         setColorPicker(colorPicker)
         closeDraggable(() => closeInterface);
         setIndexDraggable(innerKey);
-        updateFontSize((fontsize) => setFontSize(fontsize));
+        setSliderValue(fontSize);
     }
 
     const onColorChange = (color) => {
