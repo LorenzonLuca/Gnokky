@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -21,6 +21,9 @@ import HomeFeedUtils from './HomeFeedUtils';
 import HomeStories from './HomeStories';
 import Divider from '../GN/Divider';
 import FirebaseUtils from '../Models/FirebaseUtils';
+import FloatingButton from '../GN/FloatingButton';
+import { FlatList, Animated } from 'react-native';
+import { TouchableWithoutFeedback,Keyboard  } from 'react-native';
 
 export default function HomeFeed({ id }) {
 
@@ -139,7 +142,31 @@ export default function HomeFeed({ id }) {
             alignItems: 'center',
             marginVertical: 30,
         },
+        firstLayer: {
+            position: 'absolute',
+            bottom: 20,
+            right: 20,
+            zIndex: 999,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+        },
     });
+
+    // Floating button disappear
+    const scrollY = new Animated.Value(0);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 80);
+    const translateY = diffClamp.interpolate({
+      inputRange: [0, 80],
+      outputRange: [0, 80],
+    });
+    //END Floating button disappear
+
+
+    const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+
+
+    const toggleOverlay = () => {
+        setIsOverlayVisible(!isOverlayVisible);
+    };
 
     // Restituisci un messaggio di caricamento durante il caricamento dei dati
     if (loading) {
@@ -168,22 +195,52 @@ export default function HomeFeed({ id }) {
             </View>
         ));
 
+        // const renderPostItem = ({ item }) => {
+        //     return (
+        //         <View key={item.id}>
+        //             <Post
+        //                 post={item}
+        //                 key={item.id}
+        //             />
+        //         </View>
+        //     );
+        // }
+
 
         return (
             <>
-                <ScrollView
+                <Animated.ScrollView
                     contentContainerStyle={styles.contentContainer}
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }
+                    onScroll={(e) => {
+                        scrollY.setValue(e.nativeEvent.contentOffset.y);
+                    }}
                 >
-                    <View style={styles.body}>
+                    <Animated.View style={styles.body}>
                         <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
                         <Divider color={COLORS.thirdText} />
                         <Text></Text>
                         <>{generateComponents}</>
-                    </View>
-                </ScrollView>
+                        {/* <Animated.FlatList
+                            data={posts}
+                            keyExtractor={(item) => item.id}
+                            renderItem={renderPostItem}
+                            onScroll={(e) => {
+                                scrollY.setValue(e.nativeEvent.contentOffset.y)
+                            }}
+                        /> */}
+                    </Animated.View>
+                </Animated.ScrollView>
+                <Animated.View style={[
+                    styles.firstLayer,{
+                    transform: [
+                        {translateY: translateY}
+                    ],
+                }]}>
+                    <FloatingButton />
+                </Animated.View>   
             </>
         );
     }

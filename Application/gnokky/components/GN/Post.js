@@ -218,9 +218,9 @@ export default function Post({ post, refreshAfterDelete }) {
                     </TouchableOpacity>
                     {/* REPOST SECTION */}
                     {post.repost !== "" ? (
-                        <Surface style={{borderRadius: 16}}>
+                        // <Surface style={{borderRadius: 16}}>
                             <Repost repost={repost} postHasMedia={post.downloadUrl} />
-                        </Surface>
+                        // </Surface>
                     ) : (
                         <></>
                     )}

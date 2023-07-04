@@ -36,9 +36,9 @@ export default function HomePage({ navigation }) {
         <SafeAreaView style={styles.container}>
             <HomeFeed
                 id={appUser.id} />
-            <View style={styles.firstLayer}>
+            {/* <View style={styles.firstLayer}>
                 <FloatingButton />
-            </View>
+            </View> */}
 
         </SafeAreaView>
     );
