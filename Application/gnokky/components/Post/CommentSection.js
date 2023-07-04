@@ -7,9 +7,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import PostUtils from '../Models/PostUtils';
 import Comment from './Comment';
 import GNButton from '../GN/GNButton'
+import { useTranslation } from 'react-i18next';
 
 export default function CommentSection({ postId, modalRef, height = '25%', children, title = 'Options' }) {
-
+  const { t } = useTranslation();
   const snapPoints = [height];
 
   const [sent, setSent] = useState(true);
@@ -85,7 +86,7 @@ export default function CommentSection({ postId, modalRef, height = '25%', child
     },
   });
 
-  let renderComments = <Text>No one commented yet, be the firt one!</Text>;
+  let renderComments = <Text>{t('noone-commented')}</Text>;
 
   if (comments && comments.length > 0) {
     renderComments = comments.map((com) => (
@@ -118,11 +119,11 @@ export default function CommentSection({ postId, modalRef, height = '25%', child
         <View style={styles.commentInputContainer}>
           <TextInput
             style={styles.commentInput}
-            placeholder="Add a comment..."
+            placeholder={t('add-comment')}
             value={comment}
             onChangeText={handleChangeText}
           />
-          <GNButton title={'SEND'} backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements} isDisabled={isTextInputValid} width={'20%'} height={'100%'} onPress={handleAddComment} />
+          <GNButton title={t('send')} backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements} isDisabled={isTextInputValid} width={'20%'} height={'100%'} onPress={handleAddComment} />
         </View>
       </View>
     </BottomSheetModal>

@@ -38,4 +38,7 @@ export const ROUTES = {
     STORY: "Story",
 
     NEW_STORY: "NewStory",
+
+    PROFILE_NAVIGATOR: "ProfileNavigator",
+    SETTINGS: 'Settings',
 };

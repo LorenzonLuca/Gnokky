@@ -9,8 +9,10 @@ import StoriesUtils from "../Models/StoriesUtils";
 import HomeFeedUtils from "./HomeFeedUtils";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NewStoryPage from '../Stories/NewStoryPage';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeStories({ fetchedStories, refreshStories, refreshMyStory }) {
+    const { t } = useTranslation();
     const [stories, setStories] = useState(fetchedStories);
     const [openStory, setOpenStory] = useState(false);
     const [userStories, setUserStories] = useState(0);
@@ -138,7 +140,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                         <Image source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.media} />
                     </TouchableWithoutFeedback>
                 </View>
-                <Text>Your story</Text>
+                <Text>{t('your-story')}</Text>
             </View >
         )
 
@@ -173,7 +175,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                         </>
                     </TouchableOpacity>
                 </View>
-                <Text>Your story</Text>
+                <Text>{t('your-story')}</Text>
             </View >
         )
 
@@ -236,7 +238,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                         </>
                     </TouchableOpacity>
                 </View>
-                <Text>Your story</Text>
+                <Text>{t('your-story')}</Text>
             </View >
         )
 

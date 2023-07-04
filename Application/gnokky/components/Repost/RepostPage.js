@@ -15,9 +15,10 @@ import { Video } from 'expo-av';
 import GNCamera from '../GN/GNCamera';
 import Repost from './Repost';
 import GNEmptyText from '../GN/GNEmptyText';
+import { useTranslation } from 'react-i18next';
 
 export default function RepostPage({ navigation, onClose, post }) {
-
+    const { t } = useTranslation();
     const [modalVisible, setModalVisible] = useState(false);
 
     const [caption, setCaption] = useState("");
@@ -202,7 +203,7 @@ export default function RepostPage({ navigation, onClose, post }) {
             <View style={{ flex: 1, padding: 10}}>
                 <GNTextInputMultiLine
                     marginBottom={10}
-                    placeholder={"Caption..."}
+                    placeholder={t('caption')}
                     onChangeText={handleInputChangeCaption}
                 />
                 {mediaUri && mediaType === 'image' && (

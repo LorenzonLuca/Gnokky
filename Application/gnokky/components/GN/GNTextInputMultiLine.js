@@ -5,7 +5,7 @@ import { COLORS } from "../Models/Globals";
 
 
 export default function GNTextInputMultiLine({ placeholder, onChangeText, width = '75%', minHeight = 50, marginBottom = 24,
-    defaultValue = "", colorInput, backgroundColor, autoFocus }) {
+    defaultValue = "", colorInput, backgroundColor, autoFocus, fontSize = 16 }) {
 
     const styles = StyleSheet.create({
         container: {
@@ -17,14 +17,14 @@ export default function GNTextInputMultiLine({ placeholder, onChangeText, width 
             paddingHorizontal: 24,
             paddingTop: 14,
             paddingBottom: 10,
-            minHeight: minHeight,
-            // borderColor: COLORS.elements,
+            minHeight: minHeight > 50 ? minHeight : 50,
+            // borderColor: COLORS.firtText,
             // borderWidth: 1,
         },
         input: {
             flex: 1,
             alignItems: 'center',
-            fontSize: 16,
+            fontSize: fontSize,
             color: colorInput ? colorInput : COLORS.firtText,
             width: '100%',
             height: '100%',

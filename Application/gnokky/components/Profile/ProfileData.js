@@ -11,10 +11,12 @@ import ProfileManagement from './ProfileManagement';
 import StoriesUtils from '../Models/StoriesUtils';
 import StoriesVisualizer from '../Stories/StoriesVisualizer';
 import ContactList from '../GN/ContactList';
-
+import { useTranslation } from 'react-i18next';
 
 
 export default function ProfileData({ user, property }) {
+    const { t } = useTranslation();
+
     const [userData, setUserData] = useState(user);
     const [alreadyFollowing, setAlreadyFollowing] = useState(user.followers.includes(appUser.username));
     const [modalVisible, setModalVisible] = useState(false);
@@ -176,8 +178,8 @@ export default function ProfileData({ user, property }) {
                 </View>
                 <TouchableWithoutFeedback onPress={() => setFollowersModal(true)}>
                     <View style={[styles.container, styles.background]}>
-                        <GNText>{userData.followers.length}</GNText>
-                        <GNText>Followers</GNText>
+                        <GNText>{userData.posts.length}</GNText>
+                        <GNText numberOfLines={1}>{t('posts')}</GNText>
                     </View>
                 </TouchableWithoutFeedback>
                 <Modal visible={followersModal} animationType='slide'>
@@ -207,12 +209,12 @@ export default function ProfileData({ user, property }) {
                     </ScrollView>
                 </Modal>
                 <View style={[styles.container, styles.background]}>
-                    <GNText>{userData.following.length}</GNText>
-                    <GNText>Following</GNText>
+                    <GNText>{userData.followers.length}</GNText>
+                    <GNText>{t('followers')}</GNText>
                 </View>
                 <View style={[styles.container, styles.background]}>
-                    <GNText>{userData.posts.length}</GNText>
-                    <GNText>Posts</GNText>
+                    <GNText>{userData.following.length}</GNText>
+                    <GNText>{t('following')}</GNText>
                 </View>
             </View>
             <View style={styles.rowContainer}>
@@ -223,18 +225,18 @@ export default function ProfileData({ user, property }) {
             </View>
             {property ? (
                 <>
-                    <GNButton title={"Edit Profile"} onPress={handleEditProfile} />
+                    <GNButton title={t('edit-profile')} onPress={handleEditProfile} />
                     <Modal visible={modalVisible} animationType="slide">
-                        <ProfileManagement title={"Edit profile"} onSave={() => setModalVisible(false)}></ProfileManagement>
+                        <ProfileManagement title={t('edit-profile')} onSave={() => setModalVisible(false)}></ProfileManagement>
                     </Modal>
                 </>
 
             ) : (
                 <>
                     {!alreadyFollowing ? (
-                        <GNButton title={"Follow"} onPress={handleFollowing} />
+                        <GNButton title={t('follow')} onPress={handleFollowing} />
                     ) : (
-                        <GNButton title={"Unfollow"} />
+                        <GNButton title={t('unfollow')} />
                     )}
                 </>
             )}

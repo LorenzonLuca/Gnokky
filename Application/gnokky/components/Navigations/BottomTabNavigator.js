@@ -92,6 +92,7 @@ import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView } from 'react-native';
 import { useScrollToTop } from '@react-navigation/native';
 import HomeNavigator from '../Home/HomeNavigator';
+import ProfileNavigator from '../Profile/ProfileNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -178,7 +179,7 @@ export default function BottomTabNavigator() {
 
                         } else if (route.name === ROUTES.CHAT) {
                             iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
-                        } else if (route.name === ROUTES.PROFILE) {
+                        } else if (route.name === ROUTES.PROFILE_NAVIGATOR) {
                             iconName = focused ? 'person' : 'person-outline';
                         }
                         return <Ionicons name={iconName} size={30} color={color} />
@@ -216,9 +217,11 @@ export default function BottomTabNavigator() {
                     }}
                 />
                 <Tab.Screen
-                    name={ROUTES.PROFILE}
-                    component={ProfilePage}
-                    initialParams={{ user: appUser }}
+                    name={ROUTES.PROFILE_NAVIGATOR}
+                    component={ProfileNavigator}
+                    options={{
+                        headerShown: false,
+                    }}
                 />
             </Tab.Navigator>
         </BottomSheetModalProvider>

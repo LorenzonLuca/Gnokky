@@ -12,6 +12,6 @@ export default function GNText({ children, color = COLORS.firtText, fontSize = 1
     });
 
     return (
-        <Text style={styles.text}>{children}</Text>
+        <Text numberOfLines={1} style={styles.text}>{children}</Text>
     );
 }

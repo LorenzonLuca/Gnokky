@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { appUser, COLORS } from '../Models/Globals';
 import { Image } from 'react-native-elements';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import DraggableTextInput from './DraggableTextInput';
 import { useKeyboard } from '@react-native-community/hooks'
@@ -15,19 +15,19 @@ import * as ImagePicker from 'expo-image-picker';
 import GNCamera from '../GN/GNCamera';
 import { Surface } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Slider from '@react-native-community/slider';
+import { useTranslation } from 'react-i18next';
 
 export default function NewStoryPage({ onClose }) {
+    const { t } = useTranslation();
     const [textInputs, setTextInputs] = useState([]);
     const [openCamera, setOpenCamera] = useState(false);
     const [bottomBar, showBottomBar] = useState(true);
     const [colorPicker, setColorPicker] = useState(null);
+    const [textEditor, setTextEditor] = useState(null);
     const [counter, setCounter] = useState(0);
 
     const [changePhoto, setChangePhoto] = useState(false);
     const [changeFont, setChangeFont] = useState(false);
-    const [sliderValue, setSliderValue] = useState(15);
-    const [newSize, setNewSize] = useState(sliderValue);
 
     const [closeDraggable, setCloseDraggable] = useState(null);
     const [indexClosedDraggable, setIndexClosedDraggable] = useState(null);
@@ -44,6 +44,7 @@ export default function NewStoryPage({ onClose }) {
     }, [media])
 
     const handleUploadStory = async () => {
+        console.log("DIOCANE QUANDO CAZZO SALVA STA FOTO", textInputs);
         const localUri = await captureRef(imageRef, {
             quality: 1,
         });
@@ -86,11 +87,6 @@ export default function NewStoryPage({ onClose }) {
 
     }
 
-    const handleChangeFont = (fontSize) => {
-        setSliderValue(fontSize);
-        setNewSize(fontSize);
-    }
-
     const handleAddText = () => {
         showBottomBar(false);
         const newTextInput = (
@@ -98,6 +94,7 @@ export default function NewStoryPage({ onClose }) {
                 key={counter}
                 setBottomBar={(value) => showBottomBar(value)}
                 setColorPicker={(picker) => setColorPicker(picker)}
+                setTextEditor={(editor) => setTextEditor(editor)}
                 innerKey={counter}
                 closeDraggable={(func) => {
                     setCloseDraggable(func);
@@ -106,11 +103,6 @@ export default function NewStoryPage({ onClose }) {
                     setIndexClosedDraggable(index);
                     console.log("Index textInput: ", index);
                 }}
-                setSliderValue={(size) => {
-                    setSliderValue(size);
-                    console.log("font setted to ", size);
-                }}
-                newFontSize={newSize}
             />
         );
         setCounter(counter + 1);
@@ -177,7 +169,15 @@ export default function NewStoryPage({ onClose }) {
                 contentContainerStyle={styles.contentContainer}
                 style={{ height: keyboard.keyboardShown ? 510 - keyboard.keyboardHeight : 510 }}
             >
-                {[colorPicker]}
+                {changeFont ? (
+                    <>
+                        {[textEditor]}
+                    </>
+                ) : (
+                    <>
+                        {[colorPicker]}
+                    </>
+                )}
                 <GestureHandlerRootView style={styles.body}>
                     <View style={{ flex: 1, padding: 10 }}>
                         <View ref={imageRef} collapsable={false}>
@@ -190,7 +190,7 @@ export default function NewStoryPage({ onClose }) {
                                     />
                                 ) : (
                                     <View style={styles.noImageContianer}>
-                                        <Text style={styles.noImageContainer}>Select an image!</Text>
+                                        <Text style={styles.noImageContainer}>{t('select-image')}</Text>
                                     </View>
                                 )}
                             </Surface>
@@ -247,38 +247,25 @@ export default function NewStoryPage({ onClose }) {
                         </>
                     ) : (
                         <>
-                            {!changeFont ? (
-                                <>
-                                    <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
-                                        onPress={() => setChangeFont(true)}
-                                        style={styles.iconButton}>
-                                        <MaterialCommunityIcons name="format-font-size-increase" size={33} color={COLORS.secondText} />
-                                    </TouchableHighlight>
-                                    <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
-                                        onPress={handleRemoveText}
-                                        style={styles.iconButton}>
-                                        <Ionicons name="trash-outline" size={33} color={'#e5383b'} />
-                                    </TouchableHighlight>
-                                </>
+                            {changeFont ? (
+                                <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
+                                    onPress={() => setChangeFont(false)}
+                                    style={styles.iconButton}>
+                                    <Ionicons name='color-palette-outline' size={33} color={COLORS.secondText} />
+                                </TouchableHighlight>
+
                             ) : (
-                                <>
-                                    <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
-                                        onPress={() => setChangeFont(false)}
-                                        style={styles.iconButton}>
-                                        <Ionicons name='arrow-back-circle-outline' size={33} color={COLORS.secondText} />
-                                    </TouchableHighlight>
-                                    <Slider
-                                        style={{ width: 300, height: 40 }}
-                                        minimumValue={6}
-                                        maximumValue={50}
-                                        value={sliderValue}
-                                        onValueChange={handleChangeFont}
-                                        minimumTrackTintColor={COLORS.elements}
-                                        maximumTrackTintColor="#000000"
-                                        thumbTintColor={COLORS.elements}
-                                    />
-                                </>
+                                <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
+                                    onPress={() => setChangeFont(true)}
+                                    style={styles.iconButton}>
+                                    <MaterialCommunityIcons name="format-font-size-increase" size={33} color={COLORS.secondText} />
+                                </TouchableHighlight>
                             )}
+                            <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
+                                onPress={handleRemoveText}
+                                style={styles.iconButton}>
+                                <Ionicons name="trash-outline" size={33} color={'#e5383b'} />
+                            </TouchableHighlight>
                         </>
                     )}
                 </View>

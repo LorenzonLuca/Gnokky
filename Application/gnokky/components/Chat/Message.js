@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
 import StoriesVisualizer from "../Stories/StoriesVisualizer";
-
+import { useTranslation } from 'react-i18next';
 
 export default function Message({ message }) {
+    const { t } = useTranslation();
     const property = message.owner === appUser.username;
     const [propertyStory, setPropertyStory] = useState(null);
     const [story, setStory] = useState(null);
@@ -99,7 +100,7 @@ export default function Message({ message }) {
                         <>
                             {story === 'expired' ? (
                                 <View style={styles.messageExpired}>
-                                    <Text style={styles.expiredStory}>Story not avaiable</Text>
+                                    <Text style={styles.expiredStory}>{t('story-no-longer-available')}</Text>
                                 </View>
                             ) : (
                                 <>

@@ -6,6 +6,9 @@ import { useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect } from 'react';
 import { appUser, COLORS } from '../Models/Globals';
+import { IconButton } from 'react-native-paper';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { ROUTES } from '../Models/Globals';
 
 export default function ProfilePage({ navigation, route }) {
     const { user } = route.params;
@@ -35,6 +38,24 @@ export default function ProfilePage({ navigation, route }) {
         setRefreshing(false);
         setRefresh(false);
     };
+
+    const renderRightHeader = () => {
+        return (
+            <IconButton
+                icon={() => <Ionicons name={'settings-outline'} size={30} color={'black'} />}
+                onPress={() => navigation.navigate(ROUTES.SETTINGS)}
+            />
+        )
+    }
+
+    useEffect(() => {
+        if(property){
+            navigation.setOptions({
+                headerRight: renderRightHeader, // Mostra i dati nell'intestazione
+            });
+        }
+
+    }, [navigation, user]);
 
     useEffect(() => {
         const fetchUser = async () => {

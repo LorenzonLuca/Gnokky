@@ -4,7 +4,7 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { COLORS, IMAGES } from "../Models/Globals";
 
 
-export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { },
+export default function GNAppBar({ title, iconLeading = "", iconTrailing = "chatbubbles-outline", onPressLeading = () => { },
     onPressTrailing = () => { }, iconLeadingColor = COLORS.firtText, iconTrailingColor = COLORS.firtText }) {
 
     const styles = StyleSheet.create({
@@ -14,14 +14,8 @@ export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles
         appbar: {
             backgroundColor: COLORS.background,
             color: COLORS.firtText,
-            // borderBottomLeftRadius: 15,
-            // borderBottomRightRadius: 15,
             zIndex: 3, // works on ios
             elevation: 3, // works on android
-            // borderRadius: 15,
-            // marginTop: 10,
-            // marginLeft: 20,
-            // marginRight: 20,
         },
         imageContainer: {
             width: 50,
@@ -38,16 +32,22 @@ export default function GNAppBar({ iconLeading = "", iconTrailing = "chatbubbles
     });
     const logo = IMAGES.LOGO;
 
-    const title = (
-        <View style={styles.imageContainer}>
-            <Image source={logo} style={styles.image} />
-        </View>
+    const renderTitle = (
+        <>
+        {title ? (
+            <Text>{title}</Text>
+        ) : (
+            <View style={styles.imageContainer}>
+                <Image source={logo} style={styles.image} />
+            </View>
+        )}
+        </>      
     );
 
     return (
         <View style={styles.container}>
             <AppBar
-                title={title}
+                title={renderTitle}
                 centerTitle={true}
                 style={styles.appbar}
                 leading={props => (

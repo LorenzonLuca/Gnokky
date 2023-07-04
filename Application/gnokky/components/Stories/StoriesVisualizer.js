@@ -13,8 +13,10 @@ import GNBottomSheetModal from '../GN/GNBottomSheetModal';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import ChatUtils from '../Models/ChatUtils';
 import ContactList from '../GN/ContactList';
+import { useTranslation } from 'react-i18next';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
+    const { t } = useTranslation();
     const [storyIndex, setStoryIndex] = useState(0);
     const [userIndex, setUserIndex] = useState(startIndex);
     const [answerWidth, setAnswerWidth] = useState('75%');
@@ -257,7 +259,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         style={styles.mediaIcon}
                     />
                 </View>
-                <Text>{!property ? stories[userIndex][0].owner : "Your story"}</Text>
+                <Text>{!property ? stories[userIndex][0].owner : t('your-story')}</Text>
                 <View style={styles.iconContainer}>
                     <View style={styles.header}>
                         {property && (
@@ -287,13 +289,13 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                     <>
                         <View style={styles.propertyActionMenu}>
                             <TouchableWithoutFeedback onPress={handlePresentModalUser} style={styles.buttonWatchUsers}>
-                                <Text style={styles.buttonWatchUsers}>Watch users</Text>
+                                <Text style={styles.buttonWatchUsers}>{t('activity')}</Text>
                             </TouchableWithoutFeedback>
                         </View>
                         <GNBottomSheetModal
                             modalRef={watchUserBottomSheetModalRef}
                             height={'50%'}
-                            title={"User who watched your story"}
+                            title={t('watched-story')}
                         >
                             <View style={[styles.header, { width: '100%' }]}>
                                 <ScrollView>
@@ -313,7 +315,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                             <View style={[styles.header, { width: '100%' }]}>
                                 <TouchableWithoutFeedback onPress={removeStory}>
                                     <Text style={styles.removeStoryLabel}>
-                                        <Ionicons name='trash-outline' size={25} color={'red'} />Remove Story
+                                        <Ionicons name='trash-outline' size={25} color={'red'} />{t('delete-story')}
                                     </Text>
                                 </TouchableWithoutFeedback>
                             </View>
@@ -334,7 +336,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         >
                             <TextInput
                                 style={styles.answerInput}
-                                placeholder="Write an answer"
+                                placeholder={t('send-message')}
                                 value={answer}
                                 onChangeText={handleAnswer}
                             />
@@ -376,7 +378,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                 </>
                             ) : (
                                 <GNButton
-                                    title={'SEND'}
+                                    title={t('send')}
                                     backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements}
                                     isDisabled={isTextInputValid}
                                     width={'20%'}

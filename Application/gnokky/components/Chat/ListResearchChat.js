@@ -4,10 +4,12 @@ import Divider from "../GN/Divider";
 import GNProfileImage from "../GN/GNProfileImage";
 import ChatUtils from "../Models/ChatUtils";
 import { COLORS } from "../Models/Globals";
+import { useTranslation } from 'react-i18next';
 
 
 export default function ListResearchChat({ existingChats = [], otherUsers = [], refresh, navigation }) {
 
+    const { t } = useTranslation();
 
     const styles = StyleSheet.create({
         contentContainer: {
@@ -64,10 +66,10 @@ export default function ListResearchChat({ existingChats = [], otherUsers = [], 
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             <View style={styles.body}>
-                <Text>Existing chats</Text>
+                <Text>{t('existing-chats')}</Text>
                 <Divider />
                 {generateExistingChats}
-                <Text>Other users</Text>
+                <Text>{t('other-users')}</Text>
                 <Divider />
                 {generateOtherUsers}
             </View>

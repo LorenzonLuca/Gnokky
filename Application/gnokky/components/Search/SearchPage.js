@@ -8,8 +8,12 @@ import { COLORS } from '../Models/Globals';
 import { Button } from 'react-native-paper';
 import ContactList from '../GN/ContactList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
+
 
 export default function SearchPage({ navigation }) {
+    const { t } = useTranslation();
+
     const [research, setResearch] = useState("");
     const [listUsers, setListUsers] = useState([]);
     const [listHistory, setListHistory] = useState(null);
@@ -114,7 +118,7 @@ export default function SearchPage({ navigation }) {
             <View style={[styles.body, { width: '100%' }]}>
                 <ScrollView>
                     <GNTextInput
-                        placeholder="Search"
+                        placeholder={t('search')}
                         iconName="search-outline"
                         iconNameFocused="search-sharp"
                         onChangeText={handleResearch}

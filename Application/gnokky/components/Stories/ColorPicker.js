@@ -1,4 +1,5 @@
 import { View, StyleSheet, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { COLORS } from '../Models/Globals';
 
 export default function ColorPicker({ setColor }) {
     const COLORS_PICKER = [
@@ -32,8 +33,8 @@ export default function ColorPicker({ setColor }) {
             margin: 7
         },
         container: {
-            borderColor: 'black',
-            backgroundColor: 'white',
+            borderColor: COLORS.thirdText,
+            backgroundColor: COLORS.background,
             borderWidth: 1,
             width: '100%',
             flexDirection: 'row',

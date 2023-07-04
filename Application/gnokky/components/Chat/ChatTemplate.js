@@ -7,9 +7,12 @@ import ChatUtils from "../Models/ChatUtils";
 import Message from "./Message";
 import FirebaseUtils from "../Models/FirebaseUtils";
 import { TouchableWithoutFeedback } from "react-native";
+import { useTranslation } from 'react-i18next';
 
 
 export default function ChatTemplate({ navigation, route }) {
+    const { t } = useTranslation();
+
     const { user } = route.params;
 
     const scrollViewRef = useRef(null);
@@ -139,13 +142,13 @@ export default function ChatTemplate({ navigation, route }) {
             <View style={styles.footer}>
                 <TextInput
                     style={styles.messageInput}
-                    placeholder="Write message"
+                    placeholder={t('message')}
                     value={message}
                     onChangeText={handleWriteMessage}
                     multiline={true}
                 />
                 <GNButton
-                    title={'SEND'}
+                    title={t('send')}
                     backgroundColor={isTextInputValid ? COLORS.thirdText : COLORS.elements}
                     isDisabled={isTextInputValid}
                     width={'15%'}

@@ -24,7 +24,9 @@ import { auth } from './components/Models/Firebase';
 import BottomTabNavigator from './components/Navigations/BottomTabNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-
+import i18next, { languageResources } from './services/i18next';
+import { useTranslation } from 'react-i18next';
+import languageList from './services/languagesList.json';
 
 const Stack = createStackNavigator();
 
@@ -37,101 +39,24 @@ export default function App() {
         "mnst-light": require('./assets/fonts/montserrat/Montserrat-Light.ttf'),
     });
 
-
-    // useEffect(() => {
-    //     const checkAuthStatus = async () => {
-    //         try {
-    //             const value = await AsyncStorage.getItem('_id');
-    //             if (value !== null) {
-    //                 setInitialRoute('NavigatorTab');
-    //             }
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-
-    //     const setUserId = async () => {
-    //         const value = await AsyncStorage.getItem('_id');
-    //         global.USER_ID = value;
-    //     };
-    //     setUserId();
-    //     checkAuthStatus();
-    // }, [])
-
-    // const transitionConfig = () => ({
-    //     transitionSpec: {
-    //         duration: 500,
-    //         easing: Easing.out(Easing.poly(4)),
-    //         timing: Animated.timing,
-    //         useNativeDriver: true,
-    //     },
-    //     screenInterpolator: sceneProps => {
-    //         const { layout, position, scene } = sceneProps;
-    //         const width = layout.initWidth;
-
-    //         const translateX = position.interpolate({
-    //             inputRange: [scene.index - 1, scene.index, scene.index + 1],
-    //             outputRange: [width, 0, 0],
-    //         });
-
-    //         return { transform: [{ translateX }] };
-    //     },
-    // });
-
-    // return (
-    //     <SafeAreaProvider>
-    //         <NavigationContainer>
-    //             <Stack.Navigator screenOptions={{
-    //                 headerShown: false,
-    //                 cardStyle: { backgroundColor: 'transparent' },
-    //                 cardOverlayEnabled: true,
-    //                 cardStyleInterpolator: ({ current: { progress } }) => ({
-    //                     cardStyle: {
-    //                         opacity: progress.interpolate({
-    //                             inputRange: [0, 1],
-    //                             outputRange: [0, 1],
-    //                         }),
-    //                     },
-    //                     overlayStyle: {
-    //                         opacity: progress.interpolate({
-    //                             inputRange: [0, 1],
-    //                             outputRange: [0, 0.7],
-    //                             extrapolate: 'clamp',
-    //                         }),
-    //                     },
-    //                 }),
-    //             }}
-    //                 transitionConfig={transitionConfig}
-    //             >
-    //                 <Stack.Screen name="Login" component={LoginPage} initialParams={{ title: "SIU" }} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="Waiting" component={WaitingPage} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="ProfileManagement" component={ProfileManagement} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="NavigatorTab" component={NavigatorTab} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="CreateStory" component={CreateStoriesNavigator} options={{ headerShown: false }} />
-    //             </Stack.Navigator>
-    //         </NavigationContainer>
-    //     </SafeAreaProvider>
-    // );
-
-    const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
-
-    function onAuthStateChanged(user) {
-        setUser(user);
-        if (initializing)
-            setInitializing(false);
-    }
-
-
     useEffect(() => {
-        const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
-        return subscriber;
-    }, []);
+        const setAppLanguage = async () => {
+          try {
+            const lng = await AsyncStorage.getItem('lng');
+            if (!lng) {
+                await AsyncStorage.setItem('lng', 'en');
+            } else {
+                i18next.changeLanguage(lng);
+                await AsyncStorage.setItem('lng', lng);
+            }
+          } catch (e) {
+            console.log('Errore durante il recupero del valore di "lng" dall\'Async Storage:', e);
+          }
+        };
+    
+        setAppLanguage();
+      }, []);
 
-    if (initializing) {
-        return null;
-    }
 
     if (!loaded) {
         return null;

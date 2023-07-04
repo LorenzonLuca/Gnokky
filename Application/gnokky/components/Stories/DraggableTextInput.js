@@ -10,13 +10,13 @@ import Animated, {
 import { COLORS } from '../Models/Globals';
 import ColorPicker from './ColorPicker';
 import GNTextInputMultiLine from '../GN//GNTextInputMultiLine';
+import TextEditor from './TextEditor';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export default function DraggableTextInput({ setBottomBar, setColorPicker, innerKey, closeDraggable,
-    setIndexDraggable, setSliderValue, newFontSize }) {
+export default function DraggableTextInput({ setBottomBar, setColorPicker, setTextEditor, innerKey, closeDraggable,
+    setIndexDraggable }) {
 
-    const colorPicker = (<ColorPicker setColor={(color) => onColorChange(color)} key={innerKey} />);
     const [text, setText] = useState("Enter text");
     const [showModal, setShowModal] = useState(true);
     const [color, setColor] = useState('#000');
@@ -24,6 +24,15 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
 
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
+
+    const colorPicker = (<ColorPicker setColor={(color) => onColorChange(color)} key={innerKey} />);
+    const textEditor = (
+        <TextEditor
+            setNewFontSize={(fontsize) => onFontSizeChange(fontsize)}
+            key={innerKey}
+            startValue={fontSize}
+        />
+    );
 
     useEffect(() => {
         handlePressText()
@@ -36,16 +45,12 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
         };
     }, []);
 
-    useEffect(() => {
-        console.log("font changed");
-        setFontSize(newFontSize);
-    }, [newFontSize]);
-
     const closeInterface = () => {
         console.log("Uela badola");
         setBottomBar(true);
         setShowModal(false);
-        setColorPicker(null)
+        setColorPicker(null);
+        setTextEditor(null);
 
     }
 
@@ -87,15 +92,20 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
     const handlePressText = () => {
         setShowModal(true);
         setBottomBar(false);
-        setColorPicker(colorPicker)
+        setColorPicker(colorPicker);
+        setTextEditor(textEditor);
         closeDraggable(() => closeInterface);
         setIndexDraggable(innerKey);
-        setSliderValue(fontSize);
     }
 
     const onColorChange = (color) => {
         setColor(color);
     };
+
+    const onFontSizeChange = (fontsize) => {
+        console.log("FONT CMBIATO AOOOOOO");
+        setFontSize(fontsize);
+    }
 
     const styles = StyleSheet.create({
         textInput: {
@@ -134,7 +144,7 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
                     <Text
                         style={[
                             styles.textInput, {
-                                display: !showModal ? "flex" : "none",
+                                // display: !showModal ? "flex" : "none",
                                 fontSize: fontSize,
                             }
                         ]}
@@ -153,6 +163,8 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, inner
                             onChangeText={setText}
                             colorInput={color}
                             backgroundColor={'rgba(0, 0, 0, 0)'}
+                            fontSize={fontSize}
+                            minHeight={fontSize * 2}
                         />
                     </View>
                 </View>

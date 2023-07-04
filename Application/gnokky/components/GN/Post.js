@@ -21,8 +21,10 @@ import { useNavigation } from '@react-navigation/native';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { Surface } from 'react-native-paper';
 import GNEmptyText from './GNEmptyText';
+import { useTranslation } from 'react-i18next';
 
 export default function Post({ post, refreshAfterDelete }) {
+    const { t } = useTranslation();
 
     const navigation = useNavigation();
 
@@ -252,7 +254,7 @@ export default function Post({ post, refreshAfterDelete }) {
                         <TouchableWithoutFeedback onPress={() => handleDeleteMyPost(post)} >
                             <View style={[styles.bottomSheetRow]}>
                                 <Ionicons name="trash-outline" size={30} color={'red'} />
-                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    Delete post</Text>
+                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('delete-post')}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                         <Divider color={COLORS.thirdText} />
@@ -262,14 +264,14 @@ export default function Post({ post, refreshAfterDelete }) {
                         <TouchableWithoutFeedback onPress={() => { console.log("SIUMRIMUOVI") }} >
                             <View style={[styles.bottomSheetRow]}>
                                 <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                                <Text style={styles.bottomSheetSubtitle}>    Stop following</Text>
+                                <Text style={styles.bottomSheetSubtitle}>    {t('stop-following')}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                         <Divider color={COLORS.thirdText} />
                         <TouchableWithoutFeedback onPress={() => handleReportPost(post)} >
                             <View style={[styles.bottomSheetRow]}>
                                 <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    Report post</Text>
+                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-post')}</Text>
                             </View>
                         </TouchableWithoutFeedback>
                         <Divider color={COLORS.thirdText} />

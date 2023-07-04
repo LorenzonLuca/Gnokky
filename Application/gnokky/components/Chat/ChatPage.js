@@ -7,8 +7,10 @@ import ListResearchChat from './ListResearchChat';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ChatUtils from '../Models/ChatUtils';
 
+import { useTranslation } from 'react-i18next';
 
 export default function ChatPage({ navigation }) {
+    const { t } = useTranslation();
 
     const [existingChats, setExistingChats] = useState([]);
     const [otherUser, setOtherUser] = useState([]);
@@ -134,7 +136,7 @@ export default function ChatPage({ navigation }) {
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.header}>
                     <GNTextInput
-                        placeholder="Search"
+                        placeholder={t('search')}
                         iconName="search-outline"
                         iconNameFocused="search-sharp"
                         onChangeText={handleResearch}

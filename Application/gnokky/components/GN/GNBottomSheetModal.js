@@ -5,9 +5,14 @@ import { BottomSheet, BottomSheetModal, BottomSheetModalProvider } from '@gorhom
 import { COLORS } from '../Models/Globals';
 import Divider from './Divider';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTranslation } from 'react-i18next';
 
+export default function GNBottomSheetModal({ modalRef, height = '25%', children, title }) {
+    const { t } = useTranslation();
 
-export default function GNBottomSheetModal({ modalRef, height = '25%', children, title = "Options" }) {
+    if (!title) {
+      title = t('options');
+    }
 
     const snapPoints = [height];
 

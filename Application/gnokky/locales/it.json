@@ -1,0 +1,36 @@
+{
+    "change-language": "Cambiare lingua",
+
+    "edit-profile": "Modifica profilo",
+    "follow": "Segui",
+    "unfollow": "Smetti di seguire",
+    "posts": "Post",
+    "followers": "Follower",
+    "following": "Seguiti",
+
+    "message": "Scrivi un messaggio...",
+    "send": "Invia",
+    "story-no-longer-available": "Stora non disponibile",
+
+    "search": "Cerca",
+    "existing-chats": "Chat esistenti",
+    "other-users": "Altri utenti",
+
+    "options": "Opzioni",
+
+    "delete-story": "Elimina storia",
+    "delete-post": "Elimina post",
+    "stop-following": "Smetti di seguire",
+    "report-post": "Segnala post",
+
+    "send-message": "Invia messaggio",
+    "activity": "Attività",
+    "watched-story": "Utenti che hanno visto la tua storia",
+    "your-story": "La tua storia",
+
+    "add-comment": "Commenta...",
+    "noone-commented": "Nessuno ha ancora commentato, sii il primo!",
+
+    "caption": "Descrizione...",
+    "select-image": "Scegli un immagine!"
+}

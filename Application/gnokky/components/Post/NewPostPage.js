@@ -12,8 +12,10 @@ import { Image } from 'react-native-elements';
 import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import GNCamera from '../GN/GNCamera';
+import { useTranslation } from 'react-i18next';
 
 export default function NewPostPage({ navigation, onClose }) {
+    const { t } = useTranslation();
     const [caption, setCaption] = useState("");
     const [locationInfo, setLocationInfo] = useState("");
     const [locationIcon, setLocationIcon] = useState("location-outline");
@@ -124,7 +126,7 @@ export default function NewPostPage({ navigation, onClose }) {
                     </View>
                     <View style={{ flex: 1, padding: 10 }}>
                         <GNTextInputMultiLine
-                            placeholder={"Caption..."}
+                            placeholder={t('caption')}
                             onChangeText={handleInputChangeCaption}
                         />
                         {mediaUri && mediaType === 'image' && (
