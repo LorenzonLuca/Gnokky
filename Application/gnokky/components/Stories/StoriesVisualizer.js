@@ -14,19 +14,20 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import ChatUtils from '../Models/ChatUtils';
 import ContactList from '../GN/ContactList';
 import { useTranslation } from 'react-i18next';
+import { ActivityIndicator } from 'react-native';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
     const { t } = useTranslation();
     const [storyIndex, setStoryIndex] = useState(0);
     const [userIndex, setUserIndex] = useState(startIndex);
-    const [answerWidth, setAnswerWidth] = useState('75%');
     const [hideSomeAction, setHideSomeAction] = useState(true);
     const [answer, setAnswer] = useState('');
     const [color, toggleColor] = useState(false);
-
-    const bottomSheetModalRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const isTextInputValid = answer.trim().length === 0;
+
+    const bottomSheetModalRef = useRef(null);
 
     const handlePresentModal = () => {
         console.log("crepa");
@@ -175,6 +176,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
     const handleNextStory = () => {
         console.log("NEXTTTT");
+        setIsLoading(true);
         if (storyIndex < (!property ? stories[userIndex].length - 1 : stories.length - 1)) {
             setStoryIndex(storyIndex + 1);
         } else if (userIndex < stories.length - 1 && !property) {
@@ -188,6 +190,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
     const handlePrevoiusStory = () => {
         console.log("PREVIOUSSSSS");
+        setIsLoading(true);
         if (storyIndex > 0) {
             setStoryIndex(storyIndex - 1);
         } else if (userIndex > 0 && !property) {
@@ -217,30 +220,8 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         }
     }
 
-    const StoryViewer = () => {
-        if (property) {
-            if (stories[storyIndex].watchedBy.length > 0) {
-                return stories[storyIndex].watchedBy.map((user) => (
-                    <View key={user.username}>
-                        {console.log(user)}
-                        <View style={styles.userView}>
-                            <GNProfileImage selectedImage={user.profilePic} size={40} />
-                            <Text style={{ marginHorizontal: 4 }}>{user.username}</Text>
-                            {stories[storyIndex].likes.includes(user.username) && (
-                                <Ionicons
-                                    name={'heart'}
-                                    size={20}
-                                    color={'#f00'}
-                                />
-                            )}
-                        </View>
-                        <Divider />
-                    </View>
-                ));
-            }
-        }
-
-        return null; // Handle other cases when property is false or there are no viewers
+    const handleImageLoad = () => {
+        setIsLoading(false);
     };
 
     const removeStory = () => {
@@ -278,11 +259,14 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                     <ImageBackground
                         source={{ uri: !property ? stories[userIndex][storyIndex].img : stories[storyIndex].img }}
                         style={styles.media}
+                        onLoad={handleImageLoad}
                     >
-                        <TouchableOpacity style={styles.button} onPress={handlePrevoiusStory} activeOpacity={1}>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={handleNextStory} activeOpacity={1}>
-                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={handlePrevoiusStory} activeOpacity={1} />
+                        {isLoading && (
+                            <ActivityIndicator size="large" color={COLORS.elements} />
+                        )}
+                        <TouchableOpacity style={styles.button} onPress={handleNextStory} activeOpacity={1} />
+
                     </ImageBackground>
                 </View>
                 {(property && viewAction) ? (
@@ -327,11 +311,9 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                             style={styles.answerInputContainer}
                             onFocus={() => {
                                 setHideSomeAction(false);
-                                setAnswerWidth('80%');
                             }}
                             onBlur={() => {
                                 setHideSomeAction(true);
-                                setAnswerWidth('75%');
                             }}
                         >
                             <TextInput
@@ -348,7 +330,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                     <GNBottomSheetModal
                                         modalRef={sendStoryBottomSheetModalRef}
                                         height={'50%'}
-                                        title={"Send to someone"}
+                                        title={"Share with someone"}
                                     >
                                         <View style={[styles.header, { width: '100%' }]}>
                                             <ScrollView>

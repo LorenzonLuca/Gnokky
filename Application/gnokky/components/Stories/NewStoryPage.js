@@ -16,11 +16,14 @@ import GNCamera from '../GN/GNCamera';
 import { Surface } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTranslation } from 'react-i18next';
+import GNMusicSelector from '../GN/GNMusicSelector';
+import ColorPicker from './ColorPicker';
 
 export default function NewStoryPage({ onClose }) {
     const { t } = useTranslation();
     const [textInputs, setTextInputs] = useState([]);
     const [openCamera, setOpenCamera] = useState(false);
+    const [openMusic, setOpenMusic] = useState(false);
     const [bottomBar, showBottomBar] = useState(true);
     const [colorPicker, setColorPicker] = useState(null);
     const [textEditor, setTextEditor] = useState(null);
@@ -34,6 +37,10 @@ export default function NewStoryPage({ onClose }) {
 
     const [media, setMedia] = useState(null);
     const [mediaType, setMediaType] = useState(null);
+    const [song, setSong] = useState(null);
+
+    const [backgroundColorPicker, showBackgroundColorPicker] = useState(false);
+    const [backgroundColor, setBackgroundColor] = useState(COLORS.background);
 
     const keyboard = useKeyboard()
     const imageRef = useRef();
@@ -73,6 +80,7 @@ export default function NewStoryPage({ onClose }) {
 
         if (!result.canceled) {
             setMedia(result.assets[0].uri);
+            setSong(null);
             setMediaType(result.assets[0].type);
             setOpenCamera(false);
         }
@@ -150,8 +158,27 @@ export default function NewStoryPage({ onClose }) {
             flexDirection: 'row',
             alignItems: 'center',
             height: 50,
+        },
+        songTitle: {
+            fontSize: 20,
+            color: COLORS.firtText,
+            textAlign: 'center',
+        },
+        songArtists: {
+            fontSize: 14,
+            color: COLORS.secondText,
         }
     });
+
+    const generateArtists = (artists) => {
+        return artists.map((artist, index) => {
+            if (index < artists.length - 1) {
+                return artist.name + ", ";
+            } else {
+                return artist.name;
+            }
+        });
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -159,9 +186,8 @@ export default function NewStoryPage({ onClose }) {
                 <GNAppBar
                     iconLeading='close-outline'
                     onPressLeading={() => { onClose() }}
-
-                    iconTrailing={media && (bottomBar ? 'checkmark-outline' : 'checkmark-circle-outline')}
-                    onPressTrailing={media && (bottomBar ? handleUploadStory : confirmText)}
+                    iconTrailing={media || song && (bottomBar ? 'checkmark-outline' : 'checkmark-circle-outline')}
+                    onPressTrailing={media || song && (bottomBar ? handleUploadStory : confirmText)}
 
                 />
             </View>
@@ -181,19 +207,45 @@ export default function NewStoryPage({ onClose }) {
                 <GestureHandlerRootView style={styles.body}>
                     <View style={{ flex: 1, padding: 10 }}>
                         <View ref={imageRef} collapsable={false}>
-                            <Surface>
-                                {mediaType === 'image' ? (
+                            {mediaType === 'image' ? (
+                                <Surface>
                                     <Image
                                         source={{ uri: media }}
                                         style={{ height: '100%', borderColor: COLORS.thirdText, borderWidth: 1 }}
 
                                     />
-                                ) : (
-                                    <View style={styles.noImageContianer}>
-                                        <Text style={styles.noImageContainer}>{t('select-image')}</Text>
-                                    </View>
-                                )}
-                            </Surface>
+                                </Surface>
+                            ) : (
+                                <>
+                                    {mediaType === 'song' ? (
+                                        <Surface style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            height: '100%',
+                                            backgroundColor: backgroundColor,
+                                        }}>
+                                            <Image
+                                                source={{ uri: song.album.images[1].url }}
+                                                style={{
+                                                    height: song.album.images[1].height,
+                                                    width: song.album.images[1].width,
+                                                    borderColor: COLORS.thirdText,
+                                                    borderWidth: 1
+                                                }}
+                                            />
+                                            <Text style={styles.songTitle}>{song.name}</Text>
+                                            <Text style={styles.songArtists}>{generateArtists(song.artists)}</Text>
+                                        </Surface>
+                                    ) : (
+                                        <Surface>
+                                            <View style={styles.noImageContianer}>
+                                                <Text style={styles.noImageContainer}>{t('select-image')}</Text>
+                                            </View>
+                                        </Surface>
+                                    )}
+                                </>
+                            )}
+
                             {/* {mediaType === 'video' && (
                                 <Video
                                     source={{ uri: media }}
@@ -206,14 +258,23 @@ export default function NewStoryPage({ onClose }) {
                         </View>
                     </View>
                 </GestureHandlerRootView>
+                {backgroundColorPicker && (
+                    <ColorPicker setColor={(color) => {
+                        setBackgroundColor(color);
+                        console.log(color);
+                    }} />
+                )}
                 <View style={styles.actionBar}>
                     {bottomBar ? (
                         <>
-                            {!media || changePhoto ? (
+                            {(!media && !song) || changePhoto ? (
                                 <>
                                     {changePhoto && (
                                         <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
-                                            onPress={() => setChangePhoto(false)}
+                                            onPress={() => {
+                                                setChangePhoto(false);
+                                                showBackgroundColorPicker(false);
+                                            }}
                                             style={styles.iconButton}>
                                             <Ionicons name="swap-horizontal-outline" size={33} color={COLORS.secondText} />
                                         </TouchableHighlight>
@@ -228,6 +289,18 @@ export default function NewStoryPage({ onClose }) {
                                         style={styles.iconButton}>
                                         <Ionicons name="camera-outline" size={33} color={COLORS.secondText} />
                                     </TouchableHighlight>
+                                    <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
+                                        onPress={() => setOpenMusic(true)}
+                                        style={styles.iconButton}>
+                                        <Ionicons name="musical-notes-outline" size={33} color={COLORS.secondText} />
+                                    </TouchableHighlight>
+                                    {song && (
+                                        <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
+                                            onPress={() => showBackgroundColorPicker(!backgroundColorPicker)}
+                                            style={styles.iconButton}>
+                                            <Ionicons name="color-palette-outline" size={33} color={COLORS.secondText} />
+                                        </TouchableHighlight>
+                                    )}
                                 </>
 
                             ) : (
@@ -275,12 +348,25 @@ export default function NewStoryPage({ onClose }) {
                 <GNCamera
                     onCancel={() => {
                         setOpenCamera(false);
-
                     }}
                     onSave={(media) => {
                         setMedia(media.uri);
+                        setSong(null);
                         setMediaType("image")
                         setOpenCamera(false);
+                    }}
+                />
+            </Modal>
+            <Modal visible={openMusic} animationType="slide">
+                <GNMusicSelector
+                    onCancel={() => {
+                        setOpenMusic(false);
+                    }}
+                    onSave={(song) => {
+                        setSong(song);
+                        setMedia(null);
+                        setMediaType("song")
+                        setOpenMusic(false);
                     }}
                 />
             </Modal>

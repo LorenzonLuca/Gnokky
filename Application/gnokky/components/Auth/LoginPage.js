@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Image } from 'react-native';
 import { useState, useEffect } from 'react';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
 import { StyleSheet } from 'react-native';
-import { COLORS, ROUTES, appUser } from '../Models/Globals';
+import { COLORS, ROUTES, appUser, IMAGES } from '../Models/Globals';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FirebaseUtils from '../Models/FirebaseUtils';
 
@@ -17,6 +17,8 @@ export default function LoginPage({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    const logo = IMAGES.LOGO;
 
     useEffect(() => {
         const getUserData = async () => {
@@ -74,16 +76,24 @@ export default function LoginPage({ navigation }) {
             textAlign: 'center',
             fontFamily: 'mnst-bold'
         },
-        porcoddio: {
+        keyboard: {
             top: 125,
             flex: 1,
+        },
+        image: {
+            // flex: 1,
+            width: 80,
+            height: 80,
+            alignSelf: 'center',
+            // resizeMode: 'cover',
         }
     });
 
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
-                <KeyboardAvoidingView style={styles.porcoddio}>
+                <KeyboardAvoidingView style={styles.keyboard}>
+                    <Image source={logo} style={styles.image} />
                     <Text style={styles.title}>SIGN IN</Text>
                     <GNTextInput
                         placeholder='Email'

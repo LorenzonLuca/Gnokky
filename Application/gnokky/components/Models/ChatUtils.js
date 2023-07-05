@@ -81,7 +81,7 @@ export default class ChatUtils {
         });
     }
 
-    static async sendMessage(chatId, text, isStory = false) {
+    static async sendMessage(chatId, text, isStory = false, isPost = false) {
         try {
             const chatDocRef = doc(db, "chats", chatId);
             const innerCollectionRef = collection(chatDocRef, 'messages');
@@ -93,6 +93,7 @@ export default class ChatUtils {
                 text: text,
                 timestamp: new Date().getTime(),
                 isStory: isStory,
+                isPost: isPost,
             });
 
             console.log("BOIAAAAAA", text);
@@ -146,7 +147,16 @@ export default class ChatUtils {
                 this.sendMessage(chat, answer);
             }
         } catch (error) {
-            console.log("error while trying to answer to a story");
+            console.log("error while trying to answer or share a story");
+        }
+    }
+
+    static async sendPost(chat, postId) {
+        try {
+            console.log("Sharing post: ", postId);
+            await this.sendMessage(chat, postId, false, true)
+        } catch (error) {
+            console.log("error while trying to share a post");
         }
     }
 }
