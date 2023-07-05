@@ -1,23 +1,34 @@
-import { View, StyleSheet, ScrollView, SafeAreaView, RefreshControl, ActivityIndicator, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, SafeAreaView, RefreshControl, ActivityIndicator, TouchableWithoutFeedback, Text } from 'react-native';
 import Divider from '../GN/Divider';
 import PostLoader from '../GN/PostLoader';
 import ProfileData from './ProfileData';
 import { useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { appUser, COLORS } from '../Models/Globals';
 import { IconButton } from 'react-native-paper';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ROUTES } from '../Models/Globals';
+import GNBottomSheetModal from '../GN/GNBottomSheetModal';
+import { useTranslation } from 'react-i18next';
+import AdminUtils from '../Models/AdminUtils';
 
 export default function ProfilePage({ navigation, route }) {
     const { user } = route.params;
-    console.log("MI CIOLO MA IN PROFILE PAGE", user);
+    const { t } = useTranslation();
     const [property, setProperty] = useState(user.id === appUser.id);
     const [profileUser, setProfileUser] = useState(user);
     const [refreshing, setRefreshing] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [loading, setLoading] = useState(true); // Stato di caricamento iniziale
+
+    ///// bottomSheet modal /////
+    const bottomSheetOptionModalRef = useRef(null);
+
+    const handlePresentOptionModal = () => {
+        bottomSheetOptionModalRef.current?.present();
+    }
+    //////////
 
     const onRefresh = async () => {
         setRefreshing(true);
@@ -39,7 +50,7 @@ export default function ProfilePage({ navigation, route }) {
         setRefresh(false);
     };
 
-    const renderRightHeader = () => {
+    const renderMyRightHeader = () => {
         return (
             <IconButton
                 icon={() => <Ionicons name={'settings-outline'} size={30} color={'black'} />}
@@ -48,10 +59,25 @@ export default function ProfilePage({ navigation, route }) {
         )
     }
 
+    const renderProfileRightHeader = () => {
+        return (
+            <IconButton
+                icon={() => <Ionicons name={'ellipsis-vertical-sharp'} size={25} color={COLORS.secondText} />}
+                onPress={handlePresentOptionModal}
+            />
+        )
+    }
+
     useEffect(() => {
         if(property){
             navigation.setOptions({
-                headerRight: renderRightHeader, // Mostra i dati nell'intestazione
+                headerTitle: user.username,
+                headerRight: renderMyRightHeader, // Mostra i dati nell'intestazione
+            });
+        }else{
+            navigation.setOptions({
+                headerTitle: user.username,
+                headerRight: renderProfileRightHeader, // Mostra i dati nell'intestazione
             });
         }
 
@@ -72,6 +98,10 @@ export default function ProfilePage({ navigation, route }) {
         fetchUser()
       }, []);
       
+    const handleReportUser = async (user) => {
+        await AdminUtils.reportUser(user);
+        bottomSheetOptionModalRef.current?.dismiss();
+    }
 
     const styles = StyleSheet.create({
         container: {
@@ -86,6 +116,18 @@ export default function ProfilePage({ navigation, route }) {
             flex: 1,
             //justifyContent: 'center',
             alignItems: 'center',
+        },
+        bottomSheetSubtitle: {
+            fontWeight: "bold",
+            color: COLORS.firtText,
+            fontSize: 14,
+        },
+        bottomSheetRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'flex-start',
+            marginVertical: 5,
         },
     });
 
@@ -106,6 +148,7 @@ export default function ProfilePage({ navigation, route }) {
 
     if (profileUser) {
         return (
+            <>
             <SafeAreaView style={styles.container}>
                 <ScrollView contentContainerStyle={styles.contentContainer}
                     refreshControl={
@@ -120,6 +163,23 @@ export default function ProfilePage({ navigation, route }) {
                     </View>
                 </ScrollView>
             </SafeAreaView>
+            <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
+                <TouchableWithoutFeedback onPress={() => { console.log("SIUMRIMUOVI") }} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                        <Text style={styles.bottomSheetSubtitle}>    {t('stop-following')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportUser(profileUser)} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                        <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-user')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+            </GNBottomSheetModal>
+            </>
         );
     }
 

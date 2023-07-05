@@ -1,4 +1,4 @@
-import { collection, addDoc, deleteDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove, orderBy } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, setDoc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove, orderBy } from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { appUser } from "./Globals";
@@ -6,25 +6,6 @@ import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storag
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class AdminUtils {
-
-    static async reportPost(post) {
-        console.log("mananggia agli dei ", post.mediaType);
-        try {
-            const docRef = await addDoc(collection(db, "reports"), {
-                author: appUser.username,
-                postId: post.id,  
-                postOwner: post.owner,
-                postCaption: post.caption,
-                mediaUrl: post.downloadUrl,
-                mediaType: post.mediaType ? post.mediaType : "",
-                timestamp: new Date().getTime(),
-            });
-
-            console.log("Post has been successfully reported: ", docRef.id);
-        } catch (e) {
-            console.error("Error reporting post: ", e);
-        }
-    }
 
     static formatDateToText(timestamp) {
         const dateObj = new Date(timestamp);
@@ -46,13 +27,78 @@ export default class AdminUtils {
       
         return formattedDate;
     }
-      
-
-    static async getReports() {
+ 
+    static async reportPost(post) {
         try {
-          const reportsCollection = collection(db, "reports");
-          const querySnapshot = await getDocs(query(reportsCollection, orderBy('timestamp', 'desc')));
-      
+            const reportsCollectionRef = collection(db, 'reports');
+            const reportDocRef = doc(reportsCollectionRef, 'posts'); 
+            await setDoc(reportDocRef, {}); 
+            const innerCollectionRef = collection(reportDocRef, 'posts'); 
+            const docRef = await addDoc(innerCollectionRef, {
+                author: appUser.username,
+                postId: post.id,  
+                postOwner: post.owner,
+                postCaption: post.caption,
+                mediaUrl: post.downloadUrl,
+                mediaType: post.mediaType ? post.mediaType : "",
+                timestamp: new Date().getTime(),
+            });
+
+            console.log("Post has been successfully reported: ", docRef.id);
+        } catch (e) {
+            console.error("Error reporting post: ", e);
+        }
+    }
+
+    static async reportUser(user) {
+        try {
+            const reportsCollectionRef = collection(db, 'reports');
+            const reportDocRef = doc(reportsCollectionRef, 'users'); 
+            await setDoc(reportDocRef, {}); 
+            const innerCollectionRef = collection(reportDocRef, 'users'); 
+            const docRef = await addDoc(innerCollectionRef, {
+                author: appUser.username,
+                userId: user.id,
+                user: user.username,
+                timestamp: new Date().getTime(),
+            });
+
+            console.log("User " + user.username + " has been successfully reported: ", docRef.id);
+        } catch (e) {
+            console.error("Error reporting user: ", e);
+        }
+    }
+
+    static async banUser(userId){
+        try {
+            const docRef = doc(db, "users", userId);
+            await updateDoc(docRef, {
+                banned: true
+            });
+            console.log("User " + userId + "has been successfully banned!");
+        } catch (e) {
+            console.log("Error while banning user: ", e);
+        }
+    }
+
+    static async sbanUser(userId){
+        try {
+            const docRef = doc(db, "users", userId);
+            await updateDoc(docRef, {
+                banned: false
+            });
+            console.log("User " + userId + "has been successfully sbanned!");
+        } catch (e) {
+            console.log("Error while sbanning user: ", e);
+        }
+    }
+
+    static async getReports(section) {
+        try {
+          const reportsCollectionRef = collection(db, 'reports');
+          const reportDocRef = doc(reportsCollectionRef, section); 
+          const innerCollectionRef = collection(reportDocRef, section); 
+          const querySnapshot = await getDocs(query(innerCollectionRef, orderBy('timestamp', 'desc')));
           if (!querySnapshot.empty) {
             const reports = [];
             querySnapshot.forEach((doc) => {
@@ -71,11 +117,13 @@ export default class AdminUtils {
         }
     }   
     
-    static async removeReport(reportId){
+    static async removeReport(section,reportId){
         try {
-            const docRef = doc(db, "reports", reportId);
-
-            deleteDoc(docRef)
+            const reportsCollectionRef = collection(db, 'reports');
+            const reportDocRef = doc(reportsCollectionRef, section); 
+            const innerCollectionRef = collection(reportDocRef, section); 
+            const repDoc = doc(innerCollectionRef, reportId);
+            deleteDoc(repDoc)
                 .then(() => {
                     console.log(`Report with id ${reportId} has been removed`);
                 })

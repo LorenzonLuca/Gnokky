@@ -5,41 +5,46 @@ import AdminUtils from '../Models/AdminUtils';
 import PostUtils from '../Models/PostUtils';
 import { COLORS } from '../Models/Globals';
 import { Video } from 'expo-av';
+import { RefreshControl } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
-const AdminPage = () => {
+const UserReports = () => {
+  const [refreshing, setRefreshing] = useState(true);
   const [reports, setReports] = useState([]);
   const [expandedItemId, setExpandedItemId] = useState(null);
 
 
   useEffect(() => {
-    fetchReports();
+    loadReports();
   }, []);
 
-  const fetchReports = async () => {
+  const loadReports = async () => {
     try {
-      const fetchedReports = await AdminUtils.getReports();
+      const fetchedReports = await AdminUtils.getReports("users");
       setReports(fetchedReports);
+      setRefreshing(false);
     } catch (error) {
       console.error('Error retrieving reports:', error);
     }
   };
 
-  const handleDelete = async (postId, reportId) => {
+  const handleBan = async (userId, reportId) => {
     Alert.alert(
-      'Confirm Deletion',
-      'Are you sure you want to delete this report?',
+      'Confirm Ban',
+      'Are you sure you want to ban this user?',
       [
         {
           text: 'Cancel',
           style: 'cancel',
         },
         {
-          text: 'Delete',
+          text: 'Ban',
           style: 'destructive',
           onPress: async () => {
-            await PostUtils.deletePost(await PostUtils.getPostById(postId));
-            await AdminUtils.removeReport(reportId);
-            fetchReports(); // Update the list after deletion
+            console.log("pesce ", userId)
+            await AdminUtils.banUser(userId);
+            await AdminUtils.removeReport('users',reportId);
+            loadReports(); // Update the list after deletion
           },
         },
       ],
@@ -60,8 +65,8 @@ const AdminPage = () => {
           text: 'Ignore',
           style: 'destructive',
           onPress: async () => {
-            await AdminUtils.removeReport(reportId);
-            fetchReports(); // Update the list after ignoring
+            await AdminUtils.removeReport('users',reportId);
+            loadReports(); // Update the list after ignoring
           },
         },
       ],
@@ -76,38 +81,21 @@ const AdminPage = () => {
       <ListItem bottomDivider onPress={() => setExpandedItemId(isExpanded ? null : item.id)}>
         <ListItem.Content>
           <ListItem.Title>
-            Caption: 
-            <Text style={{fontWeight: 'bold'}}> {item.postCaption}  </Text>
+            User: 
+            <Text style={{fontWeight: 'bold'}}> {item.user}  </Text>
           </ListItem.Title>
           <ListItem.Subtitle>
-            Post author: 
+            Reporter: 
             <Text style={{fontWeight: 'bold'}}> {item.author}  </Text>
           </ListItem.Subtitle>
           <ListItem.Subtitle>
             Report date: 
             <Text style={{fontWeight: 'bold'}}> {AdminUtils.formatDateToText(item.timestamp)}  </Text>
           </ListItem.Subtitle>
-            {isExpanded && (
-              <>
-              {item.mediaUrl && item.mediaType === 'image' && (
-                  <Image
-                    source={{ uri: item.mediaUrl }}
-                    style={styles.media}
-                    resizeMode="cover"/>
-              )}
-              {item.mediaUrl && item.mediaType === 'video' && (
-                  <Video
-                    source={{ uri: item.mediaUrl }}
-                    style={styles.media}
-                    useNativeControls
-                    resizeMode="contain" />
-              )}
-              </>
-            )}
         </ListItem.Content>
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => handleDelete(item.postId, item.id)}>
-            <Icon name="delete" type="material" color="red" />
+          <TouchableOpacity onPress={() => handleBan(item.userId, item.id)}>
+            <Icon name="block" type="material" color="red" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleIgnore(item.id)}>
             <Icon name="check" type="material" color="green" />
@@ -122,15 +110,22 @@ const AdminPage = () => {
   return (
     <>
       {reports.length === 0 ? (
-        <View style={styles.containerCenter}>
+        <ScrollView 
+          contentContainerStyle={styles.containerCenter}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={loadReports} />
+        }>
           <Text>No reports found!</Text>
-        </View>
+        </ScrollView>
       ) : (
         <View style={styles.container}>
           <FlatList
             data={reports}
             keyExtractor={(item) => item.id}
             renderItem={renderReportItem}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={loadReports} />
+            }
           />
         </View>
       )}
@@ -159,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AdminPage;
+export default UserReports;

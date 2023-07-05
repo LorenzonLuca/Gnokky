@@ -144,7 +144,7 @@ export default function DraggableTextInput({ setBottomBar, setColorPicker, setTe
                     <Text
                         style={[
                             styles.textInput, {
-                                // display: !showModal ? "flex" : "none",
+                                display: !showModal ? "flex" : "none",
                                 fontSize: fontSize,
                             }
                         ]}

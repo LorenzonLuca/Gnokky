@@ -8,6 +8,7 @@ import { ROUTES } from '../Models/Globals';
 
 export const handleLogin = async (email, password, navigation, setError) => {
 
+
     email = email.trim();
     password = password.trim();
 
@@ -21,11 +22,15 @@ export const handleLogin = async (email, password, navigation, setError) => {
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             if (email == "admin@sium.com") {
-                navigation.navigate(ROUTES.ADMIN);
+                navigation.navigate(ROUTES.ADMIN_NAVIGATOR);
             } else {
                 appUser.setEmail(email);
                 FirebaseUtils.getUserByEmail(email)
                     .then((result) => {
+                        if(result[0].banned){
+                            setError("This user has been banned!")
+                            throw new Error("This user has been banned!");
+                        }
                         appUser.setUsername(result[0].username);
                         appUser.setId(result[0].id);
                         storeUserData(result[0].id);

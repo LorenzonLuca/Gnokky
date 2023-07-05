@@ -19,8 +19,12 @@ export const IMAGES = {
 export const ROUTES = {
     BOTTOM_NAVIGATOR: 'Bottom',
     HOME_NAVIGATOR: 'HomeNavigator',
+    ADMIN_NAVIGATOR: 'AdminNavigator',
+    
+    POST_REPORTS: 'PostReports',
+    USER_REPORTS: 'UserReports',
+    
 
-    ADMIN: 'Admin',
     LOGIN: 'Login',
     REGISTER: 'Register',
     VERIFY_EMAIL: 'WaitingPage',

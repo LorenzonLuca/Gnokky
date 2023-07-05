@@ -9,7 +9,8 @@ import RegisterPage from '../Auth/RegisterPage';
 import WaitingPage from '../Auth/WaitingPage';
 import BottomTabNavigator from './BottomTabNavigator';
 import ProfileManagement from '../Profile/ProfileManagement';
-import AdminPage from '../Admin/AdminPage';
+import AdminPage from '../Admin/PostReports';
+import AdminNavigator from '../Admin/AdminNavigator';
 
 const Stack = createStackNavigator();
 // Navigator, Screen, Group
@@ -24,9 +25,12 @@ export default function AuthNavigator() {
 
             }}>
             <Stack.Screen
-                name={ROUTES.ADMIN}
-                component={AdminPage}
-                options={{ headerShown: true }}
+                name={ROUTES.ADMIN_NAVIGATOR}
+                component={AdminNavigator}
+                options={{ 
+                    headerTitle: 'Admin',
+                    headerShown: true 
+                }}
             />
             <Stack.Screen
                 name={ROUTES.LOGIN}

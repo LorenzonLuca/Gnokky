@@ -13,6 +13,7 @@ import { signOut } from 'firebase/auth';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { appUser } from '../Models/Globals';
+import AdminUtils from '../Models/AdminUtils';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ export default function HomeNavigator() {
                 console.log("LOGGEDOUT")
             })
             .catch((error) => Alert(error));
+        // AdminUtils.provaSuag("ciao");
     }
 
     const logo = IMAGES.LOGO;
