@@ -12,6 +12,8 @@ import { ROUTES } from '../Models/Globals';
 import GNBottomSheetModal from '../GN/GNBottomSheetModal';
 import { useTranslation } from 'react-i18next';
 import AdminUtils from '../Models/AdminUtils';
+import ContactList from '../GN/ContactList';
+import ChatUtils from '../Models/ChatUtils';
 
 export default function ProfilePage({ navigation, route }) {
     const { user } = route.params;
@@ -27,6 +29,12 @@ export default function ProfilePage({ navigation, route }) {
 
     const handlePresentOptionModal = () => {
         bottomSheetOptionModalRef.current?.present();
+    }
+
+    const bottomSheetOptionModalRefShare = useRef(null);
+
+    const handlePresentOptionModalShare = () => {
+        bottomSheetOptionModalRefShare.current?.present();
     }
     //////////
 
@@ -69,12 +77,12 @@ export default function ProfilePage({ navigation, route }) {
     }
 
     useEffect(() => {
-        if(property){
+        if (property) {
             navigation.setOptions({
                 headerTitle: user.username,
                 headerRight: renderMyRightHeader, // Mostra i dati nell'intestazione
             });
-        }else{
+        } else {
             navigation.setOptions({
                 headerTitle: user.username,
                 headerRight: renderProfileRightHeader, // Mostra i dati nell'intestazione
@@ -85,22 +93,28 @@ export default function ProfilePage({ navigation, route }) {
 
     useEffect(() => {
         const fetchUser = async () => {
-          try {
-            const fetchedUser = await FirebaseUtils.getUser(profileUser?.id);
-            console.log("MATERAZZI è CADUTO ", fetchedUser);
-            setProfileUser(fetchedUser);
-            setLoading(false); 
-          } catch (error) {
-            console.log("possible unhandled madonna troia 2 ", error);
-            setLoading(false); 
-          }
+            try {
+                const fetchedUser = await FirebaseUtils.getUser(profileUser?.id);
+                console.log("MATERAZZI è CADUTO ", fetchedUser);
+                setProfileUser(fetchedUser);
+                setLoading(false);
+            } catch (error) {
+                console.log("possible unhandled madonna troia 2 ", error);
+                setLoading(false);
+            }
         };
         fetchUser()
-      }, []);
-      
+    }, []);
+
     const handleReportUser = async (user) => {
         await AdminUtils.reportUser(user);
         bottomSheetOptionModalRef.current?.dismiss();
+    }
+
+    const handleShareProfile = async (user) => {
+        const chat = await ChatUtils.findChatByUsername(user);
+
+        await ChatUtils.sendProfile(chat, profileUser.id);
     }
 
     const styles = StyleSheet.create({
@@ -129,6 +143,11 @@ export default function ProfilePage({ navigation, route }) {
             justifyContent: 'flex-start',
             marginVertical: 5,
         },
+        shareBottomSheet: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 3
+        }
     });
 
     if (loading) {
@@ -149,36 +168,59 @@ export default function ProfilePage({ navigation, route }) {
     if (profileUser) {
         return (
             <>
-            <SafeAreaView style={styles.container}>
-                <ScrollView contentContainerStyle={styles.contentContainer}
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                    }>
-                    <View style={styles.body}>
-                        <ProfileData user={profileUser} property={property} />
-                        <Divider color={'lightgray'} width={3} />
-                        <View style={{ width: '100%' }}>
-                            <PostLoader username={profileUser.username} refresh={refresh} />
+                <SafeAreaView style={styles.container}>
+                    <ScrollView contentContainerStyle={styles.contentContainer}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }>
+                        <View style={styles.body}>
+                            <ProfileData user={profileUser} property={property} />
+                            <Divider color={'lightgray'} width={3} />
+                            <View style={{ width: '100%' }}>
+                                <PostLoader username={profileUser.username} refresh={refresh} />
+                            </View>
                         </View>
+                    </ScrollView>
+                </SafeAreaView>
+                <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
+                    <TouchableWithoutFeedback onPress={() => { console.log("SIUMRIMUOVI") }} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
+                            <Text style={styles.bottomSheetSubtitle}>    {t('stop-following')}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText} />
+                    <TouchableWithoutFeedback onPress={() => handlePresentOptionModalShare()} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="paper-plane-outline" size={30} color={COLORS.firtText} />
+                            <Text style={styles.bottomSheetSubtitle}>    {t('share-profile')}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText} />
+                    <TouchableWithoutFeedback onPress={() => handleReportUser(profileUser)} >
+                        <View style={[styles.bottomSheetRow]}>
+                            <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                            <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-user')}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <Divider color={COLORS.thirdText} />
+                </GNBottomSheetModal>
+                <GNBottomSheetModal modalRef={bottomSheetOptionModalRefShare} height={'50%'} title={"Share profile with someone"}>
+                    <View style={[styles.shareBottomSheet, { width: '100%' }]}>
+                        <ScrollView>
+                            <ContactList
+                                usernames={appUser.following}
+                                iconName={'paper-plane'}
+                                contactOnPress={(username) => {
+                                    console.log("Sending this profile to ", username);
+                                    handleShareProfile(username)
+                                }}
+                                clickOpenProfile={false}
+                                size={50}
+                            />
+                        </ScrollView>
                     </View>
-                </ScrollView>
-            </SafeAreaView>
-            <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} >
-                <TouchableWithoutFeedback onPress={() => { console.log("SIUMRIMUOVI") }} >
-                    <View style={[styles.bottomSheetRow]}>
-                        <Ionicons name="person-remove-outline" size={30} color={COLORS.firtText} />
-                        <Text style={styles.bottomSheetSubtitle}>    {t('stop-following')}</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <Divider color={COLORS.thirdText} />
-                <TouchableWithoutFeedback onPress={() => handleReportUser(profileUser)} >
-                    <View style={[styles.bottomSheetRow]}>
-                        <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                        <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-user')}</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <Divider color={COLORS.thirdText} />
-            </GNBottomSheetModal>
+                </GNBottomSheetModal>
             </>
         );
     }

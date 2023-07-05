@@ -81,7 +81,7 @@ export default class ChatUtils {
         });
     }
 
-    static async sendMessage(chatId, text, isStory = false, isPost = false) {
+    static async sendMessage(chatId, text, isStory = false, isPost = false, isProfile = false) {
         try {
             const chatDocRef = doc(db, "chats", chatId);
             const innerCollectionRef = collection(chatDocRef, 'messages');
@@ -94,6 +94,7 @@ export default class ChatUtils {
                 timestamp: new Date().getTime(),
                 isStory: isStory,
                 isPost: isPost,
+                isProfile: isProfile,
             });
 
             console.log("BOIAAAAAA", text);
@@ -155,6 +156,15 @@ export default class ChatUtils {
         try {
             console.log("Sharing post: ", postId);
             await this.sendMessage(chat, postId, false, true)
+        } catch (error) {
+            console.log("error while trying to share a post");
+        }
+    }
+
+    static async sendProfile(chat, profileId) {
+        try {
+            console.log("Sharing profile: ", profileId);
+            await this.sendMessage(chat, profileId, false, false, true)
         } catch (error) {
             console.log("error while trying to share a post");
         }

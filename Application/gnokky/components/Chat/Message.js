@@ -1,5 +1,5 @@
 import { appUser, COLORS } from "../Models/Globals";
-import { View, StyleSheet, Text, Image, Modal, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Image, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useEffect } from "react";
 import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
@@ -7,13 +7,18 @@ import StoriesVisualizer from "../Stories/StoriesVisualizer";
 import { useTranslation } from 'react-i18next';
 import PostUtils from "../Models/PostUtils";
 import Post from "../GN/Post";
+import FirebaseUtils from "../Models/FirebaseUtils";
+import GNProfileImage from "../GN/GNProfileImage";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Message({ message }) {
     const { t } = useTranslation();
+    const navigation = useNavigation();
     const property = message.owner === appUser.username;
     const [propertyStory, setPropertyStory] = useState(null);
     const [story, setStory] = useState(null);
     const [post, setPost] = useState(null);
+    const [profile, setProfile] = useState(null);
     const [openStory, setOpenStory] = useState(null)
 
     useEffect(() => {
@@ -44,8 +49,26 @@ export default function Message({ message }) {
             }
             console.log("BOIA È STATO INVIATO UN POST");
             fetchPost(message.text)
+        } else if (message.isProfile) {
+            const fetchProfile = async (id) => {
+                try {
+                    const newProfile = await FirebaseUtils.getUser(id);
+                    console.log("PROFILE IN CHAT GODODODO: ", newProfile);
+                    setProfile(newProfile);
+                } catch (error) {
+                    console.log("Error while trying to get profile ", error);
+                }
+            }
+            console.log("BOIA È STATO INVIATO UN PROFILO");
+            fetchProfile(message.text)
         }
     }, [])
+
+    const handleOpenProfile = async (user) => {
+
+        navigation.navigate("ProfileSearch", { user: user });
+
+    }
 
     const styles = StyleSheet.create({
         message: {
@@ -94,6 +117,14 @@ export default function Message({ message }) {
             color: COLORS.secondText,
             padding: 10,
             fontStyle: 'italic',
+        },
+        profileContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        profileUsername: {
+            marginHorizontal: 7,
+            fontSize: 20
         }
     })
 
@@ -107,7 +138,7 @@ export default function Message({ message }) {
 
     return (
         <>
-            {!message.isStory && !message.isPost ? (
+            {!message.isStory && !message.isPost && !message.isProfile ? (
                 <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
                     <Text style={styles.messageText}>{message.text}</Text>
                     <Text style={styles.timeDate}>{transformDate(message.timestamp)}</Text>
@@ -156,6 +187,26 @@ export default function Message({ message }) {
                                 </View>
                             )}
 
+                        </>
+                    )}
+                    {message.isProfile && (
+                        <>
+                            {profile ? (
+                                <TouchableWithoutFeedback onPress={() => handleOpenProfile(profile)}>
+                                    <View style={[
+                                        styles.message,
+                                        property ? styles.yourMessage : styles.otherUserMessage,
+                                        styles.profileContainer
+                                    ]}>
+                                        <GNProfileImage selectedImage={profile.profilePic} size={60} />
+                                        <Text style={[styles.profileUsername, styles.messageText]}>{profile.username}</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            ) : (
+                                <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
+                                    <Text style={styles.messageText}>Loading profile</Text>
+                                </View>
+                            )}
                         </>
                     )}
                 </>

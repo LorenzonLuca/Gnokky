@@ -1,38 +1,30 @@
 {
     "change-language": "Change language",
-
     "edit-profile": "Edit profile",
     "follow": "Follow",
     "unfollow": "Unfollow",
     "posts": "Posts",
     "followers": "Followers",
     "following": "Following",
-
     "message": "Message...",
     "send": "Send",
     "story-no-longer-available": "Story no longer available",
-
     "search": "Search",
     "existing-chats": "Existing chats",
     "other-users": "Other users",
-
     "options": "Options",
-
     "delete-story": "Delete story",
     "delete-post": "Delete post",
     "stop-following": "Stop following",
     "report-post": "Report post",
     "report-user": "Report user",
-
     "send-message": "Send message",
     "activity": "Activity",
     "watched-story": "Users who watched your story",
     "your-story": "Your story",
-
     "add-comment": "Add a comment",
     "noone-commented": "No one has commented yet, be the first!",
-
     "caption": "Caption...",
-    "select-image": "Select an image!"
-
+    "select-image": "Select an image!",
+    "share-profile": "Share profile"
 }
