@@ -5,12 +5,15 @@ import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
 import StoriesVisualizer from "../Stories/StoriesVisualizer";
 import { useTranslation } from 'react-i18next';
+import PostUtils from "../Models/PostUtils";
+import Post from "../GN/Post";
 
 export default function Message({ message }) {
     const { t } = useTranslation();
     const property = message.owner === appUser.username;
     const [propertyStory, setPropertyStory] = useState(null);
     const [story, setStory] = useState(null);
+    const [post, setPost] = useState(null);
     const [openStory, setOpenStory] = useState(null)
 
     useEffect(() => {
@@ -27,10 +30,20 @@ export default function Message({ message }) {
                     console.log("Error while trying to get story, ", error)
                 }
             }
-
             console.log("BOIA È STATA INVIATA UNA STORIA");
             fetchStory(message.text)
-
+        } else if (message.isPost) {
+            const fetchPost = async (id) => {
+                try {
+                    const newPost = await PostUtils.getPostById(id);
+                    console.log("POST IN CHAT GODODODO: ", newPost);
+                    setPost(newPost);
+                } catch (error) {
+                    console.log("Error while trying to get post: ", error);
+                }
+            }
+            console.log("BOIA È STATO INVIATO UN POST");
+            fetchPost(message.text)
         }
     }, [])
 
@@ -94,42 +107,58 @@ export default function Message({ message }) {
 
     return (
         <>
-            {message.isStory ? (
-                <>
-                    {story ? (
-                        <>
-                            {story === 'expired' ? (
-                                <View style={styles.messageExpired}>
-                                    <Text style={styles.expiredStory}>{t('story-no-longer-available')}</Text>
-                                </View>
-                            ) : (
-                                <>
-                                    <TouchableOpacity style={styles.imgMessage} onPress={() => setOpenStory(true)}>
-                                        <Image source={{ uri: story.img }} style={styles.img} />
-                                    </TouchableOpacity>
-                                    <Modal visible={openStory} animationType={'slide'}>
-                                        <StoriesVisualizer
-                                            stories={[story]}
-                                            property={true}
-                                            viewAction={propertyStory}
-                                            closeStories={() => setOpenStory(false)}
-                                        />
-                                    </Modal>
-                                </>
-                            )}
-                        </>
-                    ) : (
-                        <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
-                            <Text style={styles.messageText}>Loading story</Text>
-                        </View>
-                    )}
-
-                </>
-            ) : (
+            {!message.isStory && !message.isPost ? (
                 <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
                     <Text style={styles.messageText}>{message.text}</Text>
                     <Text style={styles.timeDate}>{transformDate(message.timestamp)}</Text>
                 </View >
+            ) : (
+                <>
+                    {message.isStory && (
+                        <>
+                            {story ? (
+                                <>
+                                    {story === 'expired' ? (
+                                        <View style={styles.messageExpired}>
+                                            <Text style={styles.expiredStory}>{t('story-no-longer-available')}</Text>
+                                        </View>
+                                    ) : (
+                                        <>
+                                            <TouchableOpacity style={styles.imgMessage} onPress={() => setOpenStory(true)}>
+                                                <Image source={{ uri: story.img }} style={styles.img} />
+                                            </TouchableOpacity>
+                                            <Modal visible={openStory} animationType={'slide'}>
+                                                <StoriesVisualizer
+                                                    stories={[story]}
+                                                    property={true}
+                                                    viewAction={propertyStory}
+                                                    closeStories={() => setOpenStory(false)}
+                                                />
+                                            </Modal>
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
+                                    <Text style={styles.messageText}>Loading story</Text>
+                                </View>
+                            )}
+
+                        </>
+                    )}
+                    {message.isPost && (
+                        <>
+                            {post ? (
+                                <Post post={post} key={post.id} />
+                            ) : (
+                                <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
+                                    <Text style={styles.messageText}>Loading post</Text>
+                                </View>
+                            )}
+
+                        </>
+                    )}
+                </>
             )}
         </>
     )

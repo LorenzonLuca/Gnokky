@@ -25,9 +25,9 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
     const [color, toggleColor] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    const bottomSheetModalRef = useRef(null);
-
     const isTextInputValid = answer.trim().length === 0;
+
+    const bottomSheetModalRef = useRef(null);
 
     const handlePresentModal = () => {
         console.log("crepa");
@@ -330,7 +330,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                     <GNBottomSheetModal
                                         modalRef={sendStoryBottomSheetModalRef}
                                         height={'50%'}
-                                        title={"Send to someone"}
+                                        title={"Share with someone"}
                                     >
                                         <View style={[styles.header, { width: '100%' }]}>
                                             <ScrollView>
