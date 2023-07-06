@@ -1,7 +1,5 @@
+import { CLIENT_ID_SPOTIFY, CLIENT_SECRET_SPOTIFY } from "../../private.conf";
 
-
-const CLIENT_ID = "4cf3e0c8d0c34b6c82239bea526c5825";
-const CLIENT_SECRET = "2cfc428a075d4b35aba9e0a4a00d63c0";
 
 export default class SpotifyUtils {
 
@@ -15,7 +13,7 @@ export default class SpotifyUtils {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
+            body: 'grant_type=client_credentials&client_id=' + CLIENT_ID_SPOTIFY + '&client_secret=' + CLIENT_SECRET_SPOTIFY
         };
 
         fetch('https://accounts.spotify.com/api/token', authParameters)
