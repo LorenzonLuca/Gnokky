@@ -1,5 +1,5 @@
 # Gnokky
-A social media made with React.
+A social media made with React-native.
 
 # Setup
 If you want to work on this application make sure to create a file named "private.conf.js" inside the project folder (application/gnokky)
