@@ -11,6 +11,7 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import GNTextInputMultiLine from '../GN/GNTextInputMultiLine';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ROUTES } from '../Models/Globals';
+import GNErrorModal from '../GN/GNErrorModal';
 
 export default function ProfileManagement({ navigation, route, title, onSave }) {
     // const { title } = route.params;
@@ -21,6 +22,7 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
     const [name, setName] = useState(null);
     const [surname, setSurname] = useState(null);
     const [bio, setBio] = useState(null);
+    const [error, setError] = useState(<></>)
 
     if (status === null) {
         requestPermission();
@@ -66,14 +68,14 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
 
     const onSaveProfileAsync = async () => {
         try {
-            const localUri = await captureRef(imageRef, {
-                quality: 1,
-            });
-
-            console.log(localUri);
-            saveImageInStorage(localUri);
-
             if (checkValue(name) && checkValue(surname)) {
+                const localUri = await captureRef(imageRef, {
+                    quality: 1,
+                });
+
+                console.log(localUri);
+                saveImageInStorage(localUri);
+
                 FirebaseUtils.insertPersonalInformation(name, surname, bio)
                 if (title === "Create profile") {
                     FirebaseUtils.setDefaultValue();
@@ -81,6 +83,15 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                 } else {
                     onSave();
                 }
+            } else {
+                console.log("Error while saving data");
+                setError(
+                    <GNErrorModal
+                        title={"Cannot save profile changes"}
+                        message={"Name and surname field must have a value!"}
+                        onClose={() => setError(<></>)}
+                    />
+                )
             }
         } catch (e) {
             console.log("Problem while saving new data for user: " + e);
@@ -89,11 +100,6 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
 
     const saveImageInStorage = async (imageUri) => {
         try {
-            // const response = await fetch(imageUri);
-            // const blob = await response.blob();
-
-            // const storageRef = ref(storage, `profilespic/${fileName}`);
-            // await uploadBytes(storageRef, blob);
             const path = appUser.username + "/profilepic";
             await FirebaseUtils.uploadImage(imageUri, path);
 
@@ -178,6 +184,7 @@ export default function ProfileManagement({ navigation, route, title, onSave }) 
                         onPress={onSaveProfileAsync}
                     />
                 </View>
+                {error}
             </ScrollView>
         </SafeAreaView>
     );

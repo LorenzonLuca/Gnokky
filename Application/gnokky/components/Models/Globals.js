@@ -12,7 +12,8 @@ export const COLORS = {
     "firtText": "#000500",
     "secondText": "#808080",
     "thirdText": "#C0C0C0",
-    "fourthText": "#EDEDED"
+    "fourthText": "#EDEDED",
+    "error": "#ff4d4d",
 };
 
 export const IMAGES = {
@@ -25,10 +26,10 @@ export const ROUTES = {
     BOTTOM_NAVIGATOR: 'Bottom',
     HOME_NAVIGATOR: 'HomeNavigator',
     ADMIN_NAVIGATOR: 'AdminNavigator',
-    
+
     POST_REPORTS: 'PostReports',
     USER_REPORTS: 'UserReports',
-    
+
 
     LOGIN: 'Login',
     REGISTER: 'Register',

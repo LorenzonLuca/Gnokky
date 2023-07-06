@@ -1,12 +1,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Image } from 'react-native';
 import { useState } from 'react';
 import GNButton from '../GN/GNButton';
 import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleRegister } from './AuthUtils';
-import { COLORS, ROUTES } from '../Models/Globals';
+import { COLORS, ROUTES, IMAGES } from '../Models/Globals';
 
 export default function RegisterPage({ navigation }) {
 
@@ -16,6 +16,9 @@ export default function RegisterPage({ navigation }) {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [error, setError] = useState('');
+
+    const logo = IMAGES.LOGO;
+
 
     const styles = StyleSheet.create({
         safeAreaContainer: {
@@ -32,10 +35,10 @@ export default function RegisterPage({ navigation }) {
             textAlign: 'center',
             marginVertical: 35,
         },
-        text:{
+        text: {
             textAlign: 'center',
             color: COLORS.secondText,
-        },  
+        },
         link: {
             color: COLORS.elements,
             fontWeight: 'bold',
@@ -46,13 +49,21 @@ export default function RegisterPage({ navigation }) {
             marginBottom: 120,
             textAlign: 'center',
             fontFamily: 'mnst-bold'
+        },
+        image: {
+            // flex: 1,
+            width: 80,
+            height: 80,
+            alignSelf: 'center',
+            // resizeMode: 'cover',
         }
     });
-    
+
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
                 <View>
+                    <Image source={logo} style={styles.image} />
                     <Text style={styles.title}>SIGN UP</Text>
                     <GNTextInput
                         placeholder='Username'
@@ -81,7 +92,7 @@ export default function RegisterPage({ navigation }) {
                         marginBottom={60} />
                     <GNButton
                         title={"SIGN UP"}
-                        onPress={ () => handleRegister(
+                        onPress={() => handleRegister(
                             username,
                             email,
                             password,
@@ -90,11 +101,11 @@ export default function RegisterPage({ navigation }) {
                             setError
                         )}
                     />
-                    <Text style={styles.errorText}>{error}</Text>
                     <Text style={styles.text}>
-                        Already have an account? 
-                        <Text style={styles.link} onPress={() => {navigation.navigate(ROUTES.LOGIN)}}> Sign in!</Text>
+                        Already have an account?
+                        <Text style={styles.link} onPress={() => { navigation.navigate(ROUTES.LOGIN) }}> Sign in!</Text>
                     </Text>
+                    {error}
                     <StatusBar style="dark" />
                 </View>
             </View >

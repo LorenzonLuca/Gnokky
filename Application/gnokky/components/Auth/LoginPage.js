@@ -117,11 +117,12 @@ export default function LoginPage({ navigation }) {
                         title={"SIGN IN"}
                         onPress={() => { handleLogin(email, password, navigation, setError) }}
                     />
-                    <Text style={styles.errorText}>{error}</Text>
+                    {/* <Text style={styles.errorText}>{error}</Text> */}
                     <Text style={styles.text}>
                         Don't have already an account?
                         <Text style={styles.link} onPress={() => { navigation.navigate(ROUTES.REGISTER) }}> Sign up now!</Text>
                     </Text>
+                    {error}
                     <StatusBar style="dark" />
                 </KeyboardAvoidingView>
             </View>
