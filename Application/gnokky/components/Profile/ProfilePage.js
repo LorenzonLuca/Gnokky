@@ -31,11 +31,16 @@ export default function ProfilePage({ navigation, route }) {
         bottomSheetOptionModalRef.current?.present();
     }
 
+    const handleDismissOptionModal = () => {
+        bottomSheetOptionModalRef.current?.dismiss();
+    }
+
     const bottomSheetOptionModalRefShare = useRef(null);
 
     const handlePresentOptionModalShare = () => {
         bottomSheetOptionModalRefShare.current?.present();
     }
+
     //////////
 
     const onRefresh = async () => {
@@ -190,7 +195,10 @@ export default function ProfilePage({ navigation, route }) {
                         </View>
                     </TouchableWithoutFeedback>
                     <Divider color={COLORS.thirdText} />
-                    <TouchableWithoutFeedback onPress={() => handlePresentOptionModalShare()} >
+                    <TouchableWithoutFeedback onPress={() => {
+                        handlePresentOptionModalShare()
+                        handleDismissOptionModal()
+                    }} >
                         <View style={[styles.bottomSheetRow]}>
                             <Ionicons name="paper-plane-outline" size={30} color={COLORS.firtText} />
                             <Text style={styles.bottomSheetSubtitle}>    {t('share-profile')}</Text>

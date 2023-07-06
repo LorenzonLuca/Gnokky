@@ -116,7 +116,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         const handleAlreadySeen = (user) => {
             let result = true;
             user.forEach(story => {
-                console.log("storyyyyyyyyyyyyyyyyy", story);
+                // console.log("storyyyyyyyyyyyyyyyyy", story);
                 let tmpResult = false;
                 story.watchedBy.forEach((users) => {
                     if (users.username == appUser.username) {
@@ -146,7 +146,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
 
         const storiesElements = stories.map((user) => (
             <View key={user[0].owner} style={styles.storyContainer} >
-                {console.log("GENERATING STORY ICONS", user)}
+                {/* {console.log("GENERATING STORY ICONS", user)} */}
                 {console.log("USER ALREADY SEEN : ", handleAlreadySeen(user))}
                 <View style={[styles.storyIcon, { borderColor: handleAlreadySeen(user) ? COLORS.firtText : COLORS.elements }]}>
                     <TouchableWithoutFeedback onPress={() => handleOpenStory(user)}>

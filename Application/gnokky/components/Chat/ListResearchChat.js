@@ -53,9 +53,10 @@ export default function ListResearchChat({ existingChats = [], otherUsers = [], 
         </TouchableWithoutFeedback>
     ));
 
-    const createChat = (user) => {
-        ChatUtils.createChat(user.username, user.id);
+    const createChat = async (user) => {
+        const chatId = await ChatUtils.createChat(user.username, user.id);
         refresh();
+        user.chatId = chatId;
         openChat(user);
     }
 

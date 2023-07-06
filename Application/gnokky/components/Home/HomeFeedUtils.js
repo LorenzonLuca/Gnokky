@@ -48,26 +48,26 @@ export default class HomeFeedUtils {
                 .filter(post => post && post.timestamp !== null && post.timestamp !== undefined);
 
             if (flattenedPosts.length > 1) {
-            const sortedPosts = flattenedPosts.sort((a, b) => {
-                const timestampA = a.timestamp;
-                const timestampB = b.timestamp;
+                const sortedPosts = flattenedPosts.sort((a, b) => {
+                    const timestampA = a.timestamp;
+                    const timestampB = b.timestamp;
 
-                if (timestampA && timestampB) {
-                // Ordine crescente in base al timestamp
-                return timestampB - timestampA;
-                } else {
-                    return 0;
-                }
-            });
+                    if (timestampA && timestampB) {
+                        // Ordine crescente in base al timestamp
+                        return timestampB - timestampA;
+                    } else {
+                        return 0;
+                    }
+                });
                 return sortedPosts;
             } else {
                 return flattenedPosts;
             }
 
-          } catch (error) {
+        } catch (error) {
             console.error("Errore durante il recupero o l'inserimento dei post nell'array: ", error);
             return null;
-          }
+        }
     }
 
 
@@ -86,7 +86,7 @@ export default class HomeFeedUtils {
             const stories = await Promise.all(promises);
 
             const filtered = stories.filter((element) => {
-                return element != null;
+                return element != null && element.length > 0;
             });
 
 
