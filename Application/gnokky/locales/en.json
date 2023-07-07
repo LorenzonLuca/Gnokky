@@ -26,5 +26,40 @@
     "noone-commented": "No one has commented yet, be the first!",
     "caption": "Caption...",
     "select-image": "Select an image!",
-    "share-profile": "Share profile"
+    "share-profile": "Share profile",
+
+    "report": "Report",
+    "inappropriate-content": "Inappropriate content",
+    "community-guidelines-violation": "Violation of community guidelines",
+    "abusive-behavior": "Abusive or intimidating behavior",
+    "harmful-content": "Harmful or dangerous content",
+    "compromised-identity": "Compromised identity or personal information",
+    "false-information": "Spread of false or misleading information",
+    "discrimination-hatred": "Discrimination or incitement to hatred",
+    "privacy-violation": "Privacy violation",
+    "violent-content": "Violent or gory content",
+    "spam-comments": "Comment or private message spam",
+
+    "spam-behavior": "Spam behavior",
+    "incitement-hate-violence": "Incitement of hate or violence",
+    "spread-false-information": "Spread of false information",
+    "copyright-infringement": "Copyright infringement",
+    "stalking-harassment": "Stalking or harassment",
+
+    "inappropriate-content-db": "Inappropriate content",
+    "community-guidelines-violation-db": "Violation of community guidelines",
+    "abusive-behavior-db": "Abusive or intimidating behavior",
+    "harmful-content-db": "Harmful or dangerous content",
+    "compromised-identity-db": "Compromised identity or personal information",
+    "false-information-db": "Spread of false or misleading information",
+    "discrimination-hatred-db": "Discrimination or incitement to hatred",
+    "privacy-violation-db": "Privacy violation",
+    "violent-content-db": "Violent or gory content",
+    "spam-comments-db": "Comment or private message spam",
+    "spam-behavior-db": "Spam behavior",
+    "incitement-hate-violence-db": "Incitement of hate or violence",
+    "spread-false-information-db": "Spread of false information",
+    "copyright-infringement-db": "Copyright infringement",
+    "stalking-harassment-db": "Stalking or harassment"
+
 }

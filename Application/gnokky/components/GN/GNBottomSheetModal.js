@@ -6,15 +6,16 @@ import { COLORS } from '../Models/Globals';
 import Divider from './Divider';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTranslation } from 'react-i18next';
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-export default function GNBottomSheetModal({ modalRef, height = '25%', children, title }) {
+export default function GNBottomSheetModal({ modalRef, height = ['25%'], children, title }) {
     const { t } = useTranslation();
 
     if (!title) {
       title = t('options');
     }
 
-    const snapPoints = [height];
+    const snapPoints = height;
 
     const handleDismissModal = () => {
         modalRef.current?.dismiss();
@@ -49,7 +50,11 @@ export default function GNBottomSheetModal({ modalRef, height = '25%', children,
         >
             <View style={styles.bottomSheetContent}>
                 <Text style={styles.bottomSheetTitle}>{title}</Text>
-                {children}
+                <View style={{ flex: 1, width: '100%' }}>
+                    <BottomSheetScrollView >
+                        {children}
+                    </BottomSheetScrollView>
+                </View>
             </View>
         </BottomSheetModal>
     );

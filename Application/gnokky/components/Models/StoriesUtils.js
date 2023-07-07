@@ -87,6 +87,7 @@ export default class StoriesUtils {
     }
 
     static async removeStory(story) {
+        console.log("diotacchino ", story)
         try {
             const docRef = doc(db, "stories", story.id);
 
@@ -148,7 +149,7 @@ export default class StoriesUtils {
 
             if (storySnapshot.exists()) {
                 const story = storySnapshot.data();
-
+                story.id = storySnapshot.id;
                 return story;
             } else {
                 console.log("Story not found");

@@ -27,7 +27,7 @@ export const ROUTES = {
     ADMIN_NAVIGATOR: 'AdminNavigator',
     
     POST_REPORTS: 'PostReports',
-    USER_REPORTS: 'UserReports',
+    USER_REPORTS: 'StoryReports',
     
 
     LOGIN: 'Login',

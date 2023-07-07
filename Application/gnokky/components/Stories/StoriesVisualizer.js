@@ -15,6 +15,7 @@ import ChatUtils from '../Models/ChatUtils';
 import ContactList from '../GN/ContactList';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator } from 'react-native';
+import AdminUtils from '../Models/AdminUtils';
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
     const { t } = useTranslation();
@@ -27,13 +28,17 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
     const isTextInputValid = answer.trim().length === 0;
 
-    const bottomSheetModalRef = useRef(null);
+    const bottomSheetOptionModalRef = useRef(null);
+    const bottomSheetReportsModalRef = useRef(null);
 
-    const handlePresentModal = () => {
-        console.log("crepa");
-        bottomSheetModalRef.current?.present();
+    const handlePresentOptionModal = () => {
+        bottomSheetOptionModalRef.current?.present();
     }
 
+    const handlePresentReportsModal = () => {
+        bottomSheetOptionModalRef.current?.dismiss();
+        bottomSheetReportsModalRef.current?.present();
+    }
     const watchUserBottomSheetModalRef = useRef(null);
 
     const handlePresentModalUser = () => {
@@ -153,6 +158,18 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             padding: 8,
             height: '100%',
         },
+        bottomSheetSubtitle: {
+            fontWeight: "bold",
+            color: COLORS.firtText,
+            fontSize: 14,
+        },
+        bottomSheetRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'flex-start',
+            marginVertical: 5,
+        },
     });
 
     useEffect(() => {
@@ -231,6 +248,11 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         closeStories();
     }
 
+    const handleReportStory = async (reason) => {
+        await AdminUtils.reportStory(stories[userIndex][storyIndex].owner, stories[userIndex][storyIndex].id, reason);
+        bottomSheetReportsModalRef.current?.dismiss();
+    }
+
     return (
         <BottomSheetModalProvider>
             <View style={styles.header}>
@@ -243,11 +265,9 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                 <Text>{!property ? stories[userIndex][0].owner : t('your-story')}</Text>
                 <View style={styles.iconContainer}>
                     <View style={styles.header}>
-                        {property && (
-                            <TouchableWithoutFeedback onPress={handlePresentModal}>
-                                <Ionicons name='ellipsis-vertical' size={25} />
-                            </TouchableWithoutFeedback>
-                        )}
+                        <TouchableWithoutFeedback onPress={handlePresentOptionModal}>
+                            <Ionicons name='ellipsis-vertical' size={25} />
+                        </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={closeStories}>
                             <Ionicons name='close-outline' size={40} />
                         </TouchableWithoutFeedback>
@@ -278,7 +298,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                         </View>
                         <GNBottomSheetModal
                             modalRef={watchUserBottomSheetModalRef}
-                            height={'50%'}
+                            height={['50%']}
                             title={t('watched-story')}
                         >
                             <View style={[styles.header, { width: '100%' }]}>
@@ -295,7 +315,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                 </ScrollView>
                             </View>
                         </GNBottomSheetModal>
-                        <GNBottomSheetModal modalRef={bottomSheetModalRef} height={'17%'}>
+                        <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} height={['17%']}>
                             <View style={[styles.header, { width: '100%' }]}>
                                 <TouchableWithoutFeedback onPress={removeStory}>
                                     <Text style={styles.removeStoryLabel}>
@@ -329,7 +349,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                     </TouchableWithoutFeedback>
                                     <GNBottomSheetModal
                                         modalRef={sendStoryBottomSheetModalRef}
-                                        height={'50%'}
+                                        height={['50%']}
                                         title={"Share with someone"}
                                     >
                                         <View style={[styles.header, { width: '100%' }]}>
@@ -357,6 +377,76 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                             color={color ? '#f00' : '#000'}
                                         />
                                     </TouchableWithoutFeedback>
+                                    <GNBottomSheetModal modalRef={bottomSheetOptionModalRef} height={['17%']}>
+                                        <TouchableWithoutFeedback onPress={handlePresentReportsModal} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Ionicons name="alert-circle-outline" size={30} color={'red'} />
+                                                <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-post')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                    </GNBottomSheetModal>
+                                    <GNBottomSheetModal title={t('report')} height={['55%']} modalRef={bottomSheetReportsModalRef} > 
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('inappropriate-content-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('inappropriate-content')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('community-guidelines-violation-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('community-guidelines-violation')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('abusive-behavior-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('abusive-behavior')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('harmful-content-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('harmful-content')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('compromised-identity-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('compromised-identity')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('false-information-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('false-information')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('discrimination-hatred-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('discrimination-hatred')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('privacy-violation-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('privacy-violation')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('violent-content-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('violent-content')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <Divider color={COLORS.thirdText} />
+                                        <TouchableWithoutFeedback onPress={() => handleReportStory(t('spam-comments-db'))} >
+                                            <View style={[styles.bottomSheetRow]}>
+                                                <Text style={styles.bottomSheetSubtitle}>{t('spam-comments')}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </GNBottomSheetModal>
                                 </>
                             ) : (
                                 <GNButton

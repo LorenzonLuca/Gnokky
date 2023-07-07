@@ -27,10 +27,6 @@ export const handleLogin = async (email, password, navigation, setError) => {
                 appUser.setEmail(email);
                 FirebaseUtils.getUserByEmail(email)
                     .then((result) => {
-                        if(result[0].banned){
-                            setError("This user has been banned!")
-                            throw new Error("This user has been banned!");
-                        }
                         appUser.setUsername(result[0].username);
                         appUser.setId(result[0].id);
                         storeUserData(result[0].id);

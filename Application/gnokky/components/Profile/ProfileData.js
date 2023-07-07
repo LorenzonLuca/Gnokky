@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function ProfileData({ user, property }) {
     const { t } = useTranslation();
-
     const [userData, setUserData] = useState(user);
     const [alreadyFollowing, setAlreadyFollowing] = useState(user.followers.includes(appUser.username));
     const [modalVisible, setModalVisible] = useState(false);

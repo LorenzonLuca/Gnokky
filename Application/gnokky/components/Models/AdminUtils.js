@@ -28,7 +28,7 @@ export default class AdminUtils {
         return formattedDate;
     }
  
-    static async reportPost(post) {
+    static async reportPost(post, reason) {
         try {
             const reportsCollectionRef = collection(db, 'reports');
             const reportDocRef = doc(reportsCollectionRef, 'posts'); 
@@ -36,6 +36,7 @@ export default class AdminUtils {
             const innerCollectionRef = collection(reportDocRef, 'posts'); 
             const docRef = await addDoc(innerCollectionRef, {
                 author: appUser.username,
+                reason: reason,
                 postId: post.id,  
                 postOwner: post.owner,
                 postCaption: post.caption,
@@ -44,52 +45,29 @@ export default class AdminUtils {
                 timestamp: new Date().getTime(),
             });
 
-            console.log("Post has been successfully reported: ", docRef.id);
+            console.log("Post has been successfully reported: ",docRef.id);
         } catch (e) {
             console.error("Error reporting post: ", e);
         }
     }
 
-    static async reportUser(user) {
+    static async reportStory(username, storyId, reason) {
         try {
             const reportsCollectionRef = collection(db, 'reports');
-            const reportDocRef = doc(reportsCollectionRef, 'users'); 
+            const reportDocRef = doc(reportsCollectionRef, 'stories'); 
             await setDoc(reportDocRef, {}); 
-            const innerCollectionRef = collection(reportDocRef, 'users'); 
+            const innerCollectionRef = collection(reportDocRef, 'stories'); 
             const docRef = await addDoc(innerCollectionRef, {
                 author: appUser.username,
-                userId: user.id,
-                user: user.username,
+                reason: reason,
+                user: username,
+                storyId: storyId,
                 timestamp: new Date().getTime(),
             });
 
-            console.log("User " + user.username + " has been successfully reported: ", docRef.id);
+            console.log("Story " + storyId + " has been successfully reported: ", docRef.id);
         } catch (e) {
             console.error("Error reporting user: ", e);
-        }
-    }
-
-    static async banUser(userId){
-        try {
-            const docRef = doc(db, "users", userId);
-            await updateDoc(docRef, {
-                banned: true
-            });
-            console.log("User " + userId + "has been successfully banned!");
-        } catch (e) {
-            console.log("Error while banning user: ", e);
-        }
-    }
-
-    static async sbanUser(userId){
-        try {
-            const docRef = doc(db, "users", userId);
-            await updateDoc(docRef, {
-                banned: false
-            });
-            console.log("User " + userId + "has been successfully sbanned!");
-        } catch (e) {
-            console.log("Error while sbanning user: ", e);
         }
     }
 
