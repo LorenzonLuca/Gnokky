@@ -57,7 +57,8 @@ export default function StoryReview({reportInfo, refreshReports, onClose}) {
           style: 'destructive',
           onPress: async () => {
             await StoriesUtils.removeStory(story);
-            await AdminUtils.removeReport('stories',reportId);
+            //await AdminUtils.removeReport('stories',reportId);
+            await AdminUtils.removeAllReportsById('stories',  reportInfo.storyId)
             refreshReports();
             onClose();
           },
@@ -80,7 +81,7 @@ export default function StoryReview({reportInfo, refreshReports, onClose}) {
           text: 'Ignore',
           style: 'destructive',
           onPress: async () => {
-            await AdminUtils.removeReport('stories',reportId);
+            await AdminUtils.removeReport('stories', reportId);
             refreshReports(); 
             onClose();
           },
@@ -210,6 +211,7 @@ export default function StoryReview({reportInfo, refreshReports, onClose}) {
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(story, reportInfo.id)}>
             <Ionicons name="trash-outline" size={24} color="white" />
           </TouchableOpacity>
+          {console.log("madonna lapide ", reportInfo.id)}
           <TouchableOpacity style={styles.ignoreButton} onPress={() => handleIgnore(reportInfo.id)}>
             <Ionicons name="checkmark-outline" size={24} color="white" />
           </TouchableOpacity>

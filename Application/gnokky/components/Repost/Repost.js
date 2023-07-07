@@ -132,6 +132,16 @@ export default function Repost({ repost, postHasMedia = false }) {
         }
     });
 
+    if(!repost){
+        return(
+            <View style={styles.repostContainer}>
+                <View style={[styles.border, { flex: 1, padding: 10 }]}>
+                    <Text style={{fontStyle: 'italic'}}>This post is no longer available</Text>
+                </View>
+            </View>
+        )
+    }
+
     return (
         <>
             <View style={styles.repostContainer}>

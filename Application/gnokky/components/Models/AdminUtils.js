@@ -95,7 +95,7 @@ export default class AdminUtils {
         }
     }   
     
-    static async removeReport(section,reportId){
+    static async removeReport(section, reportId){
         try {
             const reportsCollectionRef = collection(db, 'reports');
             const reportDocRef = doc(reportsCollectionRef, section); 
@@ -110,6 +110,31 @@ export default class AdminUtils {
                 })
         } catch (error) {
             console.log("Error while removing a report: ", error);
+        }
+    }
+
+    static async removeAllReportsById(section, itemId) {
+        try {
+            const reportsCollectionRef = collection(db, 'reports');
+            const reportDocRef = doc(reportsCollectionRef, section); 
+            const innerCollectionRef = collection(reportDocRef, section); 
+            const key = section == 'posts' ? 'postId' : 'storyId';
+            const querySnapshot = await getDocs(query(innerCollectionRef, where(key, '==', itemId)));
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach((doc) => {
+                  deleteDoc(doc.ref)
+                    .then(() => {
+                      console.log(`${key} with id ${itemId} has been removed`);
+                    })
+                    .catch((error) => {
+                      console.log(`Error while removing the report related with ${itemId}: `, error);
+                    });
+                });
+              } else {
+                console.log("No reports related with id " + itemId + " have been found");
+              }              
+        } catch (e) {
+            console.log("Error deleting reports: ", e);
         }
     }
 }

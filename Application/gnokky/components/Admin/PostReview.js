@@ -57,7 +57,8 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
           onPress: async () => {
             console.log("madonna fucilata ", postId)
             await PostUtils.deletePost(await PostUtils.getPostById(postId));
-            await AdminUtils.removeReport('posts',reportId);
+            //await AdminUtils.removeReport('posts',reportId);
+            await AdminUtils.removeAllReportsById('posts',  reportInfo.postId)
             refreshReports();
             onClose();
           },
@@ -80,7 +81,7 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
           text: 'Ignore',
           style: 'destructive',
           onPress: async () => {
-            await AdminUtils.removeReport('posts',reportId);
+            await AdminUtils.removeReport('posts', reportId);
             refreshReports(); 
             onClose();
           },
