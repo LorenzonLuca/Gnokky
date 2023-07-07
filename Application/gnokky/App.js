@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ProfileManagement from './components/Profile/ProfileManagement';
 import { useFonts } from 'expo-font';
-import { Animated, Easing, View } from 'react-native';
+import { Animated, Easing, View, DeviceEventEmitter } from 'react-native';
 import NavigatorTab from './components/GN/NavigatorTab';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WaitingPage from './components/Auth/WaitingPage';
@@ -26,10 +26,18 @@ import { StatusBar } from 'expo-status-bar';
 import i18next, { languageResources } from './services/i18next';
 import { useTranslation } from 'react-i18next';
 import languageList from './services/languagesList.json';
+import FirebaseUtils from './components/Models/FirebaseUtils';
+import { appUser } from './components/Models/Globals';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+    // const [refresh, setRefresh] = useState(false);
+
+    // DeviceEventEmitter.addListener('changed.theme', (event) => {
+    //     setRefresh(!refresh)
+    //     console.log("reloading app");
+    // });
 
     const [loaded] = useFonts({
         "mnst-bold": require('./assets/fonts/montserrat/Montserrat-Bold.ttf'),
@@ -56,6 +64,28 @@ export default function App() {
         setAppLanguage();
     }, []);
 
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('userID');
+                if (value !== null) {
+                    console.log("ORCABOIA");
+                    appUser.setId(value);
+                    // await appUser.getValueAndUpdate();
+                    await FirebaseUtils.updateAppUser();
+                    // navigation.navigate(ROUTES.BOTTOM_NAVIGATOR)
+                    setUserId(value);
+                }
+            } catch (e) {
+                console.log("Error while trying to get value from async storage: ", e);
+            }
+        };
+
+        getUserData();
+    }, [])
+
 
     if (!loaded) {
         return null;
@@ -63,9 +93,13 @@ export default function App() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <StatusBar backgroundColor='black' barStyle='light-content' />
+            <StatusBar backgroundColor='white' barStyle='light-content' />
             <NavigationContainer>
-                <AuthNavigator />
+                {userId ? (
+                    <BottomTabNavigator />
+                ) : (
+                    <AuthNavigator />
+                )}
             </NavigationContainer>
         </GestureHandlerRootView>
     );

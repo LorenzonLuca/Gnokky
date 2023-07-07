@@ -125,7 +125,7 @@ export default function ProfilePage({ navigation, route }) {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            //backgroundColor: COLORS.background,
+            backgroundColor: COLORS.background,
         },
         contentContainer: {
             flexGrow: 1,

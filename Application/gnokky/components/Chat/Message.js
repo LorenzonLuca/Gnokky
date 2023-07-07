@@ -80,7 +80,7 @@ export default function Message({ message }) {
         },
         yourMessage: {
             // alignSelf: 'flex-start',
-            backgroundColor: COLORS.elements,
+            backgroundColor: COLORS.secondText,
         },
         otherUserMessage: {
             // alignSelf: 'flex-end',
@@ -91,13 +91,26 @@ export default function Message({ message }) {
             padding: 10,
         },
         timeDate: {
-            color: property ? COLORS.thirdText : COLORS.firtText,
+            color: property ? COLORS.fourthText : COLORS.firtText,
             paddingHorizontal: 5,
         },
         img: {
             width: 200, // Define the appropriate width for your image
             height: 200, // Define the appropriate height for your image
             borderRadius: 30,
+        },
+        postImg: {
+            width: 200, // Define the appropriate width for your image
+            height: 200, // Define the appropriate height for your image
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20
+        },
+        postMessage: {
+            maxWidth: '100%',
+            paddingTop: 5,
+            borderRadius: 20,
+            marginVertical: 10,
+            alignSelf: property ? 'flex-end' : 'flex-start',
         },
         imgMessage: {
             maxWidth: '100%',
@@ -122,9 +135,15 @@ export default function Message({ message }) {
             flexDirection: 'row',
             alignItems: 'center',
         },
+        profileInfo: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
         profileUsername: {
             marginHorizontal: 7,
-            fontSize: 20
+            fontSize: 20,
+            // borderWidth: 1
         }
     })
 
@@ -180,7 +199,13 @@ export default function Message({ message }) {
                     {message.isPost && (
                         <>
                             {post ? (
-                                <Post post={post} key={post.id} />
+                                <View style={[styles.postMessage, property ? styles.yourMessage : styles.otherUserMessage]}>
+                                    <View style={[styles.profileContainer, { margin: 5 }]}>
+                                        <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={40} />
+                                        <Text style={styles.messageText}>{post.owner}</Text>
+                                    </View>
+                                    <Image source={{ uri: post.downloadUrl }} style={styles.postImg} />
+                                </View>
                             ) : (
                                 <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
                                     <Text style={styles.messageText}>Loading post</Text>
@@ -198,8 +223,11 @@ export default function Message({ message }) {
                                         property ? styles.yourMessage : styles.otherUserMessage,
                                         styles.profileContainer
                                     ]}>
-                                        <GNProfileImage selectedImage={profile.profilePic} size={60} />
-                                        <Text style={[styles.profileUsername, styles.messageText]}>{profile.username}</Text>
+                                        <GNProfileImage selectedImage={profile.profilePic} size={75} />
+                                        <View style={styles.profileInfo}>
+                                            <Text style={[styles.profileUsername, styles.messageText]}>{profile.username}</Text>
+                                            <Text style={styles.messageText}>{profile.name} {profile.surname}</Text>
+                                        </View>
                                     </View>
                                 </TouchableWithoutFeedback>
                             ) : (

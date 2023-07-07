@@ -1,10 +1,8 @@
 import User from "./User";
 import SpotifyUtils from "./SpotifyUtils";
 
-
 export const appUser = new User("", "");
 export const spotifyIntegration = new SpotifyUtils();
-
 
 export const COLORS = {
     "background": "#F2F3F4",
