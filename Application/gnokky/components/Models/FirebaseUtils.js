@@ -65,6 +65,7 @@ export default class FirebaseUtils {
     }
     static async getUser(id) {
         try {
+            console.log("Boiaaaa ", id);
             const userDoc = doc(db, "users", id);
             const userSnapshot = await getDoc(userDoc);
             if (userSnapshot.exists()) {
@@ -322,7 +323,7 @@ export default class FirebaseUtils {
                     id = doc.id;
                 });
 
-                console.log("user id^:", id);
+                console.log("user id:", id);
 
                 return id;
             }

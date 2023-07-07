@@ -1,15 +1,17 @@
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 
-import { appUser } from '../../components/Models/Globals';
-import { COLORS } from '../../components/Models/Globals';
+import { appUser, COLORS, ROUTES } from '../../components/Models/Globals';
 import PostLoader from '../GN/PostLoader';
 import HomeFeedUtils from './HomeFeedUtils';
 import HomeFeed from './HomeFeed';
 import StoriesUtils from '../Models/StoriesUtils';
 import { SpeedDial } from '@rneui/themed';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import FloatingButton from '../GN/FloatingButton';
+import { IconButton } from 'react-native-paper';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 export default function HomePage({ navigation }) {
     const styles = StyleSheet.create({
@@ -31,6 +33,21 @@ export default function HomePage({ navigation }) {
             backgroundColor: 'rgba(0, 0, 0, 0)',
         }
     });
+
+    const renderRightHeader = () => {
+        return (
+            <IconButton
+                icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
+                onPress={() => { navigation.navigate(ROUTES.NOTIFICATION) }}
+            />
+        )
+    }
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: renderRightHeader, // Mostra i dati nell'intestazione
+        });
+    }, [navigation]);
 
     return (
         <SafeAreaView style={styles.container}>

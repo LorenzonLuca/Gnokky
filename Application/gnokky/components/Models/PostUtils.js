@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import axios from 'axios';
 import { MAPBOX_ACCESS_TOKEN } from '../../private.conf';
-import { collection, addDoc, deleteDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion,arrayRemove, orderBy} from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove, orderBy } from "firebase/firestore";
 import { db } from "./Firebase"
 import { storage } from './Firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -89,31 +89,31 @@ export default class PostUtils {
     }
 
     // UTILS
-    static formatDate(timestamp){
+    static formatDate(timestamp) {
         const now = moment();
         const time = moment(timestamp);
         const diff = now.diff(time, 'minutes');
-        
-        if (diff == 0){
-         return "now";
-        }else if (diff < 60) {
-          return `${diff}m`;
+
+        if (diff == 0) {
+            return "now";
+        } else if (diff < 60) {
+            return `${diff}m`;
         } else if (diff < 24 * 60) {
-          return `${Math.floor(diff / 60)}h`;
+            return `${Math.floor(diff / 60)}h`;
         } else if (diff < 7 * 24 * 60) {
-          return `${Math.floor(diff / (24 * 60))}d`;
+            return `${Math.floor(diff / (24 * 60))}d`;
         } else if (now.year() === time.year()) {
-          return time.format('DD MMM');
+            return time.format('DD MMM');
         } else {
-          return time.format('DD MMM YYYY');
+            return time.format('DD MMM YYYY');
         }
     }
-      
+
     // QUERIES
     static async getPostsByUser(username, limit = false) {
         try {
             const postsCollection = collection(db, "posts");
-            const querySnapshot = await getDocs(query(postsCollection, where('owner', '==', username), orderBy('timestamp','desc')));
+            const querySnapshot = await getDocs(query(postsCollection, where('owner', '==', username), orderBy('timestamp', 'desc')));
             const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
 
             if (!querySnapshot.empty) {
@@ -169,26 +169,26 @@ export default class PostUtils {
     // check if the current user has already liked the post with this id
     static async checkIfLiked(id) {
         try {
-          const docRef = doc(db, "posts", id);
-          
-          const postSnapshot = await getDoc(docRef);
-          
-          if (postSnapshot.exists()) {
-            const post = postSnapshot.data();
-            
-            const liked = post.likes.includes(appUser.username);
-            return liked;
-          } else {
-            console.log("Post not found");
-            return false;
-          }
+            const docRef = doc(db, "posts", id);
+
+            const postSnapshot = await getDoc(docRef);
+
+            if (postSnapshot.exists()) {
+                const post = postSnapshot.data();
+
+                const liked = post.likes.includes(appUser.username);
+                return liked;
+            } else {
+                console.log("Post not found");
+                return false;
+            }
         } catch (e) {
-          console.log("Error during checking value: ", e);
-          return false;
+            console.log("Error during checking value: ", e);
+            return false;
         }
     }
-      
-    static async getLikeCount(id){
+
+    static async getLikeCount(id) {
         try {
             const docRef = doc(db, "posts", id);
             const postSnapshot = await getDoc(docRef);
@@ -204,7 +204,7 @@ export default class PostUtils {
         }
     }
 
-    static async likePost(id){
+    static async likePost(id) {
         try {
             const docRef = doc(db, "posts", id);
             await updateDoc(docRef, {
@@ -215,7 +215,7 @@ export default class PostUtils {
         }
     }
 
-    static async dislikePost(id){
+    static async dislikePost(id) {
         try {
             const docRef = doc(db, "posts", id);
             await updateDoc(docRef, {
@@ -243,31 +243,31 @@ export default class PostUtils {
 
     static async fetchComments(postId) {
         try {
-          const postDocRef = doc(db, "posts", postId);
-          const commentsRef = collection(postDocRef, 'comments');
-          const commentsSnapshot = await getDocs(commentsRef);
-      
-          const comments = [];
-          commentsSnapshot.forEach((doc) => {
-            const comment = doc.data();
-            comment.id = doc.id;
-            comments.push(comment);
-          });
-          const sortedComments = this.sortComments(comments);
-          return sortedComments;
+            const postDocRef = doc(db, "posts", postId);
+            const commentsRef = collection(postDocRef, 'comments');
+            const commentsSnapshot = await getDocs(commentsRef);
+
+            const comments = [];
+            commentsSnapshot.forEach((doc) => {
+                const comment = doc.data();
+                comment.id = doc.id;
+                comments.push(comment);
+            });
+            const sortedComments = this.sortComments(comments);
+            return sortedComments;
         } catch (e) {
-          console.log("Error getting post's comments: ", e);
-          return [];
+            console.log("Error getting post's comments: ", e);
+            return [];
         }
     }
-      
+
     static sortComments(comments) {
         // Ordina l'array di commenti in base alla proprietà timestamp
         const sortedComments = comments.sort((a, b) => b.timestamp - a.timestamp);
         return sortedComments;
     }
 
-    static async getCommentsCount(postId){
+    static async getCommentsCount(postId) {
         try {
             const postDocRef = doc(db, "posts", postId);
             const commentsRef = collection(postDocRef, 'comments');
@@ -279,7 +279,7 @@ export default class PostUtils {
         }
     }
 
-    static async deletePost(post){
+    static async deletePost(post) {
         try {
             const docRef = doc(db, "posts", post.id);
             const ownerId = await FirebaseUtils.getIdFromUsername(post.owner);
@@ -295,8 +295,8 @@ export default class PostUtils {
                 .catch((error) => {
                     console.log(`Error while deleting the post with id ${post.id}: `, error);
                 });
-            
-            if(post.downloadUrl != ""){
+
+            if (post.downloadUrl != "") {
                 await FirebaseUtils.removeImage(post.downloadUrl);
             }
         } catch (error) {
