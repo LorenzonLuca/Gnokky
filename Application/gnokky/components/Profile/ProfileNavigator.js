@@ -13,6 +13,8 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { appUser } from '../Models/Globals';
 import Settings from './Settings'
+import LoginPage from '../Auth/LoginPage';
+
 
 const Stack = createStackNavigator();
 

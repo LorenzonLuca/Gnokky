@@ -16,6 +16,8 @@ import ContactList from '../GN/ContactList';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator } from 'react-native';
 import AdminUtils from '../Models/AdminUtils';
+import NotificationUtils from '../Models/NotificationUtils';
+
 
 export default function StoriesVisualizer({ stories, closeStories, startIndex = 0, property, viewAction, refreshAllStories }) {
     const { t } = useTranslation();
@@ -185,6 +187,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
         if (!property) {
             if (color) {
                 StoriesUtils.likeAStory(stories[userIndex][storyIndex].id);
+                NotificationUtils.insertNotificationStory(stories[userIndex][storyIndex].id, stories[userIndex][storyIndex].owner);
             } else {
                 StoriesUtils.removeLikeAStory(stories[userIndex][storyIndex].id);
             }
@@ -386,7 +389,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                         </TouchableWithoutFeedback>
                                         <Divider color={COLORS.thirdText} />
                                     </GNBottomSheetModal>
-                                    <GNBottomSheetModal title={t('report')} height={['55%']} modalRef={bottomSheetReportsModalRef} > 
+                                    <GNBottomSheetModal title={t('report')} height={['55%']} modalRef={bottomSheetReportsModalRef} >
                                         <TouchableWithoutFeedback onPress={() => handleReportStory(t('inappropriate-content-db'))} >
                                             <View style={[styles.bottomSheetRow]}>
                                                 <Text style={styles.bottomSheetSubtitle}>{t('inappropriate-content')}</Text>

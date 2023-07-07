@@ -12,6 +12,7 @@ import StoriesUtils from '../Models/StoriesUtils';
 import StoriesVisualizer from '../Stories/StoriesVisualizer';
 import ContactList from '../GN/ContactList';
 import { useTranslation } from 'react-i18next';
+import NotificationUtils from '../Models/NotificationUtils';
 
 
 export default function ProfileData({ user, property }) {
@@ -104,6 +105,7 @@ export default function ProfileData({ user, property }) {
             .catch((error) => {
                 console.log("Error while following:", error);
             });
+        NotificationUtils.insertNotificationProfile(userData.id);
     };
 
     const handleOpenStories = () => {

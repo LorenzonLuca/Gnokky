@@ -186,8 +186,8 @@ export default function NewStoryPage({ onClose }) {
                 <GNAppBar
                     iconLeading='close-outline'
                     onPressLeading={() => { onClose() }}
-                    iconTrailing={media || song && (bottomBar ? 'checkmark-outline' : 'checkmark-circle-outline')}
-                    onPressTrailing={media || song && (bottomBar ? handleUploadStory : confirmText)}
+                    iconTrailing={((media || song) && bottomBar ? 'checkmark-outline' : 'checkmark-circle-outline')}
+                    onPressTrailing={((media || song) && bottomBar ? handleUploadStory : confirmText)}
 
                 />
             </View>

@@ -47,7 +47,7 @@ export default function NotificationsPage({ navigation }) {
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     <View style={styles.body}>
                         {notifications.length > 0 ? (
-                            <Notifications elements={notifications} />
+                            <Notifications elements={notifications} navigation={navigation} />
                         ) : (
                             <Text>There aren't notification</Text>
                         )}
