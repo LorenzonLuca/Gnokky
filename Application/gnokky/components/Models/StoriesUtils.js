@@ -41,15 +41,20 @@ export default class StoriesUtils {
                     story.id = doc.id;
                     story.profilePic = profilePic;
 
-                    if (currentTime.diff(story.timestamp, 'days') > 0) {
+                    if (currentTime.diff(story.timestamp, 'hours') > 24) {
                         oldStories.push(story);
+                        console.log("Pushing in oldStory ", story.id);
                     } else {
-                        console.log("DIFFERENZA DI TEMPO (PER ELIMINARE LA STORIA): ", currentTime.diff(story.timestamp, 'days'));
+                        console.log("DIFFERENZA DI TEMPO (PER ELIMINARE LA STORIA): ", currentTime.diff(story.timestamp, 'days'), " for story: ", story.id);
                         stories.push(story);
                     }
                 });
                 console.log("le storie di ", username, " mannaggia a ddio sono: ", stories);
                 this.removeOldStories(oldStories);
+
+                console.log("All stories: ", stories);
+                console.log("Too old stories: ", oldStories)
+
                 return stories;
             } else {
                 console.log("No stories found by this username " + username);

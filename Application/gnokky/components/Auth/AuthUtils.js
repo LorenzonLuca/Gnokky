@@ -5,6 +5,8 @@ import { appUser } from '../Models/Globals';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ROUTES } from '../Models/Globals';
+import GNErrorModal from '../GN/GNErrorModal';
+import { AUTH_ERROR } from '../Models/FirebaseErrorManager';
 
 export const handleLogin = async (email, password, navigation, setError) => {
 
@@ -13,7 +15,13 @@ export const handleLogin = async (email, password, navigation, setError) => {
     password = password.trim();
 
     if (!(email && password)) {
-        setError('Email and password fields are required');
+        setError(
+            <GNErrorModal
+                title={"Failed to login"}
+                message={"Email and password fields are required"}
+                onClose={() => setError(<></>)}
+            />
+        );
         return;
     }
 
@@ -37,8 +45,15 @@ export const handleLogin = async (email, password, navigation, setError) => {
             }
         })
         .catch((error) => {
-            console.log(error.message);
-            setError(error.message)
+            console.log(error.code);
+
+            setError(
+                <GNErrorModal
+                    title={"Failed to login"}
+                    message={AUTH_ERROR.get(error.code)}
+                    onClose={() => setError(<></>)}
+                />
+            );
         });
 }
 
@@ -49,12 +64,24 @@ export const handleRegister = async (username, email, password, password2, navig
     password2 = password2.trim();
 
     if (!(username && email && password && password2)) {
-        setError('All fields are required. Insert valid values!');
+        setError(
+            <GNErrorModal
+                title={"Failed to Register "}
+                message={"All fields are required. Insert valid values!"}
+                onClose={() => setError(<></>)}
+            />
+        );
         return;
     }
 
     if (password != password2) {
-        setError('Passwords do not match!');
+        setError(
+            <GNErrorModal
+                title={"Failed to Register "}
+                message={'Passwords do not match!'}
+                onClose={() => setError(<></>)}
+            />
+        );
         return;
     }
     await createUserWithEmailAndPassword(auth, email, password)
@@ -72,7 +99,13 @@ export const handleRegister = async (username, email, password, password2, navig
         })
         .catch((error) => {
             console.log("errore nel settare la madonna (secondo then) ", error);
-            setError(error.message);
+            setError(
+                <GNErrorModal
+                    title={"Failed to Register"}
+                    message={AUTH_ERROR.get(error.code)}
+                    onClose={() => setError(<></>)}
+                />
+            );
             appUser.setUsername(null);
             appUser.setEmail(null);
         });
