@@ -135,7 +135,7 @@ export default function PostInteractions({ post }) {
                 />
                 {/* <Text style={styles.interactionCount}></Text> */}
             </View>
-            <GNBottomSheetModal modalRef={shareBottomSheetModalRef} height={'50%'} title={"Share post with someone"}>
+            <GNBottomSheetModal modalRef={shareBottomSheetModalRef} height={['50%']} title={"Share post with someone"}>
                 <View style={[styles.shareBottomSheet, { width: '100%' }]}>
                     <ScrollView>
                         <ContactList

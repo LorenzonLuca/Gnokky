@@ -4,8 +4,8 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { COLORS } from '../Models/Globals';
 
 import PostReports from './PostReports';
-import UserReports from './UserReports';
-import BlackList from './BlackList';
+import StoryReports from './StoryReports';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 // Crea il navigatore a schede
 const TabNavigator = createMaterialTopTabNavigator(
@@ -17,15 +17,9 @@ const TabNavigator = createMaterialTopTabNavigator(
       },
     },
     Users: {
-      screen: UserReports,
+      screen: StoryReports,
       navigationOptions: {
-        title: 'Users',
-      },
-    },
-    BlackList: {
-      screen: BlackList,
-      navigationOptions: {
-        title: 'Blacklist',
+        title: 'Stories',
       },
     },
   },
@@ -50,5 +44,9 @@ const AppContainer = createAppContainer(TabNavigator);
 
 // Esporta il componente principale
 export default function AdminNavigator() {
-  return <AppContainer />;
+  return (
+    <BottomSheetModalProvider>
+      <AppContainer />
+    </BottomSheetModalProvider>
+  );
 }

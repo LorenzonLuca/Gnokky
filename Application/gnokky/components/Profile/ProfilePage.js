@@ -15,7 +15,7 @@ import AdminUtils from '../Models/AdminUtils';
 import ContactList from '../GN/ContactList';
 import ChatUtils from '../Models/ChatUtils';
 
-export default function ProfilePage({ navigation, route }) {
+export default function ProfilePage({ navigation, route}) {
     const { user } = route.params;
     const { t } = useTranslation();
     const [property, setProperty] = useState(user.id === appUser.id);
@@ -26,6 +26,7 @@ export default function ProfilePage({ navigation, route }) {
 
     ///// bottomSheet modal /////
     const bottomSheetOptionModalRef = useRef(null);
+    const bottomSheetReportsModalRef = useRef(null);
 
     const handlePresentOptionModal = () => {
         bottomSheetOptionModalRef.current?.present();
@@ -110,11 +111,6 @@ export default function ProfilePage({ navigation, route }) {
         };
         fetchUser()
     }, []);
-
-    const handleReportUser = async (user) => {
-        await AdminUtils.reportUser(user);
-        bottomSheetOptionModalRef.current?.dismiss();
-    }
 
     const handleShareProfile = async (user) => {
         const chat = await ChatUtils.findChatByUsername(user);
@@ -205,15 +201,15 @@ export default function ProfilePage({ navigation, route }) {
                         </View>
                     </TouchableWithoutFeedback>
                     <Divider color={COLORS.thirdText} />
-                    <TouchableWithoutFeedback onPress={() => handleReportUser(profileUser)} >
+                    {/* <TouchableWithoutFeedback onPress={() => handlePresentReportsModal()} >
                         <View style={[styles.bottomSheetRow]}>
                             <Ionicons name="alert-circle-outline" size={30} color={'red'} />
                             <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-user')}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText} />
+                    <Divider color={COLORS.thirdText} /> */}
                 </GNBottomSheetModal>
-                <GNBottomSheetModal modalRef={bottomSheetOptionModalRefShare} height={'50%'} title={"Share profile with someone"}>
+                <GNBottomSheetModal modalRef={bottomSheetOptionModalRefShare} height={['50%']} title={"Share profile with someone"}>
                     <View style={[styles.shareBottomSheet, { width: '100%' }]}>
                         <ScrollView>
                             <ContactList

@@ -148,12 +148,10 @@ export default class PostUtils {
         try {
             const postDoc = doc(db, "posts", postId);
             const postSnapshot = await getDoc(postDoc);
-            //const profilePic = await FirebaseUtils.getProfilePicFromUsername(username);
-
             if (postSnapshot.exists()) {
                 const post = postSnapshot.data();
                 post.id = postSnapshot.id;
-                post.ownerProfilePicUrl = await FirebaseUtils.getProfilePicFromUsername(post.owner);;
+                post.ownerProfilePicUrl = await FirebaseUtils.getProfilePicFromUsername(post.owner);
                 return post;
             } else {
                 console.log("No post found by this id ", postId);

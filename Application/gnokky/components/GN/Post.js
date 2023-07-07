@@ -4,8 +4,8 @@ import { ROUTES, appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
 import { useEffect, useState, useRef } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Image } from 'react-native-elements';
 import * as VideoPicker from 'expo-image-picker';
+import { Image } from 'react-native-elements';
 import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -14,7 +14,6 @@ import Divider from './Divider';
 import PostUtils from '../Models/PostUtils';
 import GNBottomSheetModal from './GNBottomSheetModal';
 import Repost from '../Repost/Repost';
-
 import 'react-native-gesture-handler';
 import AdminUtils from '../Models/AdminUtils';
 import { useNavigation } from '@react-navigation/native';
@@ -34,9 +33,19 @@ export default function Post({ post, refreshAfterDelete }) {
 
     ///// bottomSheet modal /////
     const bottomSheetOptionModalRef = useRef(null);
+    const bottomSheetReportsModalRef = useRef(null);
 
     const handlePresentOptionModal = () => {
         bottomSheetOptionModalRef.current?.present();
+    }
+
+    // const handleDismissOptionModal = () => {
+    //     bottomSheetOptionModalRef.current?.dismiss();
+    // }
+
+    const handlePresentReportsModal = () => {
+        bottomSheetOptionModalRef.current?.dismiss();
+        bottomSheetReportsModalRef.current?.present();
     }
     //////////
 
@@ -58,9 +67,9 @@ export default function Post({ post, refreshAfterDelete }) {
         }
     }, [])
 
-    const handleReportPost = async (post) => {
-        await AdminUtils.reportPost(post);
-        bottomSheetOptionModalRef.current?.dismiss();
+    const handleReportPost = async (reason) => {
+        await AdminUtils.reportPost(post, reason);
+        bottomSheetReportsModalRef.current?.dismiss();
     }
 
     const handleDeleteMyPost = async (post) => {
@@ -120,7 +129,6 @@ export default function Post({ post, refreshAfterDelete }) {
             borderRadius: 15,
             borderColor: COLORS.thirdText,
             borderWidth: 1,
-            //marginBottom: 10,
         },
         modalContainer: {
             flex: 1,
@@ -268,7 +276,7 @@ export default function Post({ post, refreshAfterDelete }) {
                             </View>
                         </TouchableWithoutFeedback>
                         <Divider color={COLORS.thirdText} />
-                        <TouchableWithoutFeedback onPress={() => handleReportPost(post)} >
+                        <TouchableWithoutFeedback onPress={handlePresentReportsModal} >
                             <View style={[styles.bottomSheetRow]}>
                                 <Ionicons name="alert-circle-outline" size={30} color={'red'} />
                                 <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-post')}</Text>
@@ -277,6 +285,67 @@ export default function Post({ post, refreshAfterDelete }) {
                         <Divider color={COLORS.thirdText} />
                     </>
                 )}
+            </GNBottomSheetModal>
+            <GNBottomSheetModal title={t('report')} height={['55%']} modalRef={bottomSheetReportsModalRef} > 
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('inappropriate-content-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('inappropriate-content')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('community-guidelines-violation-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('community-guidelines-violation')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('abusive-behavior-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('abusive-behavior')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('harmful-content-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('harmful-content')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('compromised-identity-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('compromised-identity')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('false-information-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('false-information')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('discrimination-hatred-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('discrimination-hatred')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('privacy-violation-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('privacy-violation')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('violent-content-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('violent-content')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <Divider color={COLORS.thirdText} />
+                <TouchableWithoutFeedback onPress={() => handleReportPost(t('spam-comments-db'))} >
+                    <View style={[styles.bottomSheetRow]}>
+                        <Text style={styles.bottomSheetSubtitle}>{t('spam-comments')}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
             </GNBottomSheetModal>
         </Surface>
     );
