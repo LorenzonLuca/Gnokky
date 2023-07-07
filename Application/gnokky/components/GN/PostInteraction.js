@@ -11,6 +11,7 @@ import { Modal } from 'react-native';
 import GNBottomSheetModal from './GNBottomSheetModal';
 import ContactList from '../GN/ContactList';
 import ChatUtils from '../Models/ChatUtils';
+import NotificationUtils from '../Models/NotificationUtils';
 
 
 export default function PostInteractions({ post }) {
@@ -46,6 +47,7 @@ export default function PostInteractions({ post }) {
             await PostUtils.dislikePost(post.id);
         } else {
             await PostUtils.likePost(post.id);
+            NotificationUtils.insertNotificationPost(post.id, "like", post.owner);
         }
         setLiked(!liked);
         setLikesCount(await PostUtils.getLikeCount(post.id));
@@ -149,7 +151,13 @@ export default function PostInteractions({ post }) {
                     </ScrollView>
                 </View>
             </GNBottomSheetModal>
-            <CommentSection postId={post.id} modalRef={bottomSheetCommentsModalRef} title='Comments' height='90%' />
+            <CommentSection
+                postId={post.id}
+                modalRef={bottomSheetCommentsModalRef}
+                title='Comments'
+                height='90%'
+                postOwner={post.owner}
+            />
         </View>
     );
 }

@@ -14,6 +14,7 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { appUser } from '../Models/Globals';
 import AdminUtils from '../Models/AdminUtils';
+import NotificationsPage from '../Notifications/NotificationsPage';
 
 const Stack = createStackNavigator();
 
@@ -21,17 +22,17 @@ export default function HomeNavigator() {
 
     const navigation = useNavigation()
 
-    const hanldeSignOut = async () => {
-        await signOut(auth)
-            .then(async () => {
-                await AsyncStorage.removeItem("userID");
-                appUser.resetAllValues();
-                navigation.navigate(ROUTES.LOGIN)
-                console.log("LOGGEDOUT")
-            })
-            .catch((error) => Alert(error));
-        // AdminUtils.provaSuag("ciao");
-    }
+    // const hanldeSignOut = async () => {
+    //     await signOut(auth)
+    //         .then(async () => {
+    //             await AsyncStorage.removeItem("userID");
+    //             appUser.resetAllValues();
+    //             navigation.navigate(ROUTES.LOGIN)
+    //             console.log("LOGGEDOUT")
+    //         })
+    //         .catch((error) => Alert(error));
+    //     // AdminUtils.provaSuag("ciao");
+    // }
 
     const logo = IMAGES.LOGO;
 
@@ -77,12 +78,6 @@ export default function HomeNavigator() {
                                 <Image source={logo} style={styles.image} />
                             </View>
                         ),
-                        headerRight: () => (
-                            <IconButton
-                                icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
-                                onPress={hanldeSignOut}
-                            />
-                        ),
                     }}
                 />
                 <Stack.Screen
@@ -111,6 +106,27 @@ export default function HomeNavigator() {
                         // ),
                     }}
                 />
+                <Stack.Screen
+                    name={ROUTES.NOTIFICATION}
+                    component={NotificationsPage}
+                    options={{
+                        tabBarHideOnKeyboard: true,
+                        headerShown: true,
+                        headerTintColor: COLORS.firtText,
+                        headerTitleAlign: 'center',
+                        headerStyle: {
+                            backgroundColor: COLORS.background,
+                            borderBottomColor: COLORS.thirdText,
+                            borderBottomWidth: 1,
+                        },
+                        headerTitle: () => (
+                            <View style={styles.imageContainer}>
+                                <Image source={logo} style={styles.image} />
+                            </View>
+                        ),
+                    }}
+                />
+
             </Stack.Navigator>
         </NavigationContainer>
     )
