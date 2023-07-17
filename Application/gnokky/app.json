@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/logo/logo_gnocchi_outline.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ollaretheste.gnokky"
+      "package": "com.luca_lorenzon.gnokky"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "d29ecc76-053f-4a95-bcda-b701f82f2830"
+        "projectId": "54acd199-60e7-497a-a026-1692a71f0532"
       }
     }
   }
