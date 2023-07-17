@@ -3,8 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { COLORS, IMAGES } from '../Models/Globals';
 import { View, StyleSheet, Image } from 'react-native';
-import ChatPage from './ChatPage';
-import ChatTemplate from './ChatTemplate';
+import ChatPage from '../Chat/ChatPage';
+import ChatTemplate from '../Chat/ChatTemplate';
 import ProfilePage from '../Profile/ProfilePage';
 
 const Stack = createStackNavigator();

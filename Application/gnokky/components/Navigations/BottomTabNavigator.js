@@ -86,7 +86,7 @@ import { useRef } from 'react';
 import { auth } from '../Models/Firebase';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import 'react-native-gesture-handler';
-import ChatNavigator from '../Chat/ChatNavigator';
+import ChatNavigator from './ChatNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView } from 'react-native';
