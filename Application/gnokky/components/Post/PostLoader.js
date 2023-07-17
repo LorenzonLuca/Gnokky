@@ -1,13 +1,12 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements';
-import { appUser } from '../../components/Models/Globals';
-import { COLORS } from '../../components/Models/Globals';
-import Post from '../GN/Post';
+import { appUser } from '../Models/Globals';
+import { COLORS } from '../Models/Globals';
+import Post from './Post';
 
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "../Models/Firebase"
@@ -16,7 +15,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState, useEffect } from 'react';
 import PostUtils from '../Models/PostUtils';
 import { RefreshControl } from 'react-native';
-import Divider from './Divider';
+import Divider from './../GN/Divider';
 import { ActivityIndicator } from 'react-native';
 import FirebaseUtils from '../Models/FirebaseUtils';
 

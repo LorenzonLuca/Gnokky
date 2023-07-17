@@ -1,7 +1,4 @@
-import {
-    View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, ImageBackground,
-    ActivityIndicator, Image, TouchableWithoutFeedback
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Divider from '../GN/Divider';
 import GNProfileImage from '../GN/GNProfileImage';
 import { COLORS } from '../Models/Globals';
@@ -9,7 +6,7 @@ import { COLORS } from '../Models/Globals';
 
 export default function Notifications({ elements, navigation }) {
 
-    return elements.map((element, index) => {
+    return elements.map((element) => {
         switch (element.class) {
             case 'post':
                 return notificationPost(element, element.type);
@@ -30,7 +27,7 @@ const transformDate = (timestamp) => {
 }
 
 const notificationPost = (element, type) => {
-    console.log("POst notification, ", element);
+    console.log("Post notification, ", element);
     const styles = StyleSheet.create({
         container: {
             flex: 1,

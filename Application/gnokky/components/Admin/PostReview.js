@@ -1,8 +1,8 @@
-import { StyleSheet, Alert, ScrollView, View, Text, TouchableOpacity,TouchableWithoutFeedback, Modal } from 'react-native';
+import { StyleSheet, Alert, ScrollView, View, Text, TouchableOpacity, TouchableWithoutFeedback, Modal } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { COLORS, ROUTES } from '../Models/Globals';
 import 'react-native-gesture-handler';
-import Post from '../GN/Post';
+import Post from '../Post/Post';
 import { useEffect, useState } from 'react';
 import PostUtils from '../Models/PostUtils';
 import { ActivityIndicator } from 'react-native';
@@ -16,17 +16,17 @@ import Repost from '../Repost/Repost';
 import AdminUtils from '../Models/AdminUtils';
 import Divider from '../GN/Divider';
 
-export default function PostReview({reportInfo, refreshReports, onClose}) {
+export default function PostReview({ reportInfo, refreshReports, onClose }) {
   const [post, setPost] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const loadPost = async () => {
-      try{
-          const tempPost = await PostUtils.getPostById(reportInfo.postId)
-          setPost(tempPost);
-      }catch (e){
-          console.log("Unable to load post ", e)
+      try {
+        const tempPost = await PostUtils.getPostById(reportInfo.postId)
+        setPost(tempPost);
+      } catch (e) {
+        console.log("Unable to load post ", e)
       }
     };
 
@@ -34,12 +34,12 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
   }, [])
 
   const handleMediaClick = () => {
-      if (post.mediaType == 'image')
-          setModalVisible(true);
+    if (post.mediaType == 'image')
+      setModalVisible(true);
   };
 
   const closeModal = () => {
-      setModalVisible(false);
+    setModalVisible(false);
   };
 
   const handleDelete = async (postId, reportId) => {
@@ -58,7 +58,7 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
             console.log("madonna fucilata ", postId)
             await PostUtils.deletePost(await PostUtils.getPostById(postId));
             //await AdminUtils.removeReport('posts',reportId);
-            await AdminUtils.removeAllReportsById('posts',  reportInfo.postId)
+            await AdminUtils.removeAllReportsById('posts', reportInfo.postId)
             refreshReports();
             onClose();
           },
@@ -82,12 +82,12 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
           style: 'destructive',
           onPress: async () => {
             await AdminUtils.removeReport('posts', reportId);
-            refreshReports(); 
+            refreshReports();
             onClose();
           },
         },
       ],
-      { cancelable: true}
+      { cancelable: true }
     );
   };
 
@@ -113,38 +113,38 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
       justifyContent: 'space-between',
     },
     mediaContainer: {
-        marginVertical: 5,
-        borderRadius: 15,
+      marginVertical: 5,
+      borderRadius: 15,
     },
     username: {
-        marginLeft: 7,
-        fontWeight: 'bold',
+      marginLeft: 7,
+      fontWeight: 'bold',
     },
     location: {
-        paddingVertical: 5,
+      paddingVertical: 5,
     },
     media: {
-        aspectRatio: 1,
-        borderRadius: 15,
-        borderColor: COLORS.thirdText,
-        borderWidth: 1,
+      aspectRatio: 1,
+      borderRadius: 15,
+      borderColor: COLORS.thirdText,
+      borderWidth: 1,
     },
     modalContainer: {
-        flex: 1,
-        backgroundColor: 'black',
+      flex: 1,
+      backgroundColor: 'black',
     },
     closeButton: {
-        position: 'absolute',
-        top: 16,
-        left: 16,
-        zIndex: 1,
+      position: 'absolute',
+      top: 16,
+      left: 16,
+      zIndex: 1,
     },
     modalVideo: {
-        flex: 1,
+      flex: 1,
     },
     userInformationContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     buttonContainer: {
       position: 'absolute',
@@ -177,80 +177,80 @@ export default function PostReview({reportInfo, refreshReports, onClose}) {
 
   return (
     <>
-    <View style={styles.container}>
-      <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>REPORT INFO:</Text>
-      <Divider />
-      <Text></Text>
-      <View style={{paddingBottom: 20, alignSelf: 'flex-start'}}>
-        <Text>Author: {reportInfo.author}</Text>
-        <Text>Reason: {reportInfo.reason}</Text>
-        <Text>Report date: {AdminUtils.formatDateToText(reportInfo.timestamp)}</Text>
-      </View>
-      <Text style={{fontWeight: 'bold', alignSelf: 'flex-start'}}>REPORTED POST:</Text>
-      <Divider />
-      <Text></Text>
-      {post ? (
-        <View style={styles.body}>
-          <View style={styles.topPostContainer}>
+      <View style={styles.container}>
+        <Text style={{ fontWeight: 'bold', alignSelf: 'flex-start' }}>REPORT INFO:</Text>
+        <Divider />
+        <Text></Text>
+        <View style={{ paddingBottom: 20, alignSelf: 'flex-start' }}>
+          <Text>Author: {reportInfo.author}</Text>
+          <Text>Reason: {reportInfo.reason}</Text>
+          <Text>Report date: {AdminUtils.formatDateToText(reportInfo.timestamp)}</Text>
+        </View>
+        <Text style={{ fontWeight: 'bold', alignSelf: 'flex-start' }}>REPORTED POST:</Text>
+        <Divider />
+        <Text></Text>
+        {post ? (
+          <View style={styles.body}>
+            <View style={styles.topPostContainer}>
               <View style={styles.userInformationContainer}>
-                      <View>
-                          <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={35} />
-                      </View>
-                  <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
-                  <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
+                <View>
+                  <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={35} />
+                </View>
+                <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
+                <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
               </View>
-          </View>
-          <GNEmptyText style={styles.border} text={post.caption} />
-          <View style={styles.mediaContainer}>
+            </View>
+            <GNEmptyText style={styles.border} text={post.caption} />
+            <View style={styles.mediaContainer}>
               <GNEmptyText style={[styles.border, styles.location]} icon={"location-sharp"} text={post.locationInfo} />
               <TouchableOpacity onPress={handleMediaClick}>
-                  {post.downloadUrl && post.mediaType === 'image' && (
-                      <Image
-                          source={{ uri: post.downloadUrl }}
-                          style={styles.media}
-                          resizeMode="cover"
-                      />
-                  )}
-                  {post.downloadUrl && post.mediaType === 'video' && (
-                      <Video
-                          source={{ uri: post.downloadUrl }}
-                          style={styles.media}
-                          useNativeControls
-                          resizeMode="contain" />
-                  )}
+                {post.downloadUrl && post.mediaType === 'image' && (
+                  <Image
+                    source={{ uri: post.downloadUrl }}
+                    style={styles.media}
+                    resizeMode="cover"
+                  />
+                )}
+                {post.downloadUrl && post.mediaType === 'video' && (
+                  <Video
+                    source={{ uri: post.downloadUrl }}
+                    style={styles.media}
+                    useNativeControls
+                    resizeMode="contain" />
+                )}
               </TouchableOpacity>
               <Modal visible={modalVisible} transparent={true} onRequestClose={closeModal}>
-                  <View style={styles.modalContainer}>
-                      <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                          <Ionicons name="ios-arrow-back" size={24} color="white" />
-                      </TouchableOpacity>
-                      {post.mediaType === 'image' ? (
-                          <ImageViewer
-                              imageUrls={[{ url: post.downloadUrl }]}
-                              enableSwipeDown={true}
-                              onCancel={closeModal}
-                              renderIndicator={() => null}
-                              index={0}
-                          />
-                      ) : (
-                          <></>
-                      )}
-                  </View>
+                <View style={styles.modalContainer}>
+                  <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                    <Ionicons name="ios-arrow-back" size={24} color="white" />
+                  </TouchableOpacity>
+                  {post.mediaType === 'image' ? (
+                    <ImageViewer
+                      imageUrls={[{ url: post.downloadUrl }]}
+                      enableSwipeDown={true}
+                      onCancel={closeModal}
+                      renderIndicator={() => null}
+                      index={0}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </View>
               </Modal>
+            </View>
           </View>
-      </View>
-      ): (
-          <ActivityIndicator color={COLORS.elements} size={'large'}/>
-      )}
-      <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(reportInfo.postId, reportInfo.id )}>
+        ) : (
+          <ActivityIndicator color={COLORS.elements} size={'large'} />
+        )}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(reportInfo.postId, reportInfo.id)}>
             <Ionicons name="trash-outline" size={24} color="white" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.ignoreButton} onPress={() => handleIgnore(reportInfo.id)}>
             <Ionicons name="checkmark-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
-    </View>
+      </View>
     </>
   );
 }

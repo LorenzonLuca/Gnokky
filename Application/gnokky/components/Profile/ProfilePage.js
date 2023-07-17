@@ -1,6 +1,6 @@
 import { View, StyleSheet, ScrollView, SafeAreaView, RefreshControl, ActivityIndicator, TouchableWithoutFeedback, Text } from 'react-native';
 import Divider from '../GN/Divider';
-import PostLoader from '../GN/PostLoader';
+import PostLoader from '../Post/PostLoader';
 import ProfileData from './ProfileData';
 import { useState } from 'react';
 import FirebaseUtils from '../Models/FirebaseUtils';
@@ -15,7 +15,7 @@ import AdminUtils from '../Models/AdminUtils';
 import ContactList from '../GN/ContactList';
 import ChatUtils from '../Models/ChatUtils';
 
-export default function ProfilePage({ navigation, route}) {
+export default function ProfilePage({ navigation, route }) {
     const { user } = route.params;
     const { t } = useTranslation();
     const [property, setProperty] = useState(user.id === appUser.id);

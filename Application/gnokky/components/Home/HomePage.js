@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 
 import { appUser, COLORS, ROUTES } from '../../components/Models/Globals';
-import PostLoader from '../GN/PostLoader';
+import PostLoader from '../Post/PostLoader';
 import HomeFeedUtils from './HomeFeedUtils';
 import HomeFeed from './HomeFeed';
 import StoriesUtils from '../Models/StoriesUtils';

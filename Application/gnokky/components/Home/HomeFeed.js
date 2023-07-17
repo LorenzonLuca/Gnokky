@@ -7,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements';
 import { appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
-import Post from '../GN/Post';
+import Post from '../Post/Post';
 
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion } from "firebase/firestore";
 import { db } from "../Models/Firebase"
@@ -23,7 +23,7 @@ import Divider from '../GN/Divider';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import FloatingButton from '../GN/FloatingButton';
 import { FlatList, Animated } from 'react-native';
-import { TouchableWithoutFeedback,Keyboard  } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function HomeFeed({ id }) {
 
@@ -155,8 +155,8 @@ export default function HomeFeed({ id }) {
     const scrollY = new Animated.Value(0);
     const diffClamp = Animated.diffClamp(scrollY, 0, 80);
     const translateY = diffClamp.interpolate({
-      inputRange: [0, 80],
-      outputRange: [0, 80],
+        inputRange: [0, 80],
+        outputRange: [0, 80],
     });
     //END Floating button disappear
 
@@ -234,13 +234,13 @@ export default function HomeFeed({ id }) {
                     </Animated.View>
                 </Animated.ScrollView>
                 <Animated.View style={[
-                    styles.firstLayer,{
-                    transform: [
-                        {translateY: translateY}
-                    ],
-                }]}>
+                    styles.firstLayer, {
+                        transform: [
+                            { translateY: translateY }
+                        ],
+                    }]}>
                     <FloatingButton />
-                </Animated.View>   
+                </Animated.View>
             </>
         );
     }

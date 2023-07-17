@@ -1,5 +1,5 @@
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity,TouchableWithoutFeedback, Modal } from 'react-native';
-import GNProfileImage from './GNProfileImage';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, TouchableWithoutFeedback, Modal } from 'react-native';
+import GNProfileImage from './../GN/GNProfileImage';
 import { ROUTES, appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
 import { useEffect, useState, useRef } from 'react';
@@ -10,16 +10,16 @@ import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import PostInteraction from './PostInteraction';
-import Divider from './Divider';
+import Divider from './../GN/Divider';
 import PostUtils from '../Models/PostUtils';
-import GNBottomSheetModal from './GNBottomSheetModal';
+import GNBottomSheetModal from './../GN/GNBottomSheetModal';
 import Repost from '../Repost/Repost';
 import 'react-native-gesture-handler';
 import AdminUtils from '../Models/AdminUtils';
 import { useNavigation } from '@react-navigation/native';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { Surface } from 'react-native-paper';
-import GNEmptyText from './GNEmptyText';
+import GNEmptyText from './../GN/GNEmptyText';
 import { useTranslation } from 'react-i18next';
 
 export default function Post({ post, refreshAfterDelete }) {
@@ -198,9 +198,9 @@ export default function Post({ post, refreshAfterDelete }) {
                 <View style={styles.topPostContainer}>
                     <TouchableWithoutFeedback onPress={handleOpenProfile}>
                         <View style={styles.userInformationContainer}>
-                                <View>
-                                    <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={35} />
-                                </View>
+                            <View>
+                                <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={35} />
+                            </View>
                             <Text style={[styles.border, styles.username]} numberOfLines={1} ellipsizeMode="tail">{post.owner}</Text>
                             <Text style={[styles.border, styles.timestamp]}> ⋅ {PostUtils.formatDate(post.timestamp)}</Text>
                         </View>
@@ -229,7 +229,7 @@ export default function Post({ post, refreshAfterDelete }) {
                     {/* REPOST SECTION */}
                     {post.repost !== "" ? (
                         // <Surface style={{borderRadius: 16}}>
-                            <Repost repost={repost} postHasMedia={post.downloadUrl} />
+                        <Repost repost={repost} postHasMedia={post.downloadUrl} />
                         // </Surface>
                     ) : (
                         <></>
@@ -286,7 +286,7 @@ export default function Post({ post, refreshAfterDelete }) {
                     </>
                 )}
             </GNBottomSheetModal>
-            <GNBottomSheetModal title={t('report')} height={['55%']} modalRef={bottomSheetReportsModalRef} > 
+            <GNBottomSheetModal title={t('report')} height={['55%']} modalRef={bottomSheetReportsModalRef} >
                 <TouchableWithoutFeedback onPress={() => handleReportPost(t('inappropriate-content-db'))} >
                     <View style={[styles.bottomSheetRow]}>
                         <Text style={styles.bottomSheetSubtitle}>{t('inappropriate-content')}</Text>

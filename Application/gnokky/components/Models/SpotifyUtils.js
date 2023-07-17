@@ -19,7 +19,7 @@ export default class SpotifyUtils {
         fetch('https://accounts.spotify.com/api/token', authParameters)
             .then(result => result.json())
             .then(data => {
-                console.log("data spotify API: ", data.access_token);
+                console.log("spotify API token OK");
                 this.accesToken = data.access_token;
             })
     }

@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { COLORS, appUser } from '../Models/Globals';
 import { useEffect, useRef, useRoute } from 'react';
 import PostUtils from '../Models/PostUtils';
-import CommentSection from '../Post/CommentSection';
+import CommentSection from './CommentSection';
 import RepostPage from '../Repost/RepostPage';
 import { Modal } from 'react-native';
-import GNBottomSheetModal from './GNBottomSheetModal';
-import ContactList from '../GN/ContactList';
+import GNBottomSheetModal from './../GN/GNBottomSheetModal';
+import ContactList from './../GN/ContactList';
 import ChatUtils from '../Models/ChatUtils';
 import NotificationUtils from '../Models/NotificationUtils';
 
