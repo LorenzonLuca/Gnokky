@@ -6,7 +6,6 @@ import PostLoader from '../Post/PostLoader';
 import HomeFeedUtils from './HomeFeedUtils';
 import HomeFeed from './HomeFeed';
 import StoriesUtils from '../Models/StoriesUtils';
-import { SpeedDial } from '@rneui/themed';
 import { useEffect } from 'react';
 import FloatingButton from '../GN/FloatingButton';
 import { IconButton } from 'react-native-paper';
