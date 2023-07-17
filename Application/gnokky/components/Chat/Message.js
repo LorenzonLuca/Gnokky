@@ -6,7 +6,6 @@ import StoriesUtils from "../Models/StoriesUtils";
 import StoriesVisualizer from "../Stories/StoriesVisualizer";
 import { useTranslation } from 'react-i18next';
 import PostUtils from "../Models/PostUtils";
-import Post from '../Post/Post';
 import FirebaseUtils from "../Models/FirebaseUtils";
 import GNProfileImage from "../GN/GNProfileImage";
 import { useNavigation } from "@react-navigation/native";

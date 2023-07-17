@@ -47,7 +47,7 @@ export default function ListResearchChat({ existingChats = [], otherUsers = [], 
     const generateOtherUsers = otherUsers.map(user => (
         <TouchableWithoutFeedback key={user.id} onPress={() => createChat(user)}>
             <View style={styles.userLabel}>
-                <GNProfileImage selectedImage={user.profilePic} size={40} />
+                <GNProfileImage selectedImage={user.profilePic} size={60} />
                 <Text style={styles.username}>{user.username}</Text>
             </View>
         </TouchableWithoutFeedback>

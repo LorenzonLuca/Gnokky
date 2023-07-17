@@ -11,12 +11,23 @@ import BottomTabNavigator from './BottomTabNavigator';
 import ProfileManagement from '../Profile/ProfileManagement';
 import AdminPage from '../Admin/PostReports';
 import AdminNavigator from '../Admin/AdminNavigator';
-
+import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { DeviceEventEmitter } from 'react-native';
 const Stack = createStackNavigator();
 // Navigator, Screen, Group
 
 
-export default function AuthNavigator() {
+export default function AuthNavigator({ logout }) {
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        if (logout) {
+            navigation.navigate(ROUTES.LOGIN);
+            DeviceEventEmitter.emit("reset.logout", {});
+        }
+    }, [logout])
 
     return (
         <Stack.Navigator
@@ -27,9 +38,9 @@ export default function AuthNavigator() {
             <Stack.Screen
                 name={ROUTES.ADMIN_NAVIGATOR}
                 component={AdminNavigator}
-                options={{ 
+                options={{
                     headerTitle: 'Admin',
-                    headerShown: true 
+                    headerShown: true
                 }}
             />
             <Stack.Screen

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Button, Modal, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Modal, FlatList, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GNAppBar from '../GN/GNAppBar';
+import GNButton from '../GN/GNButton';
 import { COLORS, appUser, ROUTES } from '../Models/Globals';
 import i18next, { languageResources } from '../../services/i18next';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,6 @@ import languageList from '../../services/languagesList.json';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../Models/Firebase';
-import { Alert } from 'react-native';
 
 
 export default function Settings() {
@@ -34,7 +34,8 @@ export default function Settings() {
             .then(async () => {
                 await AsyncStorage.removeItem("userID");
                 appUser.resetAllValues();
-                navigation.navigate(ROUTES.LOGIN)
+                DeviceEventEmitter.emit("logout", {})
+                // navigation.navigate(ROUTES.LOGIN)
                 console.log("LOGGEDOUT")
             })
             .catch((error) => console.log(error));
@@ -76,13 +77,13 @@ export default function Settings() {
                 />
             </Modal>
             <View style={{ padding: 16 }}>
-                <Button style={{ backgroundColor: 'red' }} title={t('change-language')} onPress={() => setIsVisible(true)} />
+                <GNButton width='100%' title={t('change-language')} onPress={() => setIsVisible(true)} />
             </View>
             <View style={{ padding: 16 }}>
-                <Button style={{ backgroundColor: 'red' }} title={'delete account'} onPress={() => setIsVisible(true)} />
+                <GNButton width='100%' title={'Logout'} onPress={() => handleLogout()} />
             </View>
             <View style={{ padding: 16 }}>
-                <Button style={{ backgroundColor: 'red' }} title={'logout'} onPress={() => handleLogout()} />
+                <GNButton width='100%' title={'Delete account'} onPress={() => setIsVisible(true)} backgroundColor={COLORS.error} />
             </View>
         </SafeAreaView>
     );

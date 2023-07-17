@@ -34,6 +34,12 @@ export default function ChatPage({ navigation }) {
             return uniqueValues;
         };
 
+        const fetchAll = async () => {
+            const existing = await getExisting("");
+            setExistingChats(existing);
+            setOtherUser([])
+        }
+
         if (research !== "") {
             const lowerResearch = research.toLowerCase();
 
@@ -43,10 +49,11 @@ export default function ChatPage({ navigation }) {
 
                     const other = findUniqueValues(result, existing);
 
-                    console.log("EXISTINGGGGGGGGGGGG", existing, "OTHERRRRRRRRRRRRRRRRRRRRRRRR", other, "RESULTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", result);
                     setExistingChats(existing);
                     setOtherUser(other);
                 })
+        } else {
+            fetchAll();
         }
     }, [research, refresh])
 

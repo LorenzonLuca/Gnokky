@@ -92,7 +92,6 @@ export default class StoriesUtils {
     }
 
     static async removeStory(story) {
-        console.log("diotacchino ", story)
         try {
             const docRef = doc(db, "stories", story.id);
 

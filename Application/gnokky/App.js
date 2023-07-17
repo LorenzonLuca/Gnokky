@@ -10,8 +10,33 @@ import { StatusBar } from 'expo-status-bar';
 import i18next from './services/i18next';
 import FirebaseUtils from './components/Models/FirebaseUtils';
 import { appUser } from './components/Models/Globals';
+import { DeviceEventEmitter } from 'react-native';
 
 export default function App() {
+    const [logout, setLogout] = useState(false);
+
+    useEffect(() => {
+        const handleLogout = () => {
+            setLogout(true);
+            console.log('porcoddio');
+        };
+
+        const handleResetLogout = () => {
+            setLogout(false);
+        };
+
+        const logoutListener = DeviceEventEmitter.addListener('logout', handleLogout);
+        const resetLogoutListener = DeviceEventEmitter.addListener(
+            'reset.logout',
+            handleResetLogout
+        );
+
+        // Clean up the event listeners when the component unmounts
+        return () => {
+            logoutListener.remove();
+            resetLogoutListener.remove();
+        };
+    }, []);
 
     const [loaded] = useFonts({
         "mnst-bold": require('./assets/fonts/montserrat/Montserrat-Bold.ttf'),
@@ -67,10 +92,10 @@ export default function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <StatusBar backgroundColor='white' barStyle='light-content' />
             <NavigationContainer>
-                {userId ? (
+                {(userId && !logout) ? (
                     <BottomTabNavigator />
                 ) : (
-                    <AuthNavigator />
+                    <AuthNavigator logout={logout} />
                 )}
             </NavigationContainer>
         </GestureHandlerRootView>
