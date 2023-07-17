@@ -175,7 +175,7 @@ export default function ProfileData({ user, property }) {
                             closeStories={() => setStoriesModal(false)}
                         />
                     </Modal>
-                    <GNText>@{userData.username}</GNText>
+                    <GNText italic={true}>@{userData.username}</GNText>
                 </View>
                 <TouchableWithoutFeedback onPress={() => setFollowersModal(true)}>
                     <View style={[styles.container, styles.background]}>

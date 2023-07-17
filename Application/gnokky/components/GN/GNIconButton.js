@@ -2,19 +2,19 @@ import { COLORS } from '../Models/Globals';
 import { TouchableWithoutFeedback, View, StyleSheet, Animated } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function GNIconButton({ iconName, backgroundColor = COLORS.elements, color = COLORS.background,
-    width = '25%', height = 80, onPress, size = 50, style, }) {
+export default function GNIconButton({ iconName, backgroundColor = COLORS.background, color = COLORS.firtText,
+    height = 80, onPress, size = 50, style, }) {
 
     const styles = StyleSheet.create({
         container: {
             flexDirection: 'row',
-            width: width,
+            width: height,
             height: height,
         },
         button: {
             flex: 1,
-            borderRadius: size,
-            width: width,
+            borderRadius: height / 2,
+            width: height,
             height: height,
             alignItems: 'center',
             justifyContent: 'center',

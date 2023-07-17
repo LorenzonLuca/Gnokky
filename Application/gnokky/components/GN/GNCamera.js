@@ -42,54 +42,63 @@ export default function GNCamera({ onSave, onCancel }) {
         container: {
             flex: 1,
         },
-        centerItem: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '9%'
+        cameraContainer: {
+            flex: 1,
+            position: 'relative',
+            justifyContent: 'center', // Align items vertically to center
         },
         photoButtonContainer: {
             position: 'absolute',
             bottom: 0,
+            left: 0,
+            right: 0,
             flexDirection: 'row',
-            flex: 1,
-            width: '100%',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            paddingVertical: 20,
         },
         centerPhotoButton: {
             flex: 1,
-            alignSelf: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
         },
         rowContainer: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 20,
+            alignItems: 'center',
         },
-
     });
 
     return (
         <View style={{ flex: 1 }}>
-            <GNAppBar iconLeading='close-outline' onPressLeading={() => { onCancel() }} iconTrailing="" />
-            <Camera style={styles.container} type={type} ref={(ref) => setCameraRef(ref)} ratio={'16:9'} />
-            <View style={styles.centerItem}>
+            <GNAppBar iconLeading='arrow-back' onPressLeading={() => { onCancel() }} iconTrailing="" />
+            <View style={styles.cameraContainer}>
+                <Camera style={styles.container} type={type} ref={(ref) => setCameraRef(ref)} ratio={'16:9'} />
                 <View style={styles.photoButtonContainer}>
+                    <GNIconButton
+                        iconName={""}
+                        height={50}
+                        size={30}
+                        color={'rgba(0,0,0,0)'}
+                        backgroundColor={'rgba(0,0,0,0)'}
+                    />
                     <View style={styles.centerPhotoButton}>
                         <View style={styles.rowContainer}>
-                            <GNIconButton onPress={takePicture} iconName={"camera-outline"} />
                             <GNIconButton
-                                onPress={toggleCameraType}
-                                iconName={"camera-reverse-outline"}
-                                width={'15%'}
-                                height={50}
-                                size={30}
-                                backgroundColor={COLORS.background}
-                                color={COLORS.firtText}
+                                onPress={takePicture}
+                                iconName={"camera-outline"}
+                                color={COLORS.elements}
                             />
                         </View>
                     </View>
+                    <GNIconButton
+                        onPress={toggleCameraType}
+                        iconName={"camera-reverse-outline"}
+                        height={50}
+                        size={30}
+                        color={COLORS.background}
+                        backgroundColor={'rgba(0,0,0,0)'}
+                    />
                 </View>
             </View>
         </View>
     );
+
 };
