@@ -1,4 +1,4 @@
-import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Text, ScrollView } from 'react-native';
+import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import GNProfileImage from '../GN/GNProfileImage';
 import { appUser, COLORS } from '../Models/Globals';
 import GNText from '../GN//GNText';

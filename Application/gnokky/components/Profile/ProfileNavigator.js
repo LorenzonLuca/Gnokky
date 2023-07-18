@@ -6,14 +6,12 @@ import { COLORS, ROUTES, IMAGES } from '../Models/Globals';
 import { IconButton } from 'react-native-paper';
 import { View, StyleSheet, Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { KeyboardAvoidingView } from 'react-native';
 import { auth } from '../Models/Firebase';
 import { signOut } from 'firebase/auth';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { appUser } from '../Models/Globals';
 import Settings from './Settings'
-import LoginPage from '../Auth/LoginPage';
 
 
 const Stack = createStackNavigator();

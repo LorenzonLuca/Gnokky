@@ -1,11 +1,8 @@
-import { View, Text, TextInput, Pressable, StyleSheet, ScrollView, KeyboardAvoidingView, SafeAreaView } from 'react-native';
-import GNAppBar from '../GN/GNAppBar';
+import { View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import GNTextInput from '../GN/GNTextInput';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { useEffect, useState } from 'react';
-import ListUsers from './ListUsers';
 import { COLORS } from '../Models/Globals';
-import { Button } from 'react-native-paper';
 import ContactList from '../GN/ContactList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';

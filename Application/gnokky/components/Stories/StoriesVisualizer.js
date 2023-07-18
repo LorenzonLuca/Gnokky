@@ -176,9 +176,12 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
 
     useEffect(() => {
         if (!property) {
+            console.log("story skipped");
             StoriesUtils.viewedStory(stories[userIndex][storyIndex].id, appUser.username)
             if (stories[userIndex][storyIndex].likes.includes(appUser.username)) {
                 toggleColor(true);
+            } else {
+                toggleColor(false);
             }
         }
     }, [userIndex, storyIndex])

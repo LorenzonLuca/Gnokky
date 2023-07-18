@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, TouchableHighlight, Text, Modal } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableHighlight, Text, Modal, ActivityIndicator } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appUser, COLORS } from '../Models/Globals';
@@ -42,6 +42,8 @@ export default function NewStoryPage({ onClose }) {
     const [backgroundColorPicker, showBackgroundColorPicker] = useState(false);
     const [backgroundColor, setBackgroundColor] = useState(COLORS.background);
 
+    const [uploading, setUploading] = useState(false);
+
     const keyboard = useKeyboard()
     const imageRef = useRef();
 
@@ -51,20 +53,23 @@ export default function NewStoryPage({ onClose }) {
     }, [media])
 
     const handleUploadStory = async () => {
-        console.log("DIOCANE QUANDO CAZZO SALVA STA FOTO", textInputs);
-        const localUri = await captureRef(imageRef, {
-            quality: 1,
-        });
+        if (!uploading) {
+            setUploading(true);
+            console.log("DIOCANE QUANDO CAZZO SALVA STA FOTO", textInputs);
+            const localUri = await captureRef(imageRef, {
+                quality: 1,
+            });
 
-        const fileName = `${appUser.username}_story_${Date.now()}`;
-        const path = `${appUser.username}/stories/${fileName}`;
-        await FirebaseUtils.uploadImage(localUri, path);
+            const fileName = `${appUser.username}_story_${Date.now()}`;
+            const path = `${appUser.username}/stories/${fileName}`;
+            await FirebaseUtils.uploadImage(localUri, path);
 
-        const img = await FirebaseUtils.getImage(path);
+            const img = await FirebaseUtils.getImage(path);
 
-        onClose();
+            onClose();
 
-        await StoriesUtils.postStory(img)
+            await StoriesUtils.postStory(img)
+        }
     }
 
     const confirmText = () => {
@@ -180,14 +185,36 @@ export default function NewStoryPage({ onClose }) {
         });
     }
 
+    const iconAppBar = () => {
+        if (!media && !song) {
+            return '';
+        }
+        if ((media || song) && bottomBar) {
+            return 'checkmark-outline';
+        } else {
+            return 'checkmark-circle-outline';
+        }
+    }
+
+    const functionAppBar = () => {
+        if ((!media && !song) || uploading) {
+            return () => { };
+        }
+        if ((media || song) && bottomBar) {
+            return handleUploadStory;
+        } else {
+            return confirmText;
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <GNAppBar
                     iconLeading='close-outline'
                     onPressLeading={() => { onClose() }}
-                    iconTrailing={((media || song) && bottomBar ? 'checkmark-outline' : 'checkmark-circle-outline')}
-                    onPressTrailing={((media || song) && bottomBar ? handleUploadStory : confirmText)}
+                    iconTrailing={iconAppBar()}
+                    onPressTrailing={functionAppBar()}
 
                 />
             </View>
@@ -206,6 +233,9 @@ export default function NewStoryPage({ onClose }) {
                 )}
                 <GestureHandlerRootView style={styles.body}>
                     <View style={{ flex: 1, padding: 10 }}>
+                        {uploading && (
+                            <ActivityIndicator size="large" color={COLORS.elements} />
+                        )}
                         <View ref={imageRef} collapsable={false}>
                             {mediaType === 'image' ? (
                                 <Surface>
