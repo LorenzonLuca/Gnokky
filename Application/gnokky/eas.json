@@ -8,6 +8,7 @@
       "distribution": "internal"
     },
     "preview": {
+      "node": "18.12.1",
       "ios": {
         "simulator": true
       },
