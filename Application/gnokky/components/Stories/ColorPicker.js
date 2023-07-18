@@ -51,13 +51,13 @@ export default function ColorPicker({ setColor }) {
         setColor(color);
     };
 
-
     const colorsElements = COLORS_PICKER.map((color) => (
         <TouchableWithoutFeedback key={color} onPress={() => handleColorPress(color)}>
             <View style={[styles.icons, { backgroundColor: color }]} />
         </TouchableWithoutFeedback>
     ))
 
+    console.log(sda);
     return (
         <View style={styles.scrollViewContainer}>
             <ScrollView horizontal>

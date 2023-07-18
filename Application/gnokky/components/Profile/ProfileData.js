@@ -108,6 +108,19 @@ export default function ProfileData({ user, property }) {
         NotificationUtils.insertNotificationProfile(userData.id);
     };
 
+    const handleUnfollowing = () => {
+        FirebaseUtils.unfollowSomeone(userData.id)
+            .then(() => {
+                FirebaseUtils.getUser(userData.id)
+                    .then((newUser) => {
+                        setUserData(newUser);
+                    })
+            })
+            .catch((error) => {
+                console.log("Error while unfollowing:", error);
+            });
+    }
+
     const handleOpenStories = () => {
         if (stories.length > 0) {
             setStoriesModal(true);
@@ -237,7 +250,7 @@ export default function ProfileData({ user, property }) {
                     {!alreadyFollowing ? (
                         <GNButton title={t('follow')} onPress={handleFollowing} />
                     ) : (
-                        <GNButton title={t('unfollow')} />
+                        <GNButton title={t('unfollow')} onPress={handleUnfollowing} />
                     )}
                 </>
             )}

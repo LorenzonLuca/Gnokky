@@ -6,7 +6,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { appUser, COLORS } from "../Models/Globals";
 import { useState, useRef, useEffect } from 'react';
 import StoriesUtils from '../Models/StoriesUtils';
-import GNProfileImage from '../GN/GNProfileImage';
 import GNButton from '../GN/GNButton'
 import Divider from '../GN/Divider';
 import GNBottomSheetModal from '../GN/GNBottomSheetModal';

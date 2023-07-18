@@ -6,7 +6,7 @@ import GNTextInput from '../GN/GNTextInput';
 import GNTextInputPassword from '../GN/GNTextInputPassword';
 import { handleLogin } from './AuthUtils';
 import { StyleSheet } from 'react-native';
-import { COLORS, ROUTES, appUser, IMAGES } from '../Models/Globals';
+import { COLORS, ROUTES, IMAGES } from '../Models/Globals';
 
 
 

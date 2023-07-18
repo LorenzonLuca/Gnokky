@@ -37,7 +37,9 @@ export default function HomePage({ navigation }) {
         return (
             <IconButton
                 icon={() => <Ionicons name={'notifications-outline'} size={30} color={'black'} />}
-                onPress={() => { navigation.navigate(ROUTES.NOTIFICATION) }}
+                onPress={() => {
+                    navigation.navigate(ROUTES.NOTIFICATION)
+                }}
             />
         )
     }
@@ -54,4 +56,3 @@ export default function HomePage({ navigation }) {
         </SafeAreaView>
     );
 }
-
