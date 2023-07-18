@@ -1,11 +1,8 @@
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import GNProfileImage from '../GN/GNProfileImage';
-import { appUser } from '../Models/Globals';
 import { COLORS } from '../Models/Globals';
-import { useEffect, useState, useRef } from 'react';
-import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react';
 import { Image } from 'react-native-elements';
-import * as VideoPicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -132,11 +129,11 @@ export default function Repost({ repost, postHasMedia = false }) {
         }
     });
 
-    if(!repost){
-        return(
+    if (!repost) {
+        return (
             <View style={styles.repostContainer}>
                 <View style={[styles.border, { flex: 1, padding: 10 }]}>
-                    <Text style={{fontStyle: 'italic'}}>This post is no longer available</Text>
+                    <Text style={{ fontStyle: 'italic' }}>This post is no longer available</Text>
                 </View>
             </View>
         )

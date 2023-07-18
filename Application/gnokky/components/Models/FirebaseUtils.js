@@ -245,6 +245,37 @@ export default class FirebaseUtils {
         }
     }
 
+    static async unfollowSomeone(id) {
+        try {
+            const user = await this.getUser(id);
+            if (user) {
+                const docRef = doc(db, "users", id);
+
+                await updateDoc(docRef, {
+                    followers: arrayRemove(appUser.username),
+                });
+
+                const myself = await this.getUser(appUser.id);
+                if (myself) {
+                    const myDocRef = doc(db, "users", appUser.id);
+
+                    await updateDoc(myDocRef, {
+                        following: arrayRemove(user.username),
+                    });
+
+                    // const tmpUser = await this.getUser(appUser.id);
+                    // updateUser(tmpUser);
+                }
+
+                console.log("Successfully updated user data.");
+            } else {
+                console.log("User not found.");
+            }
+        } catch (error) {
+            console.log("Error while following someone:", error);
+        }
+    }
+
     static async getImage(path) {
         path = path.toLowerCase();
         const storageRef = ref(storage, path);

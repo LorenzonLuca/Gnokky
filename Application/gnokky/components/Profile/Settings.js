@@ -4,19 +4,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GNAppBar from '../GN/GNAppBar';
 import GNButton from '../GN/GNButton';
-import { COLORS, appUser, ROUTES } from '../Models/Globals';
+import { COLORS, appUser } from '../Models/Globals';
 import i18next, { languageResources } from '../../services/i18next';
 import { useTranslation } from 'react-i18next';
 import languageList from '../../services/languagesList.json';
 
 import { signOut } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
 import { auth } from '../Models/Firebase';
 
 
 export default function Settings() {
     const { t } = useTranslation();
-    const navigation = useNavigation();
     const [isVisible, setIsVisible] = useState(false);
 
     const changeLanguage = async (lng) => {

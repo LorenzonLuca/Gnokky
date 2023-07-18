@@ -129,6 +129,7 @@ export default class StoriesUtils {
             await updateDoc(docRef, {
                 likes: arrayUnion(appUser.username)
             });
+
         } catch (error) {
             console.log("Error while trying to like a post: ", error);
         }

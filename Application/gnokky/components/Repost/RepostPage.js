@@ -1,4 +1,4 @@
-import { View, Text, Modal, StyleSheet, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { View, Modal, StyleSheet, ScrollView, TouchableHighlight } from 'react-native';
 import GNAppBar from '../GN/GNAppBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -9,8 +9,6 @@ import PostUtils from '../Models/PostUtils'
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'react-native-elements';
-import * as VideoPicker from 'expo-image-picker';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import { Video } from 'expo-av';
 import GNCamera from '../GN/GNCamera';
 import Repost from './Repost';
@@ -18,47 +16,47 @@ import GNEmptyText from '../GN/GNEmptyText';
 import { useTranslation } from 'react-i18next';
 
 export default function RepostPage({ navigation, onClose, post }) {
-    const { t } = useTranslation();
-    const [modalVisible, setModalVisible] = useState(false);
+  const { t } = useTranslation();
+  const [modalVisible, setModalVisible] = useState(false);
 
-    const [caption, setCaption] = useState("");
-    const [locationInfo, setLocationInfo] = useState("");
-    const [locationIcon, setLocationIcon] = useState("location-outline");
-    const [mediaUri, setMediaUri] = useState(null);
-    const [mediaType, setMediaType] = useState(null);
-    const [submitColor, setSubmitColor] = useState("gray");
-    const [openCamera, setOpenCamera] = useState(false);
+  const [caption, setCaption] = useState("");
+  const [locationInfo, setLocationInfo] = useState("");
+  const [locationIcon, setLocationIcon] = useState("location-outline");
+  const [mediaUri, setMediaUri] = useState(null);
+  const [mediaType, setMediaType] = useState(null);
+  const [submitColor, setSubmitColor] = useState("gray");
+  const [openCamera, setOpenCamera] = useState(false);
 
-    useEffect(() => {
-        if (!(mediaUri && mediaType) && caption == "") {
-        setSubmitColor(COLORS.thirdText);
-        } else {
-            setSubmitColor(COLORS.firtText);
-        }
-    }, [mediaUri, mediaType, caption]);
-
-    const handleInputChangeCaption = (inputText) => {
-        setCaption(inputText.trim());
+  useEffect(() => {
+    if (!(mediaUri && mediaType) && caption == "") {
+      setSubmitColor(COLORS.thirdText);
+    } else {
+      setSubmitColor(COLORS.firtText);
     }
+  }, [mediaUri, mediaType, caption]);
 
-    const handleMediaClick = () => {
-        if (post.mediaType == 'image')
-            setModalVisible(true);
-    };
+  const handleInputChangeCaption = (inputText) => {
+    setCaption(inputText.trim());
+  }
 
-    const closeModal = () => {
-        setModalVisible(false);
-    };
+  const handleMediaClick = () => {
+    if (post.mediaType == 'image')
+      setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
 
-    const handleSetLocationInfo = (infos) => {
-        if (locationInfo == "") {
-            setLocationInfo(infos);
-            setLocationIcon("location");
-        } else {
-            setLocationInfo("");
-        }
+  const handleSetLocationInfo = (infos) => {
+    if (locationInfo == "") {
+      setLocationInfo(infos);
+      setLocationIcon("location");
+    } else {
+      setLocationInfo("");
     }
+  }
 
   const handleSetCityInfo = (infos) => {
     if (cityInfo == "") {
@@ -120,112 +118,112 @@ export default function RepostPage({ navigation, onClose, post }) {
       borderRadius: 20,
     },
     media: {
-        aspectRatio: 1,
-        borderRadius: 15,
-        borderColor: COLORS.thirdText,
-        marginBottom: 10,
+      aspectRatio: 1,
+      borderRadius: 15,
+      borderColor: COLORS.thirdText,
+      marginBottom: 10,
     },
     repostContainer: {
-        flexDirection: 'row',
-        borderRadius: 15,
-        borderWidth: 1,
-        borderColor: COLORS.thirdText,
-    },  
+      flexDirection: 'row',
+      borderRadius: 15,
+      borderWidth: 1,
+      borderColor: COLORS.thirdText,
+    },
     infoContainer: {
-        marginBottom: 5,
-        flexDirection: 'row',
-        alignItems: 'center',
+      marginBottom: 5,
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     mediaContainer: {
-        marginVertical: 5,
-        borderRadius: 15,
+      marginVertical: 5,
+      borderRadius: 15,
     },
     username: {
-        marginLeft: 10,
-        fontWeight: 'bold',
+      marginLeft: 10,
+      fontWeight: 'bold',
     },
     timestamp: {
 
     },
     options: {
-       
+
     },
     location: {
-        paddingVertical: 5,
+      paddingVertical: 5,
     },
     media: {
-        marginBottom: 10,
-        aspectRatio: 1,
-        borderRadius: 15,
-        borderColor: COLORS.thirdText,
+      marginBottom: 10,
+      aspectRatio: 1,
+      borderRadius: 15,
+      borderColor: COLORS.thirdText,
     },
     modalContainer: {
-        flex: 1,
-        backgroundColor: 'black',
+      flex: 1,
+      backgroundColor: 'black',
     },
     closeButton: {
-        position: 'absolute',
-        top: 16,
-        left: 16,
-        zIndex: 1,
+      position: 'absolute',
+      top: 16,
+      left: 16,
+      zIndex: 1,
     },
     modalVideo: {
-        flex: 1,
+      flex: 1,
     },
     border: {
-        // borderColor: 'black',
-        // borderWidth: 1,
+      // borderColor: 'black',
+      // borderWidth: 1,
     },
     bottomSheetSubtitle: {
-        fontWeight: "bold",
-        color: COLORS.firtText,
-        fontSize: 14,
+      fontWeight: "bold",
+      color: COLORS.firtText,
+      fontSize: 14,
     },
     bottomSheetRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-        justifyContent: 'flex-start',
-        marginVertical: 5,
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: '100%',
+      justifyContent: 'flex-start',
+      marginVertical: 5,
     }
   });
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-            <GNAppBar iconLeading='close-outline' onPressLeading={() => { onClose() }} iconTrailing='checkmark-outline' onPressTrailing={handleUploadMedia} iconTrailingColor={submitColor} />
+        <GNAppBar iconLeading='close-outline' onPressLeading={() => { onClose() }} iconTrailing='checkmark-outline' onPressTrailing={handleUploadMedia} iconTrailingColor={submitColor} />
       </View>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.body}>
-            <View style={{ padding: 10 }}>
-                <GNProfileImage selectedImage={appUser.profilePic} size={50} />
-            </View>
-            <View style={{ flex: 1, padding: 10}}>
-                <GNTextInputMultiLine
-                    marginBottom={10}
-                    placeholder={t('caption')}
-                    onChangeText={handleInputChangeCaption}
-                />
-                {mediaUri && mediaType === 'image' && (
-                <Image 
-                    source={{ uri: mediaUri }} 
-                    style={styles.media} 
-                    resizeMode="cover"
-                />
-                )}
-                {mediaUri && mediaType === 'video' && (
-                <Video
-                    source={{ uri: mediaUri }}
-                    style={styles.media}
-                    useNativeControls
-                    resizeMode="contain"
-                />
-                )}
-                <GNEmptyText style={{marginBottom: 10}} text={locationInfo} />
-                {/* REPOST */}
-                <Repost repost={post} postHasMedia={mediaUri} />
-                {/* END REPOST */}
-            </View>
+          <View style={{ padding: 10 }}>
+            <GNProfileImage selectedImage={appUser.profilePic} size={50} />
+          </View>
+          <View style={{ flex: 1, padding: 10 }}>
+            <GNTextInputMultiLine
+              marginBottom={10}
+              placeholder={t('caption')}
+              onChangeText={handleInputChangeCaption}
+            />
+            {mediaUri && mediaType === 'image' && (
+              <Image
+                source={{ uri: mediaUri }}
+                style={styles.media}
+                resizeMode="cover"
+              />
+            )}
+            {mediaUri && mediaType === 'video' && (
+              <Video
+                source={{ uri: mediaUri }}
+                style={styles.media}
+                useNativeControls
+                resizeMode="contain"
+              />
+            )}
+            <GNEmptyText style={{ marginBottom: 10 }} text={locationInfo} />
+            {/* REPOST */}
+            <Repost repost={post} postHasMedia={mediaUri} />
+            {/* END REPOST */}
+          </View>
         </View>
         <View style={{ borderColor: 'black', backgroundColor: 'white', borderWidth: 1, width: '100%', flexDirection: 'row', alignItems: 'center', height: 50 }}>
           <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)" onPress={selectMedia} style={styles.iconButton}>

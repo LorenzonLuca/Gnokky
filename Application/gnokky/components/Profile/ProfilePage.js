@@ -11,7 +11,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { ROUTES } from '../Models/Globals';
 import GNBottomSheetModal from '../GN/GNBottomSheetModal';
 import { useTranslation } from 'react-i18next';
-import AdminUtils from '../Models/AdminUtils';
 import ContactList from '../GN/ContactList';
 import ChatUtils from '../Models/ChatUtils';
 

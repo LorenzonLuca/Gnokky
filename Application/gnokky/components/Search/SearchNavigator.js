@@ -4,10 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SearchPage from './SearchPage';
 import ProfilePage from '../Profile/ProfilePage';
 import { COLORS, IMAGES } from '../Models/Globals';
-import { IconButton } from 'react-native-paper';
 import { View, StyleSheet, Image } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { KeyboardAvoidingView } from 'react-native';
 
 const Stack = createStackNavigator();
 

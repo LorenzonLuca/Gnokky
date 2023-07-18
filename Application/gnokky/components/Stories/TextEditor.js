@@ -6,7 +6,6 @@ import { useState } from 'react';
 export default function TextEditor({ setNewFontSize, startValue }) {
     const [fontSize, setFontSize] = useState(startValue);
 
-
     const styles = StyleSheet.create({
         container: {
             borderColor: COLORS.thirdText,

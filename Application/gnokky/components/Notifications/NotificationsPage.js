@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
-import { COLORS, ROUTES, appUser } from '../Models/Globals';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, ActivityIndicator } from 'react-native';
+import { COLORS } from '../Models/Globals';
 import NotificationUtils from '../Models/NotificationUtils';
 import Notifications from './Notifications';
 
