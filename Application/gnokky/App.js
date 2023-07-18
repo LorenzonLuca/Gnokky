@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import i18next from './services/i18next';
 import FirebaseUtils from './components/Models/FirebaseUtils';
 import { appUser } from './components/Models/Globals';
-import { DeviceEventEmitter } from 'react-native';
+import { ActivityIndicator, DeviceEventEmitter } from 'react-native';
 
 export default function App() {
     const [logout, setLogout] = useState(false);
@@ -70,7 +70,6 @@ export default function App() {
             try {
                 const value = await AsyncStorage.getItem('userID');
                 if (value !== null) {
-                    console.log("ORCABOIA");
                     appUser.setId(value);
                     await FirebaseUtils.updateAppUser();
                     setUserId(value);

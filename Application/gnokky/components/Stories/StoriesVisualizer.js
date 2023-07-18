@@ -114,12 +114,12 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             flex: 1,
         },
         propertyActionMenu: {
+            marginTop: 2,
             width: '100%',
             flexDirection: 'row',
-            alignItems: 'center',
             height: 50,
-            borderColor: COLORS.firtText,
-            borderWidth: 1,
+            borderTopWidth: 1,
+            borderColor: COLORS.secondText,
         },
         userView: {
             flexDirection: 'row',
@@ -127,7 +127,9 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
             margin: 5
         },
         buttonWatchUsers: {
-            margin: 5
+            padding: 5,
+            flex: 1,
+            justifyContent: 'center',
         },
         removeStoryLabel: {
             color: 'red',
@@ -295,8 +297,10 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                 {(property && viewAction) ? (
                     <>
                         <View style={styles.propertyActionMenu}>
-                            <TouchableWithoutFeedback onPress={handlePresentModalUser} style={styles.buttonWatchUsers}>
-                                <Text style={styles.buttonWatchUsers}>{t('activity')}</Text>
+                            <TouchableWithoutFeedback onPress={handlePresentModalUser}>
+                                <View style={styles.buttonWatchUsers}>
+                                    <Text>{t('activity')}</Text>
+                                </View>
                             </TouchableWithoutFeedback>
                         </View>
                         <GNBottomSheetModal
@@ -308,6 +312,7 @@ export default function StoriesVisualizer({ stories, closeStories, startIndex = 
                                 <ScrollView>
                                     <ContactList
                                         usernames={stories[storyIndex].watchedBy}
+                                        backgroundColor={COLORS.fourthText}
                                         iconName={'heart'}
                                         iconColor={'#f00'}
                                         size={50}

@@ -19,7 +19,6 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log("IL PORCODDIDIODODOD");
         const fetchProfilePics = async () => {
             try {
                 const profilePicsArray = [];
@@ -135,7 +134,7 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
                 </View>
             </TouchableWithoutFeedback >
             {divider && (
-                <Divider />
+                <Divider color={COLORS.thirdText} />
             )}
         </View >
     ));

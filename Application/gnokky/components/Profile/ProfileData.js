@@ -177,42 +177,16 @@ export default function ProfileData({ user, property }) {
                     </Modal>
                     <GNText italic={true}>@{userData.username}</GNText>
                 </View>
-                <TouchableWithoutFeedback onPress={() => setFollowersModal(true)}>
+                <View style={[styles.container, styles.background]}>
+                    <GNText>{userData.posts.length}</GNText>
+                    <GNText numberOfLines={1}>{t('posts')}</GNText>
+                </View>
+                <TouchableWithoutFeedback  onPress={() => setFollowersModal(true)}>
                     <View style={[styles.container, styles.background]}>
-                        <GNText>{userData.posts.length}</GNText>
-                        <GNText numberOfLines={1}>{t('posts')}</GNText>
+                        <GNText>{userData.followers.length}</GNText>
+                        <GNText>{t('followers')}</GNText>
                     </View>
                 </TouchableWithoutFeedback>
-                <Modal visible={followersModal} animationType='slide'>
-                    <GNAppBar iconLeading='close-outline' onPressLeading={() => {
-                        setFollowersModal(false);
-                        setFilteredFollower(null);
-                    }} iconTrailing='' />
-                    <ScrollView>
-                        <GNTextInput
-                            placeholder="Search"
-                            iconName="search-outline"
-                            iconNameFocused="search-sharp"
-                            onChangeText={handleResearch}
-                            animation={true}
-                            width={'100%'} />
-                        <ContactList
-                            usernames={filteredFollower ? filteredFollower : userData.followers}
-                            size={50}
-                            iconName={'trash-outline'}
-                            iconColor={'#f00'}
-                            iconOnPress={(username) => {
-                                FirebaseUtils.removeFollower(username)
-                                setRefresh(!refresh);
-                            }}
-                            filterUser={followerResearch}
-                        />
-                    </ScrollView>
-                </Modal>
-                <View style={[styles.container, styles.background]}>
-                    <GNText>{userData.followers.length}</GNText>
-                    <GNText>{t('followers')}</GNText>
-                </View>
                 <View style={[styles.container, styles.background]}>
                     <GNText>{userData.following.length}</GNText>
                     <GNText>{t('following')}</GNText>
@@ -241,6 +215,35 @@ export default function ProfileData({ user, property }) {
                     )}
                 </>
             )}
+            <Modal visible={followersModal} animationType='slide'>
+                <GNAppBar iconLeading='close-outline' onPressLeading={() => {
+                    setFollowersModal(false);
+                    setFilteredFollower(null);
+                }} iconTrailing='' />
+                <ScrollView contentContainerStyle={{padding: 10}}>
+                    <Text></Text>
+                    <GNTextInput
+                        placeholder="Search"
+                        iconName="search-outline"
+                        iconNameFocused="search-sharp"
+                        onChangeText={handleResearch}
+                        animation={true}
+                        width={'100%'} />
+                    <ContactList
+                        usernames={filteredFollower ? filteredFollower : userData.followers}
+                        backgroundColor='#FFF'
+                        size={50}
+                        iconName={'trash-outline'}
+                        iconColor={'#f00'}
+                        iconOnPress={(username) => {
+                            FirebaseUtils.removeFollower(username)
+                            setRefresh(!refresh);
+                        }}
+                        filterUser={followerResearch}
+                    />
+                </ScrollView>
+            </Modal>
         </View>
+        
     );
 }

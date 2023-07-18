@@ -125,7 +125,6 @@ export default function HomeFeed({ id }) {
             backgroundColor: COLORS.background,
         },
         contentContainer: {
-            flexGrow: 1,
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -208,7 +207,7 @@ export default function HomeFeed({ id }) {
 
 
         return (
-            <>
+            <View style={{ height: '100%'}}>
                 <Animated.ScrollView
                     contentContainerStyle={styles.contentContainer}
                     refreshControl={
@@ -241,26 +240,63 @@ export default function HomeFeed({ id }) {
                     }]}>
                     <FloatingButton />
                 </Animated.View>
-            </>
+            </View>
         );
     }
 
     // Se non ci sono post, mostra un messaggio appropriato
-    return (
-        <ScrollView
-            contentContainerStyle={styles.contentContainer}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            onScrollEndDrag={() => { }}>
-            <View style={styles.body}>
-                <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
-                <Divider />
-            </View>
+    // return (
+    //     <ScrollView
+    //         contentContainerStyle={styles.contentContainer}
+    //         refreshControl={
+    //             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //         }
+    //         onScrollEndDrag={() => { }}>
+    //         <View style={styles.body}>
+    //             <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
+    //             <Divider />
+    //         </View>
 
-            <View style={styles.warningBody}>
-                <Text>No posts found, try to refresh!</Text>
-            </View>
-        </ScrollView>
+    //         <View style={styles.warningBody}>
+    //             <Text>No posts found, try to refresh!</Text>
+    //         </View>
+    //         <Animated.View style={[
+    //             styles.firstLayer, {
+    //                 transform: [
+    //                     { translateY: translateY }
+    //                 ],
+    //             }]}>
+    //             <FloatingButton />
+    //         </Animated.View>
+    //     </ScrollView>
+    // );
+    return (
+        <View style={{ height: '100%'}}>
+            <Animated.ScrollView
+                contentContainerStyle={styles.contentContainer}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                onScroll={(e) => {
+                    scrollY.setValue(e.nativeEvent.contentOffset.y);
+                }}   
+            >
+                <Animated.View style={styles.body}>
+                    <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />
+                    <Divider color={COLORS.thirdText} />
+                    <View style={styles.warningBody}>
+                        <Text>No posts found, try to refresh!</Text>
+                    </View>
+                </Animated.View>
+            </Animated.ScrollView>
+            <Animated.View style={[
+                styles.firstLayer, {
+                    transform: [
+                        { translateY: translateY }
+                    ],
+                }]}>
+                <FloatingButton />
+            </Animated.View>
+        </View>
     );
 }
