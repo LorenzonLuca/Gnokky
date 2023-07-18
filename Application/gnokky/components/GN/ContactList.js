@@ -18,6 +18,8 @@ export default function ContactList({ usernames, size = 60, iconName = '', iconO
     const [filteredPics, setFilteredPics] = useState([]);
     const navigation = useNavigation();
 
+    console.log("GODODODOD", usernames);
+
     useEffect(() => {
         const fetchProfilePics = async () => {
             try {

@@ -1,4 +1,4 @@
-import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Text } from 'react-native';
 import GNProfileImage from '../GN/GNProfileImage';
 import { appUser, COLORS } from '../Models/Globals';
 import GNText from '../GN//GNText';
@@ -194,7 +194,7 @@ export default function ProfileData({ user, property }) {
                     <GNText>{userData.posts.length}</GNText>
                     <GNText numberOfLines={1}>{t('posts')}</GNText>
                 </View>
-                <TouchableWithoutFeedback  onPress={() => setFollowersModal(true)}>
+                <TouchableWithoutFeedback onPress={() => setFollowersModal(true)}>
                     <View style={[styles.container, styles.background]}>
                         <GNText>{userData.followers.length}</GNText>
                         <GNText>{t('followers')}</GNText>
@@ -233,7 +233,7 @@ export default function ProfileData({ user, property }) {
                     setFollowersModal(false);
                     setFilteredFollower(null);
                 }} iconTrailing='' />
-                <ScrollView contentContainerStyle={{padding: 10}}>
+                <ScrollView contentContainerStyle={{ padding: 10 }}>
                     <Text></Text>
                     <GNTextInput
                         placeholder="Search"
@@ -257,6 +257,6 @@ export default function ProfileData({ user, property }) {
                 </ScrollView>
             </Modal>
         </View>
-        
+
     );
 }
