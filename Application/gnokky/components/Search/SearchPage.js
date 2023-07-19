@@ -137,26 +137,34 @@ export default function SearchPage({ navigation }) {
             flex: 1,
             backgroundColor: COLORS.background,
         },
-        body: {
-            flexDirection: 'row',
+        contentContainer: {
+            flexGrow: 1,
+            justifyContent: 'center',
             alignItems: 'center',
-            marginVertical: 20,
         },
-
+        body: {
+            flex: 1,
+            width: '95%'
+        },
+        header: {
+            paddingVertical: 25,
+        },
     });
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={[styles.body, { width: '100%' }]}>
-                <ScrollView>
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View style={styles.header}>
                     <GNTextInput
                         placeholder={t('search')}
                         iconName="search-outline"
                         iconNameFocused="search-sharp"
                         onChangeText={handleResearch}
-                        width={'100%'}
+                        width={'95%'}
                         animation={true}
                     />
+                </View>
+                <View style={styles.body}>
                     <ContactList
                         usernames={(showHistory && waitSetup) ? listHistory : listUsers}
                         size={60}
@@ -169,8 +177,8 @@ export default function SearchPage({ navigation }) {
                         }}
                         clickOpenProfile={false}
                     />
-                </ScrollView>
-            </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }

@@ -96,8 +96,6 @@ export default function ChatPage({ navigation }) {
         navigation.navigate("TemplateChat", { user: user });
     }
 
-
-
     const styles = StyleSheet.create({
         container: {
             flex: 1,
