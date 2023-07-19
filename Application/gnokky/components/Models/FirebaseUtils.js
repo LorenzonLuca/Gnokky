@@ -1,5 +1,5 @@
 import { collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove } from "firebase/firestore";
-import app, { db } from "./Firebase"
+import { db } from "./Firebase";
 import { storage } from './Firebase';
 import { appUser } from "./Globals";
 import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storage';

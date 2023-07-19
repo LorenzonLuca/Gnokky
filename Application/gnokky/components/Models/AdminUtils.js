@@ -1,9 +1,6 @@
-import { collection, addDoc, deleteDoc, doc, setDoc, updateDoc, getDoc, query, where, getDocs, arrayUnion, arrayRemove, orderBy } from "firebase/firestore";
-import { db } from "./Firebase"
-import { storage } from './Firebase';
+import { collection, addDoc, deleteDoc, doc, setDoc, query, where, getDocs, orderBy } from "firebase/firestore";
+import { db } from "./Firebase";
 import { appUser } from "./Globals";
-import { getDownloadURL, ref, uploadBytes, deleteObject, } from 'firebase/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class AdminUtils {
 
@@ -15,7 +12,6 @@ export default class AdminUtils {
         const year = dateObj.getFullYear();
         const hours = dateObj.getHours();
         const minutes = dateObj.getMinutes();
-      
         // Formattazione aggiuntiva per assicurarsi che i numeri abbiano sempre due cifre
         const formattedDay = day.toString().padStart(2, '0');
         const formattedMonth = month.toString().padStart(2, '0');
