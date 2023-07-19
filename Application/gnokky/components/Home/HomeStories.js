@@ -146,7 +146,6 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
 
         const storiesElements = stories.map((user) => (
             <View key={user[0].owner} style={styles.storyContainer} >
-                {/* {console.log("GENERATING STORY ICONS", user)} */}
                 {console.log("USER ALREADY SEEN : ", handleAlreadySeen(user))}
                 <View style={[styles.storyIcon, { borderColor: handleAlreadySeen(user) ? COLORS.firtText : COLORS.elements }]}>
                     <TouchableWithoutFeedback onPress={() => handleOpenStory(user)}>

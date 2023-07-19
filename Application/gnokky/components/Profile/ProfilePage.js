@@ -200,13 +200,6 @@ export default function ProfilePage({ navigation, route }) {
                         </View>
                     </TouchableWithoutFeedback>
                     <Divider color={COLORS.thirdText} />
-                    {/* <TouchableWithoutFeedback onPress={() => handlePresentReportsModal()} >
-                        <View style={[styles.bottomSheetRow]}>
-                            <Ionicons name="alert-circle-outline" size={30} color={'red'} />
-                            <Text style={[styles.bottomSheetSubtitle, { color: 'red' }]}>    {t('report-user')}</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <Divider color={COLORS.thirdText} /> */}
                 </GNBottomSheetModal>
                 <GNBottomSheetModal modalRef={bottomSheetOptionModalRefShare} height={['50%']} title={"Share profile with someone"}>
                     <View style={[styles.shareBottomSheet, { width: '100%' }]}>
