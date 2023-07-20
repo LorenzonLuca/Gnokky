@@ -42,6 +42,10 @@ export default function PostInteractions({ post }) {
         shareBottomSheetModalRef.current?.present();
     }
 
+    const handleDismissModalShare = () => {
+        shareBottomSheetModalRef.current?.dismiss();
+    }
+
     const handleLikePost = async () => {
         if (liked) {
             await PostUtils.dislikePost(post.id);
@@ -91,7 +95,6 @@ export default function PostInteractions({ post }) {
         shareBottomSheet: {
             flexDirection: 'row',
             alignItems: 'center',
-            margin: 3
         }
     });
 
@@ -143,9 +146,11 @@ export default function PostInteractions({ post }) {
                             contactOnPress={(username) => {
                                 console.log("Sending this post to ", username);
                                 handleSendPost(username)
+                                handleDismissModalShare();
                             }}
                             clickOpenProfile={false}
                             size={50}
+                            backgroundColor={COLORS.fourthText}
                         />
                     </ScrollView>
                 </View>

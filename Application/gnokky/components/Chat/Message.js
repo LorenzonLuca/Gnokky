@@ -1,5 +1,6 @@
 import { appUser, COLORS } from "../Models/Globals";
 import { View, StyleSheet, Text, Image, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Video } from 'expo-av';
 import { useEffect } from "react";
 import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
@@ -40,8 +41,12 @@ export default function Message({ message }) {
             const fetchPost = async (id) => {
                 try {
                     const newPost = await PostUtils.getPostById(id);
-                    console.log("POST IN CHAT GODODODO: ", newPost);
-                    setPost(newPost);
+                    if (!newPost) {
+                        setPost('none');
+                    } else {
+                        console.log("POST IN CHAT GODODODO: ", newPost);
+                        setPost(newPost);
+                    }
                 } catch (error) {
                     console.log("Error while trying to get post: ", error);
                 }
@@ -104,6 +109,13 @@ export default function Message({ message }) {
             borderBottomLeftRadius: 20,
             borderBottomRightRadius: 20
         },
+        postVideo: {
+            width: 200, // Define the appropriate width for your image
+            minHeight: 100, // Define the appropriate height for your image
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+            borderWidth: 1,
+        },
         postMessage: {
             maxWidth: '100%',
             paddingTop: 5,
@@ -133,6 +145,7 @@ export default function Message({ message }) {
         profileContainer: {
             flexDirection: 'row',
             alignItems: 'center',
+            paddingHorizontal: 10,
         },
         profileInfo: {
             flexDirection: 'column',
@@ -143,7 +156,12 @@ export default function Message({ message }) {
             marginHorizontal: 7,
             fontSize: 20,
             // borderWidth: 1
-        }
+        },
+        onlyTextPostContainer: {
+            marginHorizontal: 20,
+            flexDirection: 'column',
+        },
+
     })
 
     const transformDate = (timestamp) => {
@@ -198,13 +216,31 @@ export default function Message({ message }) {
                     {message.isPost && (
                         <>
                             {post ? (
-                                <View style={[styles.postMessage, property ? styles.yourMessage : styles.otherUserMessage]}>
-                                    <View style={[styles.profileContainer, { margin: 5 }]}>
-                                        <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={40} />
-                                        <Text style={styles.messageText}>{post.owner}</Text>
-                                    </View>
-                                    <Image source={{ uri: post.downloadUrl }} style={styles.postImg} />
-                                </View>
+                                <>
+                                    {post === 'none' ? (
+                                        <View style={styles.messageExpired}>
+                                            <Text style={styles.expiredStory}>{'this post has been deleted'}</Text>
+                                        </View>
+                                    ) : (
+                                        <View style={[styles.postMessage, property ? styles.yourMessage : styles.otherUserMessage]}>
+                                            <View style={[styles.profileContainer, { margin: 5 }]}>
+                                                <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={40} />
+                                                <Text style={styles.messageText}>{post.owner}</Text>
+                                            </View>
+                                            {post.mediaType && (
+                                                <Image source={{ uri: post.downloadUrl }} style={styles.postImg} />
+                                            )}
+                                            {post.mediaType === 'video' && (
+                                                <Video source={{ uri: post.downloadUrl }} style={styles.postVideo} />
+                                            )}
+                                            {!post.mediaType && (
+                                                <View style={styles.onlyTextPostContainer}>
+                                                    <Text style={styles.messageText}>{post.caption}</Text>
+                                                </View>
+                                            )}
+                                        </View>
+                                    )}
+                                </>
                             ) : (
                                 <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
                                     <Text style={styles.messageText}>Loading post</Text>
