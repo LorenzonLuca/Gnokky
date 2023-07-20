@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ import ChatUtils from '../Models/ChatUtils';
 import NotificationUtils from '../Models/NotificationUtils';
 
 
-export default function PostInteractions({ post }) {
+function PostInteractions({ post }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const [liked, setLiked] = useState(false);
@@ -43,14 +43,15 @@ export default function PostInteractions({ post }) {
     }
 
     const handleLikePost = async () => {
+        setLiked(!liked);
         if (liked) {
+            setLikesCount(likesCount-1)
             await PostUtils.dislikePost(post.id);
         } else {
+            setLikesCount(likesCount+1)
             await PostUtils.likePost(post.id);
             NotificationUtils.insertNotificationPost(post.id, "like", post.owner);
         }
-        setLiked(!liked);
-        setLikesCount(await PostUtils.getLikeCount(post.id));
     }
 
     const handleComments = () => {
@@ -70,7 +71,6 @@ export default function PostInteractions({ post }) {
             justifyContent: 'space-between',
             paddingHorizontal: 10,
             paddingVertical: 5,
-            // backgroundColor: '#ebebeb',
             borderRadius: 10,
         },
         interaction: {
@@ -157,7 +157,10 @@ export default function PostInteractions({ post }) {
                 title='Comments'
                 height='90%'
                 postOwner={post.owner}
+                updateCommentsCount={() => setCommentsCount(commentsCount+1)}
             />
         </View>
     );
 }
+
+export default PostInteractions;

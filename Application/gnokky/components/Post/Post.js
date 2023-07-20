@@ -23,6 +23,9 @@ import GNEmptyText from './../GN/GNEmptyText';
 import { useTranslation } from 'react-i18next';
 
 export default function Post({ post, refreshAfterDelete }) {
+
+    // console.log("POST NUMERO BOH GENERATO")
+
     const { t } = useTranslation();
 
     const navigation = useNavigation();

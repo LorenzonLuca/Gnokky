@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, memo, useRef, useState, useEffect } from 'react';
 import { TouchableWithoutFeedback, Text, TextInput, Button, View, StyleSheet, Animated, FlatList, ScrollView } from 'react-native';
 import BottomSheet, { BottomSheetFooter, BottomSheetModal, BottomSheetScrollView, BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { COLORS } from '../Models/Globals';
@@ -10,9 +10,11 @@ import GNButton from '../GN/GNButton'
 import { useTranslation } from 'react-i18next';
 import NotificationUtils from '../Models/NotificationUtils';
 
-export default function CommentSection({ postId, modalRef, height = '25%', children, title = 'Options', postOwner }) {
+function CommentSection({ postId, modalRef, height = '25%', children, title = 'Options', postOwner, updateCommentsCount }) {
     const { t } = useTranslation();
     const snapPoints = [height];
+
+    console.log("comment section has been loaded")
 
     const [sent, setSent] = useState(true);
     const [comment, setComment] = useState('');
@@ -22,16 +24,18 @@ export default function CommentSection({ postId, modalRef, height = '25%', child
 
     useEffect(() => {
         const fetchCommentsFromFirestore = async () => {
-            const fetchedComments = await PostUtils.fetchComments(postId);
-            setComments(fetchedComments);
+          const fetchedComments = await PostUtils.fetchComments(postId);
+          setComments(fetchedComments);
         };
-
+      
         fetchCommentsFromFirestore();
     }, [sent]);
+      
 
     const handleDismissModal = () => {
         modalRef.current?.dismiss();
     };
+
 
     const handleChangeText = (text) => {
         setComment(text);
@@ -45,6 +49,7 @@ export default function CommentSection({ postId, modalRef, height = '25%', child
         NotificationUtils.insertNotificationPost(postId, "comment", postOwner);
         setComment("");
         setSent(!sent);
+        updateCommentsCount()
     }
 
     const styles = StyleSheet.create({
@@ -88,17 +93,26 @@ export default function CommentSection({ postId, modalRef, height = '25%', child
         },
     });
 
-    let renderComments = <Text>{t('noone-commented')}</Text>;
+    // let renderComments = <Text>{t('noone-commented')}</Text>;
 
-    if (comments && comments.length > 0) {
-        renderComments = comments.map((com) => (
-            <Comment
-                comment={com}
-                key={com.id}
-            />
-        ));
+    // if (comments && comments.length > 0) {
+    //     renderComments = comments.map((com) => (
+    //         <Comment
+    //             comment={com}
+    //             key={com.id}
+    //         />
+    //     ));
 
-    }
+    // }
+
+    const renderComments = useMemo(() => {
+        if (comments && comments.length > 0) {
+            return comments.map((com) => <Comment comment={com} key={com.id} />);
+        } else {
+            return <Text>{t('noone-commented')}</Text>;
+        }
+    }, [comments]);
+      
 
     return (
         <BottomSheetModal
@@ -132,3 +146,4 @@ export default function CommentSection({ postId, modalRef, height = '25%', child
     );
 }
 
+export default memo(CommentSection);

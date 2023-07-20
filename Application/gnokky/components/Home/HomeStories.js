@@ -10,6 +10,7 @@ import HomeFeedUtils from "./HomeFeedUtils";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import NewStoryPage from '../Stories/NewStoryPage';
 import { useTranslation } from 'react-i18next';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 
 export default function HomeStories({ fetchedStories, refreshStories, refreshMyStory }) {
     const { t } = useTranslation();
@@ -64,7 +65,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         },
         storyContainer: {
             alignItems: 'center',
-            marginHorizontal: 5
+            marginHorizontal: 5,
         },
         storyIcon: {
             width: size,
@@ -86,11 +87,30 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         createMedia: {
             aspectRatio: 1,
             flexGrow: 1,
-            height: null,
-            width: null,
-            alignItems: 'center',
             justifyContent: 'center',
-        }
+            alignItems: 'center',
+        },
+        containerSium: {
+            position: 'relative',
+            alignItems: 'center',
+            marginHorizontal: 5,
+          },
+          profilePicture: {
+            width: size,
+            height: size,
+            borderRadius: 50,
+          },
+          addButton: {
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            backgroundColor: COLORS.elements, // Colore di sfondo dell'icona "+"
+            width: 27,
+            height: 27,
+            borderRadius: 15,
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
     });
 
     if (stories === null) {
@@ -116,7 +136,6 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         const handleAlreadySeen = (user) => {
             let result = true;
             user.forEach(story => {
-                // console.log("storyyyyyyyyyyyyyyyyy", story);
                 let tmpResult = false;
                 story.watchedBy.forEach((users) => {
                     if (users.username == appUser.username) {
@@ -158,25 +177,18 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
         ))
 
         const createStory = (
-            <View key={appUser.username} style={styles.storyContainer} >
-                {console.log("GENERATING Your STORY ICONS")}
-                <View style={styles.createStoryIcon}>
-                    <TouchableOpacity onPress={() => setModalStory(true)}>
-                        <>
-                            <ImageBackground source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.createMedia}>
-                                <Ionicons
-                                    name="add-outline"
-                                    size={40}
-                                    style={{
-                                        textAlign: 'center',
-                                    }}
-                                />
-                            </ImageBackground>
-                        </>
-                    </TouchableOpacity>
-                </View>
+            <View key={appUser.username} style={styles.containerSium}>
+                <TouchableOpacity onPress={() => setModalStory(true)}>
+                    <Image
+                        source={{ uri: appUser.profilePic }}
+                        style={styles.profilePicture}
+                    />
+                    <View style={styles.addButton}>
+                        <AntDesign name="plus" size={18} color={COLORS.background} />
+                    </View>
+                </TouchableOpacity>
                 <Text>{t('your-story')}</Text>
-            </View >
+            </View>
         )
 
         const handleCloseStoriesModal = () => {
@@ -221,25 +233,18 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
     } else {
 
         const myStory = (
-            <View key={appUser.username} style={styles.storyContainer} >
-                {console.log("GENERATING Your STORY ICONS")}
-                <View style={styles.createStoryIcon}>
-                    <TouchableOpacity onPress={() => setModalStory(true)}>
-                        <>
-                            <ImageBackground source={{ uri: appUser.profilePic }} resizeMode="cover" style={styles.createMedia}>
-                                <Ionicons
-                                    name="add-outline"
-                                    size={40}
-                                    style={{
-                                        textAlign: 'center',
-                                    }}
-                                />
-                            </ImageBackground>
-                        </>
-                    </TouchableOpacity>
-                </View>
+            <View key={appUser.username} style={styles.containerSium}>
+                <TouchableOpacity onPress={() => setModalStory(true)}>
+                    <Image
+                        source={{ uri: appUser.profilePic }}
+                        style={styles.profilePicture}
+                    />
+                    <View style={styles.addButton}>
+                        <AntDesign name="plus" size={18} color={COLORS.background} />
+                    </View>
+                </TouchableOpacity>
                 <Text>{t('your-story')}</Text>
-            </View >
+            </View>
         )
 
         return (

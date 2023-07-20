@@ -104,6 +104,7 @@ export default function ChatTemplate({ navigation, route }) {
             borderTopWidth: 1,
             borderTopColor: '#CCCCCC',
             paddingVertical: 8,
+            paddingHorizontal: 15,
         },
         body: {
             flex: 1,
