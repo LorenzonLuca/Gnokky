@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import i18next from './services/i18next';
 import FirebaseUtils from './components/Models/FirebaseUtils';
 import { appUser } from './components/Models/Globals';
-import { ActivityIndicator, DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter } from 'react-native';
 
 export default function App() {
     const [logout, setLogout] = useState(false);

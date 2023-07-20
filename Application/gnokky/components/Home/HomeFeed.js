@@ -209,7 +209,7 @@ export default function HomeFeed({ id }) {
 
 
         return (
-            <View style={{ height: '100%'}}>
+            <View style={{ height: '100%' }}>
                 <Animated.ScrollView
                     contentContainerStyle={styles.contentContainer}
                     refreshControl={
@@ -224,14 +224,6 @@ export default function HomeFeed({ id }) {
                         <Divider color={COLORS.thirdText} />
                         <Text></Text>
                         <>{generateComponents}</>
-                        {/* <Animated.FlatList
-                            data={posts}
-                            keyExtractor={(item) => item.id}
-                            renderItem={renderPostItem}
-                            onScroll={(e) => {
-                                scrollY.setValue(e.nativeEvent.contentOffset.y)
-                            }}
-                        /> */}
                     </Animated.View>
                 </Animated.ScrollView>
                 <Animated.View style={[
@@ -273,7 +265,7 @@ export default function HomeFeed({ id }) {
     //     </ScrollView>
     // );
     return (
-        <View style={{ height: '100%'}}>
+        <View style={{ height: '100%' }}>
             <Animated.ScrollView
                 contentContainerStyle={styles.contentContainer}
                 refreshControl={
@@ -281,7 +273,7 @@ export default function HomeFeed({ id }) {
                 }
                 onScroll={(e) => {
                     scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}   
+                }}
             >
                 <Animated.View style={styles.body}>
                     <HomeStories fetchedStories={stories} refreshStories={handleRefreshStories} refreshMyStory={refreshMyStory} />

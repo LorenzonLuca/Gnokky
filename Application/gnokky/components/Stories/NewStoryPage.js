@@ -7,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState, useRef, useEffect } from 'react';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import DraggableTextInput from './DraggableTextInput';
-import { useKeyboard } from '@react-native-community/hooks'
+import { useKeyboard } from '@react-native-community/hooks';
 import StoriesUtils from '../Models/StoriesUtils';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import { captureRef } from 'react-native-view-shot';
@@ -275,15 +275,6 @@ export default function NewStoryPage({ onClose }) {
                                     )}
                                 </>
                             )}
-
-                            {/* {mediaType === 'video' && (
-                                <Video
-                                    source={{ uri: media }}
-                                    style={{ height: '100%', borderRadius: 15, borderColor: COLORS.thirdText, borderWidth: 1 }}
-                                    useNativeControls
-                                    resizeMode="contain"
-                                />
-                            )} */}
                             {textInputs}
                         </View>
                     </View>
@@ -356,7 +347,6 @@ export default function NewStoryPage({ onClose }) {
                                     style={styles.iconButton}>
                                     <Ionicons name='color-palette-outline' size={33} color={COLORS.secondText} />
                                 </TouchableHighlight>
-
                             ) : (
                                 <TouchableHighlight underlayColor="rgba(0, 0, 0, 0.1)"
                                     onPress={() => setChangeFont(true)}
@@ -372,7 +362,6 @@ export default function NewStoryPage({ onClose }) {
                         </>
                     )}
                 </View>
-
             </ScrollView>
             <Modal visible={openCamera} animationType="slide">
                 <GNCamera
@@ -387,6 +376,7 @@ export default function NewStoryPage({ onClose }) {
                     }}
                 />
             </Modal>
+
             <Modal visible={openMusic} animationType="slide">
                 <GNMusicSelector
                     onCancel={() => {
@@ -400,7 +390,6 @@ export default function NewStoryPage({ onClose }) {
                     }}
                 />
             </Modal>
-        </SafeAreaView >
-
+        </SafeAreaView>
     );
 }

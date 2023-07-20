@@ -1,8 +1,7 @@
 import {
-    collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs,
-    arrayUnion, orderBy, deleteDoc, arrayRemove, onSnapshot
+    collection, addDoc, doc, query, where, getDocs, onSnapshot
 } from "firebase/firestore";
-import { db } from "./Firebase"
+import { db } from "./Firebase";
 import FirebaseUtils from "./FirebaseUtils";
 import { appUser } from "./Globals";
 

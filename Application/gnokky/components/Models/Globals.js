@@ -27,7 +27,7 @@ export const ROUTES = {
 
     POST_REPORTS: 'PostReports',
     USER_REPORTS: 'StoryReports',
-    
+
 
     LOGIN: 'Login',
     REGISTER: 'Register',
