@@ -57,7 +57,6 @@ export default function ColorPicker({ setColor }) {
         </TouchableWithoutFeedback>
     ))
 
-    console.log(sda);
     return (
         <View style={styles.scrollViewContainer}>
             <ScrollView horizontal>
