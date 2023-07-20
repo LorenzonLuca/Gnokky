@@ -13,6 +13,7 @@ import FirebaseUtils from '../Models/FirebaseUtils';
 import PostUtils from '../Models/PostUtils';
 import GNBottomSheetModal from '../GN/GNBottomSheetModal';
 import Divider from '../GN/Divider';
+import React from 'react';
 
 export default function Comment( { comment } ){
 
