@@ -41,6 +41,10 @@ export default function ProfilePage({ navigation, route }) {
         bottomSheetOptionModalRefShare.current?.present();
     }
 
+    const handleDismissOptionModalShare = () => {
+        bottomSheetOptionModalRefShare.current?.dismiss();
+    }
+
     //////////
 
     const onRefresh = async () => {
@@ -146,7 +150,6 @@ export default function ProfilePage({ navigation, route }) {
         shareBottomSheet: {
             flexDirection: 'row',
             alignItems: 'center',
-            margin: 3
         }
     });
 
@@ -209,10 +212,12 @@ export default function ProfilePage({ navigation, route }) {
                                 iconName={'paper-plane'}
                                 contactOnPress={(username) => {
                                     console.log("Sending this profile to ", username);
+                                    handleDismissOptionModalShare();
                                     handleShareProfile(username)
                                 }}
                                 clickOpenProfile={false}
                                 size={50}
+                                backgroundColor={COLORS.fourthText}
                             />
                         </ScrollView>
                     </View>

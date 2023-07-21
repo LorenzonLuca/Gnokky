@@ -30,7 +30,6 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                 })
             StoriesUtils.getStoriesByUsername(appUser.username)
                 .then((result) => {
-                    // getAllProfilePic(result);
                     setMyStories(result);
                 })
         }

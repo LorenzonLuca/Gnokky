@@ -109,19 +109,6 @@ export default class StoriesUtils {
         }
     }
 
-    static async getAllProfilePic(myStories) {
-        const result = await Promise.all(myStories.map(async (story) => {
-            const newWatchedBy = await Promise.all(story.watchedBy.map(async (user) => {
-                const profilePic = await FirebaseUtils.getProfilePicFromUsername(user);
-                return { username: user, profilePic: profilePic };
-            }));
-            console.log(newWatchedBy);
-            return { ...story, watchedBy: newWatchedBy };
-        }));
-
-        return result;
-    }
-
     static async likeAStory(idStory) {
         try {
             const docRef = doc(db, "stories", idStory);

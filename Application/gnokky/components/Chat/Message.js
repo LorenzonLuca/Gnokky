@@ -1,7 +1,7 @@
 import { appUser, COLORS } from "../Models/Globals";
 import { View, StyleSheet, Text, Image, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Video } from 'expo-av';
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useState } from "react";
 import StoriesUtils from "../Models/StoriesUtils";
 import StoriesVisualizer from "../Stories/StoriesVisualizer";
@@ -10,8 +10,12 @@ import PostUtils from "../Models/PostUtils";
 import FirebaseUtils from "../Models/FirebaseUtils";
 import GNProfileImage from "../GN/GNProfileImage";
 import { useNavigation } from "@react-navigation/native";
+import { Surface } from 'react-native-paper';
+import Post from "../Post/Post";
+import GNAppBar from "../GN/GNAppBar";
 
-export default function Message({ message }) {
+
+function Message({ message }) {
     const { t } = useTranslation();
     const navigation = useNavigation();
     const property = message.owner === appUser.username;
@@ -19,7 +23,9 @@ export default function Message({ message }) {
     const [story, setStory] = useState(null);
     const [post, setPost] = useState(null);
     const [profile, setProfile] = useState(null);
-    const [openStory, setOpenStory] = useState(null)
+    const [openMessage, setOpenMessage] = useState(null);
+
+    const MAX_LINES = 5;
 
     useEffect(() => {
         if (message.isStory) {
@@ -29,6 +35,8 @@ export default function Message({ message }) {
                     console.log("STORIA IN CHAT SIOUMI", newStory);
                     if (newStory !== 'expired') {
                         setPropertyStory(newStory.owner === appUser.username);
+                        const profilePic = await FirebaseUtils.getProfilePicFromUsername(newStory.owner);
+                        newStory.profilePic = profilePic;
                     }
                     setStory(newStory);
                 } catch (error) {
@@ -101,7 +109,7 @@ export default function Message({ message }) {
         img: {
             width: 200, // Define the appropriate width for your image
             height: 200, // Define the appropriate height for your image
-            borderRadius: 30,
+            borderRadius: 10
         },
         postImg: {
             width: 200, // Define the appropriate width for your image
@@ -127,7 +135,6 @@ export default function Message({ message }) {
             maxWidth: '100%',
             padding: 5,
             marginTop: 10,
-            marginBottom: -10,
             alignSelf: property ? 'flex-end' : 'flex-start',
         },
         messageExpired: {
@@ -161,7 +168,21 @@ export default function Message({ message }) {
             marginHorizontal: 20,
             flexDirection: 'column',
         },
-
+        storyContainer: {
+            maxWidth: '100%',
+            paddingTop: 5,
+            borderRadius: 20,
+            marginVertical: 10,
+            alignSelf: property ? 'flex-end' : 'flex-start',
+            backgroundColor: 'rgba(0,0,0,0)',
+            paddingHorizontal: 10,
+            paddingTop: 15,
+            // borderColor: COLORS.secondText,
+            // borderWidth: 1,
+        },
+        ownerStory: {
+            paddingHorizontal: 10,
+        }
     })
 
     const transformDate = (timestamp) => {
@@ -190,19 +211,30 @@ export default function Message({ message }) {
                                             <Text style={styles.expiredStory}>{t('story-no-longer-available')}</Text>
                                         </View>
                                     ) : (
-                                        <>
-                                            <TouchableOpacity style={styles.imgMessage} onPress={() => setOpenStory(true)}>
-                                                <Image source={{ uri: story.img }} style={styles.img} />
+                                        <Surface
+                                            style={[
+                                                property ? styles.yourMessage : styles.otherUserMessage,
+                                                styles.storyContainer
+                                            ]}
+                                        >
+                                            <TouchableOpacity onPress={() => setOpenMessage(true)}>
+                                                <View style={[styles.profileContainer, { marginHorizontal: 5 }]}>
+                                                    <GNProfileImage selectedImage={story.profilePic} size={40} />
+                                                    <Text style={styles.ownerStory}>{story.owner}</Text>
+                                                </View>
+                                                <View style={styles.imgMessage}>
+                                                    <Image source={{ uri: story.img }} style={styles.img} />
+                                                </View>
+                                                <Modal visible={openMessage} animationType={'slide'}>
+                                                    <StoriesVisualizer
+                                                        stories={[story]}
+                                                        property={true}
+                                                        viewAction={propertyStory}
+                                                        closeStories={() => setOpenMessage(false)}
+                                                    />
+                                                </Modal>
                                             </TouchableOpacity>
-                                            <Modal visible={openStory} animationType={'slide'}>
-                                                <StoriesVisualizer
-                                                    stories={[story]}
-                                                    property={true}
-                                                    viewAction={propertyStory}
-                                                    closeStories={() => setOpenStory(false)}
-                                                />
-                                            </Modal>
-                                        </>
+                                        </Surface>
                                     )}
                                 </>
                             ) : (
@@ -222,23 +254,32 @@ export default function Message({ message }) {
                                             <Text style={styles.expiredStory}>{'this post has been deleted'}</Text>
                                         </View>
                                     ) : (
-                                        <View style={[styles.postMessage, property ? styles.yourMessage : styles.otherUserMessage]}>
-                                            <View style={[styles.profileContainer, { margin: 5 }]}>
-                                                <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={40} />
-                                                <Text style={styles.messageText}>{post.owner}</Text>
-                                            </View>
-                                            {post.mediaType && (
-                                                <Image source={{ uri: post.downloadUrl }} style={styles.postImg} />
-                                            )}
-                                            {post.mediaType === 'video' && (
-                                                <Video source={{ uri: post.downloadUrl }} style={styles.postVideo} />
-                                            )}
-                                            {!post.mediaType && (
-                                                <View style={styles.onlyTextPostContainer}>
-                                                    <Text style={styles.messageText}>{post.caption}</Text>
-                                                </View>
-                                            )}
-                                        </View>
+                                        <>
+                                            <Surface style={[styles.postMessage, property ? styles.yourMessage : styles.otherUserMessage]}>
+                                                <TouchableOpacity onPress={() => setOpenMessage(true)}>
+                                                    <View style={[styles.profileContainer, { margin: 5 }]}>
+                                                        <GNProfileImage selectedImage={post.ownerProfilePicUrl} size={40} />
+                                                        <Text style={styles.messageText}>{post.owner}</Text>
+                                                    </View>
+                                                    {post.mediaType && (
+                                                        <Image source={{ uri: post.downloadUrl }} style={styles.postImg} />
+                                                    )}
+                                                    {post.mediaType === 'video' && (
+                                                        <Video source={{ uri: post.downloadUrl }} style={styles.postVideo} />
+                                                    )}
+                                                    {!post.mediaType && (
+                                                        <View style={styles.onlyTextPostContainer}>
+                                                            <Text style={styles.messageText} numberOfLines={MAX_LINES}>{post.caption}</Text>
+                                                        </View>
+                                                    )}
+                                                </TouchableOpacity>
+                                            </Surface>
+                                            <Modal visible={openMessage} animationType={'slide'}>
+                                                {console.log("IL POSTSTTSTS", post)}
+                                                <GNAppBar iconLeading="arrow-back" onPressLeading={() => setOpenMessage(false)} iconTrailing="" />
+                                                <Post post={post} />
+                                            </Modal>
+                                        </>
                                     )}
                                 </>
                             ) : (
@@ -252,19 +293,21 @@ export default function Message({ message }) {
                     {message.isProfile && (
                         <>
                             {profile ? (
-                                <TouchableWithoutFeedback onPress={() => handleOpenProfile(profile)}>
-                                    <View style={[
-                                        styles.message,
-                                        property ? styles.yourMessage : styles.otherUserMessage,
-                                        styles.profileContainer
-                                    ]}>
-                                        <GNProfileImage selectedImage={profile.profilePic} size={75} />
-                                        <View style={styles.profileInfo}>
-                                            <Text style={[styles.profileUsername, styles.messageText]}>{profile.username}</Text>
-                                            <Text style={styles.messageText}>{profile.name} {profile.surname}</Text>
-                                        </View>
-                                    </View>
-                                </TouchableWithoutFeedback>
+                                <Surface style={[
+                                    styles.message,
+                                    property ? styles.yourMessage : styles.otherUserMessage,
+                                    styles.profileContainer
+                                ]}>
+                                    <TouchableWithoutFeedback onPress={() => handleOpenProfile(profile)}>
+                                        <>
+                                            <GNProfileImage selectedImage={profile.profilePic} size={75} />
+                                            <View style={styles.profileInfo}>
+                                                <Text style={[styles.profileUsername, styles.messageText]}>{profile.username}</Text>
+                                                <Text style={styles.messageText}>{profile.name} {profile.surname}</Text>
+                                            </View>
+                                        </>
+                                    </TouchableWithoutFeedback>
+                                </Surface>
                             ) : (
                                 <View style={[styles.message, property ? styles.yourMessage : styles.otherUserMessage]}>
                                     <Text style={styles.messageText}>Loading profile</Text>
@@ -277,3 +320,4 @@ export default function Message({ message }) {
         </>
     )
 }
+export default memo(Message);

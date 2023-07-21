@@ -32,13 +32,7 @@ export default function ProfileData({ user, property }) {
         StoriesUtils.getStoriesByUsername(user.username)
             .then(async (myStories) => {
                 if (myStories && myStories.length > 0) {
-                    if (property) {
-                        console.log("PROPERTYYYYYYYYYYYYY,", myStories);
-                        const result = await StoriesUtils.getAllProfilePic(myStories);
-                        setStories(result);
-                    } else {
-                        setStories(myStories);
-                    }
+                    setStories(myStories);
                 } else {
                     setStories([]);
                 }
@@ -61,13 +55,7 @@ export default function ProfileData({ user, property }) {
             StoriesUtils.getStoriesByUsername(userData.username)
                 .then(async (myStories) => {
                     if (myStories && myStories.length > 0) {
-                        if (property) {
-                            console.log("PROPERTYYYYYYYYYYYYY,", myStories);
-                            const result = await StoriesUtils.getAllProfilePic(myStories);
-                            setStories(result);
-                        } else {
-                            setStories(myStories);
-                        }
+                        setStories(myStories);
                     } else {
                         setStories([]);
                     }

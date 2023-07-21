@@ -22,7 +22,7 @@ import { Surface } from 'react-native-paper';
 import GNEmptyText from './../GN/GNEmptyText';
 import { useTranslation } from 'react-i18next';
 
-export default function Post({ post, refreshAfterDelete }) {
+export default function Post({ post, refreshAfterDelete = () => { } }) {
 
     // console.log("POST NUMERO BOH GENERATO")
 
@@ -62,10 +62,14 @@ export default function Post({ post, refreshAfterDelete }) {
     };
 
     useEffect(() => {
+        console.log("Sono nello useefefect pakisatn");
         const fetchRepost = async () => {
-            setRepost(await PostUtils.getPostById(post.repost));
+            const tmpRepost = await PostUtils.getPostById(post.repost)
+            console.log("IL repost dinale sims sm", tmpRepost);
+            setRepost(tmpRepost);
         }
         if (post.repost) {
+            console.log("C'e il repossosososo");
             fetchRepost();
         }
     }, [])
