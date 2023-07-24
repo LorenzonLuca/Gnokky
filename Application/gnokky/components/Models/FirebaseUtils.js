@@ -323,7 +323,6 @@ export default class FirebaseUtils {
         } catch (error) {
             console.log("Error while trying to get id from username", error);
         }
-
     }
 
     static async updateAppUser() {
@@ -338,6 +337,7 @@ export default class FirebaseUtils {
             appUser.setFollowing(newUser.following);
             appUser.setPosts(newUser.posts);
             appUser.setProfilePic(newUser.profilePic);
+            appUser.setEmail(newUser.email);
         } catch (error) {
             console.log("Error while trying to update value of appUser: ", error);
         }
