@@ -30,7 +30,6 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
                 })
             StoriesUtils.getStoriesByUsername(appUser.username)
                 .then((result) => {
-                    // getAllProfilePic(result);
                     setMyStories(result);
                 })
         }
@@ -94,13 +93,13 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
             position: 'relative',
             alignItems: 'center',
             marginHorizontal: 5,
-        },
-        profilePicture: {
+          },
+          profilePicture: {
             width: size,
             height: size,
             borderRadius: 50,
-        },
-        addButton: {
+          },
+          addButton: {
             position: 'absolute',
             bottom: 0,
             right: 0,
@@ -110,7 +109,7 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
             borderRadius: 15,
             justifyContent: 'center',
             alignItems: 'center',
-        },
+          },
     });
 
     if (stories === null) {
@@ -137,10 +136,9 @@ export default function HomeStories({ fetchedStories, refreshStories, refreshMyS
             let result = true;
             user.forEach(story => {
                 let tmpResult = false;
-                story.watchedBy.forEach((user) => {
-                    console.log("whatched byyyy", user);
-                    if (user == appUser.username) {
-                        console.log("UELA SOIC ", user, "MA ALORA ", appUser.username);
+                story.watchedBy.forEach((users) => {
+                    if (users.username == appUser.username) {
+                        console.log("UELA SOIC ", users.username, "MA ALORA ", appUser.username);
                         tmpResult = true;
                     }
                 });

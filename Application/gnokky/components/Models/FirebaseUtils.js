@@ -151,44 +151,6 @@ export default class FirebaseUtils {
             return null;
         }
     }
-    static async oldFindUserFromSearchBar(keyword) {
-        try {
-            const usersCollection = collection(db, "users");
-            const querySnapshot = await getDocs(query(usersCollection, where('username', '>=', keyword)
-                , where('username', '<', keyword + '~'), where('username', '!=', appUser.username)));
-
-            if (!querySnapshot.empty) {
-                const users = [];
-                const downloadUrlPromises = [];
-
-                querySnapshot.forEach((doc) => {
-                    const user = doc.data();
-                    user.id = doc.id;
-                    console.log("ID DEL DIOCANE", doc.id);
-                    const path = user.username + "/profilepic";
-                    const downloadUrlPromise = this.getImage(path)
-                        .then((downloadUrl) => {
-                            user.profilePic = downloadUrl;
-                            users.push(user);
-                        })
-                        .catch((error) => {
-                            console.log("Error getting download URL:", error);
-                        });
-
-                    downloadUrlPromises.push(downloadUrlPromise);
-                });
-
-                await Promise.all(downloadUrlPromises);
-                console.log("RICERCA PAZZA SGRAVA ", users);
-                return users;
-            } else {
-                console.log("No users found with the specified property");
-                return [];
-            }
-        } catch (e) {
-            console.log("Error while trying to search user: ", e);
-        }
-    }
 
     static async findUserFromSearchBar(keyword) {
         try {

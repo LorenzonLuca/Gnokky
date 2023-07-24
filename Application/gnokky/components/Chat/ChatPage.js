@@ -1,4 +1,4 @@
-import { View, StyleSheet, SafeAreaView, ScrollView, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { COLORS } from '../Models/Globals';
 import GNTextInput from '../GN/GNTextInput';
 import GNProfileImage from '../GN/GNProfileImage';
@@ -6,8 +6,10 @@ import { useState, useEffect } from 'react';
 import ListResearchChat from './ListResearchChat';
 import FirebaseUtils from '../Models/FirebaseUtils';
 import ChatUtils from '../Models/ChatUtils';
+import Modal from 'react-native-modal';
 
 import { useTranslation } from 'react-i18next';
+import ChatTemplate from './ChatTemplate';
 
 export default function ChatPage({ navigation }) {
     const { t } = useTranslation();
@@ -17,6 +19,10 @@ export default function ChatPage({ navigation }) {
     const [research, setResearch] = useState("");
     const [showExistingChats, setShowExistingChats] = useState(true);
     const [refresh, setRefresh] = useState(false);
+    const [modalChat, setModalChat] = useState(false);
+    const [chatUser, setChatUser] = useState("");
+
+    const { height, width } = Dimensions.get('window');
 
 
     useEffect(() => {
@@ -43,7 +49,7 @@ export default function ChatPage({ navigation }) {
         if (research !== "") {
             const lowerResearch = research.toLowerCase();
 
-            FirebaseUtils.oldFindUserFromSearchBar(lowerResearch)
+            FirebaseUtils.findUserFromSearchBar(lowerResearch)
                 .then(async (result) => {
                     const existing = await getExisting(lowerResearch);
 
@@ -93,7 +99,11 @@ export default function ChatPage({ navigation }) {
     }
 
     const openChat = (user) => {
-        navigation.navigate("TemplateChat", { user: user });
+        console.log("Uelaaa");
+        setChatUser(user);
+        setModalChat(true);
+
+        // navigation.navigate("TemplateChat", { user: user });
     }
 
     const styles = StyleSheet.create({
@@ -124,7 +134,12 @@ export default function ChatPage({ navigation }) {
         },
         username: {
             marginHorizontal: 10,
-        }
+        },
+        modalContainer: {
+            backgroundColor: COLORS.background,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
     });
 
     const generateExistingChats = existingChats.map(chat => (
@@ -167,6 +182,16 @@ export default function ChatPage({ navigation }) {
                     )}
                 </View>
             </ScrollView>
+            <Modal
+                isVisible={modalChat}
+                animationIn="slideInRight"
+                animationOut="slideOutRight"
+                style={{ margin: 0 }}
+            >
+                <View style={[styles.modalContainer, { height, width }]}>
+                    <ChatTemplate user={chatUser} closeChat={() => setModalChat(false)} />
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }

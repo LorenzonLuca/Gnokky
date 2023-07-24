@@ -1,21 +1,20 @@
-import { SafeAreaView, ScrollView, View, StyleSheet, Text, TextInput } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet, Text, TextInput, FlatList, Dimensions } from "react-native";
 import GNButton from '../GN/GNButton';
 import { COLORS } from '../Models/Globals';
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import GNProfileImage from "../GN/GNProfileImage";
 import ChatUtils from "../Models/ChatUtils";
 import Message from "./Message";
 import FirebaseUtils from "../Models/FirebaseUtils";
 import { TouchableWithoutFeedback } from "react-native";
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from "@react-navigation/native";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
-export default function ChatTemplate({ navigation, route }) {
+export default function ChatTemplate({ user, closeChat }) {
     const { t } = useTranslation();
-
-    const { user } = route.params;
-
-    const scrollViewRef = useRef(null);
+    const navigation = useNavigation();
 
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
@@ -33,26 +32,6 @@ export default function ChatTemplate({ navigation, route }) {
             })
     }
 
-    const renderTitle = () => {
-        return (
-            <TouchableWithoutFeedback style={{ flex: 1 }} onPress={handleOpenProfile}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ padding: 10 }}>
-                        <GNProfileImage selectedImage={user.profilePic} size={35} />
-                    </View>
-                    <Text style={{ fontWeight: 'bold' }}>{user.username}</Text>
-                </View>
-            </TouchableWithoutFeedback>
-        )
-    }
-
-    useEffect(() => {
-        navigation.setOptions({
-            headerTitle: renderTitle, // Mostra i dati nell'intestazione
-        });
-
-    }, [navigation, user]);
-
     useEffect(() => {
         try {
             ChatUtils.fetchChat(user.chatId, (newValue) => setMessages(newValue))
@@ -60,14 +39,6 @@ export default function ChatTemplate({ navigation, route }) {
             console.log("RCAMADONNAA", error);
         }
     }, [])
-
-    useLayoutEffect(() => {
-        if (scrollViewRef.current) {
-            scrollViewRef.current.scrollToEnd({ animated: true });
-            // Execute your logic here after the generateMessages array has finished rendering
-            console.log('Messages rendered:', messages);
-        }
-    }, [messages]);
 
 
     const handleWriteMessage = (text) => {
@@ -79,7 +50,6 @@ export default function ChatTemplate({ navigation, route }) {
             return
         }
         ChatUtils.sendMessage(user.chatId, message.trim());
-        scrollViewRef.current.scrollToEnd({ animated: true });
         setMessage("");
         setSend(!send);
     }
@@ -88,14 +58,16 @@ export default function ChatTemplate({ navigation, route }) {
         container: {
             flex: 1,
             backgroundColor: COLORS.background,
-        },
-        contentContainer: {
-            flexGrow: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+            width: '100%',
         },
         header: {
-            paddingVertical: 25,
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderTopColor: '#CCCCCC',
+            paddingHorizontal: 15,
+            borderBottomWidth: 1
         },
         footer: {
             width: '100%',
@@ -109,7 +81,7 @@ export default function ChatTemplate({ navigation, route }) {
         body: {
             flex: 1,
             width: '100%',
-            padding: 20,
+            paddingHorizontal: 20,
             flexDirection: 'column',
             justifyContent: 'flex-end',
         },
@@ -122,24 +94,48 @@ export default function ChatTemplate({ navigation, route }) {
             padding: 8,
             height: '100%',
         },
-        messageBody: {
-            flexDirection: 'column',
-        }
     });
 
-    const generateMessages = messages.map((mess) => (
-        <Message message={mess} key={mess.owner + mess.timestamp} />
-    ))
+    const keyMessage = (item) => {
+        return item.owner + item.timestamp;
+    }
+
+    const renderMessage = useCallback(({ item }) => (
+        <Message message={item} />
+    ), []);
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.contentContainer} ref={scrollViewRef}>
-                <View style={styles.body}>
-                    <View style={styles.messageBody}>
-                        {generateMessages}
-                    </View>
+            <View style={styles.header}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, }}>
+                    <TouchableWithoutFeedback onPress={closeChat}>
+                        <Ionicons name={'arrow-back'} size={30} />
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            handleOpenProfile()
+                            closeChat()
+                        }}
+                    >
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 15 }}>
+                            <View style={{ padding: 10 }}>
+                                <GNProfileImage selectedImage={user.profilePic} size={45} />
+                            </View>
+                            <Text style={{ fontWeight: 'bold', fontSize: 17 }}>{user.username}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
-            </ScrollView>
+            </View>
+            <View style={styles.body}>
+                <FlatList
+                    data={messages}
+                    keyExtractor={keyMessage}
+                    inverted={true}
+                    renderItem={renderMessage}
+                    initialNumToRender={3}
+                    removeClippedSubviews={true}
+                />
+            </View>
             <View style={styles.footer}>
                 <TextInput
                     style={styles.messageInput}

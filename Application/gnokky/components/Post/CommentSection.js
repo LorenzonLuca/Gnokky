@@ -13,9 +13,7 @@ import NotificationUtils from '../Models/NotificationUtils';
 function CommentSection({ postId, modalRef, height = '25%', children, title = 'Options', postOwner, updateCommentsCount }) {
     const { t } = useTranslation();
     const snapPoints = [height];
-
-    console.log("comment section has been loaded")
-
+    
     const [sent, setSent] = useState(true);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);

@@ -1,11 +1,7 @@
-import {
-    collection, addDoc, doc, updateDoc, getDoc, query, where, getDocs,
-    arrayUnion, orderBy, deleteDoc, arrayRemove
-} from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, deleteDoc, } from "firebase/firestore";
 import { db } from "./Firebase"
 import FirebaseUtils from "./FirebaseUtils";
 import { appUser } from "./Globals";
-import moment from "moment";
 import PostUtils from "./PostUtils";
 import StoriesUtils from "./StoriesUtils";
 
@@ -31,7 +27,6 @@ export default class NotificationUtils {
             console.log("Error while trying to add post notification ", error);
         }
     }
-
     static async insertNotificationStory(storyId, user) {
         try {
             console.log("userrrrrrr ", user);
@@ -53,7 +48,6 @@ export default class NotificationUtils {
             console.log("Error while trying to add story notification ", error);
         }
     }
-
     static async insertNotificationProfile(userId) {
         const userDocRef = doc(db, "users", userId);
         const notificationRef = collection(userDocRef, 'notification');
@@ -66,7 +60,6 @@ export default class NotificationUtils {
 
         console.log("Orcodio ho mandato un anotifica per il profile");
     }
-
     static async fetchNotification() {
         try {
             const userDocRef = doc(db, "users", appUser.id);
@@ -122,7 +115,6 @@ export default class NotificationUtils {
             console.log("Error while fetching notifications:", error);
         }
     }
-
     static async removeNotification(userId, notificationId) {
         try {
             const userDocRef = doc(db, "users", userId);
@@ -140,5 +132,4 @@ export default class NotificationUtils {
             console.log("Error while removeing a notification ", error);
         }
     }
-
 }

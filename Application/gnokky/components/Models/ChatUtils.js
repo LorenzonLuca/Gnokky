@@ -31,7 +31,6 @@ export default class ChatUtils {
             return [];
         }
     }
-
     static async createChat(username, idUser) {
         try {
             const chatRef = await addDoc(collection(db, "chats"), {
@@ -62,24 +61,20 @@ export default class ChatUtils {
             console.log("Error while creating a new chat with ", username, ": ", error);
         }
     }
-
     static async fetchChat(id, updateCallback) {
-        console.log("MI PIGLI PER IL CULO?");
         return new Promise((resolve, reject) => {
             const chatDocRef = doc(db, "chats", id);
 
             console.log("DIOCANE DOVE CAZZO È IL PROBLEMA");
+
             onSnapshot(collection(chatDocRef, 'messages'), (querySnapshot) => {
-                console.log("PORCODIDDDDIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 const updatedData = querySnapshot.docs.map((doc) => doc.data());
+                const ordered = updatedData.sort(({ timestamp: a }, { timestamp: b }) => a - b)
 
-                var res = updatedData.sort(({ timestamp: a }, { timestamp: b }) => b - a);
-
-                updateCallback(res.reverse());
+                updateCallback(ordered.reverse());
             }, reject);
         });
     }
-
     static async sendMessage(chatId, text, isStory = false, isPost = false, isProfile = false) {
         try {
             const chatDocRef = doc(db, "chats", chatId);
@@ -101,7 +96,6 @@ export default class ChatUtils {
             console.log("Error while trying to send a message: ", error);
         }
     }
-
     static async findChatByUsername(username) {
         try {
             console.log("DIOCAN MO PERCHö NON VA,", username);
@@ -138,7 +132,6 @@ export default class ChatUtils {
             console.log("Error while getting chat from username: ", error);
         }
     }
-
     static async sendStory(chat, story, answer) {
         try {
             console.log("ANSWERSTORYY:", story);
@@ -150,7 +143,6 @@ export default class ChatUtils {
             console.log("error while trying to answer or share a story");
         }
     }
-
     static async sendPost(chat, postId) {
         try {
             console.log("Sharing post: ", postId);
@@ -159,7 +151,6 @@ export default class ChatUtils {
             console.log("error while trying to share a post");
         }
     }
-
     static async sendProfile(chat, profileId) {
         try {
             console.log("Sharing profile: ", profileId);
